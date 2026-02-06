@@ -8,25 +8,29 @@ from models.user import User
 
 def testUsers():
     try:
-        standardUser = User()
+        standardUser = User('Mary Standard', 'mary@example.com')
         print("standardUser created by default\n", {
             'id': standardUser.id,
+            'name': standardUser.name,
             'role': standardUser.role
         })
 
-        adminUser = User('admin')
+        adminUser = User('Martha Admin', 'martha@example.com', 'admin')
         print("adminUser created with admin arg\n", {
             'id': adminUser.id,
+            'name': adminUser.name,
             'role': adminUser.role
         })
 
-        stdUserWithInvalidStrArg = User('adm1n')
+        stdUserWithInvalidStrArg = User(
+            'Arthur Standard', 'arthur@example.com', 'adm1n')
         print("standardUser created if invalid str arg given\n", {
             'id': stdUserWithInvalidStrArg.id,
+            'name': stdUserWithInvalidStrArg.name,
             'role': stdUserWithInvalidStrArg.role
         })
 
-        stdUserWithIntArg = User(123)
+        stdUserWithIntArg = User('Integer Mike', 'intmike@example.com', 123)
         print('Oh no')
         print("standardUser created if int arg given\n", {
             'id': stdUserWithIntArg.id,
