@@ -7,7 +7,6 @@ Defines the user attributes and methods. Inherits:
 
 import re  # For email validation check
 from models.base import Base
-from datetime import datetime
 
 
 class User(Base):
@@ -68,14 +67,21 @@ class User(Base):
         for item in data:
             if item in fields:
                 setattr(self, item, data[item])
-                self.updated_at = datetime.now()
+        self.touch()  # sets updated_at attr
 
-    # TO-DO:
-    # x validate role
-    # x test validations
-    # x add all attributes in User class definition
-    #   nb - pw not required with Firebase
-    # Define methods
-    # x updateUser(data)
-    # - getLinkedChildren()
-    # - getFamilyRoles()
+    def get_linked_children(self):
+        # Qu: Does this method belong on the facade?
+        pass
+
+    def get_family_roles(self):
+        # Qu: what should this return?
+        # Qu: does this method belong on the facade?
+        pass
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'email': self.email,
+            'role': self.role
+        }

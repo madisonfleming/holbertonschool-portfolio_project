@@ -49,3 +49,6 @@ print('before:', user.name, 'was updated at ', user.updated_at)
 
 user.update_profile({'name': 'Martha', 'occupation': 'Plumber'})
 print('after:', user.name, 'was updated at ', user.updated_at)
+
+# Check email validation - should throw error
+# user = User('Mary', 'mary@@example.co')
