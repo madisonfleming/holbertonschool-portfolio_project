@@ -6,6 +6,7 @@ Defines the user attributes and methods. Inherits:
 """
 
 from models.base import Base
+from datetime import datetime
 
 
 class User(Base):
@@ -54,12 +55,19 @@ class User(Base):
         if role == 'admin':
             self._role = role
 
+    def update_profile(self, data):
+        fields = ['name', 'email']  # Explicitly disallow role update
+        for item in data:
+            if item in fields:
+                setattr(self, item, data[item])
+                self.updated_at = datetime.now()
+
     # TO-DO:
     # x validate role
     # x test validations
     # x add all attributes in User class definition
     #   nb - pw not required with Firebase
     # Define methods
-    # - updateUser(data)
+    # x updateUser(data)
     # - getLinkedChildren()
     # - getFamilyRoles()

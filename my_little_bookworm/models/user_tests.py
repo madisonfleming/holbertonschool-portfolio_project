@@ -42,4 +42,10 @@ def testUsers():
         print('Nothing went wrong')
 
 
-testUsers()
+# testUsers()
+
+user = User('Mary', 'mary@example.co')
+print('before:', user.name, 'was updated at ', user.updated_at)
+
+user.update_profile({'name': 'Martha', 'occupation': 'Plumber'})
+print('after:', user.name, 'was updated at ', user.updated_at)
