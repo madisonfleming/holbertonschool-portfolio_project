@@ -5,6 +5,7 @@ Defines the user attributes and methods. Inherits:
 - updated_at = timestamp
 """
 
+import re  # For email validation check
 from models.base import Base
 from datetime import datetime
 
@@ -38,6 +39,8 @@ class User(Base):
             raise ValueError("Email must be provided")
         if not isinstance(email, str):
             raise TypeError("Email must be a string")
+        if not self.validate_email(email):
+            raise ValueError("Invalid email format")
         self._email = email
 
     @property
@@ -54,6 +57,11 @@ class User(Base):
             self._role = 'standard'
         if role == 'admin':
             self._role = role
+
+    def validate_email(self, email):
+        pattern = (r"^(?!\.)(?!.*\.\.)[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+"
+                   r"@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$")
+        return re.match(pattern, email) is not None
 
     def update_profile(self, data):
         fields = ['name', 'email']  # Explicitly disallow role update
