@@ -1,46 +1,48 @@
 import "./login.css"
 import { useState } from "react";
-import { auth } from "../../../firebase/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { googleProvider } from "../../../firebase/firebase";
-import { signInWithPopup } from "firebase/auth";
+import { doSignInWithEmailAndPassword, doSignInWithGoogle } from "../../../firebase/auth";
+import { useAuth } from "../../../contexts/AuthContext";
+import { Navigate } from "react-router-dom";
 
 
-function Login() {
+const Login = () => {
+  //to see the user status
+  const { userLoggedIn } = useAuth();
+  //this local states save what does the user writes
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [isSigningIn, setIsSigningIn] = useState(false);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      setMessage("Login exitoso!");
-    } catch (error) {
-      setMessage("Error: " + error.message);
+  //when user log in we check if user is signing in 
+  const onSubmit = async (e) => {
+        e.preventDefault()
+        if(!isSigningIn) {
+            setIsSigningIn(true)
+            await doSignInWithEmailAndPassword(email, password)
+        }
     }
-  };
 
-  //handle google login
-  const handleGoogleLogin = async () => {
-  try {
-    await signInWithPopup(auth, googleProvider);
-    setMessage("Login con Google exitoso!");
-  } catch (error) {
-    setMessage("Error: " + error.message);
-  }
-};
+  const onGoogleSignIn = (e) => {
+        e.preventDefault()
+        if (!isSigningIn) {
+            setIsSigningIn(true)
+            //if there is a error the state var set to false
+            doSignInWithGoogle().catch(err => {
+                setIsSigningIn(false)
+            })
+        }
+    }
 
 
   return (
     <div className="login-container">
       <div className="login-card">
+       {userLoggedIn && (<Navigate to={'/dashboard'} replace={true} />)}
         <h1 className="title">My Little Bookworm</h1>
         <p className="subtitle">Welcome Back!</p>
         <p className="description">Log in to continue your reading journey</p>
 
-        <form onSubmit={handleLogin}>
+        <form onSubmit={onSubmit}>
           <label>Email Address</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
@@ -50,9 +52,10 @@ function Login() {
           <button className="primary-btn">Log In →</button>
         </form>
 
-        <button className="google-btn" onClick={handleGoogleLogin}>
+        <button className="google-btn" onClick={onGoogleSignIn}>
           Continue with Google
         </button>
+        
       </div>
     </div>
   );
