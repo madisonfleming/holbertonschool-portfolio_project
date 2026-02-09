@@ -69,15 +69,6 @@ class User(Base):
                 setattr(self, item, data[item])
         self.touch()  # sets updated_at attr
 
-    def get_linked_children(self):
-        # Qu: Does this method belong on the facade?
-        pass
-
-    def get_family_roles(self):
-        # Qu: what should this return?
-        # Qu: does this method belong on the facade?
-        pass
-
     def to_dict(self):
         return {
             'id': self.id,
