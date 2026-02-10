@@ -13,9 +13,6 @@ def auth_current_user(credentials: HTTPAuthorizationCredentials = Depends(securi
     try:
         encoded_token = credentials.credentials # <-the token string is in credentials.credentials
         decoded_token = auth.verify_id_token(encoded_token) # verify and decode the JWT token by calling the firebase admin SDK
-        # print(f"the encoded token is: {encoded_token}") # <- for testing purposes only
-        # print(f"the decoded and verified token is: {decoded_token}") # <- for testing purposes only
-        # print(f"firebase uid is: {decoded_token['uid']}") # <- for testing purposes only
         return decoded_token
     except FirebaseError: # <- catch errors raised by firebase admin SDK (invalid/expired/revoked token etc)
         raise HTTPException(
