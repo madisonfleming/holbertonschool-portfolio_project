@@ -18,7 +18,6 @@ function AppRoutes() {
 
   return useRoutes(routesArray);
 }
-
 function App() {
   return (
     <BrowserRouter>

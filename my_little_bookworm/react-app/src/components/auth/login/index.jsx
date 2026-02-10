@@ -53,7 +53,7 @@ const Login = () => {
         </form>
 
         <button className="google-btn" onClick={onGoogleSignIn}>
-          Continue with Google
+          Signin with Google
         </button>
         
       </div>

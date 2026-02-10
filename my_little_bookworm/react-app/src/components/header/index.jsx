@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
+import MyNavbar from './navbar'
 
 const Header = () => {
     return (
-        <nav>
-        <Link to={'/home'}>Home</Link>
-        <Link to={'/login'}>Login</Link>
-        </nav>
+        <>
+        <MyNavbar />
+        </>
     )
 }
 
