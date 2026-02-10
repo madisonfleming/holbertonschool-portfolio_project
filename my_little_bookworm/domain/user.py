@@ -5,7 +5,6 @@ Defines the user attributes and methods. Inherits:
 - updated_at = timestamp
 """
 
-import re  # For email validation check
 from app.domain.base import Base
 
 
