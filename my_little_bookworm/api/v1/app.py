@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from api.v1.endpoints import users, children, milestones, reading_sessions 
+from api.v1.endpoints import users, children, milestones, reading_sessions
+from config import firebase
 
 app = FastAPI()
 
