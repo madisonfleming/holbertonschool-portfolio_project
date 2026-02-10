@@ -14,3 +14,12 @@ app.include_router(reading_sessions.router, prefix="/api/v1")
 @app.get("/")
 def root():
     return {"status": "OK"}
+
+# @app.get("/users")
+# def read_root():
+#     return {"Hello": "Users"}
+
+# @app.post("/users")
+# def create_user(name: str, email: str):
+#     user = facade.create_user(name, email)
+#     return {'success': 'hello'}
