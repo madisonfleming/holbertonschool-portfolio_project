@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends
-from my_little_bookworm.api.v1.endpoints import users, children, milestones, reading_sessions 
-from my_little_bookworm.api.v1.dependencies import get_facade
-from my_little_bookworm.config import firebase
+from app.api.endpoints import users, children, milestones, reading_sessions 
+from app.api.dependencies import get_facade
+from app.config import firebase
 
 app = FastAPI()
 
