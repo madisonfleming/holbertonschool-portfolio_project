@@ -1,9 +1,9 @@
-from my_little_bookworm.services.facade import MLBFacade
-from my_little_bookworm.persistence.user_repository import UserRepository
-from my_little_bookworm.persistence.child_repository import ChildRepository
-from my_little_bookworm.persistence.reading_session_repository import ReadingSessionRepository
-from my_little_bookworm.persistence.milestone_repository import MilestoneRepository
-from my_little_bookworm.persistence.milestone_completion_repository import MilestoneCompletionRepository
+from app.services.facade import MLBFacade
+from app.persistence.user_repository import UserRepository
+from app.persistence.child_repository import ChildRepository
+from app.persistence.reading_session_repository import ReadingSessionRepository
+from app.persistence.milestone_repository import MilestoneRepository
+from app.persistence.milestone_completion_repository import MilestoneCompletionRepository
 
 # creates an instance of each repo and passes them to the facade
 # which in turn is fed (below) to the router reg's to ensure they all use the same facade instance
