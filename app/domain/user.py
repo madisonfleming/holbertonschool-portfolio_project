@@ -5,7 +5,7 @@ Defines the user attributes and methods. Inherits:
 - updated_at = timestamp
 """
 
-from my_little_bookworm.domain.base import Base
+from app.domain.base import Base
 
 
 class User(Base):
