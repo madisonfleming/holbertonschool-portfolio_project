@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from my_little_bookworm.api.v1.schemas.users import CreateUser, UserResponse
+from app.api.schemas.users import CreateUser, UserResponse
 from app.services.facade import MLBFacade
 from app.api.dependencies import get_facade
 
