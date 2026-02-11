@@ -5,15 +5,16 @@ Defines the user attributes and methods. Inherits:
 - updated_at = timestamp
 """
 
-from app.domain.base import Base
+from my_little_bookworm.domain.base import Base
 
 
 class User(Base):
-    def __init__(self, name, email, role='standard'):
+    def __init__(self, name: str, email: str, role: str, firebase_uid: str):
         super().__init__()
         self.name = name
         self.email = email
         self.role = role
+        self.firebase_uid = firebase_uid
 
     @property
     def name(self):
