@@ -6,10 +6,10 @@ from app.config import firebase
 app = FastAPI()
 
 # router registrations
-app.include_router(users.router, prefix="/api/v1", dependencies=[Depends(get_facade)])
-app.include_router(children.router, prefix="/api/v1", dependencies=[Depends(get_facade)])
-app.include_router(milestones.router, prefix="/api/v1", dependencies=[Depends(get_facade)])
-app.include_router(reading_sessions.router, prefix="/api/v1", dependencies=[Depends(get_facade)])
+app.include_router(users.router, dependencies=[Depends(get_facade)])
+app.include_router(children.router, dependencies=[Depends(get_facade)])
+app.include_router(milestones.router, dependencies=[Depends(get_facade)])
+app.include_router(reading_sessions.router, dependencies=[Depends(get_facade)])
 
 # root health check
 @app.get("/")
