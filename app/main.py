@@ -3,6 +3,9 @@ from app.api.endpoints import users, children, milestones, reading_sessions
 from app.api.dependencies import get_facade
 from app.config import firebase
 
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
 app = FastAPI()
 
 # router registrations
