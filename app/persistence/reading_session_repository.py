@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from my_little_bookworm.persistence.repository import Repository
+from app.persistence.repository import Repository
 
 
 class ReadingSessionRepository(Repository):

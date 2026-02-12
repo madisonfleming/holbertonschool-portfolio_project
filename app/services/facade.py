@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
-from my_little_bookworm.domain.user import User
-from my_little_bookworm.persistence.user_repository import UserRepository
-from my_little_bookworm.api.v1.schemas.users import CreateUser
+from app.domain.user import User
+from app.persistence.user_repository import UserRepository
+from app.api.schemas.users import CreateUser
 from typing import Dict
 
 

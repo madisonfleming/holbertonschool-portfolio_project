@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 from typing import Dict
-from my_little_bookworm.persistence.repository import Repository
+from app.persistence.repository import Repository
 
 
 class UserRepository(Repository):

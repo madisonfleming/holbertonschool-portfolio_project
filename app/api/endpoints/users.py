@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
-from my_little_bookworm.api.v1.schemas.users import CreateUser, UserResponse
-from my_little_bookworm.services.facade import MLBFacade
-from my_little_bookworm.api.v1.dependencies import get_facade
+from app.api.schemas.users import CreateUser, UserResponse
+from app.services.facade import MLBFacade
+from app.api.dependencies import get_facade
 
 router = APIRouter()
 
