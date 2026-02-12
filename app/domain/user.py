@@ -9,7 +9,12 @@ from app.domain.base import Base
 
 
 class User(Base):
-    def __init__(self, name: str, email: str, role: str, firebase_uid: str):
+    def __init__(self,
+                 name: str,
+                 email: str,
+                 role: str = "standard",
+                 firebase_uid: str | None = None,
+    ):
         super().__init__()
         self.name = name
         self.email = email
@@ -38,8 +43,6 @@ class User(Base):
             raise ValueError("Email must be provided")
         if not isinstance(email, str):
             raise TypeError("Email must be a string")
-        if not self.validate_email(email):
-            raise ValueError("Invalid email format")
         self._email = email
 
     @property
