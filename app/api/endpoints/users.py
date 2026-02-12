@@ -17,10 +17,10 @@ def create_user(req: CreateUser, facade: MLBFacade = Depends(get_facade)):
     return facade.create_user(req)
     # return UserResponse(id=user.id, name=user.name, email=user.email, role=user.role)
 
-# @router.get("/users/{user_id}/dashboard", response_model=DashboardResponse)
-# def get_dashboard(user_id: str, decoded_token = Depends(auth_current_user)): #<- protected
-#     fb_uid = decoded_token["uid"]
-#     return service.get_dashboard(user_id, fb_uid)
+@router.get("/users/{user_id}/dashboard", response_model=DashboardResponse)
+def get_dashboard(user_id: str, decoded_token: dict = Depends(auth_current_user)): #<- protected
+    fb_uid = decoded_token["uid"]
+    return service.get_dashboard(user_id, fb_uid)
 """
 To do:
 DashboardResponse schema to be entered in users.py
@@ -28,3 +28,12 @@ get_dashboard method to be entered in facade.py
 uncomment above router
 remove user_id as we need to return user profile based on their firebase uid in repo instead
 """
+
+# Andrea's test code: the endpoint to use to fetch in the front end
+@router.get("/protected")
+def protected_route(user_data: dict = Depends(auth_current_user)):
+    print(user_data)
+    return {
+        "message": "Valid Token"
+    }
+

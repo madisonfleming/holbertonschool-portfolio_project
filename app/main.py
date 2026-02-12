@@ -2,8 +2,18 @@ from fastapi import FastAPI, Depends
 from app.api.endpoints import users, children, milestones, reading_sessions 
 from app.api.dependencies import get_facade
 from app.config import firebase
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# enable CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173/"],
+    allow_credentials=True,
+    allow_methods=[""],
+    allow_headers=[""],
+)
 
 # router registrations
 app.include_router(users.router, dependencies=[Depends(get_facade)])
