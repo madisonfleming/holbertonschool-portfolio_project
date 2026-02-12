@@ -1,0 +1,83 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #fce4ec;
+  padding: 20px;
+}
+
+.login-card {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: #ec407a;
+}
+
+.subtitle {
+  text-align: center; /* add text-align for subtitle*/
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.description {
+  text-align: center; /* add text-align for description*/
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px; /* space between elements*/
+}
+
+label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  color: black;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 16px;
+  background-color: white; /*changed to white */
+  color: black
+}
+
+.primary-btn {
+  width: 100%;
+  padding: 12px;
+  background: #42a5f5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 30px; /* button needs space*/
+}
+
+.google-btn {
+  display: block; /* keep button with parent container*/
+  margin: 0 auto; /* center horizontally */
+  padding: 10px 20px; /* google buttons are usually smaller */ 
+  background: rgb(58, 23, 115);
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+navbar-link {
+  margin-left: auto;
+}
