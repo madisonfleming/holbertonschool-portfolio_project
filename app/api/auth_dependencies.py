@@ -3,11 +3,10 @@
 
 from firebase_admin import auth
 from firebase_admin.exceptions import FirebaseError
-from fastapi import Depends, HTTPException, status, APIRouter
+from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 security = HTTPBearer() # extract Authorization header from http request
-router = APIRouter() 
 
 def auth_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
     # credentials becomes a fastapi dependency object that stores scheme(Bearer) and credentials(token) at runtime 
