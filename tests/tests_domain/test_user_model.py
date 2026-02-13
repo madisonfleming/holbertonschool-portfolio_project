@@ -18,7 +18,7 @@ class TestUser(unittest.TestCase):
             'role': 'admin'
         }
 
-    @patch('models.base.uuid.uuid4')
+    @patch('app.domain.base.uuid.uuid4')
     def test_create_standard_user(self, mock_uuid):
         mock_uuid.return_value = '123e4567-e89b-12d3-a456-426614174000'
         standard_user = User(**self.standard_data)
