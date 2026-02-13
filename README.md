@@ -8,7 +8,7 @@ You are in the Application Setup Guide ---------------------------- 🗺️ `/my
 
 ---
 
-# Welcome to My Little Bookworm!
+# 📖 Welcome to My Little Bookworm! 🐛
 
 ## About
 
@@ -16,7 +16,7 @@ My Little Bookworm is a web application which helps parents to keep track of how
 
 The app is a portfolio project by C27 students at Holberton School Australia. 
 
-### Contributors
+### 👥 Contributors 👥
 - Anna H
 - Mel H
 - Andrea M
@@ -45,7 +45,7 @@ To bypass this *safely from inside your venv*, install dependencies using:
 pip install --break-system-packages -r requirements.txt
 ```
 
-### Start the FastAPI Server
+### ⚡ Start the FastAPI Server ⚡
 
 ```
 uvicorn app.main:app --reload
@@ -61,20 +61,24 @@ The endpoints can be tested with curl:
 ```
 curl -i -X POST 'http://127.0.0.1:8000/users' \
   -H "Content-Type: application/json" \
-  -d '{"name": "Mary", "email": "mary@example.com"}'
+  -d '{
+    "name": "Mary",
+    "email": "mary@example.com",
+    "firebase_uid": "7UKtP5I8lBbDoO8wVv6WB8Ge03Q2"
+  }'
 ```
 Expected:
 
 ```
 {
-  "id": "1862d532-243e-413a-8c27-df61d23c5759",
+  "id":"ed99ba2d-66b4-4c35-b76f-ea40a96fb6be",
   "name": "Mary",
   "email": "mary@example.com",
   "role": "standard"
 }
 ```
 
-## Children
+### Children
 
 **Create a child**
 ```
@@ -82,3 +86,27 @@ curl -i -X POST 'http://127.0.0.1:8000/children' \
   -H "Content-Type: application/json" \
   -d '{"parent_id": "<user_id>", "name": "Sophie", "age": 5}'
 ```
+<br>
+<br>
+
+## 🚀 Frontend (React + Vite) 🚀
+
+The frontend is located in the `react-app` directory and uses **Vite** for fast development builds. 
+
+### Install dependencies:
+
+```
+cd react-app
+npm install
+npm i react-router-dom
+npm install react-bootstrap bootstrap
+```
+
+### Start the dev server
+```
+npm run dev             # for WSL
+npm run dev -- --host   # containers, LAN, mobile testing
+```
+
+Vite will start the app and display a local development URL, usually:
+`http://localhost:5173/`
