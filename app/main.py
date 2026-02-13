@@ -4,6 +4,9 @@ from app.api.dependencies import get_facade
 from app.config import firebase
 from fastapi.middleware.cors import CORSMiddleware
 
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
 app = FastAPI()
 
 # enable CORS
