@@ -4,7 +4,8 @@
 
 You are in the Application Setup Guide ---------------------------- 🗺️ `/my_little_bookworm`
 
-- Jump to [Testing Guide](my_little_bookworm/tests/README.md) ------------- ⬅️ `/my_little_bookworm/tests` 
+- Jump to [Testing Guide](/tests/README.md) ------------- ⬅️ `/my_little_bookworm/tests` 
+
 ---
 
 # Welcome to My Little Bookworm!
