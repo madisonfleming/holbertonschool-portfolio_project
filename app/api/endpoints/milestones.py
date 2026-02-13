@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends
 from app.services.facade import MLBFacade
 from app.api.dependencies import get_facade
+from app.api.auth_dependencies import auth_current_user
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(auth_current_user)]) #<- attaches auth dependency to all routes in this file
 
 @router.get("/milestones")
 def milestones_placeholder(facade: MLBFacade = Depends(get_facade)):

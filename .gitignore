@@ -6,5 +6,5 @@ __pycache__/
 venv/
 .env
 
-# firebase account key
-ServiceAccountKey.json
+# files
+app/config/serviceAccountKey.json
