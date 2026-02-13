@@ -1,0 +1,26 @@
+name: MLB Main Test Pipeline
+run-name: ${{ github.actor }} is testing MLB 🚀
+on:
+    pull_request:
+        branches: ["main"]
+jobs:
+  Run-Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: Run domain tests
+        run: |
+          ls ${{ github.workspace }}
+          python3 -m unittest discover -v
+      - run: echo "🍏 This job's status is ${{ job.status }}."

@@ -13,8 +13,8 @@ class User(Base):
                  name: str,
                  email: str,
                  role: str = "standard",
-                 firebase_uid: str | None = None,
-    ):
+                 firebase_uid: str | None = None
+                 ):
         super().__init__()
         self.name = name
         self.email = email

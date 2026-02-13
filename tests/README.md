@@ -2,9 +2,9 @@
 ---
 **💁‍♀️ 🔗 Handy navigation links 🔗 💁‍♀️**
 
-You are in the Testing Guide ---------------------------- 🗺️ `/my_little_bookworm/tests`
+You are in the Testing Guide ---------------------------- 🗺️ `/tests/README.md`
 
-- Jump back to [Application Setup Guide](my_little_bookworm/README.md) ------------- ⬅️ `/my_little_bookworm` 
+- Jump back to [Application Setup Guide](/README.md) ------------- ⬅️ `/README.md` 
 ---
 
 # Testing Guide
@@ -16,8 +16,8 @@ Our backend unit and API tests are written with Python's `unittest` framework. T
 
 ## Table of Contents
 
-- [What makes a good test?](/my_little_bookworm/tests/README.md#what-makes-a-good-test)
-- [Run all tests locally](/my_little_bookworm/tests/README.md#run-all-tests-locally)
+- [What makes a good test?](/tests/README.md#what-makes-a-good-test)
+- [Run all tests locally](/tests/README.md#run-all-tests-locally)
 
 ## What makes a good test?
 
@@ -38,6 +38,6 @@ cd my_little_bookworm
 # Ensure that you're in a virtual env
 source venv/bin/activate
 
-# Run all of the tests in the part 4 project
+# Run all of the tests
 python3 -m unittest
 ```
