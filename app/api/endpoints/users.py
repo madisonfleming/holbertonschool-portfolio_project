@@ -29,11 +29,3 @@ uncomment above router
 remove user_id as we need to return user profile based on their firebase uid in repo instead
 """
 
-# Andrea's test code: the endpoint to use to fetch in the front end
-@router.get("/protected")
-def protected_route(user_data: dict = Depends(auth_current_user)):
-    print(user_data)
-    return {
-        "message": "Valid Token"
-    }
-
