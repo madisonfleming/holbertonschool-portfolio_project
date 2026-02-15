@@ -78,6 +78,15 @@ class TestChild(unittest.TestCase):
         child = Child(name='Adam', date_of_birth=date(2023, 2, 13))
         self.assertEqual(child.age, 3)
 
+    def test_child_model_instance_attributes(self):
+        """ 
+        Happy path: tests that the child_model instance attributes haven't been inadvertently changed
+        """
+        child = Child(**self.happy_child)
+        expected_keys = ['id', 'created_at', 'updated_at', '_name', '_date_of_birth', 'avatar_url']
+        child_keys = list(child.__dict__.keys())
+        self.assertEqual(child_keys, expected_keys)
+
 
 if __name__ == "__main__":
     unittest.main()
