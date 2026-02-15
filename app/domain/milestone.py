@@ -1,4 +1,9 @@
 from app.domain.base import Base
+from app.domain.exceptions import (
+    InvalidMilestoneNameError,
+    InvalidMilestoneThreshold,
+    InvalidMetricKeyError
+)
 
 class Milestone(Base): # gives id, created_at, updated_at
     def __init__(self,
@@ -19,9 +24,35 @@ class Milestone(Base): # gives id, created_at, updated_at
 
     @name.setter
     def name(self, value: str):
-        if not value or not isinstance(value, str):
-            raise ValueError("Milestone name must be a non-empty string")
+        if not isinstance(value, str):
+            raise TypeError("Milestone name must be string")
+        if not value.strip():
+            raise InvalidMilestoneNameError()
         self._name = value
+
+    @property
+    def description(self):
+        return self._description
+    
+    @description.setter
+    def description(self, value:str):
+        if not isinstance(value, str):
+            raise TypeError("Description must be a string")
+        if not value.strip():
+            raise InvalidMilestoneDescriptionError()
+        self._description = description
+
+    @property
+    def metric_key(self):
+        return self._metric_key
+
+    @metric_key.setter
+    def metric_key(self, value:str):
+        if not isinstance(calue, str):
+            raise TypeError("Metric key must be a string")
+        if not value.strip():
+            raise InvalidMetricKeyError()
+        self._metric_key = metric_key
 
     @property
     def threshold(self):
@@ -29,8 +60,10 @@ class Milestone(Base): # gives id, created_at, updated_at
 
     @threshold.setter
     def threshold(self, value: int):
-        if not isinstance(value, int) or value < 1:
-            raise ValueError("Threshold must be a positive int")
+        if not isinstance(value, int):
+            raise ValueError("Threshold must be an int")
+        if value < 1:
+            raise InvalidMilestoneThreshold()
         self._threshold = value
 
     def to_dict(self):
@@ -39,5 +72,5 @@ class Milestone(Base): # gives id, created_at, updated_at
             "name": self.name,
             "description": self.description,
             "metric_key": self.metric_key,
-            "threshold": self.threshold,
+            "threshold": self.threshold
         }
