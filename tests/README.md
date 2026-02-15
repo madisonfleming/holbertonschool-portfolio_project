@@ -32,9 +32,6 @@ A good test should:
 ## Run all tests locally
 
 ```bash
-# Ensure that you're in the correct directory
-cd my_little_bookworm
-
 # Ensure that you're in a virtual env
 source venv/bin/activate
 
