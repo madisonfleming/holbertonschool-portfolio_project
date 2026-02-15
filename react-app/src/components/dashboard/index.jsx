@@ -2,16 +2,16 @@ import { useEffect } from "react";
 import { useAuth } from '../../contexts/AuthContext'
 
 const Dashboard = () => {
-    const { currentUser } = useAuth();
+  const { currentUser } = useAuth();
 
-    //
-    async function loadData() {
+  //
+  async function loadData() {
     if (!currentUser) return;
 
     const token = await currentUser.getIdToken();
     console.log("Token:", token);
     //need to do fetch to an endpoint that use that function
-    const response = await fetch("http://127.0.0.1:8000/api/v1/protected", {
+    const response = await fetch("http://127.0.0.1:8000/api/protected", {
       //firebase do the login -> generate the JWT
       //On HBNB was a POST because the login was manage by the back end but in here the login is manage by firebase so is GET the BE just return data
       headers: {
@@ -24,17 +24,17 @@ const Dashboard = () => {
     console.log("this is data:", data);
   };
   //to validate the existance of user useEffect detecs the change of currentUser from null to login
-   useEffect(() => {
+  useEffect(() => {
     loadData();
   }, [currentUser]);
 
-    return (
-        
-        <div>
-        Hello {currentUser.displayName ? currentUser.displayName : currentUser.email}, you are now logged in Dashboard.
-        </div>
-    )
-}         
+  return (
+
+    <div>
+      Hello {currentUser.displayName ? currentUser.displayName : currentUser.email}, you are now logged in Dashboard.
+    </div>
+  )
+}
 
 export default Dashboard
 
