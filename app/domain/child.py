@@ -1,6 +1,9 @@
 from app.domain.base import Base
-from app.domain.exceptions import InvalidChildNameError InvalidDateOfBirthError
 from datetime import date
+from app.domain.exceptions import (
+    InvalidChildNameError,
+    InvalidDateOfBirthError,
+)
 
 class Child(Base): # gives id, created_at, updated_at
     def __init__(self,
