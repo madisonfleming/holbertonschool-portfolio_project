@@ -72,5 +72,6 @@ class User(Base):
             'id': self.id,
             'name': self.name,
             'email': self.email,
-            'role': self.role
+            'role': self.role,
+            'firebase_uid': self.firebase_uid
         }
