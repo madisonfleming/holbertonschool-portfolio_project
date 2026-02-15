@@ -2,7 +2,7 @@ from app.domain.base import Base
 from datetime import date
 from app.domain.exceptions import (
     InvalidChildNameError,
-    InvalidDateOfBirthError,
+    InvalidDateOfBirthError
 )
 
 class Child(Base): # gives id, created_at, updated_at
