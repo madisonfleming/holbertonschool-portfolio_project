@@ -68,9 +68,11 @@ class Milestone(Base): # gives id, created_at, updated_at
 
     def to_dict(self):
         return {
-            "ms_type_id": self.id,
-            "name": self.name,
-            "description": self.description,
-            "metric_key": self.metric_key,
-            "threshold": self.threshold
+            'ms_type_id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'metric_key': self.metric_key,
+            'threshold': self.threshold,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat()
         }
