@@ -3,11 +3,13 @@ from app.api.endpoints import users, children, milestones, reading_sessions
 from app.api.dependencies import get_facade
 from app.config import firebase
 from fastapi.middleware.cors import CORSMiddleware
+from app.api.errors import register_error_handlers
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
 app = FastAPI()
+register_error_handlers(app)
 
 # enable CORS
 app.add_middleware(
