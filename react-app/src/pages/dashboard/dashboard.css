@@ -15,3 +15,9 @@
   padding: 20px;
 
 }
+
+.open-book-img {
+  width: 7%;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
