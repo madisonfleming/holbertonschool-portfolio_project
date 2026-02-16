@@ -20,7 +20,7 @@ class InvalidMilestoneDescriptionError(Exception):
     def __init__(self, message="Milestone description must be provided"):
         super().__init__(message)
 
-class InvalidMilestoneThreshold(Exception):
+class InvalidMilestoneThresholdError(Exception):
     def __init__(self, message="Milestone threshold must be greater than 0"):
         super().__init__(message)
 
