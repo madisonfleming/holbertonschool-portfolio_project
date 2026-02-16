@@ -37,8 +37,12 @@ class MLBFacade:
 
     # Child
     def create_child(self) -> Dict:
+        """ Example of what the create_child facade layer might look like
+        
+        Note that the data structure is pure Python, and in reality it would be send by a FastAPI request
+        """
         id = str(uuid.uuid4())
-        user_id = '123abc'
+        user_id = str(uuid.uuid4())
 
         data = {
             'name': 'Bob',
@@ -49,7 +53,6 @@ class MLBFacade:
         self.child_repo.add(child)
 
         relationship = {
-            "id": id,
             "user_id": user_id,
             "child_id": child.id,
             "role": "owner",
@@ -57,7 +60,7 @@ class MLBFacade:
             "invite_status": None,
             "created_at": datetime.now()
         }
-        self.access_repo.add(relationship)
+        self.access_repo.grant_access(id, relationship)
         return child.to_dict()
     
 class ChildSharingService(MLBFacade):

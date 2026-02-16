@@ -44,6 +44,10 @@ class CarerAccessRepository():
         return True
     
 
+"""
+This section is to test out the repo methods without having to touch the facade
+
+"""
 repo = CarerAccessRepository()
 
 id = str(uuid.uuid4())
