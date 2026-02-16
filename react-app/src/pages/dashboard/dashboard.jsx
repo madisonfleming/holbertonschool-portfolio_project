@@ -1,13 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from '../../contexts/AuthContext'
 import WeeklyGoal from '../../components/dashboard/WeeklyGoal';
 import { getWeeklyTheme } from "../../utils/GetWeeklyTheme";
 import "./dashboard.css";
 import Milestones from '../../components/dashboard/Milestones';
+import AddReadingSession from "../../components/dashboard/AddReadingSession";
 
 const Dashboard = () => {
   const { currentUser } = useAuth();
   const theme = getWeeklyTheme();
+  const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] = useState(false);
 
   const current_num_of_books = 500;   // vendrá del backend
   const target = 1000;    // vendrá del backend
@@ -40,14 +42,13 @@ const Dashboard = () => {
 
     <div>
       <h1 className="dashboard-title">Let's get reading, wormies!</h1>
+      <AddReadingSession trigger={buttonAddReadingSessionPopup} setTrigger={setButtonAddReadingSessionPopup}>
+      </AddReadingSession>
       <div className="dashboard-container">
-        <WeeklyGoal
-          current_num_of_books={current_num_of_books}
-          target={target}
-          theme={theme}
-        />
-        <Milestones current_num_of_books={current_num_of_books} target={target}
-        />
+        <img src={`open-book.png`} className="open-book-img" />
+        <button onClick={() => setButtonAddReadingSessionPopup(true)} type="button" class="btn btn-primary btn-sm">Add Reading Session</button>
+        <WeeklyGoal current_num_of_books={current_num_of_books} target={target} theme={theme} />
+        <Milestones current_num_of_books={current_num_of_books} target={target} />
       </div>
 
     </div>
