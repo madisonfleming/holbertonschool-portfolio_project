@@ -25,7 +25,7 @@ def get_children(
     decoded_token: dict = Depends(auth_current_user)
     ):
     firebase_uid = decoded_token['uid']
-    return facade.children(firebase_uid) #TODO: check method name and params match facade
+    return facade.get_children(firebase_uid) #TODO: check method name and params match facade
 
 # Requirement: Retrieve a single child
 @router.get("/children/{child_id}", response_model=ChildResponse, status_code=200)
