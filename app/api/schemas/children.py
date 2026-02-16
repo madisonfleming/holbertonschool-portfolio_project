@@ -1,7 +1,9 @@
 from pydantic import BaseModel
+from datetime import date
 
 class CreateChild(BaseModel):
     name: str
+    date_of_birth: date
     avatar_url: str | None = None
 
 class ChildResponse(BaseModel):
@@ -22,4 +24,5 @@ class ChildResponse(BaseModel):
 
 class UpdateChild(BaseModel):
     name: str | None = None
+    date_of_birth: date | None = None
     avatar_url: str | None = None
