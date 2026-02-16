@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useAuth } from '../../contexts/AuthContext'
-import WeeklyGoal from '../../components/dashboard'
+import WeeklyGoal from '../../components/dashboard/WeeklyGoal';
 import { getWeeklyTheme } from "../../utils/GetWeeklyTheme";
 import "./dashboard.css";
-import Milestones from ".../../components/dashboard";
+import Milestones from '../../components/dashboard/Milestones';
 
 const Dashboard = () => {
   const { currentUser } = useAuth();
