@@ -1,6 +1,7 @@
 # register all app and domain-level exception handlers
 # these convert internal exceptions into JSON API responses
 
+import logging
 from pydantic import BaseModel
 
 from fastapi.responses import JSONResponse
@@ -34,6 +35,7 @@ def format_error(code: str, exc: Exception, status: int):
     )
 
 def register_error_handlers(app):
+    logging.info("Registering error handlers...")
 
     @app.exception_handler(HTTPException)
     # this handles any of FastAPI's HTTPExceptions raised manually in the app
