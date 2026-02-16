@@ -2,10 +2,16 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.endpoints import users, children, milestones, reading_sessions 
 from app.api.dependencies import get_facade
+<<<<<<< HEAD
 from app.api import auth_dependencies
 import firebase_admin
 from firebase_admin import credentials
 
+=======
+from app.config import firebase
+from fastapi.middleware.cors import CORSMiddleware
+from app.api.errors import register_error_handlers
+>>>>>>> c5f468c (Register error handlers with FastAPI)
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -15,6 +21,7 @@ cred = credentials.Certificate("app/config/serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
 
 app = FastAPI()
+register_error_handlers(app)
 
 #Solving CORS
 app.add_middleware(
