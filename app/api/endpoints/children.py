@@ -17,13 +17,18 @@ def create_child(
     firebase_uid = decoded_token['uid']
     return facade.create_child(child_data, firebase_uid) #TODO: use actual facade method name once created, check if firebase_uid is required in facade, remove if not
 
+# Requirement: Retrieve a single child
+@router.get("/children/{child_id}", response_model=ChildResponse, status_code=200)
+def get_child(
+    child_id: str,
+    facade: MLBFacade = Depends(get_facade),
+    decoded_token: dict = Depends(auth_current_user)
+    ):
+    firebase_uid = decoded_token['uid']
+    return facade.get_child(child_id, firebase_uid) #TODO: check mathod name and params match facade
 
 
 
-
-# @router.get("/children")
-# def children_placeholder(facade: MLBFacade = Depends(get_facade)):
-#     return {"status": "ok"}
 
 # placeholder for the momo
 # FastAPI injects the shared facade instance created in app.py via Depends(get_facade)
