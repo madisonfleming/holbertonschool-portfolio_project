@@ -1,7 +1,7 @@
 import "./login.css"
 import { useState } from "react";
-import { doSignInWithEmailAndPassword, doSignInWithGoogle } from "../../../firebase/auth";
-import { useAuth } from "../../../contexts/AuthContext";
+import { doSignInWithEmailAndPassword, doSignInWithGoogle } from "../../firebase/auth";
+import { useAuth } from "../../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 
 
