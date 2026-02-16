@@ -56,21 +56,21 @@ class User(Base):
     @role.setter
     def role(self, role: str):
         if not role:
-            self._role = 'standard'
+            self._role = "standard"
         if not isinstance(role, str):
             raise TypeError("Role must be a string")
-        if role != 'admin':
-            self._role = 'standard'
-        if role == 'admin':
+        if role != "admin":
+            self._role = "standard"
+        if role == "admin":
             self._role = role
 
     def to_dict(self):
         return {
-            'id': self.id,
-            'name': self.name,
-            'email': self.email,
-            'role': self.role,
-            'firebase_uid': self.firebase_uid
-            'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat()
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "role": self.role,
+            "firebase_uid": self.firebase_uid
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat()
         }
