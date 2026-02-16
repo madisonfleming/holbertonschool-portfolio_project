@@ -58,11 +58,11 @@ class Child(Base): # gives id, created_at, updated_at
 
     def to_dict(self):
         return {
-            'name': self.name,
-            'child_id': self.child_id,
-            'date_of_birth': self.date_of_birth.isoformat(),
-            'age': self.age,
-            'avatar_url': self.avatar_url
-            'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat()
+            "name": self.name,
+            "child_id": self.child_id,
+            "date_of_birth": self.date_of_birth.isoformat(),
+            "age": self.age,
+            "avatar_url": self.avatar_url
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat()
         }
