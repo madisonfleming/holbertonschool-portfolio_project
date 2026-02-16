@@ -1,8 +1,16 @@
 import { useEffect } from "react";
 import { useAuth } from '../../contexts/AuthContext'
+import WeeklyGoal from '../../components/dashboard'
+import { getWeeklyTheme } from "../../utils/GetWeeklyTheme";
+import "./dashboard.css";
+import Milestones from ".../../components/dashboard";
 
 const Dashboard = () => {
   const { currentUser } = useAuth();
+  const theme = getWeeklyTheme();
+
+  const current_num_of_books = 500;   // vendrá del backend
+  const target = 1000;    // vendrá del backend
 
   //
   async function loadData() {
@@ -31,7 +39,17 @@ const Dashboard = () => {
   return (
 
     <div>
-      Hello {currentUser.displayName ? currentUser.displayName : currentUser.email}, you are now logged in Dashboard.
+      <h1 className="dashboard-title">Let's get reading, wormies!</h1>
+      <div className="dashboard-container">
+        <WeeklyGoal
+          current_num_of_books={current_num_of_books}
+          target={target}
+          theme={theme}
+        />
+        <Milestones current_num_of_books={current_num_of_books} target={target}
+        />
+      </div>
+
     </div>
   )
 }

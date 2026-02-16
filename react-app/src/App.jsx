@@ -1,7 +1,7 @@
-import Login from "./components/auth/login";
-import Header from "./components/header";
-import Dashboard from "./components/dashboard";
-import Home from "./components/home";
+import Login from "./pages/login";
+import Header from "./pages/header";
+import Dashboard from "./pages/dashboard";
+import Home from "./pages/home";
 
 import { AuthProvider } from "./contexts/AuthContext";
 //function of react to a list of routes into elements react, browser create the navigation system and navigate only tells where
