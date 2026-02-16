@@ -10,12 +10,12 @@ router = APIRouter() # auth applied at individual endpoint level.
 # Requirement: Create Child
 @router.post("/children", status_code=201) # TODO: status code returns on success, errors to be handled in new error handling logic. add response_model=ChildResponse if needed
 def create_child(
-    req: CreateChild,
+    child_data: CreateChild,
     facade: MLBFacade = Depends(get_facade),
     decoded_token: dict = Depends(auth_current_user)
     ):
     firebase_uid = decoded_token['uid']
-    return facade.create_child(firebase_uid, req) #TODO: use actual facade method name once created, check if firebase_uid is required in facade, remove if not
+    return facade.create_child(child_data, firebase_uid) #TODO: use actual facade method name once created, check if firebase_uid is required in facade, remove if not
 
 
 
