@@ -6,6 +6,10 @@ Defines the user attributes and methods. Inherits:
 """
 
 from app.domain.base import Base
+from app.domain.exceptions import (
+    InvalidUserNameError,
+    InvalidEmailError
+)
 
 
 class User(Base):
@@ -28,7 +32,7 @@ class User(Base):
     @name.setter
     def name(self, name: str):
         if not name:
-            raise ValueError("Name must be provided")
+            raise InvalidUserNameError()
         if not isinstance(name, str):
             raise TypeError("Name must be a string")
         self._name = name
@@ -40,7 +44,7 @@ class User(Base):
     @email.setter
     def email(self, email: str):
         if not email:
-            raise ValueError("Email must be provided")
+            raise InvalidEmailError()
         if not isinstance(email, str):
             raise TypeError("Email must be a string")
         self._email = email
@@ -59,13 +63,6 @@ class User(Base):
             self._role = 'standard'
         if role == 'admin':
             self._role = role
-
-    def update_profile(self, data):
-        fields = ['name', 'email']  # Explicitly disallow role update
-        for item in data:
-            if item in fields:
-                setattr(self, item, data[item])
-        self.touch()  # sets updated_at attr
 
     def to_dict(self):
         return {
