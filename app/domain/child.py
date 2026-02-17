@@ -63,6 +63,4 @@ class Child(Base): # gives id, created_at, updated_at
             "date_of_birth": self.date_of_birth.isoformat(),
             "age": self.age,
             "avatar_url": self.avatar_url
-            "created_at": self.created_at.isoformat(),
-            "updated_at": self.updated_at.isoformat()
         }

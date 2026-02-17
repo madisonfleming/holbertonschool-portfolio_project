@@ -70,7 +70,5 @@ class User(Base):
             "name": self.name,
             "email": self.email,
             "role": self.role,
-            "firebase_uid": self.firebase_uid,
-            "created_at": self.created_at.isoformat(),
-            "updated_at": self.updated_at.isoformat()
+            "firebase_uid": self.firebase_uid
         }
