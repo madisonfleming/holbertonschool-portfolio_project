@@ -23,10 +23,10 @@ class Milestone(Base): # gives id, created_at, updated_at
         return self._name
 
     @name.setter
-    def name(self, value: str):
+    def name(self, value):
         if not isinstance(value, str):
-            raise TypeError("Milestone name must be string")
-        if not value.strip():
+            raise InvalidMilestoneNameError()
+        if value.strip() == "":
             raise InvalidMilestoneNameError()
         self._name = value
 
@@ -40,7 +40,7 @@ class Milestone(Base): # gives id, created_at, updated_at
             raise TypeError("Description must be a string")
         if not value.strip():
             raise InvalidMilestoneDescriptionError()
-        self._description = description
+        self._description = value
 
     @property
     def metric_key(self):
@@ -48,11 +48,11 @@ class Milestone(Base): # gives id, created_at, updated_at
 
     @metric_key.setter
     def metric_key(self, value:str):
-        if not isinstance(calue, str):
+        if not isinstance(value, str):
             raise TypeError("Metric key must be a string")
         if not value.strip():
             raise InvalidMetricKeyError()
-        self._metric_key = metric_key
+        self._metric_key = value
 
     @property
     def threshold(self):
@@ -60,6 +60,8 @@ class Milestone(Base): # gives id, created_at, updated_at
 
     @threshold.setter
     def threshold(self, value: int):
+        if value is None or value == "":
+            raise InvalidMilestoneThresholdError()
         if not isinstance(value, int):
             raise ValueError("Threshold must be an int")
         if value < 1:
