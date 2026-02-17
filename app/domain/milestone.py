@@ -63,7 +63,7 @@ class Milestone(Base): # gives id, created_at, updated_at
         if not isinstance(value, int):
             raise ValueError("Threshold must be an int")
         if value < 1:
-            raise InvalidMilestoneThreshold()
+            raise InvalidMilestoneThresholdError()
         self._threshold = value
 
     def to_dict(self):
