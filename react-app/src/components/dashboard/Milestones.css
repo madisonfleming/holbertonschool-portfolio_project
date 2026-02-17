@@ -1,5 +1,5 @@
 .milestone-card {
-  width: 500px;
+  width: 50rem;
   background: white;
   padding: 30px;
   border-radius: 15px;
@@ -16,6 +16,11 @@
 
 h2 {
   text-align: center;
+  font-size: 42px;
+  font-weight: bold;
+  color: #000;
+  margin: 0 0 20px 0;
+  line-height: 1.1;
 }
 
 .worm-text {

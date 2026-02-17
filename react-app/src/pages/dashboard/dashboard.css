@@ -1,3 +1,9 @@
+.open-book-img {
+  width: 7%;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
 .dashboard-title {
   font-size: 50px;
   font-weight: bold;
@@ -7,16 +13,50 @@
 }
 
 /* Dashboard container to put cards inside */
-.dashboard-container {
+.dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 50px;
-  padding-top: 20px;
-  position: relative;
+  grid-template-columns: 1fr 1fr;
+  /* left more big más grande */
+  grid-template-rows: 1fr 1fr;
+  /* right divided in two  */
+  gap: 20px;
+  height: 100vh;
+  /* both columns has the same height */
+  padding: 20px;
 }
 
-.open-book-img {
-  width: 7%;
-  align-items: flex-end;
-  margin-bottom: 10px;
+.children-container {
+  grid-row: 1 / span 2;
+  /* ocupa ambas filas */
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  /* centra horizontal */
+  align-items: center;
+}
+
+.weekly-container,
+.milestones-container {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  /* centra horizontal */
+  align-items: center;
+}
+
+/* the content dont stay on the border */
+.children-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.children-container::-webkit-scrollbar-thumb {
+  background: #ff9fc4;
+  border-radius: 10px;
 }
