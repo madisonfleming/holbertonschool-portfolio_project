@@ -1,5 +1,5 @@
 export const themes = [
-  "Animals",
+  "Elephant",
   "Space",
   "Dinosaurs",
   "Ocean",
