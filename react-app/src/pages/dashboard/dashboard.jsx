@@ -51,11 +51,16 @@ const Dashboard = () => {
       <h1 className="dashboard-title">Let's get reading, wormies!</h1>
       <AddReadingSession trigger={buttonAddReadingSessionPopup} setTrigger={setButtonAddReadingSessionPopup} children_RS={children}>
       </AddReadingSession>
-      <div className="dashboard-container">
-
-        <ChildList child_list={children} />
-        <WeeklyGoal current_num_of_books={current_num_of_books} target={target} theme={theme} />
-        <Milestones current_num_of_books={current_num_of_books} target={target} />
+      <div className="dashboard-grid">
+        <div className="children-container">
+          <ChildList child_list={children} />
+        </div>
+        <div className="weekly-container">
+          <WeeklyGoal current_num_of_books={current_num_of_books} target={target} theme={theme} />
+        </div>
+        <div className="milestones-container">
+          <Milestones current_num_of_books={current_num_of_books} target={target} />
+        </div>
         <img src={`open-book.png`} className="open-book-img" />
         <button onClick={() => setButtonAddReadingSessionPopup(true)} type="button" class="btn btn-primary btn-sm">Add Reading Session</button>
 
