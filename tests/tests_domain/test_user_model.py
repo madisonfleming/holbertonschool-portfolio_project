@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch
 from app.domain.user import User
+from app.domain.exceptions import InvalidEmailError, InvalidUserNameError
 
 
 class TestUser(unittest.TestCase):
@@ -77,7 +78,7 @@ class TestUser(unittest.TestCase):
     def test_name_validations_when_name_is_empty(self):
         self.standard_data['name'] = ''
 
-        with self.assertRaises(ValueError):
+        with self.assertRaises(InvalidUserNameError):
             User(**self.standard_data)
 
     def test_name_validations_when_name_is_not_string(self):
@@ -89,7 +90,7 @@ class TestUser(unittest.TestCase):
     def test_email_validations_when_email_is_empty(self):
         self.standard_data['email'] = ''
 
-        with self.assertRaises(ValueError):
+        with self.assertRaises(InvalidEmailError):
             User(**self.standard_data)
 
     def test_email_validations_when_email_is_not_string(self):
