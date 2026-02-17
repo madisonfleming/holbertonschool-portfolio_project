@@ -5,8 +5,15 @@ import { getWeeklyTheme } from "../../utils/GetWeeklyTheme";
 import "./dashboard.css";
 import Milestones from '../../components/dashboard/Milestones';
 import AddReadingSession from "../../components/dashboard/AddReadingSession";
+import ChildList from "../../components/dashboard/ChildList";
+
 
 const Dashboard = () => {
+  const children = [
+    { id: 1, name: 'Billie', age: 3, avatar: "/star.svg", lastReadBook: "My Little Pony" },
+    { id: 2, name: 'Hannah', age: 3, avatar: "/star.svg", lastReadBook: "My Little Bookworm" },
+    { id: 4, name: 'Gia', age: 3, avatar: "/star.svg", lastReadBook: "My Little Kitten" },
+  ];
   const { currentUser } = useAuth();
   const theme = getWeeklyTheme();
   const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] = useState(false);
@@ -42,9 +49,10 @@ const Dashboard = () => {
 
     <div>
       <h1 className="dashboard-title">Let's get reading, wormies!</h1>
-      <AddReadingSession trigger={buttonAddReadingSessionPopup} setTrigger={setButtonAddReadingSessionPopup}>
+      <AddReadingSession trigger={buttonAddReadingSessionPopup} setTrigger={setButtonAddReadingSessionPopup} children_RS={children}>
       </AddReadingSession>
       <div className="dashboard-container">
+        <ChildList child_list={children} />
         <img src={`open-book.png`} className="open-book-img" />
         <button onClick={() => setButtonAddReadingSessionPopup(true)} type="button" class="btn btn-primary btn-sm">Add Reading Session</button>
         <WeeklyGoal current_num_of_books={current_num_of_books} target={target} theme={theme} />

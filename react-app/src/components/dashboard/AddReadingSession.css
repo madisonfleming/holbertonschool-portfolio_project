@@ -82,3 +82,31 @@
   transition: all 0.2s ease;
 
 }
+
+/*For the child bottoms*/
+.child-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.child-btn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: #fafafa;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.child-btn:hover {
+  background: #eaeaea;
+}
+
+.child-btn.active {
+  background: #42a5f5;
+  color: white;
+  border-color: #1e88e5;
+}
