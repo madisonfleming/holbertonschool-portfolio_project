@@ -1,6 +1,7 @@
 from app.domain.base import Base
 from app.domain.exceptions import (
     InvalidMilestoneNameError,
+    InvalidMilestoneDescriptionError,
     InvalidMilestoneThresholdError,
     InvalidMetricKeyError
 )
