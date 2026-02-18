@@ -52,20 +52,16 @@ class ChildRepository(Repository):
     def __init__(self):
         self._storage = CHILDREN
 
-    def add(self, child):
-        self._storage[child.id] = child
+    def save(self, child):
+        self._storage[child.id] = child.to_dict()
 
     def get(self, child_id):
         return self._storage.get(child_id)
 
-    def get_by_ids(self, child_ids: list[str]):
-        return [
-            child for child in self._storage.values()
-            if child.id == child_ids
-        ]
-
     def get_all(self):
-        return []
+        # Not needed on child_repository
+        # - will be implemented on relationship_repository
+        pass
 
     def get_by_attribute(self, attr, value):
         return None
