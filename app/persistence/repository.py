@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 
 class Repository(ABC):
     @abstractmethod
-    def add(self, obj):
+    def save(self, obj):
         pass
 
     @abstractmethod
