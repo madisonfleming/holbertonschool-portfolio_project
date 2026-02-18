@@ -44,7 +44,7 @@ class TestChild(unittest.TestCase):
     @patch('app.domain.base.uuid.uuid4')
     def test_name_data_type(self, mock_uuid):
         """
-        Negative path: tests the name validation in setter logic (raises ValueError if name is not string)
+        Negative path: tests the name validation in setter logic (raises TypeError if name is not string)
         """
         mock_uuid.return_value = '123e4567-e89b-12d3-a456-426614174000'
         with self.assertRaises(TypeError): # error message not included in case of message change
