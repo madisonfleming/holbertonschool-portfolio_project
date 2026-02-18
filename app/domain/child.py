@@ -5,6 +5,7 @@ from app.domain.exceptions import (
     InvalidDateOfBirthError
 )
 
+
 class Child(Base): # gives id, created_at, updated_at
     def __init__(self,
                  name: str,
@@ -57,10 +58,12 @@ class Child(Base): # gives id, created_at, updated_at
 
 
     def to_dict(self):
-        return {
+        data = super().to_dict()
+        data.update({
+            "id": self.child_id,
             "name": self.name,
-            "child_id": self.child_id,
-            "date_of_birth": self.date_of_birth.isoformat(),
             "age": self.age,
+            "date_of_birth": self.date_of_birth.isoformat(),
             "avatar_url": self.avatar_url
-        }
+        })
+        return data
