@@ -13,11 +13,13 @@ from app.persistence.relationship_repository import RelationshipRepository #----
 #from app.api.schemas.users import CreateUser
 from app.api.schemas.children import CreateChild, ChildResponse
 
-from app.domain.exceptions import InvalidChildNameError 
-from app.services.exceptions import(
+from app.domain.exceptions import(
+    InvalidChildNameError,
     UserNotFoundError,
-    RelationshipNotFoundError,
     ChildNotFoundError
+)
+from app.services.exceptions import(
+    RelationshipNotFoundError
 )
 
 
