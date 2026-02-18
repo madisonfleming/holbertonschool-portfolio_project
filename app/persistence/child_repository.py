@@ -75,3 +75,37 @@ class ChildRepository(Repository):
 
     def delete(self, id):
         pass
+
+
+"""
+This section is to test out the repo methods without having to touch the facade
+
+To run the tests:
+- uncomment the section below
+- cd /holbertonschool-portfolio_project
+- python -m app.persistence.child_repository
+"""
+# # Uncomment the whole section for testing without the facade
+# import uuid
+# from datetime import date, datetime
+# from app.domain.child import Child
+
+# child_repo = ChildRepository()
+
+# # Add a new child to the database with .save(child)
+
+# new_child = Child("Michael", date(2024, 5, 1))
+# # print(new_child.to_dict())
+
+# child_repo.save(new_child)
+
+# # for c in CHILDREN:
+# #     print(CHILDREN[c])
+
+# # child_1 = child1["id"]
+# # child_2 = new_child.id
+
+# # Fetch a child from the database with .get(child_id)
+
+# print("GET Child 1:", child_repo.get(child1["id"]))
+
