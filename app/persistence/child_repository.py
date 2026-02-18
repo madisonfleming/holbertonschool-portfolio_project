@@ -2,10 +2,55 @@
 
 from app.persistence.repository import Repository
 
+""" 
+Set up hardcoded Child data for us to use
+while the repository is in-memory
+
+TO DO: remove hardcoded data after MySQL is connected
+"""
+
+child1 = {
+    "created_at": "2026-02-18 04:39:42.220228",
+    "updated_at": "2026-02-18 04:39:42.220228",
+    'id': 'e686c824-25e6-4704-87a6-651938429111',
+    'name': 'Susie',
+    'date_of_birth': '2023-12-05',
+    'age': 2,
+    'avatar_url': None
+    }
+
+child2 = {
+    "created_at": "2026-02-18 04:39:42.220228",
+    "updated_at": "2026-02-18 04:39:42.220228",
+    'id': 'e686c824-25e6-4704-87a6-651938429112',
+    'name': 'Billy',
+    'date_of_birth': '2024-07-01',
+    'age': 1,
+    'avatar_url': None
+    }
+
+child3 = {
+    "created_at": "2026-02-18 04:39:42.220228",
+    "updated_at": "2026-02-18 04:39:42.220228",
+    'id': 'e686c824-25e6-4704-87a6-651938429113',
+    'name': 'Tom',
+    'date_of_birth': '2025-01-29',
+    'age': 1,
+    'avatar_url': None
+    }
+
+CHILDREN = {
+    child1["id"]: child1,
+    child2["id"]: child2,
+    child3["id"]: child3,
+}
+
+# Uncomment to inspect the Child data
+# print(CHILDREN)
 
 class ChildRepository(Repository):
     def __init__(self):
-        self._storage = {}
+        self._storage = CHILDREN
 
     def add(self, child):
         self._storage[child.id] = child
