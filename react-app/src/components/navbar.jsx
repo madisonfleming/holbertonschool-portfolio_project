@@ -19,6 +19,9 @@ function MyNavbar() {
             {currentUser && (
               <Nav.Link className="px-3" as={Link} to="/dashboard">Dashboard</Nav.Link>
             )}
+            {currentUser && (
+              <Nav.Link className="px-3" as={Link} to="/child-profiles">Child Profiles</Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
