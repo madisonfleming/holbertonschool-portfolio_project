@@ -19,7 +19,8 @@ from app.domain.exceptions import (
     ChildNotFoundError
 )
 from app.services.exceptions import (
-    DuplicateUserError
+    DuplicateUserError,
+    RelationshipNotFoundError
 )
 
 def format_error(code: str, exc: Exception, status: int):
@@ -95,3 +96,7 @@ def register_error_handlers(app):
     @app.exception_handler(InvalidDateOfBirthError)
     async def invalid_date_of_birth_handler(request: Request, exc: InvalidDateOfBirthError):
         return format_error("INVALID_DATE_OF_BIRTH", exc, 400)
+
+    @app.exception_handler(RelationshipNotFoundError)
+    async def relationship_not_found_handler(request: Request, exc: RelationshipNotFoundError):
+        return format_error("RELATIONSHIP_NOT_FOUND", exc, 400)
