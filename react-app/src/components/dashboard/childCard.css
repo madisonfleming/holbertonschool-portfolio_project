@@ -53,7 +53,6 @@
 }
 
 .worm {
-  height: 120px;
-  width: 150px;
-  margin-left: 20px;
+  padding-left: 10px;
+  width: 40px;
 }
