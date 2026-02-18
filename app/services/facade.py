@@ -81,14 +81,42 @@ class MLBFacade:
         user_id = user.id
 
         # fetch/retrieve linked children
+        # doesn't throw error if children = 0, should allow empty Dashy
         children = self._get_linked_children(user_id)
 
         return [ChildResponse.from_domain(child) for child in children]
 
-    def get_child(self):
-        pass
+    def get_child(
+        self,
+        child_id,
+        firebase_uid
+    ):
+        # access user's ID via firebase ID
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        if user is None:
+            raise UserNotFoundError()
+        user_id = user.id
 
-    def update_child(self):
+        # produces list of relationship entries where user_id is parent (or other)
+        relationships = self.relationship_repository.get_children_per_user(user_id)
+
+        # verify child_id has relationship with user_id
+        matched_child_ids = {match.child_id for match in relationships}
+        if child_id not in matched_child_ids:
+            raise NoRelationshipFoundError()
+
+        # fetch child data or error if N/A
+        child = self.child_repository.get(child_id)
+        if child is None:
+            raise ChildNotFoundError()
+
+        return ChildResponse.from_domain(child)
+
+    def update_child(self,
+        child_id: str,
+        request: UpdateChild,
+        firebase_uid: str
+    ):
         pass
     
 
