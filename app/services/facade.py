@@ -14,7 +14,11 @@ from app.persistence.relationship_repository import RelationshipRepository #----
 from app.api.schemas.children import CreateChild, ChildResponse
 
 from app.domain.exceptions import InvalidChildNameError 
-#from app.services.exceptions import
+from app.services.exceptions import(
+    UserNotFoundError,
+    RelationshipNotFoundError,
+    ChildNotFoundError
+)
 
 
 
@@ -45,7 +49,7 @@ class MLBFacade:
         firebase_uid: str
     ):
         if not request.name.strip():    # validate request
-            raise InvalidChildNameError("Child name must not be empty")
+            raise InvalidChildNameError()
         
         # create domain model
         child = Child(
