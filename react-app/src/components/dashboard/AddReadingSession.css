@@ -11,9 +11,8 @@
   z-index: 999;
 
 }
-
 .AddReadingSessionCard {
-  background: linear-gradient(135deg, #a8e6cf 0%, #88d4ab 100%);
+  background: linear-gradient(135deg, #fae5ec 0%, #fce4ec 100%);
   border-radius: 24px;
   /* Size */
   width: 95%;
@@ -46,6 +45,8 @@
 
 /*For the image of the book*/
 .right-section {
+/* changed width to 150px to centre */
+  width: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -59,9 +60,13 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+h1 {
+  text-align: center;
+}
 
 /* Bottom Buttons Section */
-.select-field,
+/*.select-field,*/ /* mads commented out this line as select-field is the date input
+fixed calender to the right */
 .button-section {
   display: flex;
   gap: 16px;
