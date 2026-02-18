@@ -103,7 +103,7 @@ class MLBFacade:
         # verify child_id has relationship with user_id
         matched_child_ids = {match.child_id for match in relationships}
         if child_id not in matched_child_ids:
-            raise NoRelationshipFoundError()
+            raise RelationshipNotFoundError()
 
         # fetch child data or error if N/A
         child = self.child_repository.get(child_id)
@@ -117,7 +117,43 @@ class MLBFacade:
         request: UpdateChild,
         firebase_uid: str
     ):
-        pass
+        
+        # ----->TO DO: get_by_firebase_uid to user_repository
+        # access user's ID via firebase ID
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        if user is None:
+            raise UserNotFoundError()
+        user_id = user.id
+
+        # produces list of relationship entries where user_id is parent (or other)
+        relationships = self.relationship_repository.get_children_for_user(user_id)
+
+        # verify child_id has relationship with user_id
+        matched_child_ids = {match.child_id for match in relationships}
+        if child_id not in matched_child_ids:
+            raise RelationshipNotFoundError()
+
+        # fetch child data or error if N/A
+        child = self.child_repository.get(child_id)
+        if child is None:
+            raise ChildNotFoundError()
+
+        # apply updates with the fields provided by client
+        if request.name is not None:
+            child.name = request.name
+
+        if request.date_of_birth is not None:
+            child.date_of_birth = request.date_of_birth
+
+
+        if request.avatar_url is not None:
+            child.avatar_url = request.avatar_url
+
+        # save updated child domain model to db
+        self.child_repository.save(child)
+
+        return ChildResponse.from_domain(child)
+
     
 
     # <--- HELPER FUNCTIONS --->
