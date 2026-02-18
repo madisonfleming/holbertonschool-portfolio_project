@@ -50,26 +50,31 @@ class MLBFacade:
         # create domain model
         child = Child(
             name=request.name,
-            date_of_birth=request.date_of_birth
+            date_of_birth=request.date_of_birth,
+            avatar_url=request.avatar_url
         )
         
         # save domain model to db
-        saved_child = self.child_repository.save(child)
+        self.child_repository.save(child)
+
+        #placeholder logic to update the kid's avatar
+        self.child_repository.update_avatar(child.id, placeholder)
+
         
         # ----->TO DO: get_by_firebase_uid to user_repository
         # access user's ID via firebase ID
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         user_id = user.id
 
-        # example creation of familyMember join
+        # example creation of relationship join
         # ----->assumes existence of relationship_repo w/ add_member method
         self.relationship_repository.add_member(
             user_id=user_id,
-            child_id=saved_child.id,
+            child_id=child.id,
             role="parent" # assuming parent default given they are creating child
         )
 
-        return ChildResponse.from_domain(saved_child)   # convert domain model to response schema
+        return ChildResponse.from_domain(child)   # convert domain model to response schema
 
     def get_children(self, firebase_uid: str):
         
@@ -80,11 +85,19 @@ class MLBFacade:
             raise UserNotFoundError()
         user_id = user.id
 
+        # produces list of relationship entries where user_id is parent (or other)
+        relationships = self.relationship_repository.get_children_per_user(user_id)
+        if not relationships:
+            return []
+        
+         # pull out child IDs from those relationships
+        child_ids = [match.child_id for match in relationships]
+        
         # fetch/retrieve linked children
+        linked_children = self.child_repository.get_by_ids(child_ids)
+        
         # doesn't throw error if children = 0, should allow empty Dashy
-        children = self._get_linked_children(user_id)
-
-        return [ChildResponse.from_domain(child) for child in children]
+        return [ChildResponse.from_domain(child) for child in linked_children]
 
     def get_child(
         self,
@@ -96,6 +109,7 @@ class MLBFacade:
         if user is None:
             raise UserNotFoundError()
         user_id = user.id
+
 
         # produces list of relationship entries where user_id is parent (or other)
         relationships = self.relationship_repository.get_children_per_user(user_id)
@@ -145,7 +159,6 @@ class MLBFacade:
         if request.date_of_birth is not None:
             child.date_of_birth = request.date_of_birth
 
-
         if request.avatar_url is not None:
             child.avatar_url = request.avatar_url
 
@@ -153,17 +166,3 @@ class MLBFacade:
         self.child_repository.save(child)
 
         return ChildResponse.from_domain(child)
-
-    
-
-    # <--- HELPER FUNCTIONS --->
-    def _get_linked_children(self, user_id: str):
-        # ----->assumes existence of relationship_repo w/ get_children_per_user method
-        # produces list of relationship entries where user_id is parent (or other)
-        relationships = self.relationship_repository.get_children_per_user(user_id)
-        # pull out child IDs from those relationships
-        child_ids = [match.child_id for match in relationships]
-        # return list of child entries from child repo where IDs match
-        return self.child_repository.get_by_ids(child_ids)
-
-
