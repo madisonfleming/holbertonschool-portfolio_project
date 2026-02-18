@@ -1,8 +1,36 @@
-.open-book-img {
+/*.open-book-img {
   width: 7%;
   align-items: flex-end;
   margin-bottom: 10px;
+} */
+
+.reading-session-container {
+  position: sticky;
+  top: 0px;
+  right: 10px;
+  height: 20px;
+  border: 1px grey;
+
 }
+.open-book-img {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  z-index: 1000;
+  width: 80px;
+  margin-right: 20px;
+
+}
+.reading-text {
+  position: absolute;
+  top: 90px;
+  right: 20px;
+  z-index: 1000;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
 
 .dashboard-title {
   font-size: 50px;
