@@ -48,6 +48,10 @@ const Dashboard = () => {
   return (
 
     <div>
+      <div className="reading-session-container">
+        <img src={`open-book.png`} className="open-book-img" onClick={() => setButtonAddReadingSessionPopup(true)} type="button" />
+        <p className="reading-text">Add Reading Session</p>
+      </div>
       <h1 className="dashboard-title">Let's get reading, wormies!</h1>
       <AddReadingSession trigger={buttonAddReadingSessionPopup} setTrigger={setButtonAddReadingSessionPopup} children_RS={children}>
       </AddReadingSession>
@@ -61,9 +65,6 @@ const Dashboard = () => {
         <div className="milestones-container">
           <Milestones current_num_of_books={current_num_of_books} target={target} />
         </div>
-        <img src={`open-book.png`} className="open-book-img" />
-        <button onClick={() => setButtonAddReadingSessionPopup(true)} type="button" class="btn btn-primary btn-sm">Add Reading Session</button>
-
       </div>
 
     </div>
