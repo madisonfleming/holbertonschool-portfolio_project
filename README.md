@@ -93,13 +93,41 @@ curl -i -X POST 'http://127.0.0.1:8000/children' \
 
 The frontend is located in the `react-app` directory and uses **Vite** for fast development builds. 
 
+### Before running the app confirm Node and npm are installed:
+```
+node -v
+npm -v
+```
+## If are missings then:
+```
+cd <your_worspace>
+curl -sL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh
+bash nodesource_setup.sh
+apt install nodejs -y
+node -v   # should show version 20.x
+npm -v    # should show version 10.x 
+```
+
 ### Install dependencies:
 
+npm install command automatically reads the package.json, package-lock.json file and installs all the listed dependencies in the node_modules folder. 
 ```
 cd react-app
 npm install
-npm i react-router-dom
-npm install react-bootstrap bootstrap
+```
+
+### Add requirement configuration files:
+
+Add Firebase Admin JSON (Backend)
+```
+cd app/config
+touch serviceAccountKey.json # Copy and paste json file thats is in Notion inside backend folder
+```
+
+Add Firebase API Keys (Frontend)
+```
+cd react-app
+touch .env # Copy and paste keys from Notion inside backend folder
 ```
 
 ### Start the dev server

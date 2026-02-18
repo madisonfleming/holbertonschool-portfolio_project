@@ -1,23 +1,32 @@
 from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from app.api.endpoints import users, children, milestones, reading_sessions 
 from app.api.dependencies import get_facade
 from app.config import firebase
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.errors import register_error_handlers
+from app.api import auth_dependencies
+import firebase_admin
+from firebase_admin import credentials
+
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
+cred = credentials.Certificate("app/config/serviceAccountKey.json")
+
+firebase_admin.initialize_app(cred)
+
 app = FastAPI()
 register_error_handlers(app)
 
-# enable CORS
+#Solving CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173/"],
+    allow_origins=["http://localhost:5173"],
     allow_credentials=True,
-    allow_methods=[""],
-    allow_headers=[""],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # router registrations
@@ -25,6 +34,7 @@ app.include_router(users.router, dependencies=[Depends(get_facade)])
 app.include_router(children.router, dependencies=[Depends(get_facade)])
 app.include_router(milestones.router, dependencies=[Depends(get_facade)])
 app.include_router(reading_sessions.router, dependencies=[Depends(get_facade)])
+app.include_router(auth_dependencies.router, prefix="/api")
 
 # root health check
 @app.get("/")

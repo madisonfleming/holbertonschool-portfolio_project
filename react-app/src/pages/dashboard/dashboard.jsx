@@ -1,17 +1,25 @@
 import { useEffect } from "react";
 import { useAuth } from '../../contexts/AuthContext'
+import WeeklyGoal from '../../components/dashboard/WeeklyGoal';
+import { getWeeklyTheme } from "../../utils/GetWeeklyTheme";
+import "./dashboard.css";
+import Milestones from '../../components/dashboard/Milestones';
 
 const Dashboard = () => {
-    const { currentUser } = useAuth();
+  const { currentUser } = useAuth();
+  const theme = getWeeklyTheme();
 
-    //
-    async function loadData() {
+  const current_num_of_books = 500;   // vendrá del backend
+  const target = 1000;    // vendrá del backend
+
+  //
+  async function loadData() {
     if (!currentUser) return;
 
     const token = await currentUser.getIdToken();
     console.log("Token:", token);
     //need to do fetch to an endpoint that use that function
-    const response = await fetch("http://127.0.0.1:8000/api/v1/protected", {
+    const response = await fetch("http://127.0.0.1:8000/api/protected", {
       //firebase do the login -> generate the JWT
       //On HBNB was a POST because the login was manage by the back end but in here the login is manage by firebase so is GET the BE just return data
       headers: {
@@ -24,17 +32,27 @@ const Dashboard = () => {
     console.log("this is data:", data);
   };
   //to validate the existance of user useEffect detecs the change of currentUser from null to login
-   useEffect(() => {
+  useEffect(() => {
     loadData();
   }, [currentUser]);
 
-    return (
-        
-        <div>
-        Hello {currentUser.displayName ? currentUser.displayName : currentUser.email}, you are now logged in Dashboard.
-        </div>
-    )
-}         
+  return (
+
+    <div>
+      <h1 className="dashboard-title">Let's get reading, wormies!</h1>
+      <div className="dashboard-container">
+        <WeeklyGoal
+          current_num_of_books={current_num_of_books}
+          target={target}
+          theme={theme}
+        />
+        <Milestones current_num_of_books={current_num_of_books} target={target}
+        />
+      </div>
+
+    </div>
+  )
+}
 
 export default Dashboard
 

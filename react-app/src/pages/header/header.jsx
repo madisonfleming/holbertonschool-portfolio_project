@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import MyNavbar from './navbar'
+import MyNavbar from '../../components/navbar'
 
 const Header = () => {
     return (
