@@ -1,25 +1,25 @@
 import "./Milestones.css"
 const GetWorm = () => {
 
-  const current_num_of_books = 600
+  const current_num_of_books = 900
   const percentage = Math.min((current_num_of_books / 1000) * 100, 100);
 
   return (
     <div className="GetWorm-card">
       <svg
         viewBox="0 0 2662 1404"
-        width="350"
-        height="200">
+        width="280"
+        height="140">
         <mask id="worm-mask">
           <rect x="0" y="0" width="2662" height="1404" fill="black" />
           <rect
             x="0"
             y="0"
-            width={Math.round(percentage / 100) * 1404}
+            width={(percentage / 100) * 2662}
             height="1404"
             fill="white"
           />
-          {/* i need to double check the math, the worm isnt filling 50% as it should */}
+          {/* if the image viewbox changes, height needs to adjust accordingly */}
         </mask>
         {/* this creates a mask so the full worm / milestone shows at all times */}
         <path
