@@ -1,0 +1,41 @@
+import { useEffect, useState } from "react";
+import { useAuth } from '../../contexts/AuthContext'
+import "./child-profiles.css";
+import Milestones from '../../components/dashboard/Milestones';
+import AddReadingSession from "../../components/dashboard/AddReadingSession";
+
+
+const ChildProfiles = () => {
+    const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] = useState(false);
+    const current_num_of_books = 100;   
+    const target = 1000;
+    const children = [
+    { id: 1, name: 'Billie', age: 3, avatar: "/star.svg", lastReadBook: "My Little Pony" },
+    { id: 2, name: 'Hannah', age: 3, avatar: "/star.svg", lastReadBook: "My Little Bookworm" },
+    { id: 4, name: 'Gia', age: 3, avatar: "/star.svg", lastReadBook: "My Little Kitten" },
+  ];
+  return (
+    <div>
+      <div className="reading-session-container">
+        <img src={`open-book.png`} className="open-book-img" onClick={() => setButtonAddReadingSessionPopup(true)} type="button" />
+        <p className="reading-text">Add Reading Session</p>
+      </div>
+      <h1 className="child-profile-title">Child Profiles</h1>
+      <AddReadingSession trigger={buttonAddReadingSessionPopup} setTrigger={setButtonAddReadingSessionPopup} children_RS={children}>
+      </AddReadingSession>
+      <div className="child-profiles-grid">
+        <div className="children-container">
+        </div>
+        <div className="weekly-container">
+        </div>
+        <div className="milestones-container">
+          <Milestones current_num_of_books={current_num_of_books} target={target} />
+        </div>
+      </div>
+
+    </div>
+  )
+}
+
+export default ChildProfiles
+
