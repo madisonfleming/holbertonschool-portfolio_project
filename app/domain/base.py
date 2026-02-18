@@ -17,4 +17,11 @@ class Base:
 
     # Allows every model to update the updated_at timestamp
     def touch(self):
-        self.updated_at = datetime.now()
+        now = datetime.now(timezone.utc)
+        self.updated_at = now
+
+    def to_dict(self):
+        return {
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat(),
+        }
