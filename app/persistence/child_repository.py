@@ -13,10 +13,10 @@ class ChildRepository(Repository):
     def get(self, child_id):
         return self._storage.get(child_id)
 
-    def get_by_user(self, user_id):
+    def get_by_ids(self, child_ids: list[str]):
         return [
             child for child in self._storage.values()
-            if child.user_id == user_id
+            if child.id == child_ids
         ]
 
     def get_all(self):
