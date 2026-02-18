@@ -7,7 +7,7 @@ class UserRepository(Repository):
     def __init__(self):
         self._storage = {}
 
-    def add(self, obj):
+    def save(self, obj):
         self._storage[obj.id] = obj
 
     def get(self, obj_id):
