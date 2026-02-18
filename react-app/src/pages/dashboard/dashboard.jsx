@@ -62,9 +62,11 @@ const Dashboard = () => {
         <div className="weekly-container">
           <WeeklyGoal current_num_of_books={current_num_of_books} target={target} theme={theme} />
         </div>
+        {/* 
         <div className="milestones-container">
           <Milestones current_num_of_books={current_num_of_books} target={target} />
         </div>
+        */}
       </div>
 
     </div>
