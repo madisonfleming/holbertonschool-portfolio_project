@@ -3,6 +3,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import "./child-profiles.css";
 import Milestones from '../../components/dashboard/Milestones';
 import AddReadingSession from "../../components/dashboard/AddReadingSession";
+import ChildSelector from "../../components/child-profiles/ChildSelector";
 
 
 const ChildProfiles = () => {
@@ -25,6 +26,10 @@ const ChildProfiles = () => {
       </AddReadingSession>
       <div className="child-profiles-grid">
         <div className="children-container">
+          <ChildSelector children_RS={children} />
+                          {/* for letting the parent hold the child id
+                          selectedChildId={selectedChildId} 
+                            setSelectedChildId={setSelectedChildId} */} 
         </div>
         <div className="weekly-container">
         </div>

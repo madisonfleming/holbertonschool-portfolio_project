@@ -1,0 +1,25 @@
+
+.child-selector {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    width: 150px;
+}
+
+.child-dropdown {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: grey;
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    width: 150px;
+    position: sticky;
+    top: 0px;
+    left: 10px;
+    height: 20px;
+    border: 1px grey;
+
+}
