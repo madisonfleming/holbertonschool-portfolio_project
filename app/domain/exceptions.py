@@ -54,5 +54,5 @@ class ReadingSessionNotFoundError(Exception):
         super().__init__(message)
 
 class MilestoneNotFoundError(Exception):
-    def__init__(self, message"Milestone not found"):
+    def__init__(self, message="Milestone not found"):
         super().__init__(message)
