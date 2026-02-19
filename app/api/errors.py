@@ -17,7 +17,9 @@ from app.domain.exceptions import (
     InvalidUserNameError,
     InvalidEmailError,
     UserNotFoundError,
-    ChildNotFoundError
+    ChildNotFoundError,
+    ReadingSessionNotFoundError,
+    MilestoneNotFoundError
 )
 from app.services.exceptions import (
     DuplicateUserError,
@@ -67,6 +69,18 @@ def register_error_handlers(app):
     async def child_not_found_handler(request: Request, exc: ChildNotFoundError):
         return format_error( "CHILD_NOT_FOUND", exc, 404)
 
+    @app.exception_handler(ReadingSessionNotFoundError)
+    async def child_not_found_handler(request: Request, exc: ChildNotFoundError):
+        return format_error( "READING_SESSION_NOT_FOUND", exc, 404)
+
+    @app.exception_handler(MilestoneNotFoundError)
+    async def child_not_found_handler(request: Request, exc: ChildNotFoundError):
+        return format_error( "MILESTONE_NOT_FOUND", exc, 404)
+
+    @app.exception_handler(RelationshipNotFoundError)
+    async def relationship_not_found_handler(request: Request, exc: RelationshipNotFoundError):
+        return format_error("RELATIONSHIP_NOT_FOUND", exc, 404)
+
     @app.exception_handler(InvalidUserNameError)
     async def invalid_name_handler(request: Request, exc: InvalidUserNameError):
         return format_error("INVALID_USER_NAME", exc, 400)
@@ -98,7 +112,3 @@ def register_error_handlers(app):
     @app.exception_handler(InvalidDateOfBirthError)
     async def invalid_date_of_birth_handler(request: Request, exc: InvalidDateOfBirthError):
         return format_error("INVALID_DATE_OF_BIRTH", exc, 400)
-
-    @app.exception_handler(RelationshipNotFoundError)
-    async def relationship_not_found_handler(request: Request, exc: RelationshipNotFoundError):
-        return format_error("RELATIONSHIP_NOT_FOUND", exc, 400)
