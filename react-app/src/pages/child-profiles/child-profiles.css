@@ -45,7 +45,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   /* left more big más grande */
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: auto auto auto; /*to get another row for reading history*/
   /* right divided in two  */
   gap: 20px;
   height: 100vh;
@@ -83,4 +83,18 @@
 .children-container::-webkit-scrollbar-thumb {
   background: #ff9fc4;
   border-radius: 10px;
+}
+
+.reading-history {
+  grid-column: 1 / span 2; /*start from line 1 and use two columns so all width*/
+  background:
+    linear-gradient(rgba(68, 66, 66, 0.45)), /* overlay */
+    url('/public/reading_history.svg') center/cover no-repeat;
+  height: 1050px; /* ajusta a tu gusto */
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

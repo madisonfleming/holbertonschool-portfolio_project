@@ -1,7 +1,7 @@
 import "./Milestones.css"
 const GetWorm = () => {
 
-  const current_num_of_books = 900
+  const current_num_of_books = 300
   const percentage = Math.min((current_num_of_books / 1000) * 100, 100);
 
   return (

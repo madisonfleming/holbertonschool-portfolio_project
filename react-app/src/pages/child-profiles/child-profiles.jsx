@@ -37,6 +37,10 @@ const ChildProfiles = () => {
           <Milestones current_num_of_books={current_num_of_books} target={target} />
         </div>
       </div>
+      <div className="reading-history">
+        <h1>hola</h1>
+      </div>
+
 
     </div>
   )
