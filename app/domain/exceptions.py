@@ -49,3 +49,10 @@ class ChildNotFoundError(Exception):
     def __init__(self, message="Child not found"):
         super().__init__(message)
 
+class ReadingSessionNotFoundError(Exception):
+    def __init__(self, message="Reading session not found"):
+        super().__init__(message)
+
+class MilestoneNotFoundError(Exception):
+    def__init__(self, message"Milestone not found"):
+        super().__init__(message)
