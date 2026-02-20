@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from app.services.facade import MLBFacade
 from app.api.dependencies import get_facade
-from app.api.auth_dependencies import auth_current_user
+from app.api.auth_dependencies import authorize_current_user
 from app.api.schemas.children import CreateChild, ChildResponse, UpdateChild
 from typing import List
 
@@ -13,17 +13,15 @@ router = APIRouter() # auth applied at individual endpoint level.
 def create_child(
     child_data: CreateChild,
     facade: MLBFacade = Depends(get_facade),
-    # decoded_token: dict = Depends(auth_current_user)
+    user_id: dict = Depends(authorize_current_user),
     ):
-    # firebase_uid = decoded_token['uid']
-    firebase_uid = "123"
-    return facade.create_child(child_data, firebase_uid) #TODO: check method name and params match facade
+    return facade.create_child(child_data, user_id) #TODO: check method name and params match facade
 
 # Requirement: Retrieve all children
 @router.get("/children", response_model=List[ChildResponse], status_code=200) # FastAPI allows the list to be empty if user has no children (checked in FastAPI Swagger UI - 422 not raised, got 200)
 def get_children(
     facade: MLBFacade = Depends(get_facade),
-    decoded_token: dict = Depends(auth_current_user)
+    decoded_token: dict = Depends(authorize_current_user)
     ):
     firebase_uid = decoded_token['uid']
     return facade.get_children(firebase_uid) #TODO: check method name and params match facade
@@ -33,7 +31,7 @@ def get_children(
 def get_child(
     child_id: str,
     facade: MLBFacade = Depends(get_facade),
-    decoded_token: dict = Depends(auth_current_user)
+    decoded_token: dict = Depends(authorize_current_user)
     ):
     firebase_uid = decoded_token['uid']
     return facade.get_child(child_id, firebase_uid) #TODO: check method name and params match facade
@@ -44,7 +42,7 @@ def update_child(
     child_id: str,
     updated_child_data: UpdateChild,
     facade: MLBFacade = Depends(get_facade),
-    decoded_token: dict = Depends(auth_current_user)
+    decoded_token: dict = Depends(authorize_current_user)
     ):
     firebase_uid = decoded_token['uid']
     return facade.update_child(child_id, updated_child_data, firebase_uid) #TODO: check method name and params match facade

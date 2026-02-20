@@ -1,12 +1,12 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.endpoints import users, children, milestones, reading_sessions 
+from app.api.endpoints import users, children, milestones, reading_sessions, auth
 from app.api.dependencies import get_facade
 from app.api import auth_dependencies
 import firebase_admin
 from firebase_admin import credentials
 
-from app.config import firebase
+from app.config import firebase  # Still needed?
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.errors import register_error_handlers
 
@@ -34,6 +34,7 @@ app.include_router(users.router, dependencies=[Depends(get_facade)])
 app.include_router(children.router, dependencies=[Depends(get_facade)])
 app.include_router(milestones.router, dependencies=[Depends(get_facade)])
 app.include_router(reading_sessions.router, dependencies=[Depends(get_facade)])
+app.include_router(auth.router, dependencies=[Depends(get_facade)])
 app.include_router(auth_dependencies.router, prefix="/api")
 
 # root health check
