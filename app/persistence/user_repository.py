@@ -39,9 +39,9 @@ user3 = {
     }
 
 USERS = {
-    user1["id"]: user1,
-    user2["id"]: user2,
-    user3["id"]: user3,
+    user1["firebase_uid"]: user1,
+    user2["firebase_uid"]: user2,
+    user3["firebase_uid"]: user3,
 }
 
 # Uncomment to inspect the User data
@@ -52,10 +52,13 @@ class UserRepository(Repository):
         self._storage = USERS
 
     def save(self, obj):
-        self._storage[obj.id] = obj
+        self._storage[obj.firebase_uid] = obj
 
     def get(self, obj_id):
         return self._storage.get(obj_id)
+    
+    def get_by_firebase_uid(self, firebase_uid):
+        return self._storage[firebase_uid]
 
     def get_all(self):
         pass
