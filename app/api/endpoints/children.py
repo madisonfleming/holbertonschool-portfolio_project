@@ -13,9 +13,10 @@ router = APIRouter() # auth applied at individual endpoint level.
 def create_child(
     child_data: CreateChild,
     facade: MLBFacade = Depends(get_facade),
-    decoded_token: dict = Depends(auth_current_user)
+    # decoded_token: dict = Depends(auth_current_user)
     ):
-    firebase_uid = decoded_token['uid']
+    # firebase_uid = decoded_token['uid']
+    firebase_uid = "123"
     return facade.create_child(child_data, firebase_uid) #TODO: check method name and params match facade
 
 # Requirement: Retrieve all children

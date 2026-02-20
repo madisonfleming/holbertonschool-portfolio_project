@@ -7,7 +7,7 @@ class MilestoneCompletionRepository(Repository):
     def __init__(self):
         self._storage = {}
 
-    def add(self, completion):
+    def save(self, completion):
         self._storage[completion.id] = completion
 
     def get(self, completion_id):

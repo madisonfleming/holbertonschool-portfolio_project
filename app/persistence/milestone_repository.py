@@ -7,7 +7,7 @@ class MilestoneRepository(Repository):
     def __init__(self):
         self._storage = {}
 
-    def add(self, milestone_type):
+    def save(self, milestone_type):
         self._storage[milestone_type.id] = milestone_type
 
     def get(self, ms_type_id):
