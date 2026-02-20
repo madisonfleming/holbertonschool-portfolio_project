@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 from app.domain.child import Child
 from datetime import date
+from app.domain.exceptions import InvalidChildNameError
 
 
 class TestChild(unittest.TestCase):
@@ -37,16 +38,16 @@ class TestChild(unittest.TestCase):
         Negative path: tests the name validation in setter logic (raises ValueError if name is empty)
         """
         mock_uuid.return_value = '123e4567-e89b-12d3-a456-426614174000'
-        with self.assertRaises(ValueError): # error message not included in case of message change
+        with self.assertRaises(InvalidChildNameError): # error message not included in case of message change
             Child(name="", date_of_birth=date(2023, 12, 5))
 
     @patch('app.domain.base.uuid.uuid4')
     def test_name_data_type(self, mock_uuid):
         """
-        Negative path: tests the name validation in setter logic (raises ValueError if name is not string)
+        Negative path: tests the name validation in setter logic (raises TypeError if name is not string)
         """
         mock_uuid.return_value = '123e4567-e89b-12d3-a456-426614174000'
-        with self.assertRaises(ValueError): # error message not included in case of message change
+        with self.assertRaises(TypeError): # error message not included in case of message change
             Child(name=111, date_of_birth=date(2023, 12, 5))
 
     @patch('app.domain.base.uuid.uuid4')

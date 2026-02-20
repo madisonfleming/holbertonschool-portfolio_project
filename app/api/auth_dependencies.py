@@ -5,12 +5,25 @@ from firebase_admin import auth
 from firebase_admin.exceptions import FirebaseError
 from fastapi import Depends, HTTPException, status, APIRouter
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+import os   # operating system, use for testing mode
 
-security = HTTPBearer() # extract Authorization header from http request
+security = HTTPBearer(auto_error=False) # extract Authorization header from http request
 router = APIRouter() 
 
 def auth_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
-    # credentials becomes a fastapi dependency object that stores scheme(Bearer) and credentials(token) at runtime 
+    # credentials becomes a fastapi dependency object that stores scheme(Bearer) and credentials(token) at runtime
+
+    # Toggles a test user uid to bypass protections while testing
+    # Activated by running "TEST_MODE=true uvicorn app.main:app --reload"
+    if os.getenv("TEST_MODE") == "true":
+        return {"uid": "test-user"}
+    
+    if credentials is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+        )
+
     try:
         encoded_token = credentials.credentials # <-the token string is in credentials.credentials
         decoded_token = auth.verify_id_token(encoded_token) # verify and decode the JWT token by calling the firebase admin SDK

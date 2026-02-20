@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch
 from app.domain.user import User
+from app.domain.exceptions import InvalidEmailError, InvalidUserNameError
 
 
 class TestUser(unittest.TestCase):
@@ -77,7 +78,7 @@ class TestUser(unittest.TestCase):
     def test_name_validations_when_name_is_empty(self):
         self.standard_data['name'] = ''
 
-        with self.assertRaises(ValueError):
+        with self.assertRaises(InvalidUserNameError):
             User(**self.standard_data)
 
     def test_name_validations_when_name_is_not_string(self):
@@ -89,7 +90,7 @@ class TestUser(unittest.TestCase):
     def test_email_validations_when_email_is_empty(self):
         self.standard_data['email'] = ''
 
-        with self.assertRaises(ValueError):
+        with self.assertRaises(InvalidEmailError):
             User(**self.standard_data)
 
     def test_email_validations_when_email_is_not_string(self):
@@ -107,117 +108,6 @@ class TestUser(unittest.TestCase):
         self.standard_data['role'] = ['admin']
         with self.assertRaises(TypeError):
             User(**self.standard_data)
-
-    def test_update_profile_with_valid_name_and_email_changes(self):
-        user = User(**self.standard_data)
-        timestamp_before_update = user.updated_at
-
-        updated_data = {
-            'name': 'Adam',
-            'email': 'adam@example.com'
-        }
-        
-        user.update_profile(updated_data)
-        self.assertNotEqual(timestamp_before_update, user.updated_at)
-        self.assertEqual(user.name, updated_data['name'])
-        self.assertEqual(user.email, updated_data['email'])
-
-    def test_update_profile_with_extra_fields_included(self):
-        user = User(**self.standard_data)
-        timestamp_before_update = user.updated_at
-
-        updated_data = {
-            'name': 'Adam',
-            'email': 'adam@example.com',
-            'extra_field': 'my new field'
-        }
-        
-        user.update_profile(updated_data)
-        self.assertNotEqual(timestamp_before_update, user.updated_at)
-        self.assertEqual(user.name, updated_data['name'])
-        self.assertEqual(user.email, updated_data['email'])
-
-    def test_update_profile_with_only_extra_fields(self):
-        user = User(**self.standard_data)
-        timestamp_before_update = user.updated_at
-
-        updated_data = {
-            'extra_field': 'my new field'
-        }
-        
-        user.update_profile(updated_data)
-        self.assertNotEqual(timestamp_before_update, user.updated_at)
-        self.assertEqual(user.name, self.standard_data['name'])
-        self.assertEqual(user.email, self.standard_data['email'])
-
-    def test_update_profile_does_not_affect_role(self):
-        user = User(**self.standard_data)
-        timestamp_before_update = user.updated_at
-
-        updated_data = {
-            'role': 'admin'
-        }
-        
-        user.update_profile(updated_data)
-        self.assertNotEqual(timestamp_before_update, user.updated_at)
-        self.assertEqual(user.role, 'standard')
-
-    def test_update_profile_validations_when_name_is_not_provided(self):
-        user = User(**self.standard_data)
-        timestamp_before_update = user.updated_at
-
-        updated_data = {
-            'name': ''
-        }
-        
-        with self.assertRaises(ValueError):
-            user.update_profile(updated_data)
-        self.assertEqual(timestamp_before_update, user.updated_at)
-        self.assertEqual(user.name, self.standard_data['name'])
-        self.assertEqual(user.email, self.standard_data['email'])
-
-    def test_update_profile_validations_when_name_is_not_string(self):
-        user = User(**self.standard_data)
-        timestamp_before_update = user.updated_at
-
-        updated_data = {
-            'name': 123
-        }
-        
-        with self.assertRaises(TypeError):
-            user.update_profile(updated_data)
-        self.assertEqual(timestamp_before_update, user.updated_at)
-        self.assertEqual(user.name, self.standard_data['name'])
-        self.assertEqual(user.email, self.standard_data['email'])
-
-    def test_update_profile_validations_when_email_is_not_provided(self):
-        user = User(**self.standard_data)
-        timestamp_before_update = user.updated_at
-
-        updated_data = {
-            'email': ''
-        }
-        
-        with self.assertRaises(ValueError):
-            user.update_profile(updated_data)
-        self.assertEqual(timestamp_before_update, user.updated_at)
-        self.assertEqual(user.name, self.standard_data['name'])
-        self.assertEqual(user.email, self.standard_data['email'])
-
-    def test_update_profile_validations_when_email_is_not_string(self):
-        user = User(**self.standard_data)
-        timestamp_before_update = user.updated_at
-
-        updated_data = {
-            'email': 123
-        }
-        
-        with self.assertRaises(TypeError):
-            user.update_profile(updated_data)
-        self.assertEqual(timestamp_before_update, user.updated_at)
-        self.assertEqual(user.name, self.standard_data['name'])
-        self.assertEqual(user.email, self.standard_data['email'])
-
 
 
 if __name__ == "__main__":

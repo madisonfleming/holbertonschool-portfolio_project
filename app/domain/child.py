@@ -1,5 +1,9 @@
 from app.domain.base import Base
 from datetime import date
+from app.domain.exceptions import (
+    InvalidChildNameError,
+    InvalidDateOfBirthError
+)
 
 class Child(Base): # gives id, created_at, updated_at
     def __init__(self,
@@ -22,8 +26,10 @@ class Child(Base): # gives id, created_at, updated_at
 
     @name.setter
     def name(self, value: str):
-        if not value or not isinstance(value, str):
-            raise ValueError("Child name must be a non-empty string")
+        if not isinstance(value, str):
+            raise TypeError("Child name must be a string")
+        if not value.strip():
+            raise InvalidChildNameError()
         self._name = value
 
     @property
@@ -34,6 +40,8 @@ class Child(Base): # gives id, created_at, updated_at
     def date_of_birth(self, value):
         if value and not isinstance(value, date):
             raise TypeError("date_of_birth must be a date")
+        if value > date.today(): # guards entry of a future date
+            raise InvalidDateOfBirthError()
         self._date_of_birth = value
     
     @property
