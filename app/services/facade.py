@@ -41,6 +41,11 @@ class MLBFacade:
         self.milestone_completion_repository = milestone_completion_repository
         self.relationship_repository = relationship_repository #----->UPDATE this when join method completed
 
+    def get_user_id(
+            self,
+            firebase_uid,
+            ):
+        self.user_repository.get_by_firebase_uid(firebase_uid)
 
 
     # <--- CHILD --->
