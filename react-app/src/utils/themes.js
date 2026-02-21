@@ -1,6 +1,1 @@
-export const themes = [
-  "Elephant",
-  "Space",
-  "Dinosaurs",
-  "Ocean",
-];
+export const themes = ["Elephant", "Elephant", "Elephant", "Elephant"];

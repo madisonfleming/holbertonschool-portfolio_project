@@ -10,7 +10,6 @@
   right: 10px;
   height: 20px;
   border: 1px grey;
-
 }
 .open-book-img {
   position: absolute;
@@ -19,7 +18,6 @@
   z-index: 1000;
   width: 80px;
   margin-right: 20px;
-
 }
 .reading-text {
   position: absolute;
@@ -31,13 +29,12 @@
   margin-right: 20px;
 }
 
-
 .child-profile-title {
   font-size: 50px;
   font-weight: bold;
   color: #000;
   text-align: center;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 }
 
 /* Dashboard container to put cards inside, align-items to set vertical align and justify-content for horizontal align. */
@@ -90,8 +87,8 @@
   grid-column: 1 / span 2; /*start from line 1 and use two columns so all width*/
   background:
     linear-gradient(rgba(255, 255, 255, 0.1)),
-    url('/public/reading_history.svg') top center/cover no-repeat;
-  height: 1040px;
+    url("/public/reading_history.svg") top center/cover no-repeat;
+  height: 1000px;
   display: flex;
   border-radius: 50px;
   justify-content: flex-start;
@@ -99,13 +96,13 @@
   flex-direction: column; /* 🔥 texto arriba, grid abajo */
 }
 
-.reading-activity-h1{
+.reading-activity-h1 {
   font-size: 50px;
   padding: 70px;
   font-weight: bold;
   color: #000;
   text-align: center;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 }
 .book-scroll-container {
   position: relative;
@@ -115,7 +112,6 @@
   border-radius: 20px;
   display: flex;
   gap: 150px;
-
 }
 
 /* Grid de libros */
@@ -137,8 +133,7 @@
   width: 150px;
   height: 190px;
   object-fit: cover;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .book-item p {
@@ -148,4 +143,21 @@
   color: #333;
 }
 
+/*scroll minimalist*/
+/* Webkit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 6px; /* scroll delgado */
+}
 
+::-webkit-scrollbar-track {
+  background: transparent; /* sin fondo */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15); /* línea suave */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}

@@ -9,11 +9,10 @@
   justify-content: center;
   align-items: center;
   z-index: 999;
-
 }
 .AddReadingSessionCard {
   background: linear-gradient(135deg, #fae5ec 0%, #fce4ec 100%);
-  border-radius: 24px;
+  border-radius: 15px;
   /* Size */
   width: 95%;
   max-width: 900px;
@@ -40,12 +39,12 @@
 .left-section {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 }
 
 /*For the image of the book*/
 .right-section {
-/* changed width to 150px to centre */
+  /* changed width to 150px to centre */
   width: 150px;
   display: flex;
   justify-content: center;
@@ -56,7 +55,6 @@
 .book-preview-img {
   width: 250px;
   height: auto;
-  border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
@@ -71,7 +69,6 @@ fixed calender to the right */
   display: flex;
   gap: 16px;
   margin-bottom: 20px;
-
 }
 
 .btn {
@@ -115,7 +112,6 @@ fixed calender to the right */
   /* Shadow effects */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease;
-
 }
 
 .dropdown-list {
@@ -129,7 +125,7 @@ fixed calender to the right */
 }
 
 .dropdown-item {
-  padding: 10px;
+  padding: 20px;
   cursor: pointer;
 }
 
@@ -145,7 +141,6 @@ fixed calender to the right */
 /*For the child bottoms*/
 .child-buttons {
   display: flex;
-  justify-content: center;
   gap: 10px;
   margin-bottom: 20px;
 }
@@ -153,7 +148,7 @@ fixed calender to the right */
 .child-btn {
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  border: 0.1px solid #ccc;
   background: #fafafa;
   cursor: pointer;
   font-size: 14px;
@@ -165,7 +160,6 @@ fixed calender to the right */
 }
 
 .child-btn.active {
-  background: #42a5f5;
+  background: #8b09ac;
   color: white;
-  border-color: #1e88e5;
 }
