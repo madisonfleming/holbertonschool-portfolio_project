@@ -40,7 +40,7 @@
   font-family: 'Arial', sans-serif;
 }
 
-/* Dashboard container to put cards inside */
+/* Dashboard container to put cards inside, align-items to set vertical align and justify-content for horizontal align. */
 .child-profiles-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -85,16 +85,67 @@
   border-radius: 10px;
 }
 
-.reading-history {
+/*reading history*/
+.reading-activity {
   grid-column: 1 / span 2; /*start from line 1 and use two columns so all width*/
   background:
-    linear-gradient(rgba(68, 66, 66, 0.45)), /* overlay */
-    url('/public/reading_history.svg') center/cover no-repeat;
-  height: 1050px; /* ajusta a tu gusto */
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-
+    linear-gradient(rgba(255, 255, 255, 0.1)),
+    url('/public/reading_history.svg') top center/cover no-repeat;
+  height: 1040px;
   display: flex;
-  justify-content: center;
+  border-radius: 50px;
+  justify-content: flex-start;
   align-items: center;
+  flex-direction: column; /* 🔥 texto arriba, grid abajo */
 }
+
+.reading-activity-h1{
+  font-size: 50px;
+  padding: 70px;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
+.book-scroll-container {
+  position: relative;
+  height: 600px; /* ajustá según tu diseño */
+  overflow-y: auto;
+  padding: 40px;
+  border-radius: 20px;
+  display: flex;
+  gap: 150px;
+
+}
+
+/* Grid de libros */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 230px); /* 4 libros por fila */
+  gap: 30px;
+}
+
+/* Cada libro */
+.book-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.book-item img {
+  width: 150px;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.book-item p {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+

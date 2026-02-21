@@ -1,3 +1,4 @@
+
 /*.open-book-img {
   width: 7%;
   align-items: flex-end;
@@ -12,6 +13,7 @@
   border: 1px grey;
 
 }
+
 .open-book-img {
   position: absolute;
   top: 10px;
@@ -21,6 +23,7 @@
   margin-right: 20px;
 
 }
+
 .reading-text {
   position: absolute;
   top: 90px;
@@ -45,17 +48,17 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   /* left more big más grande */
-  grid-template-rows: 1fr 1fr;
-  /* right divided in two  */
-  gap: 20px;
+  /*grid-template-rows: 1fr 1fr;
+   right divided in two  */
   height: 100vh;
+  gap: 20px;
   /* both columns has the same height */
   padding: 20px;
 }
 
 .children-container {
-  grid-row: 1 / span 2;
-  /* ocupa ambas filas */
+  /*grid-row: 1 / span 2;
+  ocupa ambas filas */
   background: white;
   border-radius: 20px;
   padding: 20px;
@@ -67,8 +70,7 @@
   align-items: center;
 }
 
-.weekly-container,
-.milestones-container {
+.weekly-container {
   background: white;
   border-radius: 20px;
   padding: 20px;
@@ -77,7 +79,23 @@
   justify-content: center;
   /* centra horizontal */
   align-items: center;
+  height: 100%;
+  /* to use all the height available */
+
 }
+
+/*For both milestns and weekly conatiner
+.weekly-container,
+.milestones-container {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  /* centra horizontal
+  align-items: center;
+}*/
 
 /* the content dont stay on the border */
 .children-container::-webkit-scrollbar {
