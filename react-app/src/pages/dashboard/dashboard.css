@@ -9,7 +9,7 @@
   top: 0px;
   right: 10px;
   height: 20px;
-  border: 1px grey;
+  border: 1px solid grey;
 }
 
 .open-book-img {
@@ -43,6 +43,8 @@
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+
   /* left more big más grande */
   /*grid-template-rows: 1fr 1fr;
    right divided in two  */
@@ -50,6 +52,7 @@
   gap: 20px;
   /* both columns has the same height */
   padding: 20px;
+  align-items: stretch;
 }
 
 .children-container {
@@ -66,17 +69,19 @@
   align-items: center;
 }
 
+.children-container,
+.weekly-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .weekly-container {
   background: white;
   border-radius: 20px;
   padding: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  /* centra horizontal */
-  align-items: center;
-  height: 100%;
-  /* to use all the height available */
+  flex: 1;
 }
 
 /* the content dont stay on the border */
