@@ -91,18 +91,19 @@ class MLBFacade:
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         if user is None:
             raise UserNotFoundError()
-        user_id = user.id
+        user_id = user["id"]
 
         # produces list of relationship entries where user_id is parent (or other)
-        relationships = self.relationship_repository.get_children_per_user(user_id)
+        relationships = self.relationship_repository.get_children_per_user(user_id) # NOTE: relationships gets user id + all owned child ids (list of dicts)
         if not relationships:
             return []
         
-         # pull out child IDs from those relationships
-        child_ids = [match.child_id for match in relationships]
+        # pull out child IDs from those relationships
+        # child_ids = [match.child_id for match in relationships] # relationships is list of dicts (not objs) so .child_id doesn't exist yet
+        child_ids = [match["child_id"] for match in relationships] # NOTE: child_ids gets list of child ids
         
         # fetch/retrieve linked children
-        linked_children = self.child_repository.get_by_ids(child_ids)
+        linked_children = self.child_repository.get_by_ids(child_ids) # NOTE: gets list of Child objects
         
         # doesn't throw error if children = 0, should allow empty Dashy
         return [ChildResponse.from_domain(child) for child in linked_children]
