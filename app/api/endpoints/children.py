@@ -23,9 +23,10 @@ def create_child(
 @router.get("/children", response_model=List[ChildResponse], status_code=200) # FastAPI allows the list to be empty if user has no children (checked in FastAPI Swagger UI - 422 not raised, got 200)
 def get_children(
     facade: MLBFacade = Depends(get_facade),
-    decoded_token: dict = Depends(auth_current_user)
+    # decoded_token: dict = Depends(auth_current_user)
     ):
-    firebase_uid = decoded_token['uid']
+    # firebase_uid = decoded_token['uid']
+    firebase_uid = "123"
     return facade.get_children(firebase_uid) #TODO: check method name and params match facade
 
 # Requirement: Retrieve a single child
