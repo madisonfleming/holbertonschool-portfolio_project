@@ -67,3 +67,13 @@ class Child(Base): # gives id, created_at, updated_at
             "avatar_url": self.avatar_url
         })
         return data
+
+# convert data from dict to domain model object. Data required by ChildResponse schema
+def from_dict(data: dict) -> Child:
+    child = Child(
+        name=data["name"],
+        date_of_birth=date.fromisoformat(data["date_of_birth"]),
+        avatar_url=data["avatar_url"],
+        )
+    child.id=data["id"]
+    return child
