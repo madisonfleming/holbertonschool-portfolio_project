@@ -7,7 +7,7 @@ class ReadingSessionRepository(Repository):
     def __init__(self):
         self._storage = {}
 
-    def add(self, session):
+    def save(self, session):
         self._storage[session.id] = session
 
     def get(self, session_id):

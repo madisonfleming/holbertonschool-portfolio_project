@@ -1,7 +1,8 @@
 import unittest
 from unittest.mock import patch
 from app.domain.child import Child
-from datetime import date
+from datetime import date, datetime, timezone
+from app.domain.exceptions import InvalidChildNameError
 
 
 class TestChild(unittest.TestCase):
@@ -15,19 +16,25 @@ class TestChild(unittest.TestCase):
             'avatar_url' : None
             }
 
-    @patch('app.domain.base.uuid.uuid4')
-    def test_create_valid_child(self, mock_uuid):
+    @patch("app.domain.base.uuid.uuid4")
+    @patch("app.domain.base.datetime")
+    def test_create_valid_child(self, mock_timestamp, mock_uuid):
         """
         Happy path: tests the constructor, setters and to_dict method with valid data
         """ 
-        mock_uuid.return_value = '123e4567-e89b-12d3-a456-426614174000'
+        mock_uuid.return_value = "123e4567-e89b-12d3-a456-426614174000"
+        fixed_timestamp = datetime(2026, 2, 21, 23, 59, 56, 518662, tzinfo=timezone.utc)
+
+        mock_timestamp.now.return_value = fixed_timestamp
         child = Child(**self.happy_child)
         expected_data = {
-            'name' : 'Adam',
-            'child_id' : '123e4567-e89b-12d3-a456-426614174000',
-            'date_of_birth' : '2023-12-05',
-            'age' : child.age, # note: valid age is tested separately
-            'avatar_url' : None
+            "created_at": fixed_timestamp.isoformat(),
+            "updated_at": fixed_timestamp.isoformat(),
+            "id" : "123e4567-e89b-12d3-a456-426614174000",
+            "name" : "Adam",
+            "age" : child.age, # note: valid age is tested separately
+            "date_of_birth" : "2023-12-05",
+            "avatar_url" : None
         }
         self.assertDictEqual(child.to_dict(), expected_data) # validate instance becomes dict per to_dict by asserting both dicts are same
 
@@ -37,16 +44,16 @@ class TestChild(unittest.TestCase):
         Negative path: tests the name validation in setter logic (raises ValueError if name is empty)
         """
         mock_uuid.return_value = '123e4567-e89b-12d3-a456-426614174000'
-        with self.assertRaises(ValueError): # error message not included in case of message change
+        with self.assertRaises(InvalidChildNameError): # error message not included in case of message change
             Child(name="", date_of_birth=date(2023, 12, 5))
 
     @patch('app.domain.base.uuid.uuid4')
     def test_name_data_type(self, mock_uuid):
         """
-        Negative path: tests the name validation in setter logic (raises ValueError if name is not string)
+        Negative path: tests the name validation in setter logic (raises TypeError if name is not string)
         """
         mock_uuid.return_value = '123e4567-e89b-12d3-a456-426614174000'
-        with self.assertRaises(ValueError): # error message not included in case of message change
+        with self.assertRaises(TypeError): # error message not included in case of message change
             Child(name=111, date_of_birth=date(2023, 12, 5))
 
     @patch('app.domain.base.uuid.uuid4')
