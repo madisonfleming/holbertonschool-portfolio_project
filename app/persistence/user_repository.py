@@ -58,7 +58,7 @@ class UserRepository(Repository):
         return self._storage.get(obj_id)
     
     def get_by_firebase_uid(self, firebase_uid):
-        return self._storage[firebase_uid]
+        return self._storage.get(firebase_uid)
 
     def get_all(self):
         pass
