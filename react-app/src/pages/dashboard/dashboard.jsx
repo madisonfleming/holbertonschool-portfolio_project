@@ -33,7 +33,7 @@ const Dashboard = () => {
     });
     //geting the decoded token from the backend
     const data = await response.json();
-    console.log("this is data:", data);
+    console.log("this is data from api/protected:", data);
 
     //to fetch the children
     const childrenRes = await fetch("http://127.0.0.1:8000/api/children", {
@@ -48,12 +48,48 @@ const Dashboard = () => {
     const formatted = childrenData.map((child) => ({
       id: child.id,
       name: child.name,
-      date_of_birth: child.date_of_birth,
+      age: child.age,
       avatar: child.avatar_url,
     }));
 
     setChildren(formatted);
   }
+
+  //to create child
+  async function createChild(childData) {
+    if (!currentUser) return;
+
+    const token = await currentUser.getIdToken();
+
+    const response = await fetch("http://127.0.0.1:8000/api/children", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // NECESARIO
+      },
+      body: JSON.stringify(childData),
+    });
+
+    if (!response.ok) {
+      console.error("Error creating child");
+      return;
+    }
+
+    const newChild = await response.json();
+    console.log("Respuesta del backend:", newChild);
+
+    // UPDATE UI INMEDIATLY
+    setChildren((prev) => [
+      ...prev,
+      {
+        id: newChild.id,
+        name: newChild.name,
+        age: newChild.age,
+        avatar: newChild.avatar_url,
+      },
+    ]);
+  }
+
   //to validate the existance of user useEffect detecs the change of currentUser from null to login
   useEffect(() => {
     loadData();
@@ -61,6 +97,19 @@ const Dashboard = () => {
 
   return (
     <div>
+      {/* BOTÓN TEMPORAL PARA PROBAR createChild */}
+      <button
+        onClick={() =>
+          createChild({
+            name: "Billie",
+            date_of_birth: "2020-05-10",
+            avatar_url: "/star.svg",
+          })
+        }
+      >
+        Create Child (test)
+      </button>
+
       <div className="reading-session-container">
         <img
           src={`open-book.png`}

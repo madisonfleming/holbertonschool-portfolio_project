@@ -9,7 +9,7 @@ const ChildList = ({ child_list }) => {
           key={child.id}
           name={child.name}
           avatar={child.avatar}
-          date_of_birth={child.date_of_birth}
+          age={child.age}
         />
       ))}
     </div>
