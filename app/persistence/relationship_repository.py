@@ -28,9 +28,21 @@ relationship1 = {
         # "created_at": "2026-02-18 04:39:42.220228",
         # "updated_at": "2026-02-18 04:39:42.220228"
 }
+# Mary is the primary user for Billy's child profile
+relationship2 = {
+        "id": "c686c824-25e6-4704-87a6-651938429233",
+        "user_id": "a686c824-25e6-4704-87a6-651938429111",
+        "child_id": "e686c824-25e6-4704-87a6-651938429112",
+        "role": "primary",
+        # "invited_by": None,
+        # "invite_status": None,
+        # "created_at": "2026-02-18 04:39:42.220228",
+        # "updated_at": "2026-02-18 04:39:42.220228"
+}
 
 RELATIONSHIPS = {
     relationship1["id"]: relationship1,
+    relationship2["id"]: relationship2,
 }
 # Uncomment to inspect hardcoded data
 # print(RELATIONSHIPS)
@@ -76,6 +88,13 @@ class RelationshipRepository():
     #     # record = self._storage[child_id]
     #     return True
     
+    def get_children_per_user(self, user_id):
+        # returns a filtered list of relationship dicts by user_id
+        result = []
+        for rel in self._storage.values():
+            if rel["user_id"] == user_id:
+                result.append(rel)
+        return result
 
 """
 This section is to test out the relationship repo methods without having to touch the facade
