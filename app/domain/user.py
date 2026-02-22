@@ -65,10 +65,12 @@ class User(Base):
             self._role = role
 
     def to_dict(self):
-        return {
+        data = super().to_dict()
+        data.update({
             "id": self.id,
             "name": self.name,
             "email": self.email,
             "role": self.role,
             "firebase_uid": self.firebase_uid
-        }
+        })
+        return data
