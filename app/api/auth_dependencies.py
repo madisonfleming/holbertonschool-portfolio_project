@@ -3,15 +3,20 @@
 
 from firebase_admin import auth
 from firebase_admin.exceptions import FirebaseError
-from fastapi import Depends, HTTPException, status, APIRouter, Header
+from fastapi import Depends, HTTPException, status, APIRouter
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from app.api.endpoints.auth import get_user_id_from_db
+from app.api.dependencies import MLBFacade, get_facade
+from typing import TypedDict
 import os   # operating system, use for testing mode
 
 security = HTTPBearer(auto_error=False) # extract Authorization header from http request
-router = APIRouter() 
+router = APIRouter()
 
-def authorize_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
+class CurrentUser(TypedDict):
+    firebase_uid: str
+    user_id: str
+
+def authorize_current_user(credentials: HTTPAuthorizationCredentials = Depends(security), facade: MLBFacade = Depends(get_facade)) -> CurrentUser:
     # credentials becomes a fastapi dependency object that stores scheme(Bearer) and credentials(token) at runtime
 
     # Toggles a test user uid to bypass protections while testing
@@ -19,13 +24,13 @@ def authorize_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
     if os.getenv("TEST_MODE") == "true":
         return {"uid": "test-user", "user_id": "uuid1234"}
     
-    if not credentials or credentials.startswith("Bearer "):
+    if not credentials:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Not authenticated",
         )
     
-    id_token = credentials.split("Bearer ")[1]
+    id_token = credentials.credentials
 
     try:
         decoded_token = auth.verify_id_token(id_token)
@@ -40,22 +45,34 @@ def authorize_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
     # check if custom claim already exists
     user_id = decoded_token.get("user_id")
 
+    # if not user_id:
+    #     raise HTTPException(
+    #         status_code=401,
+    #         detail="User claims not synced. Please refresh token."
+    #     )
+
+    # return {
+    #     "uid": decoded_token["uid"],
+    #     "user_id": user_id,
+    # }
+
     if user_id:
         return user_id
     
-    internal_user_id = get_user_id_from_db(firebase_uid)
+    if not user_id:
+        user = facade.get_user_from_firebase_uid(firebase_uid)
+        user_id = user.id
+        facade.sync_user_claim(firebase_uid)
 
-    if not internal_user_id:
+
+    if not user_id:
         raise HTTPException(status_code=403, detail="User not found")
     
-    # set custom claim
-    # Important: client must refresh token after this request - ask FE to implement refresh
-    auth.set_custom_user_claims(
-        firebase_uid,
-        {"user_id": internal_user_id}
-    )
+    return {
+            "uid": decoded_token["uid"],
+            "user_id": user_id,
+        }
 
-    return internal_user_id
 
 #the endpoint to use to fetch in the front end 
 @router.get("/protected")

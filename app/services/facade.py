@@ -9,12 +9,13 @@ from app.persistence.reading_session_repository import ReadingSessionRepository
 from app.persistence.milestone_repository import MilestoneRepository
 from app.persistence.milestone_completion_repository import MilestoneCompletionRepository
 from app.persistence.relationship_repository import RelationshipRepository #----->UPDATE this when join method completed
-
-#from app.api.schemas.users import CreateUser
+from firebase_admin import auth
+from app.api.schemas.users import CreateUser, UserResponse
 from app.api.schemas.children import CreateChild, ChildResponse
 
 from app.domain.exceptions import(
     InvalidChildNameError,
+    InvalidUserNameError,
     UserNotFoundError,
     ChildNotFoundError
 )
@@ -41,11 +42,48 @@ class MLBFacade:
         self.milestone_completion_repository = milestone_completion_repository
         self.relationship_repository = relationship_repository #----->UPDATE this when join method completed
 
-    def get_user_id(
+    # <--- Authorisation --->
+    def get_user_from_firebase_uid(
             self,
-            firebase_uid,
+            firebase_uid: str,
             ):
-        self.user_repository.get_by_firebase_uid(firebase_uid)
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+
+        if user:
+            return user
+    
+    def sync_user_claim(self, firebase_uid):
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+
+        if not user:
+            raise UserNotFoundError()
+        
+        auth.set_custom_user_claims(
+            firebase_uid,
+            {"user_id": user.id}
+        )
+
+        return user
+    
+    # # <--- USER --->
+    # Example of how to set the claim on Firebase token at creation
+    # def create_user(
+    #         self,
+    #         request: CreateUser,
+    #         firebase_uid: str,
+    # ):
+    #     if not request.name.strip():
+    #         raise InvalidUserNameError()
+        
+    #     user = User(
+    #         name=request.name,
+    #         email=request.email,
+    #         role=request.role | "standard",
+    #         firebase_uid=firebase_uid,
+    #     )
+    #     self.user_repository.save(user)
+    #     self.sync_user_claim(firebase_uid)
+
 
 
     # <--- CHILD --->
@@ -55,6 +93,8 @@ class MLBFacade:
         request: CreateChild,
         firebase_uid: str
     ):
+        firebase_uid = "123"
+        
         if not request.name.strip():    # validate request
             raise InvalidChildNameError()
         

@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends
 from app.services.facade import MLBFacade
 from app.api.dependencies import get_facade
-from app.api.auth_dependencies import auth_current_user
+from app.api.auth_dependencies import authorize_current_user
 from app.api.schemas.reading_sessions import CreateReadingSession, ReadingSessionResponse, UpdateReadingSession
 from typing import List
 
-# TODO: if fb uid/user_id not needed to pass to facade - can protect all endpoints at the router level with: router = APIRouter(dependencies=[Depends(auth_current_user)])
+# TODO: if fb uid/user_id not needed to pass to facade - can protect all endpoints at the router level with: router = APIRouter(dependencies=[Depends(authorize_current_user)])
 router = APIRouter() # note: auth applied at individual endpoint level for now. 
 
 # Requirement: Create a Reading Session
@@ -13,7 +13,7 @@ router = APIRouter() # note: auth applied at individual endpoint level for now.
 def create_reading_session(
     reading_session_data: CreateReadingSession,
     facade: MLBFacade = Depends(get_facade),
-    decoded_token: dict = Depends(auth_current_user) # note: this is the firebase uid for now (may change to user_id later via auth_current_user)
+    decoded_token: dict = Depends(authorize_current_user) # note: this is the firebase uid for now (may change to user_id later via authorize_current_user)
     ):
     firebase_uid = decoded_token["uid"]
     return facade.create_reading_session(reading_session_data, firebase_uid) #TODO: check method name and params match facade
@@ -23,7 +23,7 @@ def create_reading_session(
 def get_all_sessions(
     child_id: str,
     facade: MLBFacade = Depends(get_facade),
-    decoded_token: dict = Depends(auth_current_user)
+    decoded_token: dict = Depends(authorize_current_user)
     ):
     firebase_uid = decoded_token["uid"]
     #TODO: facade may not need firebase uid if looking up sessions attached to child via child_id only. Check method name and params match facade
@@ -35,7 +35,7 @@ def update_session(
     session_id: str,
     updated_session_data: UpdateReadingSession,
     facade: MLBFacade = Depends(get_facade),
-    decoded_token: dict = Depends(auth_current_user)
+    decoded_token: dict = Depends(authorize_current_user)
     ):
     firebase_uid = decoded_token["uid"]
     #TODO: facade may not need firebase uid if looking up session via session_id only. Check method name and params match facade
@@ -47,7 +47,7 @@ def update_session(
 def get_last_session(
     child_id: str,
     facade: MLBFacade = Depends(get_facade),
-    decoded_token: dict = Depends(auth_current_user)
+    decoded_token: dict = Depends(authorize_current_user)
     ):
     firebase_uid = decoded_token["uid"]
     #TODO: facade may not need firebase uid/may change to user_id. Check method name and params match facade
