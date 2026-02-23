@@ -119,14 +119,15 @@ class MLBFacade:
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         if user is None:
             raise UserNotFoundError()
-        user_id = user.id
+        user_id = user["id"]
 
 
         # produces list of relationship entries where user_id is parent (or other)
-        relationships = self.relationship_repository.get_children_per_user(user_id)
-
+        relationships = self.relationship_repository.get_children_per_user(user_id) # NOTE: relationships gets user id + all owned child ids (list of dicts)
+        
         # verify child_id has relationship with user_id
-        matched_child_ids = {match.child_id for match in relationships}
+        # matched_child_ids = {match.child_id for match in relationships}
+        matched_child_ids = {match["child_id"] for match in relationships} # NOTE: matched_child_ids gets a set of child_ids
         if child_id not in matched_child_ids:
             raise RelationshipNotFoundError()
 
