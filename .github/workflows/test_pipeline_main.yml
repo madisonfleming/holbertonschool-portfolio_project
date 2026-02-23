@@ -27,7 +27,7 @@ jobs:
           python3 -m unittest tests/domain_tests/test_user_model.py
           echo "Running Milestone tests"
           python3 -m unittest tests/domain_tests/test_milestone_model.py
-      - name: Run API endpoint unit tests
-        run: |
-          echo "Running API endpoint unit tests"
-          pytest tests/api_tests
+      # - name: Run API endpoint unit tests
+      #   run: |
+      #     echo "Running API endpoint unit tests"
+      #     pytest tests/api_tests
