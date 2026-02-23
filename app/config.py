@@ -22,7 +22,7 @@ class DevelopmentConfig(BaseConfig):
 class ProductionConfig(BaseConfig):
     DEBUG: bool = False
 
-class TestingConfig(BaseConfig):
+class UnitTestingConfig(BaseConfig):
     DEBUG: bool = True
     # DATABASE = 'sqlite:///:memory:'
     # SECRET_KEY: str = "test-secret-key"
@@ -34,6 +34,6 @@ def get_settings_class():
         return ProductionConfig
     
     if env == "testing":
-        return TestingConfig
+        return UnitTestingConfig
     
     return DevelopmentConfig

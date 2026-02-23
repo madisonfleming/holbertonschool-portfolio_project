@@ -20,6 +20,7 @@ firebase_admin.initialize_app(cred)
 def create_app(settings=None) -> FastAPI:
     if settings is None:
         settings = get_settings_class()()
+        
     app = FastAPI(
         title=settings.APP_NAME,
         debug=settings.DEBUG,
