@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.3.2",
     "bootstrap": "^5.3.8",
+    "file-saver": "^2.0.5",
     "firebase": "^12.9.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.10",
