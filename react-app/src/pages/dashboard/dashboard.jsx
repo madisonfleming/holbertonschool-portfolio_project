@@ -25,8 +25,11 @@ const Dashboard = () => {
   async function loadData() {
     if (!currentUser) return;
 
-    const token = await currentUser.getIdToken();
+    const token = await currentUser.getIdToken(true);
     console.log("Token:", token);
+    const tokenAfterRefresh = await currentUser.getIdTokenResult()
+    //print claims
+    console.log("After Refresh:", tokenAfterRefresh.claims)
     //need to do fetch to an endpoint that use that function
     const response = await fetch("http://127.0.0.1:8000/api/protected", {
       //firebase do the login -> generate the JWT
