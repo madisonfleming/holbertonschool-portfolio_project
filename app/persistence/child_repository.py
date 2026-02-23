@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from app.persistence.repository import Repository
+from app.domain.child import Child
 
 """ 
 Set up hardcoded Child data for us to use
@@ -56,7 +57,8 @@ class ChildRepository(Repository):
         self._storage[child.id] = child.to_dict()
 
     def get(self, child_id):
-        return self._storage.get(child_id)
+        data = self._storage.get(child_id)
+        return Child.from_dict(data)
 
     def get_all(self):
         # Not needed on child_repository
@@ -72,6 +74,15 @@ class ChildRepository(Repository):
     def delete(self, id):
         pass
 
+    def get_by_ids(self, child_ids):
+        # child_ids: a list of child ids
+        # returns: a list of child objects
+        result = []
+        for child_id in child_ids:
+            child = self.get(child_id)
+            if child:
+                result.append(child)
+        return result
 
 """
 This section is to test out the repo methods without having to touch the facade

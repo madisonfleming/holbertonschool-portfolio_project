@@ -38,10 +38,22 @@ user3 = {
     "firebase_uid": "789",
     }
 
+# For Testing: This user has a legit firebase uid
+user4 = {
+    "created_at": "2026-02-18 04:39:42.220228",
+    "updated_at": "2026-02-18 04:39:42.220228",
+    "id": "d686c824-25e6-4704-87a6-651938429111",
+    "name": "John",
+    "email": "john_doe@example.com",
+    "role": "standard",
+    "firebase_uid": "7UKtP5I8lBbDoO8wVv6WB8Ge03Q2",
+    }
+
 USERS = {
     user1["firebase_uid"]: user1,
     user2["firebase_uid"]: user2,
     user3["firebase_uid"]: user3,
+    user4["firebase_uid"]: user4,
 }
 
 # Uncomment to inspect the User data
@@ -58,7 +70,7 @@ class UserRepository(Repository):
         return self._storage.get(obj_id)
     
     def get_by_firebase_uid(self, firebase_uid):
-        return self._storage[firebase_uid]
+        return self._storage.get(firebase_uid)
 
     def get_all(self):
         pass

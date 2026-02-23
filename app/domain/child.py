@@ -67,3 +67,14 @@ class Child(Base): # gives id, created_at, updated_at
             "avatar_url": self.avatar_url
         })
         return data
+
+    # converts hardcoded data from dict to domain model object
+    @classmethod
+    def from_dict(cls, data: dict) -> "Child":
+        child = cls(
+            name=data["name"],
+            date_of_birth=date.fromisoformat(data["date_of_birth"]),
+            avatar_url=data["avatar_url"],
+            )
+        child.id=data["id"]
+        return child
