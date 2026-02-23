@@ -1,0 +1,13 @@
+.export-btn {
+  border: none;
+  background-color: white;
+  border-radius: 25px;
+  padding: 20px;
+  margin-left: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  flex: 1;
+  text-align: center;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}

@@ -1,18 +1,18 @@
 .select-container {
     padding: 30px;
-    margin: 20px;
-    width: 500px;
+    width: 200px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     background: white;
-    border-radius: 20px;
-    align-self: flex-start;
-    margin-left: 10px;
+    border-radius: 25px;
+    position: absolute;
+    top: 65px;
+    left: 20px;
+
 }
 
 .dropdown-header {
     cursor: pointer;
-
-    font-size: 25px;
+    font-size: 50px;
     font-weight: bold;
     padding: 10px;
 }
@@ -20,12 +20,18 @@
 .dropdown-item {
     cursor: pointer;
     margin-top: 10px;
-    font-size: 25px;
+    font-size: 15px;
+    font-weight: bold;
+}
+.dropdown-list {
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 20px;
     font-weight: bold;
 }
 
 .arrow {
-    margin-left: 20px;
+    margin-left: 25px;
 }
 
 
