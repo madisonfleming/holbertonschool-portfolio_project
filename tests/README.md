@@ -9,10 +9,16 @@ You are in the Testing Guide ---------------------------- 🗺️ `/tests/README
 
 # Testing Guide
 
-Our backend unit and API tests are written with Python's `unittest` framework. Tests are grouped by the app module they exercise.
+Our backend domain model tests are grouped by the app module they exercise.
+
+Domain model tests are written with Python's `unittest` framework. 
 
 > ℹ️ `unittest` is native to Python - no need to install it.
 
+API tests are written with `pytest`.
+
+> pip install -U pytest
+> pytest tests/api_tests/test_child_api.py
 
 ## Table of Contents
 
