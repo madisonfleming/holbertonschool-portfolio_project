@@ -62,7 +62,8 @@ def authorize_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
     if not user_id:
         user = facade.get_user_from_firebase_uid(firebase_uid)
         user_id = user.id
-        facade.sync_user_claim(firebase_uid)
+        # Not a great place to call sync_user_claim from, but possibly necessary until we've got a create_user method, unless we want to call an auth endpoint
+        facade.sync_user_claim(firebase_uid)  
 
 
     if not user_id:
