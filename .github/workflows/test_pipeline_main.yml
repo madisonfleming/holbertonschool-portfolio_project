@@ -21,6 +21,13 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: Run domain tests
         run: |
-          ls ${{ github.workspace }}
-          python3 -m unittest discover -v
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          echo "Running Child tests"
+          python3 -m unittest tests/domain_tests/test_child_model.py
+          echo "Running User tests"
+          python3 -m unittest tests/domain_tests/test_user_model.py
+          echo "Running Milestone tests"
+          python3 -m unittest tests/domain_tests/test_milestone_model.py
+      # - name: Run API endpoint unit tests
+      #   run: |
+      #     echo "Running API endpoint unit tests"
+      #     pytest tests/api_tests
