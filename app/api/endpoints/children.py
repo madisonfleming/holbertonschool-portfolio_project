@@ -9,24 +9,22 @@ from typing import List
 router = APIRouter() # auth applied at individual endpoint level. 
 
 # Requirement: Create Child
-@router.post("/children", response_model=ChildResponse, status_code=201) # errors to be handled in new error handlling logic
+@router.post("/children", response_model=ChildResponse, status_code=201)
 def create_child(
     child_data: CreateChild,
     facade: MLBFacade = Depends(get_facade),
-    # decoded_token: dict = Depends(auth_current_user) #TODO: Reinstate auth dependency
+    decoded_token: dict = Depends(auth_current_user)
     ):
-    # firebase_uid = decoded_token['uid']
-    firebase_uid = "123"
+    firebase_uid = decoded_token['uid']
     return facade.create_child(child_data, firebase_uid)
 
 # Requirement: Retrieve all children
-@router.get("/children", response_model=List[ChildResponse], status_code=200) # FastAPI allows the list to be empty if user has no children (checked in FastAPI Swagger UI - 422 not raised, got 200)
+@router.get("/children", response_model=List[ChildResponse], status_code=200)
 def get_children(
     facade: MLBFacade = Depends(get_facade),
-    # decoded_token: dict = Depends(auth_current_user) #TODO: Reinstate auth dependency
+    decoded_token: dict = Depends(auth_current_user)
     ):
-    # firebase_uid = decoded_token['uid']
-    firebase_uid = "123"
+    firebase_uid = decoded_token['uid']
     return facade.get_children(firebase_uid)
 
 # Requirement: Retrieve a single child
@@ -34,11 +32,10 @@ def get_children(
 def get_child(
     child_id: str,
     facade: MLBFacade = Depends(get_facade),
-    # decoded_token: dict = Depends(auth_current_user) #TODO: Reinstate auth dependency
+    decoded_token: dict = Depends(auth_current_user)
     ):
-    # firebase_uid = decoded_token['uid']
-    firebase_uid = "123"
-    return facade.get_child(child_id, firebase_uid) #TODO: check method name and params match facade
+    firebase_uid = decoded_token['uid']
+    return facade.get_child(child_id, firebase_uid)
 
 # Requirement: Update a child
 @router.put("/children/{child_id}", response_model=ChildResponse, status_code=200)

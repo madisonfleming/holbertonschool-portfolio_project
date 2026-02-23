@@ -11,7 +11,7 @@ from app.persistence.milestone_completion_repository import MilestoneCompletionR
 from app.persistence.relationship_repository import RelationshipRepository #----->UPDATE this when join method completed
 
 #from app.api.schemas.users import CreateUser
-from app.api.schemas.children import CreateChild, ChildResponse
+from app.api.schemas.children import CreateChild, ChildResponse, UpdateChild
 
 from app.domain.exceptions import(
     InvalidChildNameError,
@@ -67,7 +67,6 @@ class MLBFacade:
         # self.child_repository.update_avatar(child.id, placeholder)
 
         
-        # ----->TO DO: get_by_firebase_uid to user_repository
         # access user's ID via firebase ID
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         if user is None:
@@ -88,7 +87,6 @@ class MLBFacade:
 
     def get_children(self, firebase_uid: str):
         
-        # ----->TO DO: get_by_firebase_uid to user_repository
         # access user's ID via firebase ID
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         if user is None:
@@ -138,43 +136,43 @@ class MLBFacade:
 
         return ChildResponse.from_domain(child)
 
-    # def update_child(self,
-    #     child_id: str,
-    #     request: UpdateChild,
-    #     firebase_uid: str
-    # ):
+    def update_child(self,
+        child_id: str,
+        request: UpdateChild,
+        firebase_uid: str
+    ):
         
-    #     # ----->TO DO: get_by_firebase_uid to user_repository
-    #     # access user's ID via firebase ID
-    #     user = self.user_repository.get_by_firebase_uid(firebase_uid)
-    #     if user is None:
-    #         raise UserNotFoundError()
-    #     user_id = user.id
+        # access user's ID via firebase ID
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        if user is None:
+            raise UserNotFoundError()
+        user_id = user["id"]
 
-    #     # produces list of relationship entries where user_id is parent (or other)
-    #     relationships = self.relationship_repository.get_children_for_user(user_id)
+        # produces list of relationship entries where user_id is parent (or other)
+        relationships = self.relationship_repository.get_children_per_user(user_id) # NOTE: relationships gets user id + all owned child ids (list of dicts)
 
-    #     # verify child_id has relationship with user_id
-    #     matched_child_ids = {match.child_id for match in relationships}
-    #     if child_id not in matched_child_ids:
-    #         raise RelationshipNotFoundError()
+        # verify child_id has relationship with user_id
+        # matched_child_ids = {match.child_id for match in relationships}
+        matched_child_ids = {match["child_id"] for match in relationships} # NOTE: matched_child_ids gets a set of child_ids
+        if child_id not in matched_child_ids:
+            raise RelationshipNotFoundError()
 
-    #     # fetch child data or error if N/A
-    #     child = self.child_repository.get(child_id)
-    #     if child is None:
-    #         raise ChildNotFoundError()
+        # fetch child data or error if N/A
+        child = self.child_repository.get(child_id)
+        if child is None:
+            raise ChildNotFoundError()
 
-    #     # apply updates with the fields provided by client
-    #     if request.name is not None:
-    #         child.name = request.name
+        # apply updates with the fields provided by client
+        if request.name is not None:
+            child.name = request.name
 
-    #     if request.date_of_birth is not None:
-    #         child.date_of_birth = request.date_of_birth
+        if request.date_of_birth is not None:
+            child.date_of_birth = request.date_of_birth
 
-    #     if request.avatar_url is not None:
-    #         child.avatar_url = request.avatar_url
+        if request.avatar_url is not None:
+            child.avatar_url = request.avatar_url
 
-    #     # save updated child domain model to db
-    #     self.child_repository.save(child)
+        # save updated child domain model to db
+        self.child_repository.save(child)
 
-    #     return ChildResponse.from_domain(child)
+        return ChildResponse.from_domain(child)

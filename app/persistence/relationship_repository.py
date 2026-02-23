@@ -40,9 +40,22 @@ relationship2 = {
         # "updated_at": "2026-02-18 04:39:42.220228"
 }
 
+# For Testing: this relationship has a user (John Doe) with a legit firebase uid. Child is Tom.
+relationship3 = {
+        "id": "c686c824-25e6-4704-87a6-651938429234",
+        "user_id": "d686c824-25e6-4704-87a6-651938429111",
+        "child_id": "e686c824-25e6-4704-87a6-651938429113",
+        "role": "primary",
+        # "invited_by": None,
+        # "invite_status": None,
+        # "created_at": "2026-02-18 04:39:42.220228",
+        # "updated_at": "2026-02-18 04:39:42.220228"
+}
+
 RELATIONSHIPS = {
     relationship1["id"]: relationship1,
     relationship2["id"]: relationship2,
+    relationship3["id"]: relationship3,
 }
 # Uncomment to inspect hardcoded data
 # print(RELATIONSHIPS)
