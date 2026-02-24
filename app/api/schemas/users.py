@@ -1,5 +1,10 @@
 from pydantic import BaseModel, EmailStr
 
+class RegisterUser(BaseModel):
+    firebase_uid: str
+    name: str
+    email: EmailStr
+
 
 class CreateUser(BaseModel):
     name: str

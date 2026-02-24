@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from app.api.schemas.users import CreateUser, UserResponse
+from app.api.schemas.users import CreateUser, UserResponse, RegisterUser
 from app.services.facade import MLBFacade
 from app.api.dependencies import get_facade
 from app.api.auth_dependencies import auth_current_user
@@ -12,9 +12,16 @@ def get_users():
     # Sanity check that the GET endpoint works
     return {'Hello users!'}
 
+#Andrea's update this in order to the FE to use the endpoint and register the user 
 @router.post("/users", response_model=UserResponse) #<- note: not protected as used for testing purposes
-def create_user(req: CreateUser, facade: MLBFacade = Depends(get_facade)):
-    return facade.create_user(req)
+def create_user(req: RegisterUser, facade: MLBFacade = Depends(get_facade)):
+    user = facade.create_user_if_not_exist(
+        firebase_uid=req.firebase_uid,
+        name=req.name,
+        email=req.email
+    )
+    return user
+
     # return UserResponse(id=user.id, name=user.name, email=user.email, role=user.role)
 
 # @router.get("/users/{user_id}/dashboard", response_model=DashboardResponse)

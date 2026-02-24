@@ -22,6 +22,11 @@ from app.services.exceptions import(
     RelationshipNotFoundError
 )
 
+#In order to create USERto dd the claim
+from firebase_admin import auth
+
+
+
 
 
 class MLBFacade:
@@ -42,13 +47,36 @@ class MLBFacade:
         self.relationship_repository = relationship_repository #----->UPDATE this when join method completed
 
 
+    # TO CREATE A USER IN THE BACKEND ADDING THE CLAIM 
+    def create_user_if_not_exist(self, firebase_uid, name, email):
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        if user:
+            return user
+
+        internal_user_id = str(uuid4())
+        new_user = {
+            "id": internal_user_id,
+            "firebase_uid": firebase_uid,
+            "name": name,
+            "email": email,
+            "role": "standard"
+
+        }
+        self.user_repository.save(new_user)
+
+
+        # CUSTOM CLAIM
+        auth.set_custom_user_claims(firebase_uid, {"user_id": internal_user_id})
+
+        return new_user
+
 
     # <--- CHILD --->
     
     def create_child(
         self,
         request: CreateChild,
-        firebase_uid: str
+        user_id: str
     ):
         if not request.name.strip():    # validate request
             raise InvalidChildNameError()
@@ -69,8 +97,9 @@ class MLBFacade:
         
         # ----->TO DO: get_by_firebase_uid to user_repository
         # access user's ID via firebase ID
-        user = self.user_repository.get_by_firebase_uid(firebase_uid)
-        user_id = user["id"]
+        #user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        #user_id = user["id"]
+
 
         # example creation of relationship join
         # ----->assumes existence of relationship_repo w/ add_member method
@@ -91,7 +120,7 @@ class MLBFacade:
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         if user is None:
             raise UserNotFoundError()
-        user_id = user.id
+        user_id = user["id"]
 
         # produces list of relationship entries where user_id is parent (or other)
         relationships = self.relationship_repository.get_children_per_user(user_id)
@@ -116,7 +145,7 @@ class MLBFacade:
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         if user is None:
             raise UserNotFoundError()
-        user_id = user.id
+        user_id = user["id"]
 
 
         # produces list of relationship entries where user_id is parent (or other)

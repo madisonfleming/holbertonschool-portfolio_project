@@ -36,7 +36,14 @@ def auth_current_user(credentials: HTTPAuthorizationCredentials = Depends(securi
 #the endpoint to use to fetch in the front end 
 @router.get("/protected")
 def protected_route(user_data: dict = Depends(auth_current_user)):
-    print("User data from endpoint", user_data)
-    return {
-        "message": "Valid Token"
-    }
+    #Here code of before with UID
+    #print("User data from endpoint", user_data)
+    #return {
+     #   "message": "Valid Token"
+    #}
+
+    #In here the new code where we use the custom claim
+    print("User data:", user_data)
+    #In here we dont use UID
+    user_id = user_data["user_id"]
+    return {"message": "Valid Token", "user_id": user_id}

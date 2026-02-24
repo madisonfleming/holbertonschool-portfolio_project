@@ -15,9 +15,9 @@ def create_child(
     facade: MLBFacade = Depends(get_facade),
     decoded_token: dict = Depends(auth_current_user)
     ):
-    firebase_uid = decoded_token['uid']
+    user_id = decoded_token['uid']
     #firebase_uid = "123"
-    return facade.create_child(child_data, firebase_uid) #TODO: check method name and params match facade
+    return facade.create_child(child_data, user_id) #TODO: check method name and params match facade
 
 # Requirement: Retrieve all children
 @router.get("/children", response_model=List[ChildResponse], status_code=200) # FastAPI allows the list to be empty if user has no children (checked in FastAPI Swagger UI - 422 not raised, got 200)
@@ -25,8 +25,8 @@ def get_children(
     facade: MLBFacade = Depends(get_facade),
     decoded_token: dict = Depends(auth_current_user)
     ):
-    firebase_uid = decoded_token['uid']
-    return facade.get_children(firebase_uid) #TODO: check method name and params match facade
+    user_id = decoded_token['uid']
+    return facade.get_children(user_id) #TODO: check method name and params match facade
 
 # Requirement: Retrieve a single child
 @router.get("/children/{child_id}", response_model=ChildResponse, status_code=200)
@@ -35,8 +35,8 @@ def get_child(
     facade: MLBFacade = Depends(get_facade),
     decoded_token: dict = Depends(auth_current_user)
     ):
-    firebase_uid = decoded_token['uid']
-    return facade.get_child(child_id, firebase_uid) #TODO: check method name and params match facade
+    user_id = decoded_token['uid']
+    return facade.get_child(child_id, user_id) #TODO: check method name and params match facade
 
 # Requirement: Update a child
 @router.put("/children/{child_id}", response_model=ChildResponse, status_code=200)
@@ -46,5 +46,5 @@ def update_child(
     facade: MLBFacade = Depends(get_facade),
     decoded_token: dict = Depends(auth_current_user)
     ):
-    firebase_uid = decoded_token['uid']
-    return facade.update_child(child_id, updated_child_data, firebase_uid) #TODO: check method name and params match facade
+    user_id = decoded_token['uid']
+    return facade.update_child(child_id, updated_child_data, user_id) #TODO: check method name and params match facade
