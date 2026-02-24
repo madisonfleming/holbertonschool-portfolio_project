@@ -9,9 +9,8 @@ const ChildList = ({ child_list }) => {
         <ChildCard
           key={child.id}
           name={child.name}
-          age={child.age}
           avatar={child.avatar}
-          lastReadBook={child.lastReadBook}
+          age={child.age}
         />
       ))}
     </div>
