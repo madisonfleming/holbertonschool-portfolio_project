@@ -63,7 +63,16 @@ class FakeFacade:
         if firebase_uid == "777":
             raise RelationshipNotFoundError() # this should catch before ChildNotFoundError() in real facade
 
-
+    def update_child(self, child_id, child_data, firebase_uid):
+        if firebase_uid == "123" and child_id == "test-child-id-2":
+            return {
+                "id": "test-child-id-2",
+                "name": "Suzanne",
+                "age": 2,
+                "avatar_url": "alien_avatar.com", 
+            }
+        if firebase_uid == "777":
+            raise RelationshipNotFoundError()
 
 # app without auth dependency override (used only for 401 user unauthorised tests)
 app_no_auth = create_app(UnitTestingConfig())
@@ -194,7 +203,7 @@ def test_get_child():
 
 # Negative Path: test 404 relationship between user and child id not found (user 777)
 def test_get_child_without_relo():
-    response = temp_client.get("/children/test-child-id-66")
+    response = temp_client.get("/children/test-child-id-2")
     assert response.status_code == 404
     assert response.json()["status"] == 404
     assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
@@ -209,3 +218,48 @@ def test_get_child_as_unauthorised_user():
     assert response.json()["message"] == "Not authenticated"
 
 # <--- UPDATE CHILD TESTS --->
+# Happy Path: test 200 success update all fields of a child (user 123)
+def test_update_child():
+    payload = {
+    "name": "Suzanne",
+    "date_of_birth": "2023-02-24",
+    "avatar_url": "alien_avatar.com"
+    }
+    response = client_auth.put("/children/test-child-id-2", json=payload)
+    assert response.status_code == 200
+    assert response.json()["id"] == "test-child-id-2"
+    assert response.json()["name"] == "Suzanne"
+    assert response.json()["age"] == 2
+    assert response.json()["avatar_url"] == "alien_avatar.com"
+
+# Negative Path: test 404 relationship between user and child id not found (user 777)
+def test_update_child_without_relo():
+    payload = {
+    "name": "Suzanne",
+    "date_of_birth": "2023-02-24",
+    "avatar_url": "alien_avatar.com"
+    }
+    response = temp_client.put("/children/test-child-id-2", json=payload)
+    assert response.status_code == 404
+    assert response.json()["status"] == 404
+    assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
+    assert response.json()["message"] == "Relationship not found"
+
+# Negative Path: test 400 (invalid DOB format) raises custom RequestValidationError (user 123)
+def test_update_child_with_invalid_dob():
+    payload = {
+        "date_of_birth": "26-02-2025"
+    }
+    response = client_auth.put("/children/test-child-id-2", json=payload)
+    assert response.status_code == 400
+    assert response.json()["error"] == "VALIDATION_ERROR"
+    assert "('body', 'date_of_birth')" in response.json()["message"]
+    assert response.json()["status"] == 400
+
+# Negative Path: test 401 unauthorised user
+def test_update_child_as_unauthorised_user():
+    response = client_no_auth.put("/children/test-child-id-2")
+    assert response.status_code == 401
+    assert response.json()["status"] == 401
+    assert response.json()["error"] == "Not authenticated"
+    assert response.json()["message"] == "Not authenticated"
