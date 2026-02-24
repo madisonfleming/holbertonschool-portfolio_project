@@ -18,6 +18,7 @@ from app.factory import create_app
 from app.config import UnitTestingConfig
 from app.api.dependencies import get_facade
 from app.api.auth_dependencies import auth_current_user
+from app.services.exceptions import RelationshipNotFoundError
 
 class FakeFacade:
     """ 
@@ -37,19 +38,30 @@ class FakeFacade:
         if firebase_uid == "123":
             return [
                 {
-                    "id": "e686c824-25e6-4704-87a6-651938429111",
+                    "id": "test-child-id-2",
                     "name": "Susie",
                     "age": 2,
                     "avatar_url": None,
                 },
                 {
-                    "id": "e686c824-25e6-4704-87a6-651938429112",
+                    "id": "test-child-id-3",
                     "name": "Billy",
                     "age": 1,
                     "avatar_url": None,
                 }]
         if firebase_uid == "777":
             return []
+
+    def get_child(self, child_id, firebase_uid):
+        if firebase_uid == "123" and child_id == "test-child-id-2":
+            return {
+                "id": "test-child-id-2",
+                "name": "Susie",
+                "age": 2,
+                "avatar_url": None,
+                }
+        if firebase_uid == "777":
+            raise RelationshipNotFoundError() # this should catch before ChildNotFoundError() in real facade
 
 
 
@@ -139,7 +151,7 @@ def test_create_child_as_unauthorised_user():
     assert response.json()["message"] == "Not authenticated"
     
 # <--- GET CHILDREN TESTS --->
-# Happy Path: test 200 success with data returned
+# Happy Path: test 200 success with data returned (user 123)
 def test_get_children_with_data():
     response = client_auth.get("/children")
     assert response.status_code == 200
@@ -147,7 +159,7 @@ def test_get_children_with_data():
     assert response.json()[0]["name"] == "Susie"
     assert response.json()[1]["name"] == "Billy"
 
-# Happy Path: test 200 success without data returned
+# Happy Path: test 200 success without data returned (user 777)
 def test_get_children_without_data():
     response = temp_client.get("/children")
     assert response.status_code == 200
@@ -157,6 +169,32 @@ def test_get_children_without_data():
 # Negative Path: test 401 unauthorised user
 def test_get_children_as_unauthorised_user():
     response = client_no_auth.get("/children")
+    assert response.status_code == 401
+    assert response.json()["status"] == 401
+    assert response.json()["error"] == "Not authenticated"
+    assert response.json()["message"] == "Not authenticated"
+
+# <--- GET CHILD TESTS --->
+# Happy Path: test 200 success with child returned (user 123)
+def test_get_child():
+    response = client_auth.get("/children/test-child-id-2")
+    assert response.status_code == 200
+    assert response.json()["id"] == "test-child-id-2"
+    assert response.json()["name"] == "Susie"
+    assert response.json()["age"] == 2
+    assert response.json()["avatar_url"] == None
+
+# Negative Path: test 404 relationship between user and child id not found (user 777)
+def test_get_child_without_relo():
+    response = temp_client.get("/children/test-child-id-66")
+    assert response.status_code == 404
+    assert response.json()["status"] == 404
+    assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
+    assert response.json()["message"] == "Relationship not found"
+
+# Negative Path: test 401 unauthorised user
+def test_get_child_as_unauthorised_user():
+    response = client_no_auth.get("/children/test-child-id-2")
     assert response.status_code == 401
     assert response.json()["status"] == 401
     assert response.json()["error"] == "Not authenticated"
