@@ -9,17 +9,15 @@
   justify-content: center;
   align-items: center;
   z-index: 999;
-
 }
-
 .AddReadingSessionCard {
-  background: linear-gradient(135deg, #a8e6cf 0%, #88d4ab 100%);
-  border-radius: 24px;
+  background: linear-gradient(135deg, #fae5ec 0%, #fce4ec 100%);
+  border-radius: 15px;
   /* Size */
   width: 95%;
   max-width: 900px;
   /* Height */
-  min-height: 70vh;
+  height: auto;
   padding: 40px 40px 30px 40px;
   /* menos padding abajo */
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
@@ -30,11 +28,46 @@
   gap: 20px;
 }
 
+/*Layout for the card to put the img on the right*/
+.reading-session-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  /* izquierda grande, derecha pequeÃ±a */
+  align-items: stretch;
+}
+
+.left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/*For the image of the book*/
+.right-section {
+  /* changed width to 150px to centre */
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.book-preview-img {
+  width: 250px;
+  height: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+h1 {
+  text-align: center;
+}
+
 /* Bottom Buttons Section */
+/*.select-field,*/ /* mads commented out this line as select-field is the date input
+fixed calender to the right */
 .button-section {
   display: flex;
   gap: 16px;
-  margin-top: auto;
   margin-bottom: 20px;
 }
 
@@ -48,7 +81,6 @@
   flex: 1;
   text-align: center;
 }
-
 
 .btn-s {
   background-color: rgba(255, 255, 255, 0.8) !important;
@@ -75,26 +107,48 @@
   font-size: 15px;
   color: #333;
   outline: none;
-  width: 50%;
+  width: 73%;
 
   /* Shadow effects */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease;
+}
 
+.dropdown-list {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-height: 150px;
+  overflow-y: auto;
+  margin-top: 5px;
+  width: 73%;
+}
+
+.dropdown-item {
+  padding: 20px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f2f2f2;
+}
+
+.no-results {
+  color: #888;
+  font-style: italic;
 }
 
 /*For the child bottoms*/
 .child-buttons {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .child-btn {
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  border: 0.1px solid #ccc;
   background: #fafafa;
   cursor: pointer;
   font-size: 14px;
@@ -106,7 +160,6 @@
 }
 
 .child-btn.active {
-  background: #42a5f5;
+  background: #8b09ac;
   color: white;
-  border-color: #1e88e5;
 }
