@@ -10,7 +10,6 @@
   right: 10px;
   height: 20px;
   border: 1px grey;
-
 }
 .open-book-img {
   position: absolute;
@@ -19,7 +18,6 @@
   z-index: 1000;
   width: 80px;
   margin-right: 20px;
-
 }
 .reading-text {
   position: absolute;
@@ -31,21 +29,20 @@
   margin-right: 20px;
 }
 
-
 .child-profile-title {
   font-size: 50px;
   font-weight: bold;
   color: #000;
   text-align: center;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 }
 
-/* Dashboard container to put cards inside */
+/* Dashboard container to put cards inside, align-items to set vertical align and justify-content for horizontal align. */
 .child-profiles-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   /* left more big más grande */
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: auto auto auto; /*to get another row for reading history*/
   /* right divided in two  */
   gap: 20px;
   height: 100vh;
@@ -81,6 +78,83 @@
 }
 
 .children-container::-webkit-scrollbar-thumb {
+  background: #ff9fc4;
+  border-radius: 10px;
+}
+
+/*reading history*/
+.reading-activity {
+  grid-column: 1 / span 2; /*start from line 1 and use two columns so all width*/
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.1)),
+    url("/public/reading_history.svg") top center/cover no-repeat;
+  height: 1000px;
+  display: flex;
+  border-radius: 50px;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column; /* 🔥 texto arriba, grid abajo */
+}
+
+.reading-activity-h1 {
+  font-size: 50px;
+  padding: 70px;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  font-family: "Arial", sans-serif;
+}
+.book-scroll-container {
+  position: relative;
+  height: 600px; /* ajustá según tu diseño */
+  overflow-y: auto;
+  padding: 40px;
+  border-radius: 20px;
+  display: flex;
+  gap: 150px;
+}
+
+/* Grid de libros */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 230px); /* 4 libros por fila */
+  gap: 30px;
+  overflow-x: hidden;
+}
+
+/* Cada libro */
+.book-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.book-item img {
+  width: 150px;
+  height: 190px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.book-item p {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+/*scroll minimalist*/
+/* Webkit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 8px; /* scroll delgado */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* sin fondo */
+}
+
+::-webkit-scrollbar-thumb {
   background: #ff9fc4;
   border-radius: 10px;
 }

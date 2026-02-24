@@ -1,27 +1,40 @@
-.child-card {
-  width: 50rem;
-  height: 250px;
+.card-card {
+
   background: white;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+
+  width: 440px;
   border-radius: 24px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: 1px solid #eee;
-  margin-left: 20px;
+
   margin-bottom: 20px;
+  padding: 10px;
+  outline: none;
+  border: none !important;
+  transition: box-shadow 0.3s ease;
+}
+
+.card.expanded {
+  transition: 0.5s ease-in-out, box-shadow 0.3s ease;
+  
+  border: none;
 }
 
 .avatar {
-  height: 110px;
-  width: 110px;
-  object-fit: contain;
-  margin-right: 10px;
+  height: 80px;
+  width: 80px;
+}
+
+.text {
+  position: absolute;
+  top: 5px;
+  left: 100px;
 }
 
 .child-name {
   font-weight: bold;
-  font-size: 30px;
+  font-size: 25px;
   color: black;
   text-decoration: none;
 }
@@ -36,7 +49,7 @@
   flex-direction: column;
   margin-top: 10px;
   text-align: left;
-  font-size: 20px;
+  font-size: 15px;
   color: black;
   font-family: 'Arial', sans-serif;
 }
@@ -52,7 +65,16 @@
   font-family: 'Arial', sans-serif;
 }
 
-.worm {
+.expanded-content {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.5s ease, opacity 0.2s ease;
+  opacity: 0;
+  margin-top: 20px;
   padding-left: 10px;
-  width: 40px;
+}
+
+.expanded-content.open {
+  max-height: 400px;
+  opacity: 1;
 }
