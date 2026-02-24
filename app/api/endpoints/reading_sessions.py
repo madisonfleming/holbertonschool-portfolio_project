@@ -18,16 +18,25 @@ def create_reading_session(
     firebase_uid = decoded_token["uid"]
     return facade.create_reading_session(reading_session_data, firebase_uid) #TODO: check method name and params match facade
 
-# Requirement: Retrieve all reading sessions attached to a child
+# Requirement: Retrieve reading sessions attached to a child
 @router.get("/children/{child_id}/reading-sessions", response_model=List[ReadingSessionResponse], status_code=200)
-def get_all_sessions(
+def get_reading_sessions(
     child_id: str,
+    limit: int | None = None,
+    from_date: date | None = None,
+    to_date: date | None = None,
     facade: MLBFacade = Depends(get_facade),
     decoded_token: dict = Depends(auth_current_user)
     ):
     firebase_uid = decoded_token["uid"]
+   
     #TODO: facade may not need firebase uid if looking up sessions attached to child via child_id only. Check method name and params match facade
-    return facade.get_all_sessions(child_id, firebase_uid)
+    return facade.get_reading_sessions(
+        child_id=child_id,
+        firebase_uid=firebase_uid,
+        limit=limit,
+        from_date=from_date,
+        to_date=to_date)
 
 # Requirement: Update a reading session
 @router.put("/reading-sessions/{session_id}", response_model=ReadingSessionResponse, status_code=200)
@@ -41,14 +50,20 @@ def update_session(
     #TODO: facade may not need firebase uid if looking up session via session_id only. Check method name and params match facade
     return facade.update_session(session_id, updated_session_data, firebase_uid)
 
-# Requirement: Get last read book for kid
-# NOTE: another way to do this if we don't have time for extra logic in BE is have FE call existing GET all reading sessions by child endpoint (above), and display the last in the list 
-@router.get("/children/{child_id}/reading-sessions/last", response_model=ReadingSessionResponse, status_code=200)
-def get_last_session(
+# Requirement: Retrieve reading session counts
+@router.get("/children/{child_id}/reading-sessions/count", response_model=int, status_code=200)
+def count_reading_sessions(
     child_id: str,
+    from_date: date | None = None,
+    to_date: date | None = None,
     facade: MLBFacade = Depends(get_facade),
     decoded_token: dict = Depends(auth_current_user)
-    ):
+):
     firebase_uid = decoded_token["uid"]
-    #TODO: facade may not need firebase uid/may change to user_id. Check method name and params match facade
-    return facade.get_last_session(child_id, firebase_uid)
+
+    return facade.count_reading_sessions(
+        child_id=child_id,
+        firebase_uid=firebase_uid,
+        from_date=from_date,
+        to_date=to_date
+    )
