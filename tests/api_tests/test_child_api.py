@@ -156,8 +156,16 @@ def test_get_children_with_data():
     response = client_auth.get("/children")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
+
+    assert response.json()[0]["id"] == "test-child-id-2"
     assert response.json()[0]["name"] == "Susie"
+    assert response.json()[0]["age"] == 2
+    assert response.json()[0]["avatar_url"] == None
+
+    assert response.json()[1]["id"] == "test-child-id-3"
     assert response.json()[1]["name"] == "Billy"
+    assert response.json()[1]["age"] == 1
+    assert response.json()[1]["avatar_url"] == None
 
 # Happy Path: test 200 success without data returned (user 777)
 def test_get_children_without_data():
@@ -200,3 +208,4 @@ def test_get_child_as_unauthorised_user():
     assert response.json()["error"] == "Not authenticated"
     assert response.json()["message"] == "Not authenticated"
 
+# <--- UPDATE CHILD TESTS --->
