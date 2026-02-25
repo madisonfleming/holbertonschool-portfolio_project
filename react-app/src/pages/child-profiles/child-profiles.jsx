@@ -4,19 +4,21 @@ import "./child-profiles.css";
 import Milestones from '../../components/dashboard/Milestones';
 import AddReadingSession from "../../components/dashboard/AddReadingSession";
 import ChildSelector from "../../components/child-profiles/ChildSelector";
-import ExportCertificate from "../../components/child-profiles/ExportCertificate";
+
 import ExportButton from "../../components/child-profiles/ExportButton";
+import { useChild } from "../../contexts/ChildContext"
 
 
 const ChildProfiles = () => {
     const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] = useState(false);
+    const { selectedChild, childList } = useChild();
     const current_num_of_books = 100;   
     const target = 1000;
-    const children = [
-    { id: 1, name: 'Billie', age: 3, avatar: "/star.svg", lastReadBook: "My Little Pony" },
-    { id: 2, name: 'Hannah', age: 3, avatar: "/star.svg", lastReadBook: "My Little Bookworm" },
-    { id: 4, name: 'Gia', age: 3, avatar: "/star.svg", lastReadBook: "My Little Kitten" },
-  ];
+    //const children = [
+    //{ id: 1, name: 'Billie', age: 3, avatar: "/star.svg", lastReadBook: "My Little Pony" },
+    //{ id: 2, name: 'Hannah', age: 3, avatar: "/star.svg", lastReadBook: "My Little Bookworm" },
+    //{ id: 4, name: 'Gia', age: 3, avatar: "/star.svg", lastReadBook: "My Little Kitten" },
+  //];
     //data for export rewards certificate
     const certificateData = {
     childName: "Billie",
@@ -52,19 +54,16 @@ const ChildProfiles = () => {
         <p className="reading-text">Add Reading Session</p>
       </div>
       <h1 className="child-profile-title">Child Profiles</h1>
-      <AddReadingSession trigger={buttonAddReadingSessionPopup} setTrigger={setButtonAddReadingSessionPopup} children_RS={children}>
+      <AddReadingSession trigger={buttonAddReadingSessionPopup} setTrigger={setButtonAddReadingSessionPopup} children_RS={childList}>
       </AddReadingSession>
       <div className="child-profiles-grid">
-        <div className="children-container">
-          <ChildSelector children_RS={children} />
-                          {/* for letting the parent hold the child id
-                          selectedChildId={selectedChildId} 
-                            setSelectedChildId={setSelectedChildId} */} 
+        <div>
+          <ChildSelector />
         </div>
-        <div className="weekly-container">
-        </div>
+
         <div className="milestones-container">
-          <Milestones current_num_of_books={current_num_of_books} target={target} />
+          <Milestones current_num_of_books={current_num_of_books} target={target} 
+          selectedChild={selectedChild}/>
           <ExportButton certificateData={certificateData} />
         </div>
       </div>
