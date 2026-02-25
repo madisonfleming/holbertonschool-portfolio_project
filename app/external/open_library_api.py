@@ -1,16 +1,21 @@
 from typing import List
 import httpx
-from app.api.books import BookSearchResponse
+from app.api.schemas.books import BookSearchResponse
 from app.services.exceptions import ExternalBookClientError
 
 class OpenLibraryClient:
     BASE_URL = "https://openlibrary.org/search.json"
 
-    def search(self, query: str | None, subjects: list[str] | None):
+    def search(
+        self,
+        q: str | None, # query
+        subjects: list[str] | None = None,
+        limit: int | None = None
+    ):
         # filter parameters so that we only pass valid data
         params = {}
-        if query:
-            params["q"] = query 
+        if q:
+            params["q"] = q
         if subjects:
             params["subject"] = subjects
 
