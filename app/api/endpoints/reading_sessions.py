@@ -4,6 +4,7 @@ from app.api.dependencies import get_facade
 from app.api.auth_dependencies import auth_current_user
 from app.api.schemas.reading_sessions import CreateReadingSession, ReadingSessionResponse, UpdateReadingSession
 from typing import List
+from datetime import date
 
 # TODO: if fb uid/user_id not needed to pass to facade - can protect all endpoints at the router level with: router = APIRouter(dependencies=[Depends(auth_current_user)])
 router = APIRouter() # note: auth applied at individual endpoint level for now. 
