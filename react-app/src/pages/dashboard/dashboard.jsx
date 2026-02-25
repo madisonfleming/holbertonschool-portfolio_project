@@ -127,7 +127,7 @@ const Dashboard = () => {
       ></AddReadingSession>
       <div className="dashboard-grid">
         <div className="children-container">
-          <ChildList child_list={children} />
+          <ChildList childrenData={children} />
         </div>
         <div className="weekly-container">
           <WeeklyGoal

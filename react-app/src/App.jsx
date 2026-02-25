@@ -4,9 +4,11 @@ import Dashboard from './pages/dashboard/dashboard';
 import Home from './pages/home/home';
 import ChildProfiles from './pages/child-profiles/child-profiles';
 
+
 import { AuthProvider } from "./contexts/AuthContext";
 //function of react to a list of routes into elements react, browser create the navigation system and navigate only tells where
 import { BrowserRouter, useRoutes } from "react-router-dom";
+import { ChildProvider } from './contexts/ChildContext';
 
 function AppRoutes() {
   const routesArray = [
@@ -24,9 +26,12 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <ChildProvider>
         <Header />
           <AppRoutes />
+        </ChildProvider>
       </AuthProvider>
+      
     </BrowserRouter>
   );
 }
