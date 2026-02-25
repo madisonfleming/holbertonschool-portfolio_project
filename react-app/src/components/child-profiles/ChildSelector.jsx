@@ -1,20 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
 import './ChildSelector.css'
+import { useChild } from '../../contexts/ChildContext';
 
-const ChildSelector = ({ children_RS, onSelect }) => {
-    const child_list = children_RS || [];
+const ChildSelector = () => {
+//    const child_list = children_RS || [];
+    const { childList, selectedChild, setSelectedChild } = useChild();
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedChildId, setSelectedChildId] = useState(null);
     const dropdownRef = useRef(null);
 
-    const handleSelect = (child) => {
-      setSelectedChildId(child);
+    //main selection function
+    const handleSelect = (selectedChild) => {
+//      console.log("clicked child", selectedChild)
+      setSelectedChild(selectedChild);
+      console.log("selectedchild holds:", selectedChild)
       setIsOpen(false);
-//send child id to parent
-      if (onSelect) {
-        onSelect(child.id);
-      }
     };
+
 //if user clicks outside, dropdown closes
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -30,12 +31,12 @@ const ChildSelector = ({ children_RS, onSelect }) => {
       <div className="select-container" ref={dropdownRef}>
         <div className="dropdown-header"
         onClick={() => setIsOpen(!isOpen)}>
-          {selectedChildId ? selectedChildId.name : "Wormies"}
+          {selectedChild ? selectedChild.name : "Wormies"}
           <img src="/arrow.svg" alt="arrow" className="arrow"></img>
         </div>
         {isOpen && (
           <div className="dropdown-list">
-            {child_list.map((child) => (
+            {childList.map((child) => (
               <div key={child.id}
               className="dropdown-item"
               onClick={() => handleSelect(child)}>

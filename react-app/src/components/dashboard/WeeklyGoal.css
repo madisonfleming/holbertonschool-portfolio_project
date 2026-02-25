@@ -41,11 +41,19 @@
 }
 
 /* Img */
+/* andreas img
 .theme-img {
-  align-self: flex-start;
   position: absolute;
   right: 10%; 
   bottom: -5%;
+  width: 400px;
+  opacity: 0.9;
+  z-index: 1;
+} */
+.theme-img {
+  position: absolute;
+  top: 400px;
+  right: 50px;
   width: 400px;
   opacity: 0.9;
   z-index: 1;
