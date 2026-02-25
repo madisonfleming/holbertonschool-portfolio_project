@@ -14,10 +14,10 @@ def search_books(
     subjects: List[str] | None = Query(None),
     limit: int | None = None,
     facade: MLBFacade = Depends(get_facade),
-    # decoded_token: dict = Depends(auth_current_user)
+    decoded_token: dict = Depends(auth_current_user)
 ):
-    # firebase_uid = decoded_token['uid']
-    return facade.search_books(q, subjects) #TODO return firebase_uid once testing complete
+    firebase_uid = decoded_token['uid']
+    return facade.search_books(q, subjects, firebase_uid)
 
 # get book by ID (to return book deets to dashy b)
 # this method should offer greater stability for timeline than accessing ext API every time
