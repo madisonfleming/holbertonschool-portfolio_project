@@ -12,3 +12,7 @@ class RelationshipNotFoundError(Exception):
 class ExternalBookClientError(Exception):
     def __init__(self, message="Open Library is currently unavailable"):
         super().__init__(message)
+
+class InvalidSearchQueryError(Exception):
+    def __init__(self, message="Search field cannot be empty"):
+        super().__init__(message)
