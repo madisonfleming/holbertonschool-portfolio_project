@@ -13,14 +13,15 @@ from app.api.errors import register_error_handlers
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-cred = credentials.Certificate("app/config/serviceAccountKey.json")
-
-firebase_admin.initialize_app(cred)
 
 def create_app(settings=None) -> FastAPI:
     if settings is None:
         settings = get_settings_class()()
-        
+    
+    if type(settings).__name__ != "UnitTestingConfig":
+        cred = credentials.Certificate(settings.FIREBASE_CONFIG)
+        firebase_admin.initialize_app(cred)
+
     app = FastAPI(
         title=settings.APP_NAME,
         debug=settings.DEBUG,
