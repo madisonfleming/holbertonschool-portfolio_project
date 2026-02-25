@@ -19,6 +19,7 @@ from app.config import UnitTestingConfig
 from app.api.dependencies import get_facade
 from app.api.auth_dependencies import auth_current_user
 from app.services.exceptions import RelationshipNotFoundError
+import pytest
 
 class FakeFacade:
     """ 
@@ -74,35 +75,40 @@ class FakeFacade:
         if firebase_uid == "777":
             raise RelationshipNotFoundError()
 
-# app without auth dependency override (used only for 401 user unauthorised tests)
-app_no_auth = create_app(UnitTestingConfig())
-app_no_auth.dependency_overrides[get_facade] = lambda: FakeFacade()
-client_no_auth = TestClient(app_no_auth)
+# app with Facade dependency override (auth overrides are done per test)
+@pytest.fixture
+def app():
+    app = create_app(UnitTestingConfig())
+    app.dependency_overrides[get_facade] = lambda: FakeFacade()
+    yield app
+    app.dependency_overrides.clear()
 
-# app with auth dependency overridden & fb uid of "123" (used for all other tests except 401)
-# user 123 mocks an authorised user with kids
-app_auth = create_app(UnitTestingConfig())
-app_auth.dependency_overrides[get_facade] = lambda: FakeFacade()
-app_auth.dependency_overrides[auth_current_user] = lambda: {"uid" : "123"} # overrides the auth dependency at endpoint and sets fbuid to "123"
-client_auth = TestClient(app_auth)
+@pytest.fixture
+def client(app):
+    return TestClient(app)
 
-# temp app with auth dependency overridden & fb uid of "777" (used for all other tests except 401)
-# user 777 mocks an authorised user with no kids
-temp_app = create_app(UnitTestingConfig())
-temp_app.dependency_overrides[get_facade] = lambda: FakeFacade()
-temp_app.dependency_overrides[auth_current_user] = lambda: {"uid" : "777"} # overrides the auth dependency at endpoint and sets fbuid to "777"
-temp_client = TestClient(temp_app)
+#Allow dynamic uid creation for auth dependency overrides
+@pytest.fixture
+def override_auth(app):
+    def _override(uid: str):
+        async def override():
+            return {"uid" : uid}
+        app.dependency_overrides[auth_current_user] = override
+    return _override
+
+
 
 # <--- CREATE CHILD TESTS --->
 # Happy Path: test 201 child created successfully
-def test_create_child_profile():
+def test_create_child_profile(client, override_auth):
+    override_auth("123")
     payload = {
         "name": "Betty",
         "date_of_birth": "2025-02-26",
         "avatar_url": None,
     }
 
-    response = client_auth.post("/children", json=payload)
+    response = client.post("/children", json=payload)
 
     assert response.status_code == 201
     assert response.json()["name"] == "Betty"
@@ -110,59 +116,64 @@ def test_create_child_profile():
     assert response.json()["avatar_url"] == None
 
 # Negative Path: test 400 (name missing) raises custom RequestValidationError
-def test_create_child_with_missing_name():
+def test_create_child_with_missing_name(client, override_auth):
+    override_auth("123")
     payload = {
         "date_of_birth": "2025-02-26",
         "avatar_url": None,
     }
-    response = client_auth.post("/children", json=payload)
+    response = client.post("/children", json=payload)
     assert response.status_code == 400
     assert response.json()["error"] == "VALIDATION_ERROR"
     assert "('body', 'name')" in response.json()["message"]
     assert response.json()["status"] == 400
 
 # Negative Path: test 400 (dob missing) raises custom RequestValidationError
-def test_create_child_with_missing_dob():
+def test_create_child_with_missing_dob(client, override_auth):
+    override_auth("123")
     payload = {
         "name": "Betty",
         "avatar_url": None
     }
-    response = client_auth.post("/children", json=payload)
+    response = client.post("/children", json=payload)
     assert response.status_code == 400
     assert response.json()["error"] == "VALIDATION_ERROR"
     assert "('body', 'date_of_birth')" in response.json()["message"]
     assert response.json()["status"] == 400
 
-# Negative Path: test 400 (invalid DOB format) raises custom RequestValidationError
-def test_create_child_with_invalid_dob():
+# # Negative Path: test 400 (invalid DOB format) raises custom RequestValidationError
+def test_create_child_with_invalid_dob(client, override_auth):
+    override_auth("123")
     payload = {
         "name": "Betty",
         "date_of_birth": "26-02-2025",
         "avatar_url": None,
     }
-    response = client_auth.post("/children", json=payload)
+    response = client.post("/children", json=payload)
     assert response.status_code == 400
     assert response.json()["error"] == "VALIDATION_ERROR"
     assert "('body', 'date_of_birth')" in response.json()["message"]
     assert response.json()["status"] == 400
 
-# Negative Path: test 401 unauthorised user
-def test_create_child_as_unauthorised_user():
+# Negative Path: test 401 unauthorised user - no auth override
+def test_create_child_as_unauthorised_user(client):
     payload = {
         "name": "Betty",
         "date_of_birth": "2025-02-26",
         "avatar_url": None,
     }
-    response = client_no_auth.post("/children", json=payload)
+    response = client.post("/children", json=payload)
     assert response.status_code == 401
     assert response.json()["status"] == 401
     assert response.json()["error"] == "Not authenticated"
     assert response.json()["message"] == "Not authenticated"
-    
+
+
 # <--- GET CHILDREN TESTS --->
-# Happy Path: test 200 success with data returned (user 123)
-def test_get_children_with_data():
-    response = client_auth.get("/children")
+# Happy Path: test 200 success with data returned
+def test_get_children_with_data(client, override_auth):
+    override_auth("123")
+    response = client.get("/children")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
@@ -176,89 +187,97 @@ def test_get_children_with_data():
     assert response.json()[1]["age"] == 1
     assert response.json()[1]["avatar_url"] == None
 
-# Happy Path: test 200 success without data returned (user 777)
-def test_get_children_without_data():
-    response = temp_client.get("/children")
+# Happy Path: test 200 success without data returned
+def test_get_children_without_data(client, override_auth):
+    override_auth("777")
+    response = client.get("/children")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
     assert response.json() == []
 
-# Negative Path: test 401 unauthorised user
-def test_get_children_as_unauthorised_user():
-    response = client_no_auth.get("/children")
+# Negative Path: test 401 unauthorised user - no auth override
+def test_get_children_as_unauthorised_user(client):
+    response = client.get("/children")
     assert response.status_code == 401
     assert response.json()["status"] == 401
     assert response.json()["error"] == "Not authenticated"
     assert response.json()["message"] == "Not authenticated"
 
 # <--- GET CHILD TESTS --->
-# Happy Path: test 200 success with child returned (user 123)
-def test_get_child():
-    response = client_auth.get("/children/test-child-id-2")
+# Happy Path: test 200 success with child returned
+def test_get_child(client, override_auth):
+    override_auth("123")
+
+    response = client.get("/children/test-child-id-2")
     assert response.status_code == 200
     assert response.json()["id"] == "test-child-id-2"
     assert response.json()["name"] == "Susie"
     assert response.json()["age"] == 2
     assert response.json()["avatar_url"] == None
 
-# Negative Path: test 404 relationship between user and child id not found (user 777)
-def test_get_child_without_relo():
-    response = temp_client.get("/children/test-child-id-2")
+# Negative Path: test 404 relationship between user and child id not found
+def test_get_child_without_relo(client, override_auth):
+    override_auth("777")
+    response = client.get("/children/test-child-id-2")
     assert response.status_code == 404
     assert response.json()["status"] == 404
     assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
     assert response.json()["message"] == "Relationship not found"
 
-# Negative Path: test 401 unauthorised user
-def test_get_child_as_unauthorised_user():
-    response = client_no_auth.get("/children/test-child-id-2")
-    assert response.status_code == 401
-    assert response.json()["status"] == 401
-    assert response.json()["error"] == "Not authenticated"
-    assert response.json()["message"] == "Not authenticated"
-
 # <--- UPDATE CHILD TESTS --->
 # Happy Path: test 200 success update all fields of a child (user 123)
-def test_update_child():
+def test_update_child(client, override_auth):
+    override_auth("123")
     payload = {
     "name": "Suzanne",
     "date_of_birth": "2023-02-24",
     "avatar_url": "alien_avatar.com"
     }
-    response = client_auth.put("/children/test-child-id-2", json=payload)
+    response = client.put("/children/test-child-id-2", json=payload)
     assert response.status_code == 200
     assert response.json()["id"] == "test-child-id-2"
     assert response.json()["name"] == "Suzanne"
     assert response.json()["age"] == 2
     assert response.json()["avatar_url"] == "alien_avatar.com"
 
-# Negative Path: test 404 relationship between user and child id not found (user 777)
-def test_update_child_without_relo():
-    payload = {
-    "name": "Suzanne",
-    "date_of_birth": "2023-02-24",
-    "avatar_url": "alien_avatar.com"
-    }
-    response = temp_client.put("/children/test-child-id-2", json=payload)
-    assert response.status_code == 404
-    assert response.json()["status"] == 404
-    assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
-    assert response.json()["message"] == "Relationship not found"
-
 # Negative Path: test 400 (invalid DOB format) raises custom RequestValidationError (user 123)
-def test_update_child_with_invalid_dob():
+def test_update_child_with_invalid_dob(client, override_auth):
+    override_auth("123")
     payload = {
         "date_of_birth": "26-02-2025"
     }
-    response = client_auth.put("/children/test-child-id-2", json=payload)
+    response = client.put("/children/test-child-id-2", json=payload)
     assert response.status_code == 400
     assert response.json()["error"] == "VALIDATION_ERROR"
     assert "('body', 'date_of_birth')" in response.json()["message"]
     assert response.json()["status"] == 400
 
-# Negative Path: test 401 unauthorised user
-def test_update_child_as_unauthorised_user():
-    response = client_no_auth.put("/children/test-child-id-2")
+# Negative Path: test 404 relationship between user and child id not found (user 777)
+def test_update_child_without_relo(client, override_auth):
+    override_auth("777")
+    payload = {
+    "name": "Suzanne",
+    "date_of_birth": "2023-02-24",
+    "avatar_url": "alien_avatar.com"
+    }
+    response = client.put("/children/test-child-id-2", json=payload)
+    assert response.status_code == 404
+    assert response.json()["status"] == 404
+    assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
+    assert response.json()["message"] == "Relationship not found"
+
+# Negative Path: test 401 unauthorised user - no auth override
+def test_update_child_as_unauthorised_user(client):
+    response = client.put("/children/test-child-id-2")
+    assert response.status_code == 401
+    assert response.json()["status"] == 401
+    assert response.json()["error"] == "Not authenticated"
+    assert response.json()["message"] == "Not authenticated"
+
+
+# Negative Path: test 401 unauthorised user - no auth override
+def test_get_child_as_unauthorised_user(client):
+    response = client.get("/children/test-child-id-2")
     assert response.status_code == 401
     assert response.json()["status"] == 401
     assert response.json()["error"] == "Not authenticated"
