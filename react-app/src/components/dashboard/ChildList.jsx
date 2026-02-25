@@ -1,10 +1,12 @@
 import "./childCard.css"
 import ChildCard from "./ChildCard";
 
-const ChildList = ({ child_list }) => {
+const ChildList = ( props ) => {
+//fix passing { props } from childrenData in parent file to child_list. if no child render empty
+  const child_list = props.childrenData || [];
 
   return (
-    <div className="child-list-container">
+    <div>
       {child_list.map((child) => (
         <ChildCard
           key={child.id}

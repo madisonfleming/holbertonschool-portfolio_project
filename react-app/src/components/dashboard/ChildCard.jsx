@@ -8,7 +8,7 @@ const ChildCard = ({ name, avatar, age }) => {
   const [isExpanded, setIsexpanded] = useState(false);
 
   return (
-    <div className="card">
+    <div className="child-card">
       <div onClick={() => setIsexpanded(!isExpanded)} aria-expanded={isExpanded}>
       <img className="avatar" src={avatar} alt="avatar" />
       <div className="text">
