@@ -8,3 +8,7 @@ class DuplicateUserError(Exception):
 class RelationshipNotFoundError(Exception):
     def __init__(self, message="Relationship not found"):
         super().__init__(message)
+
+class ExternalBookClientError(Exception):
+    def __init__(self, message="Open Library is currently unavailable"):
+        super().__init__(message)
