@@ -11,6 +11,7 @@ class BaseConfig(BaseSettings):
 
     APP_NAME: str = "MyLittleBookworm"
     DEBUG: bool = False
+    FIREBASE_CONFIG: str = "app/config/serviceAccountKey.json"
     # Enable the next two lines to guarantee that prod
     # won't start without these values
     # DATABASE_URL: str
@@ -24,6 +25,7 @@ class ProductionConfig(BaseConfig):
 
 class UnitTestingConfig(BaseConfig):
     DEBUG: bool = True
+    FIREBASE_CONFIG: str = ""
     # DATABASE = 'sqlite:///:memory:'
     # SECRET_KEY: str = "test-secret-key"
 
