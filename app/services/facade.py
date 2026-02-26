@@ -131,7 +131,7 @@ class MLBFacade:
         # matched_child_ids = {match.child_id for match in relationships}
         matched_child_ids = {match["child_id"] for match in relationships} # NOTE: matched_child_ids gets a set of child_ids
         if child_id not in matched_child_ids:
-            raise RelationshipNotFoundError()
+            raise RelationshipNotFoundError(user_id, child_id)
 
         # fetch child data or error if N/A
         child = self.child_repository.get(child_id)
