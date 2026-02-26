@@ -12,13 +12,17 @@ from app.persistence.relationship_repository import RelationshipRepository #----
 
 #from app.api.schemas.users import CreateUser
 from app.api.schemas.children import CreateChild, ChildResponse, UpdateChild
+from app.api.schemas.users import CreateUser, UserResponse, UpdateUser
 
 from app.domain.exceptions import(
     InvalidChildNameError,
     UserNotFoundError,
-    ChildNotFoundError
+    ChildNotFoundError,
+    InvalidUserNameError,
+    InvalidEmailError
 )
 from app.services.exceptions import(
+    DuplicateUserError,
     RelationshipNotFoundError
 )
 
@@ -71,7 +75,7 @@ class MLBFacade:
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         if user is None:
             raise UserNotFoundError()
-        user_id = user["id"]
+        user_id = user.id
 
         # example creation of relationship join
         # ----->assumes existence of relationship_repo w/ add_member method
@@ -91,7 +95,7 @@ class MLBFacade:
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         if user is None:
             raise UserNotFoundError()
-        user_id = user["id"]
+        user_id = user.id
 
         # produces list of relationship entries where user_id is parent (or other)
         relationships = self.relationship_repository.get_children_per_user(user_id) # NOTE: relationships gets user id + all owned child ids (list of dicts)
@@ -117,7 +121,7 @@ class MLBFacade:
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         if user is None:
             raise UserNotFoundError()
-        user_id = user["id"]
+        user_id = user.id
 
 
         # produces list of relationship entries where user_id is parent (or other)
@@ -146,7 +150,7 @@ class MLBFacade:
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         if user is None:
             raise UserNotFoundError()
-        user_id = user["id"]
+        user_id = user.id
 
         # produces list of relationship entries where user_id is parent (or other)
         relationships = self.relationship_repository.get_children_per_user(user_id) # NOTE: relationships gets user id + all owned child ids (list of dicts)
@@ -176,3 +180,55 @@ class MLBFacade:
         self.child_repository.save(child)
 
         return ChildResponse.from_domain(child)
+
+    # <--- USER --->
+    # # DEV ONLY METHOD - DOESN'T SAVE TO REPO CORRECTLY (NO FB ID)
+    # def create_user(
+    #     self,
+    #     request: CreateUser
+    # ):
+    #     if not request.name.strip():
+    #         raise InvalidUserNameError()
+    #     if not request.email.strip():
+    #         raise InvalidEmailError()
+       
+    #     user = User(
+    #         name=request.name,
+    #         email=request.email,
+    #     )
+    #     self.user_repository.save(user)
+    #     return UserResponse.from_domain(user)
+
+    def get_user(
+        self,
+        firebase_uid
+    ):
+        # access user's ID via firebase ID
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        if user is None:
+            raise UserNotFoundError()
+        return UserResponse.from_domain(user)
+
+    def update_user(
+        self,
+        request: UpdateUser,
+        firebase_uid
+    ):
+        # access user's ID via firebase ID - error if None
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        if user is None:
+            raise UserNotFoundError()
+
+        # apply updates with the fields provided by client
+        if request.name is not None:
+            user.name = request.name
+        # raise exception if email already exists in repo
+        if request.email is not None:
+            existing = self.user_repository.get_by_email(request.email)
+            if existing and existing.id != user.id:
+                raise DuplicateUserError()
+            user.email = request.email
+
+        # save updated user domain model to repo
+        self.user_repository.save(user)
+        return UserResponse.from_domain(user)

@@ -31,10 +31,10 @@ class User(Base):
 
     @name.setter
     def name(self, name: str):
-        if not name:
-            raise InvalidUserNameError()
         if not isinstance(name, str):
             raise TypeError("Name must be a string")
+        if not name.strip():
+            raise InvalidUserNameError()
         self._name = name
 
     @property
@@ -43,10 +43,10 @@ class User(Base):
 
     @email.setter
     def email(self, email: str):
-        if not email:
-            raise InvalidEmailError()
         if not isinstance(email, str):
             raise TypeError("Email must be a string")
+        if not email.strip():
+            raise InvalidEmailError()
         self._email = email
 
     @property
@@ -74,3 +74,15 @@ class User(Base):
             "firebase_uid": self.firebase_uid
         })
         return data
+
+    # converts hardcoded data from dict to domain model object
+    @classmethod
+    def from_dict(cls, data: dict) -> "User":
+        user = cls(
+            name=data["name"],
+            email=data["email"],
+            role=data["role"],
+            firebase_uid=data.get("firebase_uid")
+            )
+        user.id=data["id"]
+        return user
