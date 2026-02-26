@@ -58,7 +58,7 @@ const Dashboard = () => {
   }
 
   //FETCH TO ENDPOINT TO CREATE A CHILD
-  async function createChildData(childData) {
+  async function createChild(childData) {
     if (!currentUser) return;
 
     const token = await currentUser.getIdToken();
@@ -78,7 +78,7 @@ const Dashboard = () => {
     }
 
     const newChild = await response.json();
-    console.log("Respuesta del backend:", newChild);
+    console.log("Answer from BE:", newChild);
 
     // UPDATE UI INMEDIATLY
     setChildren((prev) => [
@@ -86,8 +86,8 @@ const Dashboard = () => {
       {
         id: newChild.id,
         name: newChild.name,
-        age: newChild.age,
-        avatar: newChild.avatar_url,
+        date_of_birth: newChild.date_of_birth,
+        avatar_url: newChild.avatar_url,
       },
     ]);
   }
@@ -127,9 +127,11 @@ const Dashboard = () => {
             </button>
           </div>
           {/* For pop up the create child card  need to be outside so the weekly goal text doesnt appear infront */}
+          {/*FE send to the BE a POST with this json */}
           <CreateChild
             trigger={buttonCreateChildPopup}
             setTrigger={setButtonCreateChildPopup}
+            createChild={createChild}
           ></CreateChild>
         </div>
         <div className="weekly-container">

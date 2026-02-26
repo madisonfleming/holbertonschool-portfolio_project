@@ -12,6 +12,7 @@ const AddReadingSession = (props) => {
     { title: "Matilda", img: "/books/matilda.png" },
   ];
 
+  /*searchTerm for the text the user writes and setSearchTerm to update it  */
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBook, setSelectedBook] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
