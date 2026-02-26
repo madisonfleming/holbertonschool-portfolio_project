@@ -142,13 +142,14 @@ input[type="text"]:focus, input[type="date"]:focus {
 
 
 
-/*Buttom of close and Submmit*/
+/*Buttom submit*/
 .button-section {
+  /*To make it more bottom*/
   display: flex;
-  gap: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
+/*
 .btn {
   border: none;
   border-radius: 12px;
@@ -176,3 +177,45 @@ input[type="text"]:focus, input[type="date"]:focus {
 .btn:active {
   transform: translateY(0);
 }
+*/
+
+  .btn-close {
+    position: absolute !important;
+    top: 16px !important;
+    right: 16px !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    background: #d2bae8 !important;
+    color: #9b59b6 !important;
+    font-size: 18px;
+    /*this one is to doesnt get in a weird shape if the container goes smaller*/
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+  .btn-close:hover {
+    background: #e0d0f0 !important;
+    color: #7d3c98 !important;
+    transform: rotate(90deg) scale(1.1) !important;
+  }
+
+  .btn-submit {
+    flex: 1; /*take all the space available*/
+    padding: 15px 20px; /*make the button bigger*/
+    border-radius: 14px; /*round corners*/
+    background: linear-gradient(135deg, #9b59b6, #cc7df0);
+    color: white !important;
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+    /*This is for the text inside*/
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    border: none; /*delete the border from button*/
+    font-size: 15px;
+    transition: all 0.2s ease;
+    letter-spacing: 0.3px;
+  }
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(155, 89, 182, 0.5);
+  }
