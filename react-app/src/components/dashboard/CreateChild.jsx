@@ -3,7 +3,20 @@ import React from "react";
 
 import { useState, useEffect } from "react";
 
-const CreateChild = ({ trigger, setTrigger }) => {
+const CreateChild = ({ trigger, setTrigger, createChild }) => {
+
+  //we need a handle in order to create the obj with the states
+    const handleCreateChild = () => {
+      createChild({
+        name: childName,
+        date_of_birth: date,
+        avatar_url: avatars[selectedAvatar],
+      });
+
+      setTrigger(false); // close popup
+    };
+
+
   const [childName, setChildName] = useState("");
   const [date, setDate] = useState("");
   const [selectedAvatar, setSelectedAvatar] = useState(0);
@@ -14,21 +27,29 @@ const CreateChild = ({ trigger, setTrigger }) => {
   "/avatars/mlb-avatar-robot.png",
   "/avatars/mlb-avatar-sun.png"
 ];
-
-
+  //use trigger to pop up the card if trigger then popup 
   return trigger ? (
     <div className="popup-overlay">
       <div className="CreateChildCard">
+        {/* Close btn */}
+        <button
+            className="btn-close"
+            onClick={() => setTrigger(false)}
+          >✕
+          </button>
+          {/* create child */}
         <h1>Create a Child Profile</h1>
          <div className="create-child-layout">
            <div className="left-section">
               <h4>ABOUT</h4>
+              {/* NAME */}
               <input type="text" 
               className="select-field-create-child" 
               placeholder="First Name"
               value={childName}
               onChange={(e) => setChildName(e.target.value)}
               />
+              {/* DOB */}
               <input
                     type="date"
                     className="select-field-create-child"
@@ -52,16 +73,10 @@ const CreateChild = ({ trigger, setTrigger }) => {
               ))}
             </div>
           </div>
-
         </div>
+        {/* SUBMIT BTN */}
         <div className="button-section">
-          <button
-            className=" btn btn-close-submit"
-            onClick={() => setTrigger(false)}
-          >
-            Close
-          </button>
-          <button className="btn btn-close-submit">Create Profile</button>
+          <button className="btn-submit"onClick={handleCreateChild}>Create Profile</button>
         </div>
       </div>
     </div>
