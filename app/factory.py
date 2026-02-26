@@ -39,11 +39,11 @@ def create_app(settings=None) -> FastAPI:
         allow_headers=["*"],
     )
 
-    # router registrations
-    app.include_router(users.router, dependencies=[Depends(get_facade)])
-    app.include_router(children.router, dependencies=[Depends(get_facade)])
-    app.include_router(milestones.router, dependencies=[Depends(get_facade)])
-    app.include_router(reading_sessions.router, dependencies=[Depends(get_facade)])
+   # router registrations
+    app.include_router(users.router, prefix="/api",  dependencies=[Depends(get_facade)])
+    app.include_router(children.router, prefix="/api", dependencies=[Depends(get_facade)])
+    app.include_router(milestones.router, prefix="/api", dependencies=[Depends(get_facade)])
+    app.include_router(reading_sessions.router, prefix="/api", dependencies=[Depends(get_facade)])
     app.include_router(auth_dependencies.router, prefix="/api")
 
     # root health check
