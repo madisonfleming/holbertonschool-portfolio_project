@@ -1,6 +1,5 @@
 from pydantic import BaseModel, EmailStr
 
-# TODO: remove this if Create User endpoint is removed
 class CreateUser(BaseModel):
     name: str
     email: EmailStr
@@ -10,6 +9,15 @@ class UserResponse(BaseModel):
     name: str
     email: EmailStr
     role: str
+
+    @classmethod
+    def from_domain(cls, user): # cls is UserResponse
+        return cls(
+            id=user.id,
+            name=user.name,
+            email=user.email,
+            role=user.role
+        )
 
 class UpdateUser(BaseModel):
     name: str | None = None
