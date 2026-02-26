@@ -31,10 +31,10 @@ class User(Base):
 
     @name.setter
     def name(self, name: str):
-        if not name.strip():
-            raise InvalidUserNameError()
         if not isinstance(name, str):
             raise TypeError("Name must be a string")
+        if not name.strip():
+            raise InvalidUserNameError()
         self._name = name
 
     @property
@@ -43,10 +43,10 @@ class User(Base):
 
     @email.setter
     def email(self, email: str):
-        if not email.strip:
-            raise InvalidEmailError()
         if not isinstance(email, str):
             raise TypeError("Email must be a string")
+        if not email.strip():
+            raise InvalidEmailError()
         self._email = email
 
     @property
