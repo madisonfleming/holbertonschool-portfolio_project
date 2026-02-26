@@ -63,8 +63,9 @@ class UserRepository(Repository):
     def __init__(self):
         self._storage = USERS
 
-    def save(self, obj):
-        self._storage[obj.firebase_uid] = obj
+    def save(self, user):
+        # self._storage[obj.firebase_uid] = obj
+        self._storage[user.id] = user.to_dict()
 
     def get(self, obj_id):
         return self._storage.get(obj_id)
