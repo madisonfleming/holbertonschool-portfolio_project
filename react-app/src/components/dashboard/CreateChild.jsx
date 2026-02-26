@@ -5,6 +5,18 @@ import { useState, useEffect } from "react";
 
 const CreateChild = ({ trigger, setTrigger, createChild }) => {
 
+  
+  const [childName, setChildName] = useState("");
+  const [date, setDate] = useState("");
+  const [selectedAvatar, setSelectedAvatar] = useState(0);
+
+  const avatars = [
+  "/avatars/mlb-avatar-apple.png",
+  "/avatars/mlb-avatar-bee.png",
+  "/avatars/mlb-avatar-robot.png",
+  "/avatars/mlb-avatar-sun.png"
+  ];
+
   //we need a handle in order to create the obj with the states
     const handleCreateChild = () => {
       createChild({
@@ -16,17 +28,14 @@ const CreateChild = ({ trigger, setTrigger, createChild }) => {
       setTrigger(false); // close popup
     };
 
+  //handle to reset the data once we close the card
+  const handleCloseResetData = () => {
+    setChildName("");
+    setDate("");
+    setSelectedAvatar(0);
+    setTrigger(false); // close popup
+  }
 
-  const [childName, setChildName] = useState("");
-  const [date, setDate] = useState("");
-  const [selectedAvatar, setSelectedAvatar] = useState(0);
-
-  const avatars = [
-  "/avatars/mlb-avatar-apple.png",
-  "/avatars/mlb-avatar-bee.png",
-  "/avatars/mlb-avatar-robot.png",
-  "/avatars/mlb-avatar-sun.png"
-];
   //use trigger to pop up the card if trigger then popup 
   return trigger ? (
     <div className="popup-overlay">
@@ -34,7 +43,7 @@ const CreateChild = ({ trigger, setTrigger, createChild }) => {
         {/* Close btn */}
         <button
             className="btn-close"
-            onClick={() => setTrigger(false)}
+            onClick={handleCloseResetData}
           >✕
           </button>
           {/* create child */}
