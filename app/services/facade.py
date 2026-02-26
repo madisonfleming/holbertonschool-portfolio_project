@@ -22,6 +22,7 @@ from app.domain.exceptions import(
     InvalidEmailError
 )
 from app.services.exceptions import(
+    DuplicateUserError,
     RelationshipNotFoundError
 )
 
@@ -221,7 +222,11 @@ class MLBFacade:
         # apply updates with the fields provided by client
         if request.name is not None:
             user.name = request.name
+        # raise exception if email already exists in repo
         if request.email is not None:
+            existing = self.user_repository.get_by_email(request.email)
+            if existing and existing.id != user.id:
+                raise DuplicateUserError()
             user.email = request.email
 
         # save updated user domain model to repo
