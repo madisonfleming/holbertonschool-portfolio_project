@@ -16,3 +16,8 @@ class ExternalBookClientError(Exception):
 class InvalidSearchQueryError(Exception):
     def __init__(self, message="Search field cannot be empty"):
         super().__init__(message)
+
+class BookNotFoundError(Exception):
+    def __init__(self, book_id: str):
+        message = f"Book with id: '{book_id}' not found"):
+        super().__init__(message)
