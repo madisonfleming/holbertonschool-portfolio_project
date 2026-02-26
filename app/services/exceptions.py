@@ -6,7 +6,8 @@ class DuplicateUserError(Exception):
         super().__init__(message)
 
 class RelationshipNotFoundError(Exception):
-    def __init__(self, message="Relationship not found"):
+    def __init__(self, user_id, child_id):
+        message = f"Relationship between user: '{user_id}' and child: '{child_id}' not found"):
         super().__init__(message)
 
 class ExternalBookClientError(Exception):
