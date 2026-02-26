@@ -1,9 +1,12 @@
 #!/usr/bin/python3
 from app.persistence.repository import Repository
+from app.domain.user import User
 
 """ 
 Set up hardcoded User data for us to use
 while the repository is in-memory
+This repo handles conversion from hardcoded dicts to User objects
+All users are currently saved with key=firebase_uid
 
 TO DO: remove hardcoded data after MySQL is connected
 """
@@ -64,14 +67,16 @@ class UserRepository(Repository):
         self._storage = USERS
 
     def save(self, user):
-        # self._storage[obj.firebase_uid] = obj
-        self._storage[user.id] = user.to_dict()
+        self._storage[user.firebase_uid] = user.to_dict() # save by key=firebase_uid in a dict
 
     def get(self, obj_id):
         return self._storage.get(obj_id)
     
     def get_by_firebase_uid(self, firebase_uid):
-        return self._storage.get(firebase_uid)
+        data = self._storage.get(firebase_uid)
+        if data is None:
+            return None
+        return User.from_dict(data) # converts from dict to User object
 
     def get_all(self):
         pass

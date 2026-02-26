@@ -81,7 +81,8 @@ class User(Base):
         user = cls(
             name=data["name"],
             email=data["email"],
-            role=data["role"]
+            role=data["role"],
+            firebase_uid=data.get("firebase_uid")
             )
         user.id=data["id"]
         return user
