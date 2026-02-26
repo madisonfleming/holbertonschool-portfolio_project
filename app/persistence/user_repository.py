@@ -77,6 +77,13 @@ class UserRepository(Repository):
         if data is None:
             return None
         return User.from_dict(data) # converts from dict to User object
+    
+    # returns a user obj by email address (if found)
+    def get_by_email(self, email: str):
+        for data in self._storage.values():
+            if data["email"].lower() == email.lower():
+                return User.from_dict(data)
+        return None
 
     def get_all(self):
         pass
