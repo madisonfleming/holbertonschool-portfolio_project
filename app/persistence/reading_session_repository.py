@@ -1,13 +1,12 @@
 #!/usr/bin/python3
 
-from app.persistence.repository import Repository
-from app.domain.reading_session import ReadingSession
+from app.domain.reading_sessions import ReadingSession
 
 from datetime import datetime
 from uuid import uuid4
 
 
-class ReadingSessionRepository(Repository):
+class ReadingSessionRepository:
     def __init__(self):
         self._storage = {}
 
