@@ -7,7 +7,8 @@ import { useAuth } from '../contexts/AuthContext';
 function MyNavbar() {
   const { currentUser } = useAuth();
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <div>
+    <Navbar expand="lg">
       <Container>
         <Navbar.Toggle className="navbar-toggle" aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -26,6 +27,7 @@ function MyNavbar() {
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    </div>
   );
 }
 
