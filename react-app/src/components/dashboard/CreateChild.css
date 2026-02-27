@@ -12,7 +12,6 @@
 }
 .CreateChildCard {
   background: white;
-  /*background: linear-gradient(135deg, #b79dd8 0%, #b79dd8 100%);*/
   border-radius: 15px;
   /* Size */
   width: 200%;
@@ -27,6 +26,22 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.tittle-popup-card {
+  font-size: 40px;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  font-family: "bree-serif";
+}
+
+.subtittle-popup-card {
+  font-size: 16px;
+  font-weight: bold;
+  color: #9b59b6;
+  font-family: "bree-serif";
+  
 }
 
 
@@ -58,7 +73,7 @@
 }
 
 input[type="text"]:focus, input[type="date"]:focus {
-    border-color: #9b59b6;;
+    border-color: #9b59b6;
     background: #faf5ff;
     box-shadow: 0 0 0 4px rgba(184, 133, 216, 0.15);
     transform: translateY(-1px);
@@ -66,11 +81,8 @@ input[type="text"]:focus, input[type="date"]:focus {
 
 /*Avatar section*/
 
-.avatar-title {
-  margin-bottom: 12px; /* separa el texto de los avatares */
-}
-
 .avatar-list {
+  margin-bottom: 12px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
@@ -148,36 +160,6 @@ input[type="text"]:focus, input[type="date"]:focus {
   display: flex;
   margin-bottom: 5px;
 }
-
-/*
-.btn {
-  border: none;
-  border-radius: 12px;
-  padding: 16px 32px;
-  font-size: 15px;
-  font-weight: 700;
-  transition: all 0.2s ease;
-  flex: 1;
-  text-align: center;
-}
-
-.btn-close-submit {
-  background: #f4f4f4 !important;
-  color: #999 !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
-}
-
-.btn-close-submit:hover {
-  background: #eee !important;
-  color: #666 !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
-}
-
-.btn:active {
-  transform: translateY(0);
-}
-*/
 
   .btn-close {
     position: absolute !important;
