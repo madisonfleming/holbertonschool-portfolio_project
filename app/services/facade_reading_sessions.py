@@ -27,8 +27,8 @@ class MLBFacade:
         self,
         book_repository: BookRepository,
         reading_session_repository: ReadingSessionRepository,
-        open_library_api: OpenLibraryClient
-        user_repository: UserRepository
+        open_library_api: OpenLibraryClient,
+        user_repository: UserRepository,
         relationship_repository: RelationshipRepository
     ):
         self.book_repository = book_repository
@@ -84,7 +84,7 @@ class MLBFacade:
         return book
         
 
-    # <--- READING SESSIONS --->
+# <--- READING SESSIONS --->
 
     def create_reading_session(
         self,
