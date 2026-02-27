@@ -3,7 +3,7 @@ import { pdf } from '@react-pdf/renderer';
 import ExportCertificate from './ExportCertificate'; // PDF component
 import './ExportButton.css'
 
-const ExportButton = ({ certificateData }) => {
+const ExportButton = ({ certificateData, selectedChild }) => {
     // certificateData saved in child-profiles
 
     const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +14,7 @@ const ExportButton = ({ certificateData }) => {
 
             try {
                 const pdfBlob = await pdf(
-                    <ExportCertificate data={certificateData} />
+                    <ExportCertificate data={certificateData} selectedChild={selectedChild} />
                 ).toBlob();
 
                 const pdfBlobUrl = URL.createObjectURL(pdfBlob);
@@ -25,7 +25,7 @@ const ExportButton = ({ certificateData }) => {
             }
         }
         return null;
-    }, [certificateData]);
+    }, [certificateData], [selectedChild]);
 
     const downloadPdf = async () => {
         const pdfBlobUrl = await generatePdf();
@@ -52,10 +52,10 @@ const ExportButton = ({ certificateData }) => {
     };
     return (
         <div>
-            <button className="export-btn" onClick={previewPdf} disabled={isLoading}>
+            <button className="export-btn" onClick={previewPdf} disabled={isLoading} selectedChild={selectedChild}>
                 Preview Reward in another tab
             </button>
-            <button className="export-btn" onClick={downloadPdf} disabled={isLoading}>
+            <button className="export-btn" onClick={downloadPdf} disabled={isLoading} selectedChild={selectedChild}>
                 Download Reward
             </button>
         </div>
