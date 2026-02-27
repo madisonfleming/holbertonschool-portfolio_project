@@ -7,7 +7,7 @@ class DuplicateUserError(Exception):
 
 class RelationshipNotFoundError(Exception):
     def __init__(self, user_id, child_id):
-        message = f"Relationship between user: '{user_id}' and child: '{child_id}' not found"):
+        message = f"Relationship between user: '{user_id}' and child: '{child_id}' not found"
         super().__init__(message)
 
 class ExternalBookClientError(Exception):
@@ -20,9 +20,14 @@ class InvalidSearchQueryError(Exception):
 
 class BookNotFoundError(Exception):
     def __init__(self, book_id: str):
-        message = f"Book with id: '{book_id}' not found"):
+        message = f"Book with id: '{book_id}' not found"
         super().__init__(message)
 
 class PermissionDeniedError(Exception):
-    def __init__(self, message="Insufficient permissions to complte this action")
+    def __init__(self, message="Insufficient permissions to complete this action"):
+        super().__init__(message)
+
+class ReadingSessionNotFoundError(Exception):
+    def __init__(self, session_id: str):
+        message = f"Reading session with id: '{session_id}' not found"
         super().__init__(message)
