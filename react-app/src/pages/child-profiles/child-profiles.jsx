@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from '../../contexts/AuthContext'
 import "./child-profiles.css";
-import Milestones from '../../components/dashboard/Milestones';
+import Milestones from '../../components/child-profiles/Milestones';
 import AddReadingSession from "../../components/dashboard/AddReadingSession";
 import ChildSelector from "../../components/child-profiles/ChildSelector";
 
@@ -25,6 +25,14 @@ const ChildProfiles = () => {
     milestone: "200 Books",
     date: "21.02.26"
     };
+
+    
+    const completedMilestones = [
+      { id: 1, name: "Read 100 Books" },
+      { id: 2, name: "Completed Elephant Week" },
+      { id: 3, name: "Read 200 Books" },
+      { id: 4, name: "Completed Dinosaur Week" },
+    ];
 
 
   const books = [
@@ -63,10 +71,10 @@ const ChildProfiles = () => {
 
         <div className="milestones-container">
           <Milestones current_num_of_books={current_num_of_books} target={target} 
-          selectedChild={selectedChild}/>
-          <ExportButton certificateData={certificateData} />
+          selectedChild={selectedChild} certificateData={certificateData}
+          completedMilestones={completedMilestones}/>
         </div>
-      </div>
+
       <div className="reading-activity">
         <div className="reading-activity-h1"> Your Reading Activity </div>
        <div className="book-scroll-container">
@@ -78,6 +86,8 @@ const ChildProfiles = () => {
         </div>
         ))}
         </div>
+
+      </div>
       </div>
       </div>
     </div>

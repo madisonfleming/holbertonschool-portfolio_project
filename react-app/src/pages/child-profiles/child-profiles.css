@@ -40,6 +40,9 @@
 /* Dashboard container to put cards inside, align-items to set vertical align and justify-content for horizontal align. */
 .child-profiles-grid {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   /*display: grid;
   /*grid-template-columns: 1fr 1fr;
   /* left more big más grande */
@@ -48,7 +51,7 @@
   gap: 20px;
   height: 100vh;
   /* both columns has the same height */
-  padding: 20px;
+  padding: 10px;
 }
 /*
 .children-container {
@@ -86,7 +89,8 @@
 
 /*reading history*/
 .reading-activity {
-  grid-column: 1 / span 2; /*start from line 1 and use two columns so all width*/
+  /*grid-column: 1 / span 2; /*start from line 1 and use two columns so all width*/
+  width: 100%;
   background:
     linear-gradient(rgba(255, 255, 255, 0.1)),
     url("/public/reading_history.svg") top center/cover no-repeat;
