@@ -1,4 +1,4 @@
-import "./Milestones.css"
+import "./GetWorm.css"
 const GetWorm = () => {
 
   const current_num_of_books = 900
