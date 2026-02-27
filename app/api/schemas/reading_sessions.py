@@ -16,6 +16,5 @@ class ReadingSessionResponse(BaseModel):
     logged_at: datetime
 
 class UpdateReadingSession(BaseModel):
-    child_id: str | None = None
     book_id: str | None = None
     logged_at: datetime | None = None
