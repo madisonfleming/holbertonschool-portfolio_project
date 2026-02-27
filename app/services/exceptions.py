@@ -22,3 +22,7 @@ class BookNotFoundError(Exception):
     def __init__(self, book_id: str):
         message = f"Book with id: '{book_id}' not found"):
         super().__init__(message)
+
+class PermissionDeniedError(Exception):
+    def __init__(self, message="Insufficient permissions to complte this action")
+        super().__init__(message)
