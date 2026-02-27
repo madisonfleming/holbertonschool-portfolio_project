@@ -1,5 +1,6 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
+import { useChild } from '../../contexts/ChildContext';
 /* document-container: the root container for pdf document
 page: represents a apge within the document
 view: a container component that can be used to group and style other components
@@ -61,7 +62,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const ExportCertificate = ({ data }) => {
+const ExportCertificate = ({ data, selectedChild }) => {
+
+
   return (
     <Document>
       <Page size="A5" orientation="landscape" style={styles.page}>
@@ -69,7 +72,7 @@ const ExportCertificate = ({ data }) => {
         <View style={styles.section}>
           <Text style={styles.title}>Certificate of Achievement</Text>
          <Text style={styles.title2}>Proudly presented to</Text>
-         <Text style={styles.name}>{data.childName}</Text>
+         <Text style={styles.name}>{selectedChild.name}</Text>
          <Text style={styles.milestone}>For completing</Text>
           <Text style={styles.milestone2}>{data.milestone}!</Text>
          <Text style={styles.date}>Date {data.date}</Text>
