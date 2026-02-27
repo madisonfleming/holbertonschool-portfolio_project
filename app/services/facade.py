@@ -36,7 +36,6 @@ from app.services.exceptions import(
 )
 
 
-
 class MLBFacade:
     def __init__(
         self,
@@ -297,7 +296,7 @@ class MLBFacade:
     def create_reading_session(
         self,
         request: CreateReadingSession, # child_id, external_id
-        firebase_uid: str
+        firebase_uid: str,
     ):
     
         # access user's ID via firebase ID
@@ -339,10 +338,10 @@ class MLBFacade:
     def get_reading_sessions(
         self,
         child_id: int,
+        firebase_uid: str,
         limit: int | None = None,
         from_date: date | None = None,
         to_date: date | None = None,
-        firebase_uid: str
     ):
         # access user's ID via firebase ID
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
@@ -384,7 +383,7 @@ class MLBFacade:
         self,
         session_id: str,
         updated: UpdateReadingSession,
-        firebase_uid: str
+        firebase_uid: str,
     ):
         # access user's ID via firebase ID
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
@@ -423,9 +422,9 @@ class MLBFacade:
     def count_reading_sessions(
         self,
         child_id: int,
+        firebase_uid: str,
         from_date: date | None = None,
         to_date: date | None = None,
-        firebase_uid: str
     ):
         # access user's ID via firebase ID
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
@@ -462,9 +461,9 @@ class MLBFacade:
     def heatmap_count_rs(
         self,
         child_id: int,
+        firebase_uid: str,
         from_date: date | None = None,
         to_date: date | None = None,
-        firebase_uid: str
     ):
         # access user's ID via firebase ID
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
