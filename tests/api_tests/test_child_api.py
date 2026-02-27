@@ -21,6 +21,7 @@ from app.api.auth_dependencies import auth_current_user
 from app.services.exceptions import RelationshipNotFoundError
 import pytest
 
+
 class FakeFacade:
     """ 
     Add facade mocks here 
@@ -95,6 +96,11 @@ def override_auth(app):
             return {"uid" : uid}
         app.dependency_overrides[auth_current_user] = override
     return _override
+
+# Set the env to "testing"
+@pytest.fixture(autouse=True)
+def set_env(monkeypatch):
+    monkeypatch.setenv("ENVIRONMENT", "testing")
 
 BASE_URL = "/api/children"
 

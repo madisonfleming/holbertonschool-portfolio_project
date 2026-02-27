@@ -17,7 +17,7 @@ def auth_current_user(credentials: HTTPAuthorizationCredentials = Depends(securi
     # Uses the app's custom config modes (development mode by default)
     # Activated by default via "uvicorn app.main:app --reload"
     # Switch off the bypass by running "ENVIRONMENT=production uvicorn app.main:app --reload"
-    if os.getenv("ENVIRONMENT") == None or "development":
+    if os.getenv("ENVIRONMENT") == None or os.getenv("ENVIRONMENT") == "development":
         print("hello from test user 123")
         return {"uid": "123"}
 
