@@ -128,15 +128,14 @@ class RelationshipRepository():
 
     # check for ANY role association with child
     # applicable for the likes of 'add reading session' where all role types apply
-    def has_any_role(
+    def has_relationship(
         self,
         user_id: str,
         child_id: str,
-        roles: list[str]
     ):
         for relationship in self._storage.values():
             if relationship["user_id"] == user_id and relationship["child_id"] == child_id:
-                return relationship["role"] in roles
+                return True
         return False
 
 
