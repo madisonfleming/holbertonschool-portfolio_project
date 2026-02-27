@@ -114,7 +114,20 @@ class RelationshipRepository():
     ):
         for relationship in self._storage.values():
             if relationship["user_id"] == user_id and relationship["child_id"] == child_id:
-                return relationship["role"] == role
+                return relationship["role"] == role     # bool
+        return False
+    
+    # check for role match with multiple roles listed
+    # more specific approach for the likes of 'get reading session' where thirdary not allowed
+    def has_one_of_roles(
+        self,
+        user_id: str,
+        child_id: str,
+        roles: list[str]
+    ):
+        for relationship in self._storage.values():
+            if relationship["user_id"] == user_id and relationship["child_id"] == child_id:
+                return relationship["role"] in roles    # bool
         return False
     
     def get_children_per_user(self, user_id):
