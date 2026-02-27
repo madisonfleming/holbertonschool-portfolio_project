@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.endpoints import users, children, milestones, reading_sessions 
+from app.api.endpoints import users, children, milestones, reading_sessions, books
 from app.api.dependencies import get_facade
 from app.api import auth_dependencies
 import firebase_admin
@@ -45,6 +45,7 @@ def create_app(settings=None) -> FastAPI:
     app.include_router(children.router, prefix="/api", dependencies=[Depends(get_facade)])
     app.include_router(milestones.router, prefix="/api", dependencies=[Depends(get_facade)])
     app.include_router(reading_sessions.router, prefix="/api", dependencies=[Depends(get_facade)])
+    app.include_router(books.router, prefix="/api", dependencies=[Depends(get_facade)])
     app.include_router(auth_dependencies.router, prefix="/api")
 
     # root health check
