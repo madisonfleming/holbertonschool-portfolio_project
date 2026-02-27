@@ -28,7 +28,7 @@ The app is a portfolio project by C27 students at Holberton School Australia.
 
 To get started, set up your virtual environment and install the project dependencies:
 ```
-cd holbertonschool-portforlio_project
+cd holbertonschool-portfolio_project
 python3 -m venv venv
 source venv/bin/activate   # Mac/Linux/WSL
 venv\Scripts\activate      # Windows
