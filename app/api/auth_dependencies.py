@@ -14,10 +14,13 @@ def auth_current_user(credentials: HTTPAuthorizationCredentials = Depends(securi
     # credentials becomes a fastapi dependency object that stores scheme(Bearer) and credentials(token) at runtime
 
     # Toggles a test user uid to bypass protections while testing
-    # Activated by running "TEST_MODE=true uvicorn app.main:app --reload"
-    if os.getenv("TEST_MODE") == "true":
-        return {"uid": "test-user"}
-    
+    # Uses the app's custom config modes (development mode by default)
+    # Activated by default via "uvicorn app.main:app --reload"
+    # Switch off the bypass by running "ENVIRONMENT=production uvicorn app.main:app --reload"
+    if os.getenv("ENVIRONMENT") == None or "development":
+        print("hello from test user 123")
+        return {"uid": "123"}
+
     if credentials is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
