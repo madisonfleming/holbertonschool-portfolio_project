@@ -17,16 +17,16 @@ class ReadingSessionRepository:
         logged_at: datetime
     ):
         session = ReadingSession(
-            session_id=str(uuid4()),
+            id=str(uuid4()),
             child_id=child_id,
             book_id=book_id,
             logged_at=logged_at
         )
-        self._storage[session.session_id] = session
+        self._storage[session.id] = session
         return session
 
-    def get_by_id(self, session_id: str):
-        return self._storage.get(session_id)
+    def get_by_id(self, id: str):
+        return self._storage.get(id)
 
     def get_by_child(self, child_id: str):
         return [
@@ -38,7 +38,7 @@ class ReadingSessionRepository:
         return []
 
     def update(self, session: ReadingSession):
-        self._storage[session.session_id] = session
+        self._storage[session.id] = session
         return session
 
     def delete(self, id):
