@@ -18,7 +18,7 @@ def create_app(settings=None) -> FastAPI:
     if settings is None:
         settings = get_settings_class()()
     
-    if type(settings).__name__ != "UnitTestingConfig":
+    if type(settings).__name__ == "ProductionConfig":
         cred = credentials.Certificate(settings.FIREBASE_CONFIG)
         firebase_admin.initialize_app(cred)
 
