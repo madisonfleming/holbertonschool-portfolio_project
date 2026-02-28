@@ -63,7 +63,7 @@ class FakeFacade:
                 "avatar_url": None,
                 }
         if firebase_uid == "777":
-            raise RelationshipNotFoundError() # this should catch before ChildNotFoundError() in real facade
+            raise RelationshipNotFoundError("777", "test-child-id-2") # this should catch before ChildNotFoundError() in real facade
 
     def update_child(self, child_id, child_data, firebase_uid):
         if firebase_uid == "123" and child_id == "test-child-id-2":
@@ -74,7 +74,7 @@ class FakeFacade:
                 "avatar_url": "alien_avatar.com", 
             }
         if firebase_uid == "777":
-            raise RelationshipNotFoundError()
+            raise RelationshipNotFoundError("777", "test-child-id-2")
 
 # app with Facade dependency override (auth overrides are done per test)
 @pytest.fixture
