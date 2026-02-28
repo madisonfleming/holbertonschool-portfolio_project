@@ -18,7 +18,7 @@ from app.external.open_library_api import OpenLibraryClient
 #from app.api.schemas.users import CreateUser
 from app.api.schemas.children import CreateChild, ChildResponse, UpdateChild
 from app.api.schemas.users import CreateUser, UserResponse, UpdateUser
-from app.api.schemas.reading_sessions import CreateReadingSession, UpdateReadingSession
+from app.api.schemas.reading_sessions import CreateReadingSession, UpdateReadingSession, ReadingSessionResponse
 from app.api.schemas.books import BookResponse, BookSearchResponse
 
 from app.domain.exceptions import(

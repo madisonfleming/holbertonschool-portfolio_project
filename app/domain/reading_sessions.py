@@ -18,7 +18,7 @@ domain model. For MVP this will serve its purpose though
 """
 @dataclass
 class ReadingSession:
-    session_id: str
+    id: str
     child_id: str
     book_id: str
     logged_at: datetime
