@@ -378,7 +378,7 @@ class MLBFacade:
         if limit is not None:
             filtered_sessions = filtered_sessions[:limit]
 
-        return filtered_sessions
+        return [ReadingSessionResponse.from_domain(session) for session in filtered_sessions]
 
 
     def update_session(
@@ -416,7 +416,7 @@ class MLBFacade:
 
         self.reading_session_repository.update(session)
 
-        return session
+        return ReadingSessionresponse.from_domain(session)
 
 
     # return number of sessions in a date window
