@@ -228,7 +228,7 @@ def test_get_child_without_relo(client, override_auth):
     assert response.status_code == 404
     assert response.json()["status"] == 404
     assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
-    assert response.json()["message"] == "Relationship not found"
+    assert response.json()["message"] == "Relationship between user: '777' and child: 'test-child-id-2' not found"
 
 # <--- UPDATE CHILD TESTS --->
 # Happy Path: test 200 success update all fields of a child (user 123)
@@ -270,7 +270,7 @@ def test_update_child_without_relo(client, override_auth):
     assert response.status_code == 404
     assert response.json()["status"] == 404
     assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
-    assert response.json()["message"] == "Relationship not found"
+    assert response.json()["message"] == "Relationship between user: '777' and child: 'test-child-id-2' not found"
 
 # Negative Path: test 401 unauthorised user - no auth override
 def test_update_child_as_unauthorised_user(client):
