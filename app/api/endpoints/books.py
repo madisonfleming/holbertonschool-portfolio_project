@@ -23,6 +23,5 @@ def search_books(
 def get_book(
     book_id: str,
     facade: MLBFacade = Depends(get_facade),
-    decoded_token: dict = Depends(auth_current_user)
 ):
     return facade.get_book(book_id)
