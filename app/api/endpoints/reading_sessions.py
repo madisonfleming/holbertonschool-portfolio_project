@@ -68,3 +68,25 @@ def count_reading_sessions(
         from_date=from_date,
         to_date=to_date
     )
+
+# additional count function to facilitate heatmap
+# returns dict [{date}, {# of reading sessions}]
+@router.get(
+    "/children/{child_id}/reading-sessions/heatmap",
+    response_model=dict[str, int],
+    status_code=200
+)
+def heatmap_reading_sessions(
+    child_id: str,
+    from_date: date | None = None,
+    to_date: date | None = None,
+    facade: MLBFacade = Depends(get_facade),
+    decoded_token: dict = Depends(auth_current_user)
+):
+    firebase_uid = decoded_token["uid"]
+    return facade.heatmap_count_rs(
+        child_id=child_id,
+        firebase_uid=firebase_uid,
+        from_date=from_date,
+        to_date=to_date
+    )
