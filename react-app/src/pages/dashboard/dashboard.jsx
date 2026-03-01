@@ -3,13 +3,15 @@ import { useAuth } from "../../contexts/AuthContext";
 import WeeklyGoal from "../../components/dashboard/WeeklyGoal";
 import { getWeeklyTheme } from "../../utils/GetWeeklyTheme";
 import "./dashboard.css";
-import Milestones from "../../components/dashboard/Milestones";
 import AddReadingSession from "../../components/dashboard/AddReadingSession";
-import ChildList from "../../components/dashboard/ChildList";
 import CreateChild from "../../components/dashboard/CreateChild";
+import { useChild } from "../../contexts/ChildContext";
+import ChildCard from "../../components/dashboard/ChildCard";
 
 const Dashboard = () => {
-  const [children, setChildren] = useState([]);
+  //const [children, setChildren] = useState([]);
+  //we use context to import useChild
+  const { childList, setChildList } = useChild();
   const { currentUser } = useAuth();
   const theme = getWeeklyTheme();
   const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] =
@@ -37,24 +39,24 @@ const Dashboard = () => {
     const data = await response.json();
     console.log("this is data from api/protected:", data);
 
-    //FETCH TO GET ALL CHILDREN
-    const childrenRes = await fetch("http://127.0.0.1:8000/api/children", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    //FETCH TO GET ALL CHILDREN NOT ANY MORE WITH CONTEXT
+    //const childrenRes = await fetch("http://127.0.0.1:8000/api/children", {
+     // headers: {
+      //  Authorization: `Bearer ${token}`,
+     // },
+  //  });
 
-    const childrenData = await childrenRes.json();
+   // const childrenData = await childrenRes.json();
 
     // Adjust data fro the use of frontend
-    const formatted = childrenData.map((child) => ({
+    const formatted = childList.map((child) => ({
       id: child.id,
       name: child.name,
       age: child.age,
       avatar: child.avatar_url,
     }));
 
-    setChildren(formatted);
+    setChildList(formatted);
   }
 
   //FETCH TO ENDPOINT TO CREATE A CHILD
@@ -81,13 +83,13 @@ const Dashboard = () => {
     console.log("Answer from BE:", newChild);
 
     // UPDATE UI INMEDIATLY
-    setChildren((prev) => [
+    setChildList((prev) => [
       ...prev,
       {
         id: newChild.id,
         name: newChild.name,
-        date_of_birth: newChild.date_of_birth,
-        avatar_url: newChild.avatar_url,
+        age: newChild.age,
+        avatar: newChild.avatar,
       },
     ]);
   }
@@ -112,11 +114,11 @@ const Dashboard = () => {
       <AddReadingSession
         trigger={buttonAddReadingSessionPopup}
         setTrigger={setButtonAddReadingSessionPopup}
-        children_RS={children}
+        children_RS={childList}
       ></AddReadingSession>
       <div className="dashboard-grid">
         <div className="children-container">
-          <ChildList childrenData={children} />
+          <ChildCard childrenList={childList} />
           {/* createChild buttom */}
           <div className="create-child-container">
             <button
@@ -126,6 +128,7 @@ const Dashboard = () => {
               Create Child
             </button>
           </div>
+        
           {/* For pop up the create child card  need to be outside so the weekly goal text doesnt appear infront */}
           {/*FE send to the BE a POST with this json */}
           <CreateChild
