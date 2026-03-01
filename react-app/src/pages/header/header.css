@@ -1,0 +1,20 @@
+.header {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    height: 60px;
+    background-image: url('./header.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+}
+
+.logo-img {
+    height: 140px;
+    width: auto;
+}
+
+.navbar {
+    background-color: transparent !important;
+    position: absolute !important;
+    right: 0;
+}
+

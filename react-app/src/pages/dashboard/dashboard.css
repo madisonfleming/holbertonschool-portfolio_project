@@ -4,13 +4,13 @@
   margin-bottom: 10px;
 } */
 
-.reading-session-container {
+.reading-session-container,
+.create-child-container {
   position: sticky;
   top: 0px;
   right: 10px;
   height: 20px;
   border: 1px grey;
-
 }
 .open-book-img {
   position: absolute;
@@ -19,7 +19,6 @@
   z-index: 1000;
   width: 80px;
   margin-right: 20px;
-
 }
 .reading-text {
   position: absolute;
@@ -31,13 +30,12 @@
   margin-right: 20px;
 }
 
-
 .dashboard-title {
   font-size: 50px;
   font-weight: bold;
   color: #000;
   text-align: center;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 }
 
 /* Dashboard container to put cards inside */
@@ -87,4 +85,15 @@
 .children-container::-webkit-scrollbar-thumb {
   background: #ff9fc4;
   border-radius: 10px;
+}
+
+.complete-btn {
+  font-family: "Arial", sans-serif;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 1rem;
+  cursor: pointer;
 }

@@ -1,13 +1,15 @@
-import "./childCard.css"
-import ChildCard from "./ChildCard";
+//import "./childCard.css"
+//import ChildCard from "./ChildCard";
+//import { useChild } from "../../contexts/ChildContext";
 
-const ChildList = ( props ) => {
+//const ChildList = () => {
 //fix passing { props } from childrenData in parent file to child_list. if no child render empty
-  const child_list = props.childrenData || [];
+  //const child_list = props.childrenData || [];
+//  const { childList } = useChild();
 
-  return (
-    <div>
-      {child_list.map((child) => (
+//  return (
+ {/*}   <div>
+      {childList.map((child) => (
         <ChildCard
           key={child.id}
           name={child.name}
@@ -18,4 +20,4 @@ const ChildList = ( props ) => {
     </div>
   );
 };
-export default ChildList;
+export default ChildList; */}

@@ -3,21 +3,30 @@ import { useAuth } from "../../contexts/AuthContext";
 import WeeklyGoal from "../../components/dashboard/WeeklyGoal";
 import { getWeeklyTheme } from "../../utils/GetWeeklyTheme";
 import "./dashboard.css";
-import Milestones from "../../components/dashboard/Milestones";
 import AddReadingSession from "../../components/dashboard/AddReadingSession";
+<<<<<<< HEAD
+import CreateChild from "../../components/dashboard/CreateChild";
+import { useChild } from "../../contexts/ChildContext";
+import ChildCard from "../../components/dashboard/ChildCard";
+=======
 import ChildList from "../../components/dashboard/ChildList";
+import CreateChild from "../../components/dashboard/CreateChild";
+>>>>>>> fc0dbaff3ee09762336da0c66da4028b16b68417
 
 const Dashboard = () => {
-  const [children, setChildren] = useState([]);
+  //const [children, setChildren] = useState([]);
+  //we use context to import useChild
+  const { childList, setChildList } = useChild();
   const { currentUser } = useAuth();
   const theme = getWeeklyTheme();
   const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] =
     useState(false);
+  const [buttonCreateChildPopup, setButtonCreateChildPopup] = useState(false);
 
   const current_num_of_books = 100; // vendrá del backend
   const target = 1000; // vendrá del backend
 
-  //
+  //ENDPOINT
   async function loadData() {
     if (!currentUser) return;
     const token = await currentUser.getIdToken();
@@ -35,27 +44,40 @@ const Dashboard = () => {
     const data = await response.json();
     console.log("this is data from api/protected:", data);
 
-    //to fetch the children
+<<<<<<< HEAD
+    //FETCH TO GET ALL CHILDREN NOT ANY MORE WITH CONTEXT
+    //const childrenRes = await fetch("http://127.0.0.1:8000/api/children", {
+     // headers: {
+      //  Authorization: `Bearer ${token}`,
+     // },
+  //  });
+=======
+    //FETCH TO GET ALL CHILDREN
     const childrenRes = await fetch("http://127.0.0.1:8000/api/children", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+>>>>>>> fc0dbaff3ee09762336da0c66da4028b16b68417
 
-    const childrenData = await childrenRes.json();
+   // const childrenData = await childrenRes.json();
 
-    // Ajustamos la data al formato que usa tu frontend
+    // Adjust data fro the use of frontend
+<<<<<<< HEAD
+    const formatted = childList.map((child) => ({
+=======
     const formatted = childrenData.map((child) => ({
+>>>>>>> fc0dbaff3ee09762336da0c66da4028b16b68417
       id: child.id,
       name: child.name,
       age: child.age,
       avatar: child.avatar_url,
     }));
 
-    setChildren(formatted);
+    setChildList(formatted);
   }
 
-  //to create child
+  //FETCH TO ENDPOINT TO CREATE A CHILD
   async function createChild(childData) {
     if (!currentUser) return;
 
@@ -76,16 +98,21 @@ const Dashboard = () => {
     }
 
     const newChild = await response.json();
-    console.log("Respuesta del backend:", newChild);
+    console.log("Answer from BE:", newChild);
 
     // UPDATE UI INMEDIATLY
-    setChildren((prev) => [
+    setChildList((prev) => [
       ...prev,
       {
         id: newChild.id,
         name: newChild.name,
+<<<<<<< HEAD
         age: newChild.age,
-        avatar: newChild.avatar_url,
+        avatar: newChild.avatar,
+=======
+        date_of_birth: newChild.date_of_birth,
+        avatar_url: newChild.avatar_url,
+>>>>>>> fc0dbaff3ee09762336da0c66da4028b16b68417
       },
     ]);
   }
@@ -97,19 +124,6 @@ const Dashboard = () => {
 
   return (
     <div>
-      {/* BOTÓN TEMPORAL PARA PROBAR createChild */}
-      <button
-        onClick={() =>
-          createChild({
-            name: "Billie",
-            date_of_birth: "2020-05-10",
-            avatar_url: "/star.svg",
-          })
-        }
-      >
-        Create Child (test)
-      </button>
-
       <div className="reading-session-container">
         <img
           src={`open-book.png`}
@@ -123,11 +137,35 @@ const Dashboard = () => {
       <AddReadingSession
         trigger={buttonAddReadingSessionPopup}
         setTrigger={setButtonAddReadingSessionPopup}
-        children_RS={children}
+        children_RS={childList}
       ></AddReadingSession>
       <div className="dashboard-grid">
         <div className="children-container">
+<<<<<<< HEAD
+          <ChildCard childrenList={childList} />
+=======
           <ChildList childrenData={children} />
+>>>>>>> fc0dbaff3ee09762336da0c66da4028b16b68417
+          {/* createChild buttom */}
+          <div className="create-child-container">
+            <button
+              className="complete-btn"
+              onClick={() => setButtonCreateChildPopup(true)}
+            >
+              Create Child
+            </button>
+          </div>
+<<<<<<< HEAD
+        
+=======
+>>>>>>> fc0dbaff3ee09762336da0c66da4028b16b68417
+          {/* For pop up the create child card  need to be outside so the weekly goal text doesnt appear infront */}
+          {/*FE send to the BE a POST with this json */}
+          <CreateChild
+            trigger={buttonCreateChildPopup}
+            setTrigger={setButtonCreateChildPopup}
+            createChild={createChild}
+          ></CreateChild>
         </div>
         <div className="weekly-container">
           <WeeklyGoal
