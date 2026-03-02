@@ -4,6 +4,7 @@ from datetime import date, timedelta
 
 from app.domain.user import User
 from app.domain.child import Child
+from app.domain.milestone import Milestone
 
 from app.persistence.user_repository import UserRepository
 from app.persistence.child_repository import ChildRepository
@@ -20,13 +21,18 @@ from app.api.schemas.children import CreateChild, ChildResponse, UpdateChild
 from app.api.schemas.users import CreateUser, UserResponse, UpdateUser
 from app.api.schemas.reading_sessions import CreateReadingSession, UpdateReadingSession, ReadingSessionResponse
 from app.api.schemas.books import BookResponse, BookSearchResponse
+from app.api.schemas.milestones import CreateMilestone, MilestoneResponse
 
 from app.domain.exceptions import(
     InvalidChildNameError,
     UserNotFoundError,
     ChildNotFoundError,
     InvalidUserNameError,
-    InvalidEmailError
+    InvalidEmailError,
+    InvalidMilestoneNameError,
+    InvalidMilestoneDescriptionError,
+    InvalidMilestoneThresholdError,
+    MilestoneNotFoundError,
 )
 from app.services.exceptions import(
     DuplicateUserError,
@@ -329,10 +335,14 @@ class MLBFacade:
             logged_at=request.logged_at
         )
 
-        # check if a milestone has been achieved TODO FINISH THIS GUYYYY
-        # I'm thinking that milestones per child will be calculated in the
-        # facade directly:
-        #    self._evaluate_milestones(child_id, session)
+        # check if a "books_read" milestone has been achieved
+        current_total = self.count_reading_sessions(child_id, firebase_uid)
+
+        # create milestone record at defined intervals of total # of books read
+        if current_total == 25 or current_total % 50 == 0:
+            milestone = self.milestone_repository.get_by_type_and_threshold(milestone_type="books_read", threshold=current_total)
+            self.create_milestone_record(child_id, milestone)
+        
 
         return ReadingSessionResponse.from_domain(session)
 
