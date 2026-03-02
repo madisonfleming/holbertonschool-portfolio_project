@@ -1,9 +1,9 @@
-import "./CreateChild.css";
+import "./UpdateChild.css";
 import React from "react";
-import { useChild } from "../../contexts/ChildContext";
+
 import { useState, useEffect } from "react";
 
-const CreateChild = ({ trigger, setTrigger, createChild }) => {
+const UpdateChild = ({ child, trigger, setTrigger, updateChild }) => {
 
   
   const [childName, setChildName] = useState("");
