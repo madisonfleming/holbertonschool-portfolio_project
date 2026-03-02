@@ -65,7 +65,21 @@ class MLBFacade:
         self.book_repository = book_repository
         self.open_library_api = open_library_api
 
+# <--- USER --->
+    # Helper function to look up user by firebase_uid
+    # Raises Permissions error if user doesn't exist
+    # Can be called by any endpoint to authorise current user
+    def get_user_id(
+            self,
+            firebase_uid,
+    ):
+        user = self.user_repository.get_by_firebase_uid(firebase_uid=firebase_uid)
 
+        if user:
+            return user.id
+        
+        raise PermissionDeniedError
+        
 
 # <--- CHILD --->
     
