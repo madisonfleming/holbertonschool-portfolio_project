@@ -60,7 +60,7 @@ const UpdateChild = ({ child, trigger, setTrigger, updateChild }) => {
         <h1 className="tittle-popup-card">Update {child?.name || "Child"} Profile</h1>
          <div className="update-child-layout">
            <div className="left-section">
-              <h4 className= "subtittle-popup-card">About</h4>
+              <h4 className= "subtittle-popup-card">Update Personal Info</h4>
               {/* NAME */}
               <input type="text" 
               className="select-field-update-child" 
