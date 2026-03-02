@@ -517,3 +517,99 @@ class MLBFacade:
                 current += timedelta(days=1)    # timedelta detects duration (increments by 1 day)
 
         return counts
+
+# <--- MILESTONES --->
+
+    def get_milestones(self, child_id: str, firebase_uid: str) -> list[MilestoneResponse]:
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        user_id = user.id
+        # validate child-user relationship
+        if user_id:
+            has_rel = self.relationship_repository.has_relationship(user_id, child_id)
+            if not has_rel:
+                raise RelationshipNotFoundError(user_id, child_id)
+
+        milestones = self.milestone_completion_repository.get_all_milestones_by_child(child_id)
+        return milestones
+    
+    def get_milestone(self, child_id: str, milestone_id: str, firebase_uid: str) -> MilestoneResponse:
+        
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        user_id = user.id
+        # validate child-user relationship
+        if user_id:
+            has_rel = self.relationship_repository.has_relationship(user_id, child_id)
+            if not has_rel:
+                raise RelationshipNotFoundError(user_id, child_id)
+            
+        if not milestone_id:
+            raise MilestoneNotFoundError()
+
+        milestone = self.milestone_completion_repository.get(milestone_id=milestone_id)
+        return milestone
+
+    def get_milestones_by_metric_key(self, child_id, metric_key, firebase_uid) -> MilestoneResponse:
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        user_id = user.id
+        # validate child-user relationship
+        if user_id:
+            has_rel = self.relationship_repository.has_relationship(user_id, child_id)
+            if not has_rel:
+                raise RelationshipNotFoundError(user_id, child_id)
+        
+        # TO DO - validate metric_key against a known list, raise applicable error
+        if not metric_key:
+            raise ValueError("Missing metric key")
+
+        milestone = self.milestone_completion_repository.get_all_by_child_and_key(child_id, metric_key)
+        return milestone
+
+    def create_weekly_milestone(self, milestone_request: CreateMilestone, firebase_uid):
+        user_id = self.get_user_id(firebase_uid)
+
+        # validate child-user relationship
+        if user_id:
+            child_id = milestone_request.child_id  # Check syntax
+            has_rel = self.relationship_repository.has_relationship(user_id, child_id)
+            if not has_rel:
+                raise RelationshipNotFoundError(user_id, child_id)
+        
+        # validate child exists
+        child = self.child_repository.get(child_id)
+
+        # find milestone by subject included on request
+        # if child and milestone_request["subject"]:
+        if child:
+            # To do - Ensure that subject is one of the valid options
+            milestone = self.milestone_repository.get_by_subject(milestone_request.subject)
+            milestone_record = self.create_milestone_record(milestone_request.child_id, milestone)
+            return milestone_record.to_dict()
+            # return milestone_record
+
+
+    def create_milestone_record(self, child_id: str, milestone: dict):
+        """
+        Creates either a total milestone record or a weekly milestone record
+        """
+        child = self.child_repository.get(child_id)
+
+        if child and milestone:
+            if milestone["type"] == "books_read":
+                name = "Total number of books read"
+                percentage = milestone["threshold"] / 1000
+                description = f'{child.name} has read {milestone["threshold"]} books! That\'s {percentage}% of the total goal!'
+
+            if milestone["type"] == "weekly_goal":
+                name = "Weekly goal"
+                description = f'{child.name} read {milestone["threshold"]} books about {milestone["subject"]} this week!'
+
+            # create a Milestone object
+            milestone_record = Milestone(
+                name=name,
+                description=description,
+                metric_key=milestone["type"],
+                threshold=milestone["threshold"],
+                child_id=child_id,
+            )
+            self.milestone_completion_repository.save(milestone_record)
+            return milestone_record
