@@ -18,7 +18,7 @@ export function ChildProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const { currentUser } = useAuth();
     
-    //to get all the children
+    //endpoint to get all the children
     async function loadData() {
         try {
             const token = await currentUser.getIdToken();
@@ -32,7 +32,7 @@ export function ChildProvider({ children }) {
             const childrenData = await childrenRes.json();
             console.log("this is children data", childrenData)
 
-            // Ajustamos la data al formato que usa tu frontend
+            // formatted data to use in FE
             const formatted = childrenData.map((child) => ({
                 id: child.id,
                 name: child.name,
@@ -50,7 +50,7 @@ export function ChildProvider({ children }) {
         
     }
 
-     //FETCH TO ENDPOINT TO CREATE A CHILD
+//ENDPOINT TO CREATE A CHILD
   async function createChild(childData) {
     if (!currentUser) return;
 
@@ -64,15 +64,12 @@ export function ChildProvider({ children }) {
       },
       body: JSON.stringify(childData),
     });
-
     if (!response.ok) {
       console.error("Error creating child");
       return;
     }
-
     const newChild = await response.json();
     console.log("Answer from BE of creating new child:", newChild);
-
     // UPDATE UI INMEDIATLY
     setChildList((prev) => [
       ...prev,
@@ -80,11 +77,54 @@ export function ChildProvider({ children }) {
         id: newChild.id,
         name: newChild.name,
         age: newChild.age,
-        avatar: newChild.avatar,
-
+        avatar: newChild.avatar_url,
       },
     ]);
   }
+
+  //UPDATE CHILD
+  async function updateChild(id, updatedData){
+    console.log("PUT payload:", updatedData);
+
+    if (!currentUser) return;
+
+    const token = await currentUser.getIdToken();
+    
+    const response = await fetch(`http://127.0.0.1:8000/api/children/${id}`, {
+    method: "PUT",
+    headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, 
+    },
+    body: JSON.stringify(updatedData),
+    });
+
+    if (!response.ok) {
+      console.error("Error updating child");
+      return;
+    }
+
+    const updatedChild = await response.json();
+    console.log("Answer from BE of updating a child:", updatedChild);
+    // Update local state
+    setChildList(prev => {
+        const updatedList = prev.map(child => {
+            if (child.id === id) {
+            // search the child we want to update
+            return {
+                ...child,
+                ...updatedChild,
+            };
+            } else {
+            // if new data is not send stay with the old data
+            return child;
+            }
+        });
+
+        return updatedList;
+        });
+
+}
 
     //to validate the existance of child useEffect detects the change of child from null to fetched
     useEffect(() => {
@@ -100,6 +140,7 @@ export function ChildProvider({ children }) {
         selectedChild, 
         setSelectedChild,
         createChild,
+        updateChild,
         }}>
             {!loading && children}
         </ChildContext.Provider>
