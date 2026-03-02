@@ -27,4 +27,24 @@ def get_one_milestone(
     decoded_token: dict = Depends(auth_current_user)
     ):
     firebase_uid = decoded_token["uid"]
-    return facade.get_one_milestone(child_id, milestone_id, firebase_uid) #TODO: Check method name and params match facade
+    return facade.get_milestone(child_id, milestone_id, firebase_uid)
+
+# Get all milestones of the same metric_key
+@router.get("/children/{child_id}/milestones/{metric_key}", response_model=List[MilestoneResponse], status_code=200)
+def get_all_milestones_by_metric_key(
+    child_id: str,
+    metric_key: str,
+    facade: MLBFacade = Depends(get_facade),
+    decoded_token: dict = Depends(auth_current_user)
+    ):
+    firebase_uid = decoded_token["uid"]
+    return facade.get_milestones_by_metric_key(child_id, metric_key, firebase_uid)
+
+@router.post("/children/{child_id}/milestones", response_model=MilestoneResponse, status_code=201)
+def complete_weekly_milestone(
+    data: CreateMilestone,
+    facade: MLBFacade = Depends(get_facade),
+    decoded_token: dict = Depends(auth_current_user)
+    ):
+    firebase_uid = decoded_token["uid"]
+    return facade.create_weekly_milestone(data, firebase_uid)
