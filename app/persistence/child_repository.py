@@ -40,10 +40,21 @@ child3 = {
     'avatar_url': None
     }
 
+child4 = {
+    "created_at": "2026-02-18 04:39:42.220228",
+    "updated_at": "2026-02-18 04:39:42.220228",
+    'id': '123',
+    'name': 'Amy',
+    'date_of_birth': '2025-01-29',
+    'age': 1,
+    'avatar_url': None
+    }
+
 CHILDREN = {
     child1["id"]: child1,
     child2["id"]: child2,
     child3["id"]: child3,
+    child4["id"]: child4,
 }
 
 # Uncomment to inspect the Child data

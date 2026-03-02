@@ -52,10 +52,23 @@ relationship3 = {
         # "updated_at": "2026-02-18 04:39:42.220228"
 }
 
+# For Swagger testing
+relationship4 = {
+        "id": "c686c824-25e6-4704-87a6-651938429234",
+        "user_id": "123",
+        "child_id": "123",
+        "role": "primary",
+        # "invited_by": None,
+        # "invite_status": None,
+        # "created_at": "2026-02-18 04:39:42.220228",
+        # "updated_at": "2026-02-18 04:39:42.220228"
+}
+
 RELATIONSHIPS = {
     relationship1["id"]: relationship1,
     relationship2["id"]: relationship2,
     relationship3["id"]: relationship3,
+    relationship4["id"]: relationship4,
 }
 # Uncomment to inspect hardcoded data
 # print(RELATIONSHIPS)

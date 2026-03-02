@@ -52,11 +52,23 @@ user4 = {
     "firebase_uid": "7UKtP5I8lBbDoO8wVv6WB8Ge03Q2",
     }
 
+# Simple uid for Swagger testing
+user5 = {
+    "created_at": "2026-02-18 04:39:42.220228",
+    "updated_at": "2026-02-18 04:39:42.220228",
+    "id": "123",
+    "name": "Sam",
+    "email": "123@example.com",
+    "role": "standard",
+    "firebase_uid": "123",
+}
+
 USERS = {
     user1["firebase_uid"]: user1,
     user2["firebase_uid"]: user2,
     user3["firebase_uid"]: user3,
     user4["firebase_uid"]: user4,
+    user5["firebase_uid"]: user5,
 }
 
 # Uncomment to inspect the User data
