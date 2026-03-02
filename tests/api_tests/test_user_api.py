@@ -73,6 +73,11 @@ def override_auth(app):
         app.dependency_overrides[auth_current_user] = override
     return _override
 
+# Set the env to "testing"
+@pytest.fixture(autouse=True)
+def set_env(monkeypatch):
+    monkeypatch.setenv("ENVIRONMENT", "testing")
+
 BASE_URL = "/api/users/me"
 
 # <--- GET USER TESTS --->
