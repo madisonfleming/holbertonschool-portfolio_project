@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from datetime import date
+from datetime import date, timedelta
 
 from app.domain.user import User
 from app.domain.child import Child
@@ -416,7 +416,7 @@ class MLBFacade:
 
         self.reading_session_repository.update(session)
 
-        return ReadingSessionresponse.from_domain(session)
+        return ReadingSessionResponse.from_domain(session)
 
 
     # return number of sessions in a date window
