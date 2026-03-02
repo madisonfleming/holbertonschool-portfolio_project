@@ -63,7 +63,7 @@ class FakeFacade:
                 "avatar_url": None,
                 }
         if firebase_uid == "777":
-            raise RelationshipNotFoundError() # this should catch before ChildNotFoundError() in real facade
+            raise RelationshipNotFoundError("777", "test-child-id-2") # this should catch before ChildNotFoundError() in real facade
 
     def update_child(self, child_id, child_data, firebase_uid):
         if firebase_uid == "123" and child_id == "test-child-id-2":
@@ -74,7 +74,7 @@ class FakeFacade:
                 "avatar_url": "alien_avatar.com", 
             }
         if firebase_uid == "777":
-            raise RelationshipNotFoundError()
+            raise RelationshipNotFoundError("777", "test-child-id-2")
 
 # app with Facade dependency override (auth overrides are done per test)
 @pytest.fixture
@@ -228,7 +228,7 @@ def test_get_child_without_relo(client, override_auth):
     assert response.status_code == 404
     assert response.json()["status"] == 404
     assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
-    assert response.json()["message"] == "Relationship not found"
+    assert response.json()["message"] == "Relationship between user: '777' and child: 'test-child-id-2' not found"
 
 # <--- UPDATE CHILD TESTS --->
 # Happy Path: test 200 success update all fields of a child (user 123)
@@ -270,7 +270,7 @@ def test_update_child_without_relo(client, override_auth):
     assert response.status_code == 404
     assert response.json()["status"] == 404
     assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
-    assert response.json()["message"] == "Relationship not found"
+    assert response.json()["message"] == "Relationship between user: '777' and child: 'test-child-id-2' not found"
 
 # Negative Path: test 401 unauthorised user - no auth override
 def test_update_child_as_unauthorised_user(client):

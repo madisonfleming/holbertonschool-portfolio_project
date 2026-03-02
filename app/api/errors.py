@@ -18,13 +18,18 @@ from app.domain.exceptions import (
     InvalidEmailError,
     UserNotFoundError,
     ChildNotFoundError,
-    ReadingSessionNotFoundError,
     MilestoneNotFoundError
 )
 from app.services.exceptions import (
     DuplicateUserError,
-    RelationshipNotFoundError
+    RelationshipNotFoundError,
+    ExternalBookClientError,
+    InvalidSearchQueryError,
+    PermissionDeniedError,
+    BookNotFoundError,
+    ReadingSessionNotFoundError
 )
+
 
 def format_error(code: str, exc: Exception, status: int):
     # helper function to prevent repetition
@@ -70,11 +75,11 @@ def register_error_handlers(app):
         return format_error( "CHILD_NOT_FOUND", exc, 404)
 
     @app.exception_handler(ReadingSessionNotFoundError)
-    async def child_not_found_handler(request: Request, exc: ChildNotFoundError):
+    async def reading_session_not_found_handler(request: Request, exc: ReadingSessionNotFoundError):
         return format_error( "READING_SESSION_NOT_FOUND", exc, 404)
 
     @app.exception_handler(MilestoneNotFoundError)
-    async def child_not_found_handler(request: Request, exc: ChildNotFoundError):
+    async def milestone_not_found_handler(request: Request, exc: MilestoneNotFoundError):
         return format_error( "MILESTONE_NOT_FOUND", exc, 404)
 
     @app.exception_handler(RelationshipNotFoundError)
@@ -112,3 +117,19 @@ def register_error_handlers(app):
     @app.exception_handler(InvalidDateOfBirthError)
     async def invalid_date_of_birth_handler(request: Request, exc: InvalidDateOfBirthError):
         return format_error("INVALID_DATE_OF_BIRTH", exc, 400)
+
+    @app.exception_handler(ExternalBookClientError)
+    async def external_book_client_error_handler(request: Request, exc: ExternalBookClientError):
+        return format_error("EXTERNAL_BOOK_CLIENT_ERROR", exc, 503)
+
+    @app.exception_handler(InvalidSearchQueryError)
+    async def invalid_search_query_handler(request: Request, exc: InvalidSearchQueryError):
+        return format_error("INVALID_SEARCH_QUERY", exc, 400)
+
+    @app.exception_handler(BookNotFoundError)
+    async def book_not_found_handler(request: Request, exc: BookNotFoundError):
+        return format_error("BOOK_NOT_FOUND", exc, 404)
+
+    @app.exception_handler(PermissionDeniedError)
+    async def permission_denied_handler(request: Request, exc: PermissionDeniedError):
+        return format_error("PERMISSION_DENIED", exc, 403)

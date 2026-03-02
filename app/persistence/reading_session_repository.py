@@ -1,19 +1,34 @@
 #!/usr/bin/python3
 
-from app.persistence.repository import Repository
+from app.domain.reading_sessions import ReadingSession
+
+from datetime import datetime
+from uuid import uuid4
 
 
-class ReadingSessionRepository(Repository):
+class ReadingSessionRepository:
     def __init__(self):
         self._storage = {}
 
-    def save(self, session):
+    def save(
+        self,
+        child_id: str,
+        book_id: str,
+        logged_at: datetime
+    ):
+        session = ReadingSession(
+            id=str(uuid4()),
+            child_id=child_id,
+            book_id=book_id,
+            logged_at=logged_at
+        )
         self._storage[session.id] = session
+        return session
 
-    def get(self, session_id):
-        return self._storage.get(session_id)
+    def get_by_id(self, id: str):
+        return self._storage.get(id)
 
-    def get_by_child(self, child_id):
+    def get_by_child(self, child_id: str):
         return [
             session for session in self._storage.values()
             if session.child_id == child_id
@@ -22,11 +37,9 @@ class ReadingSessionRepository(Repository):
     def get_all(self):
         return []
 
-    def get_by_attribute(self, attr, value):
-        return None
-
-    def update(self, id, data):
-        pass
+    def update(self, session: ReadingSession):
+        self._storage[session.id] = session
+        return session
 
     def delete(self, id):
         pass
