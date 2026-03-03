@@ -560,6 +560,10 @@ class MLBFacade:
             raise MilestoneNotFoundError()
 
         milestone = self.milestone_completion_repository.get(milestone_id=milestone_id)
+
+        if milestone is None:
+            raise MilestoneNotFoundError
+
         return milestone
 
     def get_milestones_by_metric_key(self, child_id, metric_key, firebase_uid) -> MilestoneResponse:
