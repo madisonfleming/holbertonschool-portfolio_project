@@ -78,10 +78,11 @@ class MilestoneCompletionRepository(Repository):
         pass
 
     def get_all_by_child_and_key(self, child_id, milestone_key):
-        return ((m for m in self._storage.values()
+        return [
+            m for m in self._storage.values()
             if m["child_id"] == child_id
-            and m["metric_key"] == milestone_key),
-            None)
+            and m["metric_key"] == milestone_key
+        ]
 
 
     def get_most_recent_reading_milestone(self, child_id: str, metric_key: str):
