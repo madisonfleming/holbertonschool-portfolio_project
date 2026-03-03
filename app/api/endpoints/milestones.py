@@ -9,14 +9,20 @@ from typing import List
 router = APIRouter() # NOTE: auth applied at individual endpoint level for now. 
 
 
-# Requirement: Get ALL milestones
+# Requirement: Get ALL milestones, with optional filtering by metric_key
 @router.get("/children/{child_id}/milestones", response_model=List[MilestoneResponse], status_code=200)
 def get_all_milestones(
     child_id: str,
+    metric_key: str | None = None,
     facade: MLBFacade = Depends(get_facade),
     decoded_token: dict = Depends(auth_current_user)
     ):
-    return facade.get_milestones(child_id, decoded_token["uid"])
+    firebase_uid = decoded_token["uid"]
+
+    if metric_key:
+        return facade.get_milestones_by_metric_key(child_id, metric_key, firebase_uid)
+
+    return facade.get_milestones(child_id, firebase_uid)
 
 # Requirement: Get ONE milestone
 @router.get("/children/{child_id}/milestones/{milestone_id}", response_model=MilestoneResponse, status_code=200)
@@ -28,17 +34,6 @@ def get_one_milestone(
     ):
     firebase_uid = decoded_token["uid"]
     return facade.get_milestone(child_id, milestone_id, firebase_uid)
-
-# Get all milestones of the same metric_key
-@router.get("/children/{child_id}/milestones/{metric_key}", response_model=List[MilestoneResponse], status_code=200)
-def get_all_milestones_by_metric_key(
-    child_id: str,
-    metric_key: str,
-    facade: MLBFacade = Depends(get_facade),
-    decoded_token: dict = Depends(auth_current_user)
-    ):
-    firebase_uid = decoded_token["uid"]
-    return facade.get_milestones_by_metric_key(child_id, metric_key, firebase_uid)
 
 @router.post("/children/{child_id}/milestones", response_model=MilestoneResponse, status_code=201)
 def complete_weekly_milestone(
