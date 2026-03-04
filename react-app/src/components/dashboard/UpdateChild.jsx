@@ -28,12 +28,22 @@ const UpdateChild = ({ child, trigger, setTrigger, updateChild }) => {
   //we need a handle in order to create the obj with the states
   //we send name, date_of_birth and avatar_url but in react FE we call childName date and avatars
     const handleUpdateChild = () => {
-      const updatedData = {
-        name: childName,
-        date_of_birth: date,
-        avatar_url: avatars[selectedAvatar],
-      };
+      //if the user doesnt put a new avatar the last avatar is saved
+      //name: childName,
+      //date_of_birth: date,
+      //avatar_url: avatars[selectedAvatar],
+      // # && # !==  -> if # is valid and is dif from original then: 
+      const updatedData = {};
 
+      if (childName && childName !== child.name) {
+        updatedData.name = childName;
+      }
+      if (date && date !== child.date_of_birth) {
+        updatedData.date_of_birth = date;
+      }
+      if (avatars[selectedAvatar] !== child.avatar) {
+        updatedData.avatar_url = avatars[selectedAvatar];
+      }
       console.log("sending update data for test: ", updatedData);
       updateChild(child.id, updatedData);
 
