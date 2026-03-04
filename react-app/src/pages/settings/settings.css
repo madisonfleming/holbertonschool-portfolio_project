@@ -1,0 +1,45 @@
+.settings-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #fce4ec;
+  padding: 20px;
+}
+
+.settings-card {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: #ec407a;
+  padding-bottom: 30px;
+}
+
+.subtitle {
+  text-align: left; /* change text-align for subtitle*/
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.username {
+  font-size: 15px;
+  margin-bottom: 0px;
+}
+
+.edit-btn {
+  border: none;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 10px;
+
+}
