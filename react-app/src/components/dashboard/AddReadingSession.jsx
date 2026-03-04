@@ -65,11 +65,11 @@ const AddReadingSession = (props) => {
                 >
                   <button className="child-btn">
                     <img
-                      src={child.avatar_url}
+                      src={child.avatar}
                       className="child-avatar-img-rs"
                     />
                   </button>
-                   {console.log('avatar test andrea:', child.avatar_url)}
+                   {console.log('avatar test andrea:', child.avatar)}
                   <div className="child-name-inside-card">{child.name}</div>
                 </div>
               ))}
