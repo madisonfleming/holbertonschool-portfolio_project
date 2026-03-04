@@ -78,7 +78,7 @@ class Childdata():
         'name': 'Billy',
         'date_of_birth': '2024-07-01',
         'age': 1,
-        'avatar_url': None
+        'avatar_url': "/avatars/mlb-avatar-apple.png"
         }
 
     child3 = {
@@ -98,7 +98,7 @@ class Childdata():
         'name': 'Amy',
         'date_of_birth': '2025-01-29',
         'age': 1,
-        'avatar_url': "/avatars/mlb-avatar-robot.png"
+        'avatar_url': "/avatars/mlb-avatar-sun.png"
         }
 
     CHILDREN = {
