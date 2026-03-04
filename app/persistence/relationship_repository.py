@@ -1,75 +1,5 @@
 import uuid
-
-
-""" 
-Set up hardcoded Relationship data for us to use
-while the repository is in-memory
-
-TO DO: remove hardcoded data after MySQL is connected
-"""
-# from app.persistence.child_repository import ChildRepository
-# from app.persistence.user_repository import UserRepository
-
-# Validate that the hardcoded child and user data is available from here
-# child_repo = ChildRepository()
-# user_repo = UserRepository()
-
-# print("GET CHILD FROM REL", child_repo.get('e686c824-25e6-4704-87a6-65193842911c'))
-# print("GET USER FROM REL", user_repo.get('b433c6ab-fba5-49a9-9d57-99db6b690efc'))
-
-# Mary is the primary user for Susie's child profile
-relationship1 = {
-        "id": "c686c824-25e6-4704-87a6-651938429232",
-        "user_id": "a686c824-25e6-4704-87a6-651938429111",
-        "child_id": "e686c824-25e6-4704-87a6-651938429111",
-        "role": "primary",
-        # "invited_by": None,
-        # "invite_status": None,
-        # "created_at": "2026-02-18 04:39:42.220228",
-        # "updated_at": "2026-02-18 04:39:42.220228"
-}
-# Mary is the primary user for Billy's child profile
-relationship2 = {
-        "id": "c686c824-25e6-4704-87a6-651938429233",
-        "user_id": "a686c824-25e6-4704-87a6-651938429111",
-        "child_id": "e686c824-25e6-4704-87a6-651938429112",
-        "role": "primary",
-        # "invited_by": None,
-        # "invite_status": None,
-        # "created_at": "2026-02-18 04:39:42.220228",
-        # "updated_at": "2026-02-18 04:39:42.220228"
-}
-
-# For Testing: this relationship has a user (John Doe) with a legit firebase uid. Child is Tom.
-relationship3 = {
-        "id": "c686c824-25e6-4704-87a6-651938429234",
-        "user_id": "d686c824-25e6-4704-87a6-651938429111",
-        "child_id": "e686c824-25e6-4704-87a6-651938429113",
-        "role": "primary",
-        # "invited_by": None,
-        # "invite_status": None,
-        # "created_at": "2026-02-18 04:39:42.220228",
-        # "updated_at": "2026-02-18 04:39:42.220228"
-}
-
-# For Swagger testing
-relationship4 = {
-        "id": "c686c824-25e6-4704-87a6-651938429234",
-        "user_id": "123",
-        "child_id": "123",
-        "role": "primary",
-        # "invited_by": None,
-        # "invite_status": None,
-        # "created_at": "2026-02-18 04:39:42.220228",
-        # "updated_at": "2026-02-18 04:39:42.220228"
-}
-
-RELATIONSHIPS = {
-    relationship1["id"]: relationship1,
-    relationship2["id"]: relationship2,
-    relationship3["id"]: relationship3,
-    relationship4["id"]: relationship4,
-}
+from app.persistence.in_memory_seed import Relationshipdata
 # Uncomment to inspect hardcoded data
 # print(RELATIONSHIPS)
 
@@ -78,7 +8,7 @@ RELATIONSHIPS = {
 # It only has the methods it has needed so far
 class RelationshipRepository():
     def __init__(self):
-        self._storage = RELATIONSHIPS
+        self._storage = Relationshipdata().relationships
 
     def get(self, obj_id):
         # Which id will be passed in?
