@@ -1,12 +1,19 @@
 import "./settings.css"
 import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
+import UpdateUser from "./UpdateUser";
 
 
 
 const Settings = () => {
     const [user, setUser] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [buttonUpdateUserPopup, setButtonUpdateUserPopup] = useState(false);
+    const [editingUser, setEditingUser] = useState(null);
+    const handleEditUser = (user) => {
+        setEditingUser(user);
+    }
 
     const { currentUser } = useAuth();
 
@@ -46,14 +53,14 @@ const Settings = () => {
 
     }
     //UPDATE USER
-    async function updateUser(id, updatedData) {
+    async function updateUser(updatedData) {
         console.log("PUT data:", updatedData);
 
         if (!currentUser) return;
 
         const token = await currentUser.getIdToken();
 
-        const response = await fetch(`http://127.0.0.1:8000/api/users/me/${id}`, {
+        const response = await fetch("http://127.0.0.1:8000/api/users/me", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -71,22 +78,7 @@ const Settings = () => {
         console.log("Answer from BE of updating a user:", updatedUser);
         // Update local state
 
-        setUserList(prev => {
-            const updatedList = prev.map(user => {
-                if (user.id === id) {
-                    // search the user we want to update
-                    return {
-                        ...user,
-                        ...updatedUser,
-                    };
-                } else {
-                    // if new data is not send stay with the old data
-                    return user;
-                }
-            });
-
-            return updatedList;
-        });
+        setUser(updatedUser);
 
     }
 
@@ -102,14 +94,26 @@ const Settings = () => {
                 <h1 className="title">Hello, {user.name}</h1>
                 <p className="subtitle">Account Details</p>
 
-                <form >
+                    <div className="account-details">
                     <p className="username">{user.name}</p>
                     <p className="username">{user.email}</p>
-
-                    <button className="edit-btn">Edit Account</button>
+                    {/* updateUser button */}
+                    <button className="edit-btn" type="button" onClick={() => {setButtonUpdateUserPopup(true)
+                        setEditingUser(user)
+                    }}>
+                        Edit Account
+                        </button>
+                    </div>
+                    <UpdateUser 
+                    trigger={buttonUpdateUserPopup}
+                    setTrigger={setButtonUpdateUserPopup}
+                    user={editingUser}
+                    updateUser={updateUser}
+                    >
+                    </UpdateUser>
 
                     <label>Children</label>
-                </form>
+
             </div>
         </div>
     );

@@ -9,6 +9,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 //function of react to a list of routes into elements react, browser create the navigation system and navigate only tells where
 import { BrowserRouter, useRoutes } from "react-router-dom";
 import { ChildProvider } from './contexts/ChildContext';
+import Settings from './pages/settings/settings';
 
 function AppRoutes() {
   const routesArray = [
@@ -18,6 +19,7 @@ function AppRoutes() {
     { path: "/dashboard", element: <Dashboard /> },
     { path: "/home", element: <Home /> },
     { path: "/child-profiles", element: <ChildProfiles /> },
+    { path: "/settings", element: <Settings /> },
   ];
 
   return useRoutes(routesArray);

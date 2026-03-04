@@ -50,52 +50,31 @@ const UpdateUser = ({ user, trigger, setTrigger, updateUser }) => {
             onClick={handleCloseResetData}
           >✕
           </button>
-          {/* update child */}
-        <h1 className="tittle-popup-card">Update {child?.name || "Child"} Profile</h1>
-         <div className="update-child-layout">
-           <div className="left-section">
-              <h4 className= "subtittle-popup-card">About</h4>
+          {/* update user */}
+        <h1 className="update-popup-card">Update {user?.name || "User"} Profile</h1>
+         <div className="update-user-layout">
+              <h4 className= "subtitle-popup-card">Update Personal Info</h4>
               {/* NAME */}
               <input type="text" 
               className="select-field-update-child" 
-              placeholder="First Name"
-              value={childName}
-              onChange={(e) => setChildName(e.target.value)}
+              placeholder="Edit First Name"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
               />
-              {/* DOB */}
+              {/* EMAIL */}
               <input
-                    type="date"
+                    type="email"
                     className="select-field-update-child"
-                    id="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
+                    placeholder="Edit Email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
-              {/* Relationship JUST MOCKED RIGHT NOW */}
-              <h4 className= "subtittle-popup-card">Relationship with {child?.name || "Child"}</h4>
-              <input type="text" 
-              className="select-field-update-child" 
-              placeholder="Who are you?"
-              />
             </div>
-            {/* Avatar section */}
-          <div className="avatar-section">
-            <h4 className= "subtittle-popup-card">Pick New Avatar</h4>
-            <div className="avatar-list">
-              {avatars.map((avatar, index) => (
-                <div
-                  key={index}
-                  className={`avatar-option ${selectedAvatar === index ? "selected" : ""}`}
-                  onClick={() => setSelectedAvatar(index)}
-                >
-                  <img src={avatar} className="avatar-img" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+
         {/* SUBMIT BTN */}
         <div className="button-section">
-          <button className="btn-submit"onClick={handleUpdateChild}>Update Child</button>
+          <button className="btn-submit"onClick={handleUpdateUser}>Submit</button>
         </div>
       </div>
     </div>
@@ -104,4 +83,4 @@ const UpdateUser = ({ user, trigger, setTrigger, updateUser }) => {
   );
 };
 
-export default UpdateChild;
+export default UpdateUser;

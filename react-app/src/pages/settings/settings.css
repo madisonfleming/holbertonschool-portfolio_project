@@ -21,25 +21,33 @@
   font-size: 26px;
   font-weight: 700;
   color: #ec407a;
-  padding-bottom: 30px;
+  padding-bottom: 50px;
 }
 
 .subtitle {
   text-align: left; /* change text-align for subtitle*/
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 600;
 }
 
 .username {
-  font-size: 15px;
-  margin-bottom: 0px;
+  font-size: 20px;
+  margin-bottom: 5px;
 }
 
 .edit-btn {
   border: none;
-  background-color: white;
+  color: white;
   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
   border-radius: 16px;
   padding: 10px;
-
+  position: relative;
+  margin-right: 5px;
+  background: linear-gradient(135deg, #9b59b6, #cc7df0);
+  width: 100%;
 }
+
+.account-details {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  border-radius: 16px;
+} /* fix container so btn is on right*/
