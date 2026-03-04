@@ -11,15 +11,13 @@ class Milestone(Base): # gives id, created_at, updated_at
                 name: str,
                 description: str,
                 metric_key: str,
-                threshold: int,
-                child_id: str,
+                threshold: int
     ):
         super().__init__()
         self.name = name # ie "Read 100 Books"
         self.description = description # bit of explanatory text
         self.metric_key = metric_key # books_read, sessions_logged, streak_days. not active but could be.
         self.threshold = threshold # number required to achieve milestone
-        self.child_id = child_id # child who completed milestone
 
     @property
     def name(self):
@@ -70,16 +68,6 @@ class Milestone(Base): # gives id, created_at, updated_at
         if value < 1:
             raise InvalidMilestoneThresholdError()
         self._threshold = value
-    
-    @property
-    def child_id(self):
-        return self._child_id
-
-    @child_id.setter
-    def child_id(self, value:str):
-        if not isinstance(value, str):
-            raise TypeError("Child id must be a string")
-        self._child_id = value
 
     def to_dict(self):
         data = super().to_dict()
@@ -88,7 +76,6 @@ class Milestone(Base): # gives id, created_at, updated_at
             "name": self.name,
             "description": self.description,
             "metric_key": self.metric_key,
-            "threshold": self.threshold,
-            "child_id": self.child_id,
+            "threshold": self.threshold
         })
         return data
