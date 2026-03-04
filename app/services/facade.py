@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 
-from datetime import date
+from datetime import date, timedelta
 
 from app.domain.user import User
 from app.domain.child import Child
+from app.domain.milestone import Milestone
 
 from app.persistence.user_repository import UserRepository
 from app.persistence.child_repository import ChildRepository
@@ -20,13 +21,18 @@ from app.api.schemas.children import CreateChild, ChildResponse, UpdateChild
 from app.api.schemas.users import CreateUser, UserResponse, UpdateUser
 from app.api.schemas.reading_sessions import CreateReadingSession, UpdateReadingSession, ReadingSessionResponse
 from app.api.schemas.books import BookResponse, BookSearchResponse
+from app.api.schemas.milestones import CreateMilestone, MilestoneResponse
 
 from app.domain.exceptions import(
     InvalidChildNameError,
     UserNotFoundError,
     ChildNotFoundError,
     InvalidUserNameError,
-    InvalidEmailError
+    InvalidEmailError,
+    InvalidMilestoneNameError,
+    InvalidMilestoneDescriptionError,
+    InvalidMilestoneThresholdError,
+    MilestoneNotFoundError,
 )
 from app.services.exceptions import(
     DuplicateUserError,
@@ -59,7 +65,21 @@ class MLBFacade:
         self.book_repository = book_repository
         self.open_library_api = open_library_api
 
+# <--- USER --->
+    # Helper function to look up user by firebase_uid
+    # Raises Permissions error if user doesn't exist
+    # Can be called by any endpoint to authorise current user
+    def get_user_id(
+            self,
+            firebase_uid,
+    ):
+        user = self.user_repository.get_by_firebase_uid(firebase_uid=firebase_uid)
 
+        if user:
+            return user.id
+        
+        raise PermissionDeniedError
+        
 
 # <--- CHILD --->
     
@@ -329,10 +349,14 @@ class MLBFacade:
             logged_at=request.logged_at
         )
 
-        # check if a milestone has been achieved TODO FINISH THIS GUYYYY
-        # I'm thinking that milestones per child will be calculated in the
-        # facade directly:
-        #    self._evaluate_milestones(child_id, session)
+        # check if a "books_read" milestone has been achieved
+        current_total = self.count_reading_sessions(child_id, firebase_uid)
+
+        # create milestone record at defined intervals of total # of books read
+        if current_total == 25 or current_total % 50 == 0:
+            milestone = self.milestone_repository.get_by_type_and_threshold(milestone_type="books_read", threshold=current_total)
+            self.create_milestone_record(child_id, milestone)
+        
 
         return ReadingSessionResponse.from_domain(session)
 
@@ -416,7 +440,7 @@ class MLBFacade:
 
         self.reading_session_repository.update(session)
 
-        return ReadingSessionresponse.from_domain(session)
+        return ReadingSessionResponse.from_domain(session)
 
 
     # return number of sessions in a date window
@@ -507,3 +531,103 @@ class MLBFacade:
                 current += timedelta(days=1)    # timedelta detects duration (increments by 1 day)
 
         return counts
+
+# <--- MILESTONES --->
+
+    def get_milestones(self, child_id: str, firebase_uid: str) -> list[MilestoneResponse]:
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        user_id = user.id
+        # validate child-user relationship
+        if user_id:
+            has_rel = self.relationship_repository.has_relationship(user_id, child_id)
+            if not has_rel:
+                raise RelationshipNotFoundError(user_id, child_id)
+
+        milestones = self.milestone_completion_repository.get_all_milestones_by_child(child_id)
+        return milestones
+    
+    def get_milestone(self, child_id: str, milestone_id: str, firebase_uid: str) -> MilestoneResponse:
+        
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        user_id = user.id
+        # validate child-user relationship
+        if user_id:
+            has_rel = self.relationship_repository.has_relationship(user_id, child_id)
+            if not has_rel:
+                raise RelationshipNotFoundError(user_id, child_id)
+            
+        if not milestone_id:
+            raise MilestoneNotFoundError()
+
+        milestone = self.milestone_completion_repository.get(milestone_id=milestone_id)
+
+        if milestone is None:
+            raise MilestoneNotFoundError
+
+        return milestone
+
+    def get_milestones_by_metric_key(self, child_id, metric_key, firebase_uid) -> MilestoneResponse:
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        user_id = user.id
+        # validate child-user relationship
+        if user_id:
+            has_rel = self.relationship_repository.has_relationship(user_id, child_id)
+            if not has_rel:
+                raise RelationshipNotFoundError(user_id, child_id)
+        
+        # TO DO - validate metric_key against a known list, raise applicable error
+        if not metric_key:
+            raise ValueError("Missing metric key")
+
+        milestone = self.milestone_completion_repository.get_all_by_child_and_key(child_id, metric_key)
+        return milestone
+
+    def create_weekly_milestone(self, milestone_request: CreateMilestone, firebase_uid):
+        user_id = self.get_user_id(firebase_uid)
+
+        # validate child-user relationship
+        if user_id:
+            child_id = milestone_request.child_id  # Check syntax
+            has_rel = self.relationship_repository.has_relationship(user_id, child_id)
+            if not has_rel:
+                raise RelationshipNotFoundError(user_id, child_id)
+        
+        # validate child exists
+        child = self.child_repository.get(child_id)
+
+        # find milestone by subject included on request
+        # if child and milestone_request["subject"]:
+        if child:
+            # To do - Ensure that subject is one of the valid options
+            milestone = self.milestone_repository.get_by_subject(milestone_request.subject)
+            milestone_record = self.create_milestone_record(milestone_request.child_id, milestone)
+            return milestone_record.to_dict()
+            # return milestone_record
+
+
+    def create_milestone_record(self, child_id: str, milestone: dict):
+        """
+        Creates either a total milestone record or a weekly milestone record
+        """
+        child = self.child_repository.get(child_id)
+
+        if child and milestone:
+            if milestone["type"] == "books_read":
+                name = "Total number of books read"
+                percentage = milestone["threshold"] / 1000
+                description = f'{child.name} has read {milestone["threshold"]} books! That\'s {percentage}% of the total goal!'
+
+            if milestone["type"] == "weekly_goal":
+                name = "Weekly goal"
+                description = f'{child.name} read {milestone["threshold"]} books about {milestone["subject"]} this week!'
+
+            # create a Milestone object
+            milestone_record = Milestone(
+                name=name,
+                description=description,
+                metric_key=milestone["type"],
+                threshold=milestone["threshold"],
+                child_id=child_id,
+            )
+            self.milestone_completion_repository.save(milestone_record)
+            return milestone_record
