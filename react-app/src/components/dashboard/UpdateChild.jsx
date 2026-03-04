@@ -1,14 +1,13 @@
-import "./CreateChild.css";
+import "./UpdateChild.css";
 import React from "react";
-import { useChild } from "../../contexts/ChildContext";
+
 import { useState, useEffect } from "react";
 
-const CreateChild = ({ trigger, setTrigger, createChild }) => {
+const UpdateChild = ({ child, trigger, setTrigger, updateChild }) => {
 
-  
-  const [childName, setChildName] = useState("");
-  const [date, setDate] = useState("");
-  const [selectedAvatar, setSelectedAvatar] = useState(0);
+  const [childName, setChildName] = useState(child?.name || "");
+  const [date, setDate] = useState(child?.date_of_birth || "");
+  const [selectedAvatar, setSelectedAvatar] = useState(child?.avatar || 0);
 
   const avatars = [
   "/avatars/mlb-avatar-apple.png",
@@ -16,14 +15,25 @@ const CreateChild = ({ trigger, setTrigger, createChild }) => {
   "/avatars/mlb-avatar-robot.png",
   "/avatars/mlb-avatar-sun.png"
   ];
+   // Sync state when child changes
+  useEffect(() => {
+    if (child) {
+      setChildName(child.name || "");
+      setDate(child.date_of_birth || "");
+      setSelectedAvatar(child.avatar || 0);
+    }
+  }, [child]);
 
   //we need a handle in order to create the obj with the states
-    const handleCreateChild = () => {
-      createChild({
+    const handleUpdateChild = () => {
+      const updatedData = {
         name: childName,
         date_of_birth: date,
         avatar_url: avatars[selectedAvatar],
-      });
+      };
+
+      console.log("sending update data for test: ", updatedData);
+      updateChild(child.id, updatedData);
 
       setTrigger(false); // close popup
     };
@@ -39,21 +49,21 @@ const CreateChild = ({ trigger, setTrigger, createChild }) => {
   //use trigger to pop up the card if trigger then popup 
   return trigger ? (
     <div className="popup-overlay">
-      <div className="CreateChildCard">
+      <div className="UpdateChildCard">
         {/* Close btn */}
         <button
             className="btn-close"
             onClick={handleCloseResetData}
           >✕
           </button>
-          {/* create child */}
-        <h1 className="tittle-popup-card">Create a Child Profile</h1>
-         <div className="create-child-layout">
+          {/* update child */}
+        <h1 className="tittle-popup-card">Update {child?.name || "Child"} Profile</h1>
+         <div className="update-child-layout">
            <div className="left-section">
-              <h4 className= "subtittle-popup-card">About</h4>
+              <h4 className= "subtittle-popup-card">Update Personal Info</h4>
               {/* NAME */}
               <input type="text" 
-              className="select-field-create-child" 
+              className="select-field-update-child" 
               placeholder="First Name"
               value={childName}
               onChange={(e) => setChildName(e.target.value)}
@@ -61,21 +71,21 @@ const CreateChild = ({ trigger, setTrigger, createChild }) => {
               {/* DOB */}
               <input
                     type="date"
-                    className="select-field-create-child"
+                    className="select-field-update-child"
                     id="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                   />
               {/* Relationship JUST MOCKED RIGHT NOW */}
-              <h4 className= "subtittle-popup-card">Relationship with the Child</h4>
+              <h4 className= "subtittle-popup-card">Relationship with {child?.name || "Child"}</h4>
               <input type="text" 
-              className="select-field-create-child" 
+              className="select-field-update-child" 
               placeholder="Who are you?"
               />
             </div>
             {/* Avatar section */}
           <div className="avatar-section">
-            <h4 className= "subtittle-popup-card">Pick Avatar</h4>
+            <h4 className= "subtittle-popup-card">Pick New Avatar</h4>
             <div className="avatar-list">
               {avatars.map((avatar, index) => (
                 <div
@@ -91,7 +101,7 @@ const CreateChild = ({ trigger, setTrigger, createChild }) => {
         </div>
         {/* SUBMIT BTN */}
         <div className="button-section">
-          <button className="btn-submit"onClick={handleCreateChild}>Create Profile</button>
+          <button className="btn-submit"onClick={handleUpdateChild}>Update Child</button>
         </div>
       </div>
     </div>
@@ -100,4 +110,4 @@ const CreateChild = ({ trigger, setTrigger, createChild }) => {
   );
 };
 
-export default CreateChild;
+export default UpdateChild;

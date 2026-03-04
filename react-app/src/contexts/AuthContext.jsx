@@ -21,6 +21,10 @@ export function AuthProvider({ children }){
   //load the current state of the user
   const [loading, setLoading] = useState(true);
 
+  //Token from BE, this endpoint was on dashboard now is here 
+  const [backendUser, setBackendUser] = useState(null);
+
+
   //use useEffect to subscribe to auth providers like firebase, login logout users, if login then go to initialize User
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, initializeUser);
@@ -32,20 +36,47 @@ export function AuthProvider({ children }){
       //firebase return an obj so we can access to the token
       setCurrentUser(user);
       setUserLoggedIn(true);
+
+      //validate token with backend
+      await validateUser(user);
     } else {
       //user not login
       setCurrentUser(null);
       setUserLoggedIn(false);
+      setBackendUser(null);
     }
 
     setLoading(false);
   }
 
+  //endpoint /protected from dashboard moved here
+  async function validateUser(user) {
+    try {
+      const token = await user.getIdToken();
+      console.log("Token:", token);
+      //need to do fetch to an endpoint that use that function
+      const response = await fetch("http://127.0.0.1:8000/api/protected", {
+         //firebase do the login -> generate the JWT
+      //On HBNB was a POST because the login was manage by the back end but in here the login is manage by firebase so is GET the BE just return data
+        headers: {
+          //sending the token to the backend so fastapi receive it as a credential
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      //geting the decoded token from the backend
+      const data = await response.json();
+      console.log("Backend validated user from /protected:", data);
 
+      setBackendUser(data); // opcional
+    } catch (error) {
+      console.error("Error validating user:", error);
+    }
+  }
   //adding properties to the value object
  const value = {
     userLoggedIn,
     currentUser,
+    backendUser,
     loading
   };
 

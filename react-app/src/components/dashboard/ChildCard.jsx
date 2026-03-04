@@ -5,7 +5,7 @@ import GetWorm from "./GetWorm";
 import { useChild } from "../../contexts/ChildContext";
 
 // now recieving data from usechild context
-const ChildCard = () => {
+const ChildCard = ({ onEdit}) => {
   const [expandedChild, setExpandedChild] = useState(null);
   const { childList } = useChild();
 
@@ -16,8 +16,10 @@ const ChildCard = () => {
 
     return (
       <div key={child.id}>
+      {/* BUTTON FOR TEST UPDATE CHILD */}
+      <button onClick={() => onEdit(child)}>Edit</button>
       <div className="child-card" onClick={() => setExpandedChild(isOpen ? null : child.id)} aria-expanded={isOpen}>
-            <div className="child-avatar">{child.avatar}</div>
+              <img src={child.avatar_url} alt={child.name} className="child-avatar" /> 
             <div className="text">
               <Link className="child-name" to="/child-profiles" onClick={(e) => e.stopPropagation()}>{child.name}</Link>
               <div className="child-age">{child.age}</div>

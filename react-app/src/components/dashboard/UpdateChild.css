@@ -10,7 +10,7 @@
   align-items: center;
   z-index: 999;
 }
-.CreateChildCard {
+.UpdateChildCard {
   background: white;
   border-radius: 15px;
   /* Size */
@@ -45,7 +45,7 @@
   
 }
 
-.create-child-layout {
+.update-child-layout {
   display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 28px;
@@ -59,7 +59,7 @@
 }
 
 /*Containers for name and DOB*/
-.select-field-create-child {
+.select-field-update-child {
   background: #fafafa;
   color: #333;
   border-radius: 14px;
