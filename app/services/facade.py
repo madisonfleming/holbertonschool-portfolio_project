@@ -88,7 +88,14 @@ class MLBFacade:
         request: CreateChild,
         firebase_uid: str
     ):
-        if not request.name.strip():    # validate request
+        # validate user exists
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        if user is None:
+            raise UserNotFoundError()
+        user_id = user.id
+
+        # validate request includes child's name
+        if not request.name.strip():    
             raise InvalidChildNameError()
         
         # create domain model
@@ -105,11 +112,6 @@ class MLBFacade:
         # self.child_repository.update_avatar(child.id, placeholder)
 
         
-        # access user's ID via firebase ID
-        user = self.user_repository.get_by_firebase_uid(firebase_uid)
-        if user is None:
-            raise UserNotFoundError()
-        user_id = user.id
 
         # example creation of relationship join
         # ----->assumes existence of relationship_repo w/ add_member method
