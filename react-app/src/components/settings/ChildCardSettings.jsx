@@ -2,49 +2,51 @@ import "./ChildCardSettings.css"
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useChild } from "../../contexts/ChildContext";
+import UpdateChild from "../../components/dashboard/UpdateChild"; 
 
 // now recieving data from usechild context
-const ChildCard = ({ onEdit}) => {
-  const { childList } = useChild();
+const ChildCard = () => {
+  const { childList, updateChild } = useChild();
+  const [buttonUpdateChildPopup, setButtonUpdateChildPopup] = useState(false);
+  const [editingChild, setEditingChild] = useState(null);
+
 
   return (
-    <div className="child-container">
+    <div>
       {childList.map((child) => {
-
     return (
       <div key={child.id}>
-      {/* BUTTON FOR TEST UPDATE CHILD */}
-      <button onClick={() => onEdit(child)}>Edit</button>
-      <div className="child-card" onClick={() => setExpandedChild(isOpen ? null : child.id)} aria-expanded={isOpen}>
-              <img src={child.avatar} alt={child.name} className="child-avatar" /> 
-            <div className="text">
-              <Link className="child-name" to="/child-profiles" onClick={(e) => e.stopPropagation()}>{child.name}</Link>
-              <div className="child-age">{child.age}</div>
-            </div>
-      <div className={`expanded-content ${isOpen ? 'open' : ""}`}>
-        <GetWorm />
-      </div>
-      </div>
+          <div className="child-card-settings">
+              <img src={child.avatar} alt={child.name} className="child-avatar-settings" /> 
+              <div className= "child-info">
+                <Link className="child-name-settings" to="/child-profiles" onClick={(e) => e.stopPropagation()}>{child.name}</Link>
+                <div className="child-age-settings">{child.age} years</div>
+              </div>
+              {/* updateChild buttom for testing*/}
+              <button className="btn-update-settings"
+                onClick={() => {
+                  setEditingChild(child);
+                  setButtonUpdateChildPopup(true);
+                }}
+              >Update
+              </button>
+          </div>
       </div>
     );
-  })}
-      </div>
+      })}
+      {/* Im saying if popup is true then render update */}
+      {setButtonUpdateChildPopup && ( 
+        <UpdateChild
+            trigger={buttonUpdateChildPopup}
+            setTrigger={setButtonUpdateChildPopup}
+            updateChild={updateChild}
+            child={editingChild}
+        ></UpdateChild>
+      )}
+    </div>
     )
 }
 export default ChildCard;
 
-{/*<img className="avatar" src={selectedChild.avatar} alt="avatar" />
-      <div className="text">
-        <Link className="child-name" to="/child-profiles">{selectedChild.name}</Link>
-        <h2 className="child-age">Age: {selectedChild.age}</h2>
-      </div>
-      </div>
-      <div className={`expanded-content ${isExpanded ? 'open' : ""}`}>
-      <GetWorm />
-      </div>
-      
-    </div>
-    </div>
-      ) */}
 
 

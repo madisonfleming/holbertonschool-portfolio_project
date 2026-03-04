@@ -1,3 +1,4 @@
+
 .settings-container {
   display: flex;
   justify-content: center;
@@ -13,7 +14,7 @@
   padding: 40px;
   border-radius: 16px;
   width: 100%;
-  max-width: 380px;
+  max-width: 580px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 .settings-child-card {
@@ -21,8 +22,9 @@
   padding: 40px;
   border-radius: 16px;
   width: 100%;
-  max-width: 380px;
+  max-width: 580px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  gap: 16px; 
 }
 
 .title {
@@ -44,11 +46,30 @@
   margin-bottom: 0px;
 }
 
-.edit-btn {
-  border: none;
-  background-color: white;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  border-radius: 16px;
-  padding: 10px;
+ .divider {
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, #f0e8f7, transparent);
+    margin-bottom: 20px;
+  }
 
-}
+
+.btn-submit-create {
+    padding: 15px 20px; /*make the button bigger*/
+    border-radius: 14px; /*round corners*/
+    background: linear-gradient(135deg, #9b59b6, #cc7df0);
+    color: white !important;
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+    width: 100%;
+    /*This is for the text inside*/
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    border: none; /*delete the border from button*/
+    font-size: 15px;
+    transition: all 0.2s ease;
+    letter-spacing: 0.3px;
+  }
+  .btn-submit-create:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(155, 89, 182, 0.5);
+  }

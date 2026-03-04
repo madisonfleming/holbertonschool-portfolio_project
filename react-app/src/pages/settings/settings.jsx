@@ -1,15 +1,22 @@
 import "./settings.css"
 import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
+import CreateChild from "../../components/dashboard/CreateChild";
+import { useChild } from "../../contexts/ChildContext";
+import ChildCardSettings from "../../components/settings/ChildCardSettings"; 
 
 
 
 const Settings = () => {
     const [user, setUser] = useState([]);
     const [loading, setLoading] = useState(true);
-
     const { currentUser } = useAuth();
+    //we use context to import useChild
+    const { childList, createChild, updateChild } = useChild();
+    const [buttonCreateChildPopup, setButtonCreateChildPopup] = useState(false);
+   
 
+    
     async function loadData() {
         //GET USER DATA
         if (!currentUser) return;
@@ -97,17 +104,31 @@ const Settings = () => {
             <div className="settings-card">
                 <h1 className="title">Hello, {user.name}</h1>
                 <p className="subtitle">Account Details</p>
-
                 <form >
                     <p className="username">{user.name}</p>
                     <p className="username">{user.email}</p>
-
                     <button className="edit-btn">Edit Account</button>
-
                 </form>
             </div>
             <div className="settings-child-card">
                 <h1 className="title">Your Children!</h1>
+                <ChildCardSettings
+                    childrenList={childList}
+                    />
+
+            <div className="divider"> </div>
+            {/* createChild buttom for testing*/}
+            <button className="btn-submit-create"
+              onClick={() => setButtonCreateChildPopup(true)}
+            >Create Child
+            </button>
+          {/* For pop up the create child card  need to be outside so the weekly goal text doesnt appear infront */}
+          {/*FE send to the BE a POST with this json */}
+          <CreateChild
+            trigger={buttonCreateChildPopup}
+            setTrigger={setButtonCreateChildPopup}
+            createChild={createChild}
+          ></CreateChild>
             </div>
         </div>
     );

@@ -4,8 +4,6 @@ import WeeklyGoal from "../../components/dashboard/WeeklyGoal";
 import { getWeeklyTheme } from "../../utils/GetWeeklyTheme";
 import "./dashboard.css";
 import AddReadingSession from "../../components/dashboard/AddReadingSession";
-import CreateChild from "../../components/dashboard/CreateChild";
-import UpdateChild from "../../components/dashboard/UpdateChild"; 
 import { useChild } from "../../contexts/ChildContext";
 import ChildCard from "../../components/dashboard/ChildCard";
 
@@ -18,12 +16,6 @@ const Dashboard = () => {
   const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] = useState(false);
   const [buttonCreateChildPopup, setButtonCreateChildPopup] = useState(false);
   const [buttonUpdateChildPopup, setButtonUpdateChildPopup] = useState(false);
-
-  //test in order to update child 
-  const [editingChild, setEditingChild] = useState(null);
-  const handleEditChild = (child) => {
-  setEditingChild(child);
-};
 
 
 
@@ -52,32 +44,7 @@ const Dashboard = () => {
         <div className="children-container">
           <ChildCard
             childrenList={childList}
-           onEdit={handleEditChild}
           />
-          {/* createChild buttom for testing*/}
-            <button className="complete-btn"
-              onClick={() => setButtonCreateChildPopup(true)}
-            >Create Child
-            </button>
-          
-          {/* updateChild buttom for testing*/}
-            <button className="complete-btn"
-              onClick={() => setButtonUpdateChildPopup(true)}
-            >Update Child
-            </button>
-          {/* For pop up the create child card  need to be outside so the weekly goal text doesnt appear infront */}
-          {/*FE send to the BE a POST with this json */}
-          <CreateChild
-            trigger={buttonCreateChildPopup}
-            setTrigger={setButtonCreateChildPopup}
-            createChild={createChild}
-          ></CreateChild>
-          <UpdateChild
-            trigger={buttonUpdateChildPopup}
-            setTrigger={setButtonUpdateChildPopup}
-            child={editingChild}
-            updateChild={updateChild}
-          ></UpdateChild>
 
         </div>
         <div className="weekly-container">
