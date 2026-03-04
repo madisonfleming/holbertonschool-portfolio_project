@@ -1,11 +1,9 @@
 import uuid
 from app.persistence.in_memory_seed import Relationshipdata
-# Uncomment to inspect hardcoded data
-# print(RELATIONSHIPS)
 
 # RelationshipRepository doesn't inherit from Repository because
-# relationship wasn't modeled as a first-class domain
-# It only has the methods it has needed so far
+#   relationship wasn't modeled as a first-class domain
+
 class RelationshipRepository():
     def __init__(self):
         self._storage = Relationshipdata().relationships
@@ -16,7 +14,11 @@ class RelationshipRepository():
 
     # returns the type of relationship betwixt child and user
     # fronties may need this for conditional data exposure
-    def get_relationship(self, user_id, child_id):
+    def get_relationship(
+            self,
+            user_id: str,
+            child_id: str
+        ):
         for relationship in self._storage.values():
             if relationship["user_id"] == user_id and relationship["child_id"] == child_id:
                 return relationship
@@ -27,7 +29,12 @@ class RelationshipRepository():
         return list(self._storage.values())
     
 
-    def add_member(self, user_id, child_id, role, relationship_type):
+    def add_member(
+            self,
+            user_id: str,
+            child_id: str,
+            role, relationship_type: str
+        ):
         # This method needs to handle setting up the relationship
         # data construct, because there's no domain model to do it for us
         # For now it only models what's needed in create_child in the facade class
@@ -94,33 +101,4 @@ class RelationshipRepository():
             if relationship["user_id"] == user_id and relationship["child_id"] == child_id:
                 return True
         return False
-
-
-"""
-This section is to test out the relationship repo methods without having to touch the facade
-
-Uncomment the block to test each method
-
-"""
-# repo = RelationshipRepository()
-
-# user_id = "a686c824-25e6-4704-87a6-651938429111"  # Mary
-# child_id = "e686c824-25e6-4704-87a6-651938429112"  # Billy
-# role = "primary"
-
-# # Full data model - not necessary yet! Kept for future-me
-# # new_relationship = {
-# #     "created_at": "2026-02-18 04:39:42.220228",
-# #     "updated_at": "2026-02-18 04:39:42.220228",
-# #     "id": id,
-# #     "user_id": "a686c824-25e6-4704-87a6-651938429111",
-# #     "child_id": "e686c824-25e6-4704-87a6-651938429112",
-# #     "role": "parent",
-# #     "invited_by": None,
-# #     "invite_status": None,
-# # }
-
-# relationship_id = repo.add_member(user_id, child_id, role)  # Tests adding a new relationship
-# for r in RELATIONSHIPS:
-#     print(RELATIONSHIPS[r])
-# print(repo.get(relationship_id))  # Tests fetching by relationship id (must be known)
+    
