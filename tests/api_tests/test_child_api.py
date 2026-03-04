@@ -35,6 +35,8 @@ class FakeFacade:
             "date_of_birth": child_data.date_of_birth,
             "age": 2,
             "avatar_url": child_data.avatar_url,
+            "relationship_type": child_data.relationship_type or "Parent",
+            "role": "primary"
         }
     def get_children(self, firebase_uid):
         if firebase_uid == "123":
@@ -44,12 +46,16 @@ class FakeFacade:
                     "name": "Susie",
                     "age": 2,
                     "avatar_url": None,
+                    "relationship_type": "Parent",
+                    "role": "primary"
                 },
                 {
                     "id": "test-child-id-3",
                     "name": "Billy",
                     "age": 1,
                     "avatar_url": None,
+                    "relationship_type": "Parent",
+                    "role": "primary"
                 }]
         if firebase_uid == "777":
             return []
@@ -61,6 +67,8 @@ class FakeFacade:
                 "name": "Susie",
                 "age": 2,
                 "avatar_url": None,
+                "relationship_type": "Parent",
+                "role": "primary"
                 }
         if firebase_uid == "777":
             raise RelationshipNotFoundError("777", "test-child-id-2") # this should catch before ChildNotFoundError() in real facade
@@ -71,7 +79,9 @@ class FakeFacade:
                 "id": "test-child-id-2",
                 "name": "Suzanne",
                 "age": 2,
-                "avatar_url": "alien_avatar.com", 
+                "avatar_url": "alien_avatar.com",
+                "relationship_type": "Parent",
+                "role": "primary"
             }
         if firebase_uid == "777":
             raise RelationshipNotFoundError("777", "test-child-id-2")
@@ -105,13 +115,14 @@ def set_env(monkeypatch):
 BASE_URL = "/api/children"
 
 # <--- CREATE CHILD TESTS --->
-# Happy Path: test 201 child created successfully
-def test_create_child_profile(client, override_auth):
+# Happy Path: test 201 child created successfully (user specifies relationship)
+def test_create_child_profile_with_relationship(client, override_auth):
     override_auth("123")
     payload = {
         "name": "Betty",
         "date_of_birth": "2025-02-26",
         "avatar_url": None,
+        "relationship_type": "Sister"
     }
 
     response = client.post(BASE_URL, json=payload)
@@ -120,6 +131,26 @@ def test_create_child_profile(client, override_auth):
     assert response.json()["name"] == "Betty"
     assert response.json()["age"] == 2
     assert response.json()["avatar_url"] == None
+    assert response.json()["relationship_type"] == "Sister"
+    assert response.json()["role"] == "primary"
+
+# Happy Path: test 201 child created successfully (user doesn't specify relationship)
+def test_create_child_profile_without_relationship(client, override_auth):
+    override_auth("123")
+    payload = {
+        "name": "Betty",
+        "date_of_birth": "2025-02-26",
+        "avatar_url": None,
+        "relationship_type": None
+    }
+
+    response = client.post(BASE_URL, json=payload)
+    assert response.status_code == 201
+    assert response.json()["name"] == "Betty"
+    assert response.json()["age"] == 2
+    assert response.json()["avatar_url"] == None
+    assert response.json()["relationship_type"] == "Parent" # gets defaults value
+    assert response.json()["role"] == "primary"
 
 # Negative Path: test 400 (name missing) raises custom RequestValidationError
 def test_create_child_with_missing_name(client, override_auth):
@@ -147,7 +178,7 @@ def test_create_child_with_missing_dob(client, override_auth):
     assert "('body', 'date_of_birth')" in response.json()["message"]
     assert response.json()["status"] == 400
 
-# # Negative Path: test 400 (invalid DOB format) raises custom RequestValidationError
+# Negative Path: test 400 (invalid DOB format) raises custom RequestValidationError
 def test_create_child_with_invalid_dob(client, override_auth):
     override_auth("123")
     payload = {
@@ -187,11 +218,15 @@ def test_get_children_with_data(client, override_auth):
     assert response.json()[0]["name"] == "Susie"
     assert response.json()[0]["age"] == 2
     assert response.json()[0]["avatar_url"] == None
+    assert response.json()[0]["relationship_type"] == "Parent"
+    assert response.json()[0]["role"] == "primary"
 
     assert response.json()[1]["id"] == "test-child-id-3"
     assert response.json()[1]["name"] == "Billy"
     assert response.json()[1]["age"] == 1
     assert response.json()[1]["avatar_url"] == None
+    assert response.json()[1]["relationship_type"] == "Parent"
+    assert response.json()[1]["role"] == "primary"
 
 # Happy Path: test 200 success without data returned
 def test_get_children_without_data(client, override_auth):
@@ -220,6 +255,8 @@ def test_get_child(client, override_auth):
     assert response.json()["name"] == "Susie"
     assert response.json()["age"] == 2
     assert response.json()["avatar_url"] == None
+    assert response.json()["relationship_type"] == "Parent"
+    assert response.json()["role"] == "primary"
 
 # Negative Path: test 404 relationship between user and child id not found
 def test_get_child_without_relo(client, override_auth):
@@ -229,6 +266,14 @@ def test_get_child_without_relo(client, override_auth):
     assert response.json()["status"] == 404
     assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
     assert response.json()["message"] == "Relationship between user: '777' and child: 'test-child-id-2' not found"
+
+# Negative Path: test 401 unauthorised user - no auth override
+def test_get_child_as_unauthorised_user(client):
+    response = client.get(f'{BASE_URL}/test-child-id-2')
+    assert response.status_code == 401
+    assert response.json()["status"] == 401
+    assert response.json()["error"] == "Not authenticated"
+    assert response.json()["message"] == "Not authenticated"
 
 # <--- UPDATE CHILD TESTS --->
 # Happy Path: test 200 success update all fields of a child (user 123)
@@ -245,6 +290,8 @@ def test_update_child(client, override_auth):
     assert response.json()["name"] == "Suzanne"
     assert response.json()["age"] == 2
     assert response.json()["avatar_url"] == "alien_avatar.com"
+    assert response.json()["relationship_type"] == "Parent"
+    assert response.json()["role"] == "primary"
 
 # Negative Path: test 400 (invalid DOB format) raises custom RequestValidationError (user 123)
 def test_update_child_with_invalid_dob(client, override_auth):
@@ -275,15 +322,6 @@ def test_update_child_without_relo(client, override_auth):
 # Negative Path: test 401 unauthorised user - no auth override
 def test_update_child_as_unauthorised_user(client):
     response = client.put(f'{BASE_URL}/test-child-id-2')
-    assert response.status_code == 401
-    assert response.json()["status"] == 401
-    assert response.json()["error"] == "Not authenticated"
-    assert response.json()["message"] == "Not authenticated"
-
-
-# Negative Path: test 401 unauthorised user - no auth override
-def test_get_child_as_unauthorised_user(client):
-    response = client.get(f'{BASE_URL}/test-child-id-2')
     assert response.status_code == 401
     assert response.json()["status"] == 401
     assert response.json()["error"] == "Not authenticated"
