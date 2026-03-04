@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 const UpdateChild = ({ child, trigger, setTrigger, updateChild }) => {
 
+  //this take the states that receive as a prop (child) so when the pop up opne it fills with child info
   const [childName, setChildName] = useState(child?.name || "");
   const [date, setDate] = useState(child?.date_of_birth || "");
   const [selectedAvatar, setSelectedAvatar] = useState(child?.avatar || 0);
@@ -25,6 +26,7 @@ const UpdateChild = ({ child, trigger, setTrigger, updateChild }) => {
   }, [child]);
 
   //we need a handle in order to create the obj with the states
+  //we send name, date_of_birth and avatar_url but in react FE we call childName date and avatars
     const handleUpdateChild = () => {
       const updatedData = {
         name: childName,

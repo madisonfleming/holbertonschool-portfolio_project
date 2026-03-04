@@ -18,6 +18,7 @@ const CreateChild = ({ trigger, setTrigger, createChild }) => {
   ];
 
   //we need a handle in order to create the obj with the states
+   // we need to POST in order to the BE to received name, date_of_birth, avatar_url
     const handleCreateChild = () => {
       createChild({
         name: childName,
