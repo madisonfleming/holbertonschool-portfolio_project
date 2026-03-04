@@ -18,8 +18,8 @@ class RelationshipRepository():
     # fronties may need this for conditional data exposure
     def get_relationship(self, user_id, child_id):
         for relationship in self._storage.values():
-            if rel["user_id"] == user_id and rel["child_id"] == child_id:
-                return rel
+            if relationship["user_id"] == user_id and relationship["child_id"] == child_id:
+                return relationship
         return None
 
 
