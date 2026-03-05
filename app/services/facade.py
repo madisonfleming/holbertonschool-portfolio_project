@@ -121,12 +121,6 @@ class MLBFacade:
         
         # save domain model to db
         self.child_repository.save(child)
-       
-        # access user's ID via firebase ID
-        user = self.user_repository.get_by_firebase_uid(firebase_uid)
-        if user is None:
-            raise UserNotFoundError()
-        user_id = user.id
 
         # example creation of relationship join
         self.relationship_repository.add_member(
