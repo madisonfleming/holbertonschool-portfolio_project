@@ -68,6 +68,7 @@ def register_error_handlers(app):
             msg = error["msg"]
             messages.append(f"{field}: {msg}")
         return format_error("VALIDATION_ERROR", messages, 400)
+        # return format_error("VALIDATION_ERROR", exc, 400)
 
     @app.exception_handler(DuplicateUserError)
     async def duplicate_user_handler(request: Request, exc: DuplicateUserError):
