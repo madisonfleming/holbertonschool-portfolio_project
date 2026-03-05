@@ -6,6 +6,7 @@ import "./dashboard.css";
 import Milestones from "../../components/dashboard/Milestones";
 import AddReadingSession from "../../components/dashboard/AddReadingSession";
 import ChildList from "../../components/dashboard/ChildList";
+import CreateChild from "../../components/dashboard/CreateChild";
 
 const Dashboard = () => {
   const [children, setChildren] = useState([]);
@@ -13,11 +14,12 @@ const Dashboard = () => {
   const theme = getWeeklyTheme();
   const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] =
     useState(false);
+  const [buttonCreateChildPopup, setButtonCreateChildPopup] = useState(false);
 
   const current_num_of_books = 100; // vendrá del backend
   const target = 1000; // vendrá del backend
 
-  //
+  //ENDPOINT
   async function loadData() {
     if (!currentUser) return;
     const token = await currentUser.getIdToken();
@@ -35,7 +37,7 @@ const Dashboard = () => {
     const data = await response.json();
     console.log("this is data from api/protected:", data);
 
-    //to fetch the children
+    //FETCH TO GET ALL CHILDREN
     const childrenRes = await fetch("http://127.0.0.1:8000/api/children", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -44,7 +46,7 @@ const Dashboard = () => {
 
     const childrenData = await childrenRes.json();
 
-    // Ajustamos la data al formato que usa tu frontend
+    // Adjust data fro the use of frontend
     const formatted = childrenData.map((child) => ({
       id: child.id,
       name: child.name,
@@ -55,8 +57,8 @@ const Dashboard = () => {
     setChildren(formatted);
   }
 
-  //to create child
-  async function createChild(childData) {
+  //FETCH TO ENDPOINT TO CREATE A CHILD
+  async function createChildData(childData) {
     if (!currentUser) return;
 
     const token = await currentUser.getIdToken();
@@ -97,19 +99,6 @@ const Dashboard = () => {
 
   return (
     <div>
-      {/* BOTÓN TEMPORAL PARA PROBAR createChild */}
-      <button
-        onClick={() =>
-          createChild({
-            name: "Billie",
-            date_of_birth: "2020-05-10",
-            avatar_url: "/star.svg",
-          })
-        }
-      >
-        Create Child (test)
-      </button>
-
       <div className="reading-session-container">
         <img
           src={`open-book.png`}
@@ -128,6 +117,20 @@ const Dashboard = () => {
       <div className="dashboard-grid">
         <div className="children-container">
           <ChildList childrenData={children} />
+          {/* createChild buttom */}
+          <div className="create-child-container">
+            <button
+              className="complete-btn"
+              onClick={() => setButtonCreateChildPopup(true)}
+            >
+              Create Child
+            </button>
+          </div>
+          {/* For pop up the create child card  need to be outside so the weekly goal text doesnt appear infront */}
+          <CreateChild
+            trigger={buttonCreateChildPopup}
+            setTrigger={setButtonCreateChildPopup}
+          ></CreateChild>
         </div>
         <div className="weekly-container">
           <WeeklyGoal
