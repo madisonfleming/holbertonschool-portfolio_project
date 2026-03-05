@@ -27,7 +27,7 @@ class RelationshipRepository():
         return list(self._storage.values())
     
 
-    def add_member(self, user_id, child_id, role):
+    def add_member(self, user_id, child_id, role, relationship_type):
         # This method needs to handle setting up the relationship
         # data construct, because there's no domain model to do it for us
         # For now it only models what's needed in create_child in the facade class
@@ -39,7 +39,8 @@ class RelationshipRepository():
             "id": str(uuid.uuid4()),
             "user_id": user_id,
             "child_id": child_id,
-            "role": role
+            "role": role,
+            "relationship_type": relationship_type 
         }
         self._storage[member_id] = relationship
         return member_id

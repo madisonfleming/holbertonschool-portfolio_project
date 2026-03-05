@@ -27,7 +27,8 @@ from app.services.exceptions import (
     InvalidSearchQueryError,
     PermissionDeniedError,
     BookNotFoundError,
-    ReadingSessionNotFoundError
+    ReadingSessionNotFoundError,
+    InvalidRelationshipTypeError
 )
 
 
@@ -133,3 +134,8 @@ def register_error_handlers(app):
     @app.exception_handler(PermissionDeniedError)
     async def permission_denied_handler(request: Request, exc: PermissionDeniedError):
         return format_error("PERMISSION_DENIED", exc, 403)
+
+    @app.exception_handler(InvalidRelationshipTypeError)
+    async def invalid_relationship_type_handler(request: Request, exc: InvalidRelationshipTypeError):
+        return format_error("INVALID_RELATIONSHIP_TYPE", exc, 400)
+
