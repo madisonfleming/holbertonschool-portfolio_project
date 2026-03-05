@@ -1,15 +1,15 @@
-import Login from './pages/login/login';
-import Header from './pages/header/header';
-import Dashboard from './pages/dashboard/dashboard';
-import Home from './pages/home/home';
-import ChildProfiles from './pages/child-profiles/child-profiles';
-
+import Login from "./pages/login/login";
+import Header from "./pages/header/header";
+import Dashboard from "./pages/dashboard/dashboard";
+import Home from "./pages/home/home";
+import ChildProfiles from "./pages/child-profiles/child-profiles";
 
 import { AuthProvider } from "./contexts/AuthContext";
 //function of react to a list of routes into elements react, browser create the navigation system and navigate only tells where
 import { BrowserRouter, useRoutes } from "react-router-dom";
-import { ChildProvider } from './contexts/ChildContext';
-import Settings from './pages/settings/settings';
+import { ChildProvider } from "./contexts/ChildContext";
+import { BooksProvider } from "./contexts/BooksContext";
+import Settings from "./pages/settings/settings";
 
 function AppRoutes() {
   const routesArray = [
@@ -29,11 +29,12 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <ChildProvider>
-        <Header />
-          <AppRoutes />
+          <BooksProvider>
+            <Header />
+            <AppRoutes />
+          </BooksProvider>
         </ChildProvider>
       </AuthProvider>
-      
     </BrowserRouter>
   );
 }
