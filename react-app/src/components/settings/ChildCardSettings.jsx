@@ -1,18 +1,15 @@
-import "./childCard.css"
+import "./ChildCardSettings.css"
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import GetWorm from "./GetWorm";
 import { useChild } from "../../contexts/ChildContext";
 
 // now recieving data from usechild context
 const ChildCard = ({ onEdit}) => {
-  const [expandedChild, setExpandedChild] = useState(null);
   const { childList } = useChild();
 
   return (
     <div className="child-container">
       {childList.map((child) => {
-    const isOpen = expandedChild === child.id;
 
     return (
       <div key={child.id}>

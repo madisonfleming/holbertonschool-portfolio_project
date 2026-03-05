@@ -5,9 +5,18 @@
   height: 100vh;
   background: #fce4ec;
   padding: 20px;
+  flex-direction: column;
 }
 
 .settings-card {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+.settings-child-card {
   background: white;
   padding: 40px;
   border-radius: 16px;
