@@ -41,12 +41,12 @@ const Dashboard = () => {
 
     //FETCH TO GET ALL CHILDREN NOT ANY MORE WITH CONTEXT
     //const childrenRes = await fetch("http://127.0.0.1:8000/api/children", {
-     // headers: {
-      //  Authorization: `Bearer ${token}`,
-     // },
-  //  });
+    // headers: {
+    //  Authorization: `Bearer ${token}`,
+    // },
+    //  });
 
-   // const childrenData = await childrenRes.json();
+    // const childrenData = await childrenRes.json();
 
     // Adjust data fro the use of frontend
     const formatted = childList.map((child) => ({
@@ -128,7 +128,7 @@ const Dashboard = () => {
               Create Child
             </button>
           </div>
-        
+
           {/* For pop up the create child card  need to be outside so the weekly goal text doesnt appear infront */}
           {/*FE send to the BE a POST with this json */}
           <CreateChild
