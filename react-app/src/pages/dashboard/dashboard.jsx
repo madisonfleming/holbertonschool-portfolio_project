@@ -8,10 +8,10 @@ import CreateChild from "../../components/dashboard/CreateChild";
 import { useChild } from "../../contexts/ChildContext";
 import ChildCard from "../../components/dashboard/ChildCard";
 
+// dashboard only loads popups cards show components NOT LOGIC ON BE thats context
 const Dashboard = () => {
-  //const [children, setChildren] = useState([]);
   //we use context to import useChild
-  const { childList, setChildList } = useChild();
+  const { childList, createChild } = useChild();
   const { currentUser } = useAuth();
   const theme = getWeeklyTheme();
   const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] =
@@ -20,85 +20,6 @@ const Dashboard = () => {
 
   const current_num_of_books = 100; // vendrá del backend
   const target = 1000; // vendrá del backend
-
-  //ENDPOINT
-  async function loadData() {
-    if (!currentUser) return;
-    const token = await currentUser.getIdToken();
-    console.log("Token:", token);
-    //need to do fetch to an endpoint that use that function
-    const response = await fetch("http://127.0.0.1:8000/api/protected", {
-      //firebase do the login -> generate the JWT
-      //On HBNB was a POST because the login was manage by the back end but in here the login is manage by firebase so is GET the BE just return data
-      headers: {
-        //sending the token to the backend so fastapi receive it as a credential
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    //geting the decoded token from the backend
-    const data = await response.json();
-    console.log("this is data from api/protected:", data);
-
-    //FETCH TO GET ALL CHILDREN NOT ANY MORE WITH CONTEXT
-    //const childrenRes = await fetch("http://127.0.0.1:8000/api/children", {
-    // headers: {
-    //  Authorization: `Bearer ${token}`,
-    // },
-    //  });
-
-    // const childrenData = await childrenRes.json();
-
-    // Adjust data fro the use of frontend
-
-    const formatted = childList.map((child) => ({
-      id: child.id,
-      name: child.name,
-      age: child.age,
-      avatar: child.avatar_url,
-    }));
-
-    setChildList(formatted);
-  }
-
-  //FETCH TO ENDPOINT TO CREATE A CHILD
-  async function createChild(childData) {
-    if (!currentUser) return;
-
-    const token = await currentUser.getIdToken();
-
-    const response = await fetch("http://127.0.0.1:8000/api/children", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // NECESARIO
-      },
-      body: JSON.stringify(childData),
-    });
-
-    if (!response.ok) {
-      console.error("Error creating child");
-      return;
-    }
-
-    const newChild = await response.json();
-    console.log("Answer from BE:", newChild);
-
-    // UPDATE UI INMEDIATLY
-    setChildList((prev) => [
-      ...prev,
-      {
-        id: newChild.id,
-        name: newChild.name,
-        age: newChild.age,
-        avatar: newChild.avatar,
-      },
-    ]);
-  }
-
-  //to validate the existance of user useEffect detecs the change of currentUser from null to login
-  useEffect(() => {
-    loadData();
-  }, [currentUser]);
 
   return (
     <div>
@@ -120,7 +41,7 @@ const Dashboard = () => {
       <div className="dashboard-grid">
         <div className="children-container">
           <ChildCard childrenList={childList} />
-          {/* createChild buttom */}
+          {/* createChild buttom for testing*/}
           <div className="create-child-container">
             <button
               className="complete-btn"

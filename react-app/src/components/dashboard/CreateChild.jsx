@@ -1,6 +1,6 @@
 import "./CreateChild.css";
 import React from "react";
-
+import { useChild } from "../../contexts/ChildContext";
 import { useState, useEffect } from "react";
 
 const CreateChild = ({ trigger, setTrigger, createChild }) => {
@@ -46,7 +46,7 @@ const CreateChild = ({ trigger, setTrigger, createChild }) => {
         <h1 className="tittle-popup-card">Create a Child Profile</h1>
         <div className="create-child-layout">
           <div className="left-section">
-            <h4 className="subtittle-popup-card">ABOUT</h4>
+            <h4 className="subtittle-popup-card">About</h4>
             {/* NAME */}
             <input
               type="text"
@@ -63,10 +63,19 @@ const CreateChild = ({ trigger, setTrigger, createChild }) => {
               value={date}
               onChange={(e) => setDate(e.target.value)}
             />
+            {/* Relationship JUST MOCKED RIGHT NOW */}
+            <h4 className="subtittle-popup-card">
+              Relationship with the Child
+            </h4>
+            <input
+              type="text"
+              className="select-field-create-child"
+              placeholder="Who are you?"
+            />
           </div>
           {/* Avatar section */}
           <div className="avatar-section">
-            <h4 className="subtittle-popup-card">PICK AVATAR</h4>
+            <h4 className="subtittle-popup-card">Pick Avatar</h4>
             <div className="avatar-list">
               {avatars.map((avatar, index) => (
                 <div
