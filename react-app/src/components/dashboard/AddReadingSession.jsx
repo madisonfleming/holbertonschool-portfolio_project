@@ -1,10 +1,12 @@
 import "./AddReadingSession.css";
-import { useChild } from "../../contexts/ChildContext"
+import { useChild } from "../../contexts/ChildContext";
+import { useBooks } from "../../contexts/BooksContext";
 import { useState, useEffect } from "react";
 
 const AddReadingSession = (props) => {
-
   const { childList } = useChild();
+  const { searchBooks } = useBooks();
+  /*
   const books = [
     {
       title: "The Very Hungry Caterpillar",
@@ -12,7 +14,7 @@ const AddReadingSession = (props) => {
     },
     { title: "Where the Wild Things Are", img: "/books/wild-things.png" },
     { title: "Matilda", img: "/books/matilda.png" },
-  ];
+  ];*/
 
   /*searchTerm for the text the user writes and setSearchTerm to update it  */
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,9 +23,7 @@ const AddReadingSession = (props) => {
   const [date, setDate] = useState("");
   const [selectedChild, setSelectedChild] = useState(null);
 
-  const filteredBooks = books.filter((book) =>
-    book.title.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const [filteredBooks, setFilteredBooks] = useState([]);
 
   {
     /* with this trigger we reset to today date when closing the card */
@@ -37,8 +37,8 @@ const AddReadingSession = (props) => {
 
   useEffect(() => {
     if (props.trigger) {
-      setSelectedBook(null); 
-      setSearchTerm(""); 
+      setSelectedBook(null);
+      setSearchTerm("");
     }
   }, [props.trigger]);
 
@@ -47,15 +47,15 @@ const AddReadingSession = (props) => {
       <div className="AddReadingSessionCard">
         {/*Close btn */}
         <button className="btn-close" onClick={() => props.setTrigger(false)}>
-            ✕
-          </button>
+          ✕
+        </button>
         <h1 className="tittle-popup-card">Log a reading session</h1>
 
         <div className="reading-session-layout">
           {/* --- BOOK SELECTOR --- */}
           <div className="left-section">
-          {/* --- USER BUTTONS --- */}
-          <p className="subtittle-popup-card">Bookworm</p>
+            {/* --- USER BUTTONS --- */}
+            <p className="subtittle-popup-card">Bookworm</p>
             <div className="readers-row">
               {childList.map((child) => (
                 <div
@@ -64,12 +64,9 @@ const AddReadingSession = (props) => {
                   onClick={() => setSelectedChild(child.id)}
                 >
                   <button className="child-btn">
-                    <img
-                      src={child.avatar}
-                      className="child-avatar-img-rs"
-                    />
+                    <img src={child.avatar} className="child-avatar-img-rs" />
                   </button>
-                   {console.log('avatar test andrea:', child.avatar)}
+                  {console.log("avatar test andrea:", child.avatar)}
                   <div className="child-name-inside-card">{child.name}</div>
                 </div>
               ))}
@@ -82,16 +79,30 @@ const AddReadingSession = (props) => {
               className="select-field"
               placeholder="Search for your book..."
               value={searchTerm}
-              onChange={(e) => {
+              onChange={async (e) => {
                 setSearchTerm(e.target.value);
+                {
+                  /* update what the user writes */
+                }
                 setShowDropdown(true);
+                {
+                  /* if user deletes the text doest call the be so empty [] */
+                }
+                if (e.target.value.trim() === "" || e.target.value.length < 2) {
+                  setFilteredBooks([]);
+                  return;
+                }
+                {
+                  /* here we call the BE -> e.target.value= cat to is search?q=cat, then saved the results so filteredBooks can have books  */
+                }
+                const results = await searchBooks(e.target.value);
+                setFilteredBooks(results);
               }}
             />
             {showDropdown && searchTerm && (
               <div className="dropdown-list">
-                {filteredBooks.map((book, index) => (
+                {filteredBooks.map((book) => (
                   <div
-                    key={index}
                     className="dropdown-item"
                     onClick={() => {
                       setSelectedBook(book);
@@ -125,16 +136,18 @@ const AddReadingSession = (props) => {
             <p className="subtittle-popup-card">Selected Book</p>
             <div className={`book-empty ${selectedBook ? "hidden" : ""}`}>
               <div className="book-empty-text">No book selected yet</div>
-              <div className="book-empty-sub">Search on the left to find your book</div>
+              <div className="book-empty-sub">
+                Search on the left to find your book
+              </div>
             </div>
             <div className={`book-selected ${selectedBook ? "visible" : ""}`}>
-            {selectedBook && (
-              <img
-                src={selectedBook.img}
-                alt={selectedBook.title}
-                className="book-preview-img"
-              />
-            )}
+              {selectedBook && (
+                <img
+                  src={selectedBook.img}
+                  alt={selectedBook.title}
+                  className="book-preview-img"
+                />
+              )}
             </div>
           </div>
         </div>
