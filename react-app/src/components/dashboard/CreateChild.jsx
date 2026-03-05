@@ -43,10 +43,10 @@ const CreateChild = ({ trigger, setTrigger, createChild }) => {
           ✕
         </button>
         {/* create child */}
-        <h1 className="tittle-popup-card">Create a Child Profile</h1>
+        <h1>Create a Child Profile</h1>
         <div className="create-child-layout">
           <div className="left-section">
-            <h4 className="subtittle-popup-card">ABOUT</h4>
+            <h4>ABOUT</h4>
             {/* NAME */}
             <input
               type="text"
