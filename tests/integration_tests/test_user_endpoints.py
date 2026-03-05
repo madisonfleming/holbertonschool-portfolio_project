@@ -14,6 +14,7 @@ from fastapi.testclient import TestClient
 from app.factory import create_app
 from app.config import UnitTestingConfig
 from app.api.auth_dependencies import auth_current_user
+from app.api.dependencies import get_facade
 import pytest
 
 
@@ -25,8 +26,11 @@ def app():
     app.dependency_overrides.clear()
 
 @pytest.fixture
-def client(app):
-    return TestClient(app)
+def client(create_test_facade, app):
+    app.dependency_overrides[get_facade] = lambda: create_test_facade
+    with TestClient(app) as c:
+        yield c
+    app.dependency_overrides.clear()
 
 # Set the env to "testing"
 @pytest.fixture(autouse=True)

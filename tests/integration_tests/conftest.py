@@ -1,0 +1,24 @@
+import pytest
+from app.services.facade import MLBFacade
+from app.api.dependencies import get_facade
+from app.persistence.user_repository import UserRepository
+from app.persistence.child_repository import ChildRepository
+from app.persistence.reading_session_repository import ReadingSessionRepository
+from app.persistence.milestone_repository import MilestoneRepository
+from app.persistence.milestone_completion_repository import MilestoneCompletionRepository
+from app.persistence.relationship_repository import RelationshipRepository
+from app.persistence.book_repository import BookRepository
+from app.external.open_library_api import OpenLibraryClient
+
+@pytest.fixture
+def create_test_facade():
+    return MLBFacade(
+        user_repository=UserRepository(),
+        child_repository=ChildRepository(),
+        reading_session_repository=ReadingSessionRepository(),
+        milestone_repository=MilestoneRepository(),
+        milestone_completion_repository=MilestoneCompletionRepository(),
+        relationship_repository=RelationshipRepository(),
+        book_repository=BookRepository(),
+        open_library_api=OpenLibraryClient()
+    )

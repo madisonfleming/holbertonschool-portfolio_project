@@ -15,16 +15,6 @@ class FakeUserRepository():
             raise UserNotFoundError
         return None
 
-# class FakeChild():
-#     def __init__(self, name: str = "Susie", date_of_birth: str = "2023-12-05"):
-#         self.created_at = "2026-02-18 04:39:42.220228"
-#         self.updated_at = "2026-02-18 04:39:42.220228"
-#         self.id = "123"
-#         self.name = name
-#         self.date_of_birth = date_of_birth
-#         self.age = 2
-#         self.avatar_url = "/avatars/mlb-avatar-robot.png"
-
 
 class FakeChildRepository():
     def __init__(self):
