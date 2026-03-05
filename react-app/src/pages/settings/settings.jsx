@@ -13,7 +13,6 @@ const Settings = () => {
     async function loadData() {
         //GET USER DATA
         if (!currentUser) return;
-
         try {
             const token = await currentUser.getIdToken();
             // fetching /users endpoints
@@ -33,9 +32,6 @@ const Settings = () => {
             //    name: user.name,
             //    email: user.email,
             //}));
-
-
-
             setUser(users);
             setLoading(false)
 
@@ -108,8 +104,10 @@ const Settings = () => {
 
                     <button className="edit-btn">Edit Account</button>
 
-                    <label>Children</label>
                 </form>
+            </div>
+            <div className="settings-child-card">
+                <h1 className="title">Your Children!</h1>
             </div>
         </div>
     );

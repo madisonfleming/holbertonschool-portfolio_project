@@ -32,7 +32,8 @@ export function ChildProvider({ children }) {
             const childrenData = await childrenRes.json();
             console.log("this is children data", childrenData)
 
-            // formatted data to use in FE
+            // formatted data to use in FE 
+            // in the BE we received id, name, age, avatar_url
             const formatted = childrenData.map((child) => ({
                 id: child.id,
                 name: child.name,
@@ -69,6 +70,7 @@ export function ChildProvider({ children }) {
       return;
     }
     const newChild = await response.json();
+    // we received id, name, age, avatar_url
     console.log("Answer from BE of creating new child:", newChild);
     // UPDATE UI INMEDIATLY
     setChildList((prev) => [
@@ -111,9 +113,12 @@ export function ChildProvider({ children }) {
         const updatedList = prev.map(child => {
             if (child.id === id) {
             // search the child we want to update
+            //... means copy all the properties into the new obj
             return {
                 ...child,
                 ...updatedChild,
+                //this means if updated... has a valid url use it otherwise use child.avatar
+                avatar: updatedChild.avatar_url ?? child.avatar,
             };
             } else {
             // if new data is not send stay with the old data
