@@ -1,8 +1,10 @@
 import "./AddReadingSession.css";
+import { useChild } from "../../contexts/ChildContext"
 import { useState, useEffect } from "react";
 
 const AddReadingSession = (props) => {
-  const child_list = props.children_RS || [];
+
+  const { childList } = useChild();
   const books = [
     {
       title: "The Very Hungry Caterpillar",
@@ -35,34 +37,46 @@ const AddReadingSession = (props) => {
 
   useEffect(() => {
     if (props.trigger) {
-      setSelectedBook(""); // reset book
-      setSearchTerm(""); // reset search input (si lo usas)
+      setSelectedBook(null); 
+      setSearchTerm(""); 
     }
   }, [props.trigger]);
 
   return props.trigger ? (
     <div className="popup-overlay">
       <div className="AddReadingSessionCard">
-        <h1>Log a reading session</h1>
+        {/*Close btn */}
+        <button className="btn-close" onClick={() => props.setTrigger(false)}>
+            ✕
+          </button>
+        <h1 className="tittle-popup-card">Log a reading session</h1>
 
         <div className="reading-session-layout">
           {/* --- BOOK SELECTOR --- */}
           <div className="left-section">
-            {/* --- USER BUTTONS --- */}
-            <h4>BOOKWORM</h4>
-            <div className="child-buttons">
-              {child_list.map((child) => (
-                <button
+          {/* --- USER BUTTONS --- */}
+          <p className="subtittle-popup-card">Bookworm</p>
+            <div className="readers-row">
+              {childList.map((child) => (
+                <div
                   key={child.id}
-                  className={`child-btn ${selectedChild === child.id ? "active" : ""}`}
+                  className={`child-wrapper ${selectedChild === child.id ? "selected" : ""}`}
                   onClick={() => setSelectedChild(child.id)}
                 >
-                  {child.name}
-                </button>
+                  <button className="child-btn">
+                    <img
+                      src={child.avatar_url}
+                      className="child-avatar-img-rs"
+                    />
+                  </button>
+                   {console.log('avatar test andrea:', child.avatar_url)}
+                  <div className="child-name-inside-card">{child.name}</div>
+                </div>
               ))}
             </div>
-
-            {/* --- SEARCH FOR BOOK --- */}
+            <div className="divider"></div>
+            {/* --- SEARCH FOR BOOK AND DATE --- */}
+            <p className="subtittle-popup-card">Search Book & Date</p>
             <input
               type="text"
               className="select-field"
@@ -108,6 +122,12 @@ const AddReadingSession = (props) => {
           </div>
           {/*For the img  */}
           <div className="right-section">
+            <p className="subtittle-popup-card">Selected Book</p>
+            <div className={`book-empty ${selectedBook ? "hidden" : ""}`}>
+              <div className="book-empty-text">No book selected yet</div>
+              <div className="book-empty-sub">Search on the left to find your book</div>
+            </div>
+            <div className={`book-selected ${selectedBook ? "visible" : ""}`}>
             {selectedBook && (
               <img
                 src={selectedBook.img}
@@ -115,14 +135,12 @@ const AddReadingSession = (props) => {
                 className="book-preview-img"
               />
             )}
+            </div>
           </div>
         </div>
         {props.children}
         <div className="button-section">
-          <button className="btn btn-s" onClick={() => props.setTrigger(false)}>
-            Close
-          </button>
-          <button className="btn btn-s">Submit Reading Session</button>
+          <button className="btn-submit">Submit Reading Session</button>
         </div>
       </div>
     </div>
