@@ -39,9 +39,9 @@ export function BooksProvider({ children }) {
   async function searchBooks(q) {
     try {
       const token = await currentUser.getIdToken();
-
+      /* encodeURIComponent converts the quary (q) like cat into something the URL can take, I delete to test and work without it lol  */
       const resp = await fetch(
-        `http://127.0.0.1:8000/api/books/search?q=${encodeURIComponent(q)}`,
+        `http://127.0.0.1:8000/api/books/search?q=${q}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
