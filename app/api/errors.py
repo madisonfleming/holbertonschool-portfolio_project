@@ -60,7 +60,14 @@ def register_error_handlers(app):
     @app.exception_handler(RequestValidationError)
     # gives JSON shape to FastAPI inbuilt exception
     async def validation_exception_handler(request: Request, exc: RequestValidationError):
-        return format_error("VALIDATION_ERROR", exc, 400)
+        messages = []
+        for error in exc.errors(): # loop exception's error entries, builds meaningful error msgs
+            field = error["loc"][-1]
+            if not isinstance(field, str):
+                field = "body" # setting for JSON decode errors (replaces position of error with "body")
+            msg = error["msg"]
+            messages.append(f"{field}: {msg}")
+        return format_error("VALIDATION_ERROR", messages, 400)
 
     @app.exception_handler(DuplicateUserError)
     async def duplicate_user_handler(request: Request, exc: DuplicateUserError):
