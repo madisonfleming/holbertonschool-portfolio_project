@@ -40,20 +40,12 @@ def create_app(settings=None) -> FastAPI:
         allow_headers=["*"],
     )
 
-<<<<<<< HEAD
     # router registrations
     app.include_router(users.router, prefix="/api", dependencies=[Depends(get_facade)])
     app.include_router(children.router, prefix="/api", dependencies=[Depends(get_facade)])
     app.include_router(milestones.router, prefix="/api", dependencies=[Depends(get_facade)])
     app.include_router(reading_sessions.router, prefix="/api", dependencies=[Depends(get_facade)])
     app.include_router(books.router, prefix="/api", dependencies=[Depends(get_facade)])
-=======
-   # router registrations
-    app.include_router(users.router, prefix="/api",  dependencies=[Depends(get_facade)])
-    app.include_router(children.router, prefix="/api", dependencies=[Depends(get_facade)])
-    app.include_router(milestones.router, prefix="/api", dependencies=[Depends(get_facade)])
-    app.include_router(reading_sessions.router, prefix="/api", dependencies=[Depends(get_facade)])
->>>>>>> d99d707 (Finish Create Child Card)
     app.include_router(auth_dependencies.router, prefix="/api")
 
     # root health check
