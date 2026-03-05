@@ -8,7 +8,7 @@ const AddReadingSession = (props) => {
   const books = [
     {
       title: "The Very Hungry Caterpillar",
-      img: "public/books/caterpillar.png",
+      img: "public/books/test.png",
     },
     { title: "Where the Wild Things Are", img: "/books/wild-things.png" },
     { title: "Matilda", img: "/books/matilda.png" },
