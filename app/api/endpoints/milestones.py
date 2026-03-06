@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from app.services.facade import MLBFacade
 from app.api.dependencies import get_facade
 from app.api.auth_dependencies import auth_current_user
-from app.api.schemas.milestones import CreateMilestone, MilestoneResponse
+from app.api.schemas.milestones import CreateMilestone, MilestoneCompletionResponse
 from typing import List
 
 # TODO: if fb uid/user_id not needed to pass to facade - can protect all endpoints at the router level with: router = APIRouter(dependencies=[Depends(auth_current_user)])
@@ -10,7 +10,7 @@ router = APIRouter() # NOTE: auth applied at individual endpoint level for now.
 
 
 # Requirement: Get ALL milestones, with optional filtering by metric_key
-@router.get("/children/{child_id}/milestones", response_model=List[MilestoneResponse], status_code=200)
+@router.get("/children/{child_id}/milestones", response_model=List[MilestoneCompletionResponse], status_code=200)
 def get_all_milestones(
     child_id: str,
     metric_key: str | None = None,
@@ -25,7 +25,7 @@ def get_all_milestones(
     return facade.get_milestones(child_id, firebase_uid)
 
 # Requirement: Get ONE milestone
-@router.get("/children/{child_id}/milestones/{milestone_id}", response_model=MilestoneResponse, status_code=200)
+@router.get("/children/{child_id}/milestones/{milestone_id}", response_model=MilestoneCompletionResponse, status_code=200)
 def get_one_milestone(
     child_id: str,
     milestone_id: str,
@@ -35,7 +35,7 @@ def get_one_milestone(
     firebase_uid = decoded_token["uid"]
     return facade.get_milestone(child_id, milestone_id, firebase_uid)
 
-@router.post("/children/{child_id}/milestones", response_model=MilestoneResponse, status_code=201)
+@router.post("/children/{child_id}/milestones", response_model=MilestoneCompletionResponse, status_code=201)
 def complete_weekly_milestone(
     data: CreateMilestone,
     facade: MLBFacade = Depends(get_facade),

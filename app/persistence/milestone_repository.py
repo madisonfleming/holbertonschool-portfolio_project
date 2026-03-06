@@ -19,33 +19,46 @@ Doesn't need:
 MILESTONE_TYPES = {
     "1": {
         "id": "1",
-        "type": "books_read",
+        "name": "Read 25 Books",
         "subject": None,
-        "threshold": 25
+        "type": "books_read",
+        "threshold": 25,
     },
     "2": {
         "id": "2",
-        "type": "books_read",
+        "name": "Read 50 Books",
         "subject": None,
+        "type": "books_read",
         "threshold": 50
     },
     "3": {
         "id": "3",
-        "type": "weekly_goal",
+        "name": "Read 5 Elephant Books",
         "subject": "elephants",
-        "threshold": 5
+        "type": "weekly_goal",
+        "threshold": 5,
     }
 }
 
 # for m in MILESTONE_TYPES.values():
 #     print(m)
 
-class MilestoneRepository():
+class MilestoneTypeRepository():
     def __init__(self):
         self._storage = MILESTONE_TYPES
 
     def get(self, id: str):
-        return self._storage.get(id)
+        data = self._storage.get(id)
+        if not data:
+            return None
+        return MilestoneType(
+            id=data["id"],
+            name=data["name"],
+            subject=data["subject"],
+            type=data["type"],
+            threshold=data["threshold"],
+        )
+
     
     def get_all_by_type(self, milestone_type: str):
         return list(m for m in self._storage.values()
@@ -70,3 +83,9 @@ class MilestoneRepository():
                      and m["threshold"] == threshold),
                 None)
     
+        def get_all_by_child_and_key(self, child_id, milestone_key):
+            return [
+                m for m in self._storage.values()
+                if m["child_id"] == child_id
+                and self.milestone_repository.get(m["milestone_id"]).type == milestone_key
+            ]

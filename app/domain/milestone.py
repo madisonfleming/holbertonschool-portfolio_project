@@ -6,20 +6,18 @@ from app.domain.exceptions import (
     InvalidMetricKeyError
 )
 
-class Milestone(Base): # gives id, created_at, updated_at
+class MilestoneType(Base): # gives id, created_at, updated_at
     def __init__(self,
                 name: str,
-                description: str,
-                metric_key: str,
+                type: str,
                 threshold: int,
-                child_id: str,
+                subject: str | None = None,
     ):
         super().__init__()
         self.name = name # ie "Read 100 Books"
-        self.description = description # bit of explanatory text
-        self.metric_key = metric_key # books_read, sessions_logged, streak_days. not active but could be.
+        self.subject = subject # of weekly goal milestones
+        self.type = type # books_read, sessions_logged, streak_days. not active but could be.
         self.threshold = threshold # number required to achieve milestone
-        self.child_id = child_id # child who completed milestone
 
     @property
     def name(self):
@@ -34,28 +32,16 @@ class Milestone(Base): # gives id, created_at, updated_at
         self._name = value
 
     @property
-    def description(self):
-        return self._description
-    
-    @description.setter
-    def description(self, value:str):
-        if not isinstance(value, str):
-            raise TypeError("Description must be a string")
-        if not value.strip():
-            raise InvalidMilestoneDescriptionError()
-        self._description = value
+    def type(self):
+        return self._type
 
-    @property
-    def metric_key(self):
-        return self._metric_key
-
-    @metric_key.setter
-    def metric_key(self, value:str):
+    @type.setter
+    def type(self, value:str):
         if not isinstance(value, str):
             raise TypeError("Metric key must be a string")
         if not value.strip():
             raise InvalidMetricKeyError()
-        self._metric_key = value
+        self._type = value
 
     @property
     def threshold(self):
@@ -70,25 +56,14 @@ class Milestone(Base): # gives id, created_at, updated_at
         if value < 1:
             raise InvalidMilestoneThresholdError()
         self._threshold = value
-    
-    @property
-    def child_id(self):
-        return self._child_id
-
-    @child_id.setter
-    def child_id(self, value:str):
-        if not isinstance(value, str):
-            raise TypeError("Child id must be a string")
-        self._child_id = value
 
     def to_dict(self):
         data = super().to_dict()
         data.update({
             "id": self.id,
             "name": self.name,
-            "description": self.description,
-            "metric_key": self.metric_key,
+            "subject": self.subject,
+            "type": self.type,
             "threshold": self.threshold,
-            "child_id": self.child_id,
         })
         return data
