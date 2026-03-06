@@ -3,17 +3,26 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import CreateChild from "../../components/dashboard/CreateChild";
 import { useChild } from "../../contexts/ChildContext";
-import ChildCardSettings from "../../components/settings/ChildCardSettings"; 
+import ChildCardSettings from "../../components/settings/ChildCardSettings";
+import UpdateUser from "./UpdateUser";
 
 
 
 const Settings = () => {
     const [user, setUser] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [buttonUpdateUserPopup, setButtonUpdateUserPopup] = useState(false);
+    const [editingUser, setEditingUser] = useState(null);
+    const handleEditUser = (user) => {
+        setEditingUser(user);
+    }
+
+    const [buttonCreateChildPopup, setButtonCreateChildPopup] = useState(false);
     const { currentUser } = useAuth();
     //we use context to import useChild
     const { childList, createChild, updateChild } = useChild();
-    const [buttonCreateChildPopup, setButtonCreateChildPopup] = useState(false);
+    
    
 
     
@@ -48,15 +57,15 @@ const Settings = () => {
 
 
     }
-    //UPDATE USER
-    async function updateUser(id, updatedData) {
+//UPDATE USER
+    async function updateUser(updatedData) {
         console.log("PUT data:", updatedData);
 
         if (!currentUser) return;
 
         const token = await currentUser.getIdToken();
 
-        const response = await fetch(`http://127.0.0.1:8000/api/users/me/${id}`, {
+        const response = await fetch("http://127.0.0.1:8000/api/users/me", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -74,22 +83,7 @@ const Settings = () => {
         console.log("Answer from BE of updating a user:", updatedUser);
         // Update local state
 
-        setUserList(prev => {
-            const updatedList = prev.map(user => {
-                if (user.id === id) {
-                    // search the user we want to update
-                    return {
-                        ...user,
-                        ...updatedUser,
-                    };
-                } else {
-                    // if new data is not send stay with the old data
-                    return user;
-                }
-            });
-
-            return updatedList;
-        });
+        setUser(updatedUser);
 
     }
 
@@ -102,14 +96,34 @@ const Settings = () => {
     return (
         <div className="settings-container">
             <div className="settings-card">
+                
                 <h1 className="title">Hello, {user.name}</h1>
+                <div className="settings-user-card">
                 <p className="subtitle">Account Details</p>
-                <form >
+   
+                <div className="account-row">
+
+                    <div className="account-column">
                     <p className="username">{user.name}</p>
                     <p className="username">{user.email}</p>
-                    <button className="edit-btn">Edit Account</button>
-                </form>
-            </div>
+                    </div>
+                    {/* updateUser button */}
+                    <button className="edit-btn" type="button" onClick={() => {setButtonUpdateUserPopup(true)
+                        setEditingUser(user)
+                    }}>
+                        Edit Account
+                        </button>
+
+                    </div>
+
+                    <UpdateUser 
+                    trigger={buttonUpdateUserPopup}
+                    setTrigger={setButtonUpdateUserPopup}
+                    user={editingUser}
+                    updateUser={updateUser}
+                    >
+                    </UpdateUser>
+                    </div>
             <div className="settings-child-card">
                 <h1 className="title">Your Children!</h1>
                 <ChildCardSettings
@@ -131,6 +145,7 @@ const Settings = () => {
           ></CreateChild>
             </div>
         </div>
+    </div>
     );
 }
 
