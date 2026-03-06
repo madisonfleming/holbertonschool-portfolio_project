@@ -11,12 +11,8 @@ class MilestoneType(Base): # gives id, created_at, updated_at
                 name: str,
                 type: str,
                 threshold: int,
-                id=None,
                 subject: str | None = None,
     ):
-        if id is not None:
-            self.id = id
-
         super().__init__()
         self.name = name # ie "Read 100 Books"
         self.subject = subject # of weekly goal milestones
@@ -66,7 +62,6 @@ class MilestoneType(Base): # gives id, created_at, updated_at
         data.update({
             "id": self.id,
             "name": self.name,
-            "description": self.description,
             "subject": self.subject,
             "type": self.type,
             "threshold": self.threshold,
