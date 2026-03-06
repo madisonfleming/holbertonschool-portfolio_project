@@ -10,6 +10,7 @@ Book data added as objects as book repo is not designed for dicts.
 """
 from app.domain.books import Book
 """
+from app.domain.books import Book
 # <--- USER DATA --->
 
 class Userdata():
