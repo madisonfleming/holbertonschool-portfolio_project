@@ -9,32 +9,8 @@ Error handling is tested comprehensively via the unit testing at each layer.
 A note about data:
     Assertions on specific data returns depend on seeded data being available
 """
-
-from fastapi.testclient import TestClient
-from app.factory import create_app
-from app.config import UnitTestingConfig
-from app.api.auth_dependencies import auth_current_user
-from app.api.dependencies import get_facade
 import pytest
 
-
-@pytest.fixture
-def app():
-    app = create_app(UnitTestingConfig())
-    app.dependency_overrides[auth_current_user] = lambda uid = "123": {"uid": uid }
-    yield app
-    app.dependency_overrides.clear()
-
-@pytest.fixture
-def client(create_test_facade, app):
-    app.dependency_overrides[get_facade] = lambda: create_test_facade
-    with TestClient(app) as c:
-        yield c
-    app.dependency_overrides.clear()
-
-@pytest.fixture(autouse=True)
-def set_env(monkeypatch):
-    monkeypatch.setenv("ENVIRONMENT", "testing")
 
 @pytest.fixture
 def reading_session_payload():
