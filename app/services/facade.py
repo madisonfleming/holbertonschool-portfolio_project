@@ -578,7 +578,7 @@ class MLBFacade:
         
         # TO DO - validate type against a known list, raise applicable error
         if not type:
-            raise ValueError("Missing metric key")
+            raise ValueError("Missing milestone type")
 
         milestone = self.milestone_completion_repository.get_all_by_child_and_key(child_id, type)
         return milestone
