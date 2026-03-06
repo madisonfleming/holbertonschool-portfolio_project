@@ -17,6 +17,22 @@
   max-width: 580px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
+
+/*adding settings-user-card to align with child card*/
+.settings-user-card {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 580px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  gap: 16px; 
+  display: flex;
+  flex-direction: column;
+  padding: 16px 18px; /*create space between components avatar padding info padding*/
+
+}
+
+
 .settings-child-card {
   background: white;
   padding: 40px;
@@ -27,9 +43,21 @@
   gap: 16px; 
 }
 
+.account-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.account-column {
+  display: flex;
+  flex-direction: column;
+}
+
 .title {
   text-align: center;
-  font-size: 26px;
+  font-size: 30px;
   font-weight: 700;
   color: #ec407a;
   padding-bottom: 30px;
@@ -37,14 +65,41 @@
 
 .subtitle {
   text-align: left; /* change text-align for subtitle*/
-  font-size: 15px;
+  width: 100%;
+  font-size: 20px;
   font-weight: 600;
 }
 
+
 .username {
-  font-size: 15px;
-  margin-bottom: 0px;
+  flex: 1; /*this says take all the space and push the next elements to the right*/
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 5px;
+
 }
+
+.edit-btn {
+
+  border: none;
+  color: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 10px;
+
+  margin-right: 5px;
+  background: linear-gradient(135deg, #9b59b6, #cc7df0);
+
+}
+
+.account-details {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  border-radius: 16px;
+  min-width: 0;
+
+} /* fix container so btn is on right*/
+
+
 
  .divider {
     height: 1.5px;
