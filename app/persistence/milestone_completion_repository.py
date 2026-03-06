@@ -1,48 +1,52 @@
 #!/usr/bin/python3
 
 from app.persistence.repository import Repository
+from dataclasses import asdict
 
 MILESTONE_COMPLETIONS = {
     "1": {
+        "id": "1",
+        "child_id": "e686c824-25e6-4704-87a6-651938429111",
+        "milestone_id": "1",
+        "description": "Susie read 25 books out of 1000!",
+        "completed_at": "2025-11-27",
         "created_at": "2025-12-02",
         "updated_at": "2025-12-02",
-        "id": "1",
-        "name": "Read 25 Books",
-        "description": "Susie read 25 books out of 1000!",
-        "metric_key": "books_read",
-        "threshold": 25,
-        "child_id": "e686c824-25e6-4704-87a6-651938429111",
+        "reward_generated_at": None,
+        "reward_url": None,
     },
     "2": {
+        "id": "2",
+        "child_id": "e686c824-25e6-4704-87a6-651938429111",
+        "milestone_id": "2",
+        "description": "Susie read 50 books out of 1000!",
+        "completed_at": "2025-12-01",
         "created_at": "2025-12-25",
         "updated_at": "2025-12-25",
-        "id": "2",
-        "name": "Read 50 Books",
-        "description": "Susie read 50 books out of 1000!",
-        "metric_key": "books_read",
-        "threshold": 50,
-        "child_id": "e686c824-25e6-4704-87a6-651938429111",
+        "reward_generated_at": None,
+        "reward_url": None,
     },
     "3": {
-        "created_at": "2026-02-25",
-        "updated_at": "2026-02-25",
         "id": "3",
-        "name": "Read 5 Books about elephants",
-        "description": "Susie has read 5 books about elephants this week! High five!",
-        "metric_key": "weekly_goals",
-        "threshold": 5,
         "child_id": "e686c824-25e6-4704-87a6-651938429111",
-    },
-    "4": {
+        "milestone_id": "3",
+        "description": "Susie has read 5 books about elephants this week! High five!",
+        "completed_at": "2025-12-01",
         "created_at": "2026-02-25",
         "updated_at": "2026-02-25",
-        "id": "4",
-        "name": "Read 5 Books about elephants",
-        "description": "Billie has read 5 books about elephants this week! High five!",
-        "metric_key": "weekly_goals",
-        "threshold": 5,
-        "child_id": "e686c824-25e6-4704-87a6-651938429222",
-    }
+        "reward_generated_at": None,
+        "reward_url": None,
+    },
+    # "4": {
+    #     "created_at": "2026-02-25",
+    #     "updated_at": "2026-02-25",
+    #     "id": "4",
+    #     "name": "Read 5 Books about elephants",
+    #     "description": "Billie has read 5 books about elephants this week! High five!",
+    #     "type": "weekly_goals",
+    #     "threshold": 5,
+    #     "child_id": "e686c824-25e6-4704-87a6-651938429222",
+    # }
 }
 
 # for r in MILESTONE_COMPLETIONS.values():
@@ -53,13 +57,16 @@ class MilestoneCompletionRepository(Repository):
         self._storage = MILESTONE_COMPLETIONS
 
     def save(self, milestone):
-        self._storage[milestone.id] = milestone.to_dict()
+        self._storage[milestone.id] = asdict(milestone)
         return milestone.id
 
     def get(self, milestone_id):
         return self._storage.get(milestone_id)
 
     def get_all_milestones_by_child(self, child_id):
+        for k, v in MILESTONE_COMPLETIONS.items():
+            print(k, v)
+
         return [
             c for c in self._storage.values()
             if c["child_id"] == child_id
@@ -81,17 +88,16 @@ class MilestoneCompletionRepository(Repository):
         return [
             m for m in self._storage.values()
             if m["child_id"] == child_id
-            and m["metric_key"] == milestone_key
+            and self.milestone_repository.get(m["milestone_id"]).type == milestone_key
         ]
 
-
-    def get_most_recent_reading_milestone(self, child_id: str, metric_key: str):
+    def get_most_recent_reading_milestone(self, child_id: str, type: str):
         """ Used by create_reading_session to find a child's most recent milestone"""
         return max(
             (
                 m for m in self._storage.values()
                 if m["child_id"] == child_id
-                and m["metric_key"] == metric_key
+                and self.milestone_repository.get(m["milestone_id"]).type == milestone_key
             ),
             key=lambda m: m["created_at"],
             default=None
