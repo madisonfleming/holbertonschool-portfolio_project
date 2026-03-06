@@ -84,8 +84,8 @@ class MilestoneTypeRepository():
                 None)
     
         def get_all_by_child_and_key(self, child_id, milestone_key):
-        return [
-            m for m in self._storage.values()
-            if m["child_id"] == child_id
-            and self.milestone_repository.get(m["milestone_id"]).type == milestone_key
-        ]
+            return [
+                m for m in self._storage.values()
+                if m["child_id"] == child_id
+                and self.milestone_repository.get(m["milestone_id"]).type == milestone_key
+            ]
