@@ -10,18 +10,14 @@ import ChildCard from "../../components/dashboard/ChildCard";
 // dashboard only loads popups cards show components NOT LOGIC ON BE thats context
 const Dashboard = () => {
   //we use context to import useChild
-  const { childList, createChild, updateChild } = useChild();
+  const { childList } = useChild();
   const { currentUser } = useAuth();
   const theme = getWeeklyTheme();
   const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] =
     useState(false);
-  const [buttonCreateChildPopup, setButtonCreateChildPopup] = useState(false);
-  const [buttonUpdateChildPopup, setButtonUpdateChildPopup] = useState(false);
 
-
-
-  const current_num_of_books = 100; // vendrá del backend
-  const target = 1000; // vendrá del backend
+  const current_num_of_books = 100; // from backend
+  const target = 1000; // from be
 
   return (
     <div>
@@ -42,10 +38,7 @@ const Dashboard = () => {
       ></AddReadingSession>
       <div className="dashboard-grid">
         <div className="children-container">
-          <ChildCard
-            childrenList={childList}
-          />
-
+          <ChildCard childrenList={childList} />
         </div>
         <div className="weekly-container">
           <WeeklyGoal
