@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 
 from app.domain.books import Book
+from app.persistence.in_memory_seed import Bookdata
 
 from uuid import uuid4
 
 class BookRepository:
     def __init__(self):
-        self._storage = {}
+        self._storage = Bookdata().books
 
 
     # returns results for the local DB
