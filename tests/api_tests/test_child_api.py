@@ -165,8 +165,8 @@ def test_get_child(client, override_auth):
 def test_get_child_without_relo(client, override_auth):
     override_auth("777")
     response = client.get(f'{BASE_URL}/test-child-id-2')
-    assert response.status_code == 404
-    assert response.json()["status"] == 404
+    assert response.status_code == 403
+    assert response.json()["status"] == 403
     assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
     assert response.json()["message"] == "Relationship between user: '777' and child: 'test-child-id-2' not found"
 
@@ -217,8 +217,8 @@ def test_update_child_without_relo(client, override_auth):
     "avatar_url": "alien_avatar.com"
     }
     response = client.put(f'{BASE_URL}/test-child-id-2', json=payload)
-    assert response.status_code == 404
-    assert response.json()["status"] == 404
+    assert response.status_code == 403
+    assert response.json()["status"] == 403
     assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
     assert response.json()["message"] == "Relationship between user: '777' and child: 'test-child-id-2' not found"
 

@@ -38,7 +38,7 @@ def test_create_reading_session(client, override_auth):
     assert response.status_code == 201
     assert response.json()["session_id"] == "test-session-id"
     assert response.json()["child_id"] == "test-child-id-2"
-    assert response.json()["book_id"] == "test-book-id"
+    assert response.json()["book_id"] == "test-book-id-1"
     assert response.json()["logged_at"] is not None
 
 
