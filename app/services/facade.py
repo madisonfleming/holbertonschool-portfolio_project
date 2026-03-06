@@ -574,14 +574,21 @@ class MLBFacade:
 
 # <--- MILESTONES --->
 
-    def get_milestones(self, child_id: str, firebase_uid: str) -> list[MilestoneCompletionResponse]:
+    def get_milestones(self,
+                       child_id: str,
+                       firebase_uid: str
+                       ) -> list[MilestoneCompletionResponse]:
+        # access user's ID via firebase ID
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        if user is None:
+            raise PermissionDeniedError()
         user_id = user.id
         # validate child-user relationship
         if user_id:
             has_rel = self.relationship_repository.has_relationship(user_id, child_id)
             if not has_rel:
-                raise RelationshipNotFoundError(user_id, child_id)
+            # Open qu: return an empty list for unauthorised access requests?
+                return []
 
         milestones = self.milestone_completion_repository.get_all_milestones_by_child(child_id)
         return milestones
