@@ -8,11 +8,20 @@ class CreateMilestone(BaseModel):
 
 
 class MilestoneResponse(BaseModel):
-    # Used for responses to post weekly milestones and get milestones
+    # Used for the milestone definitions
     created_at: datetime
     id: str
     name: str
     description: str
-    metric_key: str
+    type: str
     threshold: int
+
+
+class MilestoneCompletionResponse(BaseModel):
+    # Used for responses to post weekly milestones and get milestones
+    id: str
     child_id: str
+    milestone_id: str
+    description: str
+    completed_at: datetime
+    reward_url: str | None
