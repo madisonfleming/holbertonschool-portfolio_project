@@ -9,6 +9,7 @@ from app.api.dependencies import get_facade
 from app.api.auth_dependencies import auth_current_user
 from app.services.exceptions import RelationshipNotFoundError, PermissionDeniedError, ReadingSessionNotFoundError, DuplicateUserError
 from app.domain.exceptions import UserNotFoundError
+from app.api.schemas.milestones import MilestoneResponse
 
 class FakeFacade:
     """ 
@@ -63,46 +64,66 @@ class FakeFacade:
 
     def update_child(self, child_id, child_data, firebase_uid):
         if firebase_uid == "123" and child_id == "test-child-id-2":
-            return {
-                "id": "test-child-id-2",
-                "name": "Suzanne",
-                "age": 2,
-                "avatar_url": "alien_avatar.com",
-                "relationship_type": "Parent",
-                "role": "primary"
-            }
+            return self.child_data()
+            # return {
+            #     "id": "test-child-id-2",
+            #     "name": "Suzanne",
+            #     "age": 2,
+            #     "avatar_url": "alien_avatar.com",
+            #     "relationship_type": "Parent",
+            #     "role": "primary"
+            # }
         if firebase_uid == "777":
             raise RelationshipNotFoundError("777", "test-child-id-2")
-        
-    def create_reading_session(self, reading_session_data, firebase_uid):
+    
+    # Helper method
+    def child_data(
+            self,
+            name: str = "Suzanne",
+            age: int = 2,
+            avatar_url: str = "alien_avatar.com",
+            relationship_type: str = "Parent",
+            role: str = "primary",
+            ):
         return {
-            "session_id": "test-session-id",
-            "child_id": reading_session_data.child_id,
-            "book_id": "test-book-id",
-            "logged_at": "2025-02-26T10:00:00",
+            "id": "test-child-id-2",
+            "name": name,
+            "age": age,
+            "avatar_url": avatar_url,
+            "relationship_type": relationship_type,
+            "role": role,    
         }
+    def create_reading_session(self, reading_session_data, firebase_uid):
+        return self.reading_session_data(
+            session_id="test-session-id",
+            child_id=reading_session_data.child_id,
+        )
 
     def get_reading_sessions(self, child_id, firebase_uid, limit=None, from_date=None, to_date=None):
         if firebase_uid == "123" and child_id == "test-child-id-2":
             return [
-                {
-                    "session_id": "test-session-id-1",
-                    "child_id": "test-child-id-2",
-                    "book_id": "test-book-id-1",
-                    "logged_at": "2025-02-26T10:00:00",
-                },
-                {
-                    "session_id": "test-session-id-2",
-                    "child_id": "test-child-id-2",
-                    "book_id": "test-book-id-2",
-                    "logged_at": "2025-01-15T09:00:00",
-                },
+                self.reading_session_data(child_id=child_id),
+                self.reading_session_data(session_id="test-session-id-2", child_id=child_id, book_id="test-book-id-2"),
             ]
+        
         if firebase_uid == "777":
             raise PermissionDeniedError()  # "Insufficient permissions to complete this action"
         if firebase_uid == "123" and child_id == "test-child-id-empty":
             return []
-
+    
+    # Helper method
+    def reading_session_data(
+            self,
+            session_id: str = "test-session-id-1",
+            child_id: str = "test-child-id-1",
+            book_id: str = "test-book-id-1"
+            ):
+        return {
+            "session_id": session_id ,
+            "child_id": child_id,
+            "book_id": book_id,
+            "logged_at": "2025-01-15T09:00:00",
+        }
     def update_session(self, session_id, updated_session_data, firebase_uid):
         if firebase_uid == "123" and session_id == "test-session-id-1":
             return {
@@ -146,8 +167,37 @@ class FakeFacade:
         if firebase_uid == "123" and request.email == "john@example.com":
             raise DuplicateUserError()
         else:
-            raise UserNotFoundError()        
+            raise UserNotFoundError()
     
+    def get_milestones_by_metric_key(self, child_id, metric_key, firebase_uid):
+        if firebase_uid == "123":
+            return [self.milestone_data(id="milestone-121", metric_key="weekly_goals")]
+    def get_milestones(self, child_id, firebase_uid):
+        if firebase_uid == "123":
+            data = [
+                self.milestone_data(id="milestone-123", metric_key="weekly_goal"),
+                self.milestone_data(id="milestone-124", metric_key="books_read"),
+            ]
+            return data
+            
+        if firebase_uid == "777":
+            return []
+    def get_milestone(self, child_id, milestone_id, firebase_uid):
+        if firebase_uid == "123":
+            data = self.milestone_data(id="milestone-123", metric_key="books_read")
+            return MilestoneResponse(**data)
+        
+    def milestone_data(self, id: str, metric_key: str):
+        return {
+                "created_at": "2026-02-05",
+                "id": id,
+                "name": "25 books read",
+                "description": "Amy achieved 25 books",
+                "metric_key": metric_key,
+                "threshold": 25,
+                "child_id": "child-123",
+        }
+            
 
 # app with Facade dependency override (auth overrides are done per test)
 @pytest.fixture
