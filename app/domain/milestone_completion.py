@@ -3,7 +3,7 @@ from datetime import datetime
 from app.domain.base import Base
 
 """
-internal domain representation of a stored book, kept separate
+internal domain representation of a completed milestone, kept separate
 from API schemas so the repository works with simple data objects
 as opposed the pydantic models
 
