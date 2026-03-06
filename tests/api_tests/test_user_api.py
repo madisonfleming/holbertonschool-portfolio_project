@@ -1,82 +1,12 @@
 """
 These tests call the /users endpoint
 
-Validates that each method on the endpoint:
-  - accepts a valid request payload
-  - validates the payload using a Pydantic input model
-  - calls the facade layer, delegating business logic to the facade
-  - returns a response that matches the expected Pydantic response 
-    schema
+Note that the facade layer is mocked via class FakeFacade:
+ - does not test business logic or data persistence
 
-Note that the facade layer is mocked - does not test business logic
-or data persistence
+FakeFacade methods and data are defined in conftest.py
 
 """
-
-from fastapi.testclient import TestClient
-from app.factory import create_app
-from app.config import UnitTestingConfig
-from app.api.dependencies import get_facade
-from app.api.auth_dependencies import auth_current_user
-from app.domain.exceptions import UserNotFoundError
-from app.services.exceptions import DuplicateUserError
-import pytest
-
-class FakeFacade:
-    """ 
-    Add facade mocks here 
-
-    - Use dot notation in the return data to match pydantic models
-    """
-    def get_user(self, firebase_uid):
-        if firebase_uid == "123":
-            return {
-                "id": "a686c824-25e6-4704-87a6-651938429111",
-                "name": "Mary",
-                "email": "mary@example.com",
-                "role": "standard",
-                }
-        else:
-            raise UserNotFoundError()
-
-    def update_user(self, request, firebase_uid):
-        if firebase_uid == "123" and request.email != "john@example.com":
-            return {
-                "id": "a686c824-25e6-4704-87a6-651938429111",
-                "name": request.name or "Mary",
-                "email": request.email or "mary@example.com",
-                "role": "standard"
-                }
-        if firebase_uid == "123" and request.email == "john@example.com":
-            raise DuplicateUserError()
-        else:
-            raise UserNotFoundError()
-
-# app with Facade dependency override (auth overrides are done per test)
-@pytest.fixture
-def app():
-    app = create_app(UnitTestingConfig())
-    app.dependency_overrides[get_facade] = lambda: FakeFacade()
-    yield app
-    app.dependency_overrides.clear()
-
-@pytest.fixture
-def client(app):
-    return TestClient(app)
-
-#Allow dynamic uid creation for auth dependency overrides
-@pytest.fixture
-def override_auth(app):
-    def _override(uid: str):
-        async def override():
-            return {"uid" : uid}
-        app.dependency_overrides[auth_current_user] = override
-    return _override
-
-# Set the env to "testing"
-@pytest.fixture(autouse=True)
-def set_env(monkeypatch):
-    monkeypatch.setenv("ENVIRONMENT", "testing")
 
 BASE_URL = "/api/users/me"
 

@@ -8,106 +8,12 @@ Validates that each method on the endpoint:
   - returns a response that matches the expected Pydantic response
     schema
 
-Note that the facade layer is mocked - does not test business logic
-or data persistence
+Note that the facade layer is mocked via class FakeFacade:
+ - does not test business logic or data persistence
+
+FakeFacade methods and data are defined in conftest.py
 
 """
-
-from fastapi.testclient import TestClient
-from app.factory import create_app
-from app.config import UnitTestingConfig
-from app.api.dependencies import get_facade
-from app.api.auth_dependencies import auth_current_user
-from app.services.exceptions import RelationshipNotFoundError, PermissionDeniedError, ReadingSessionNotFoundError
-import pytest
-
-
-class FakeFacade:
-    """
-    Add facade mocks here
-
-    - Use dot notation in the return data to match pydantic models
-    """
-
-    def create_reading_session(self, reading_session_data, firebase_uid):
-        return {
-            "session_id": "test-session-id",
-            "child_id": reading_session_data.child_id,
-            "book_id": "test-book-id",
-            "logged_at": "2025-02-26T10:00:00",
-        }
-
-    def get_reading_sessions(self, child_id, firebase_uid, limit=None, from_date=None, to_date=None):
-        if firebase_uid == "123" and child_id == "test-child-id-2":
-            return [
-                {
-                    "session_id": "test-session-id-1",
-                    "child_id": "test-child-id-2",
-                    "book_id": "test-book-id-1",
-                    "logged_at": "2025-02-26T10:00:00",
-                },
-                {
-                    "session_id": "test-session-id-2",
-                    "child_id": "test-child-id-2",
-                    "book_id": "test-book-id-2",
-                    "logged_at": "2025-01-15T09:00:00",
-                },
-            ]
-        if firebase_uid == "777":
-            raise PermissionDeniedError()  # "Insufficient permissions to complete this action"
-        if firebase_uid == "123" and child_id == "test-child-id-empty":
-            return []
-
-    def update_session(self, session_id, updated_session_data, firebase_uid):
-        if firebase_uid == "123" and session_id == "test-session-id-1":
-            return {
-                "session_id": "test-session-id-1",
-                "child_id": "test-child-id-2",
-                "book_id": updated_session_data.book_id or "test-book-id-1",
-                "logged_at": updated_session_data.logged_at or "2025-02-26T10:00:00",
-            }
-        if firebase_uid == "777":
-            raise PermissionDeniedError()  # "Insufficient permissions to complete this action"
-        if session_id == "nonexistent-session-id":
-            raise ReadingSessionNotFoundError(session_id)  # "Reading session with id: 'nonexistent-session-id' not found"
-
-    def count_reading_sessions(self, child_id, firebase_uid, from_date=None, to_date=None):
-        if firebase_uid == "123" and child_id == "test-child-id-2":
-            return 5
-        if firebase_uid == "123" and child_id == "test-child-id-empty":
-            return 0
-        if firebase_uid == "777":
-            raise PermissionDeniedError()  # "Insufficient permissions to complete this action"
-
-
-# app with Facade dependency override (auth overrides are done per test)
-@pytest.fixture
-def app():
-    app = create_app(UnitTestingConfig())
-    app.dependency_overrides[get_facade] = lambda: FakeFacade()
-    yield app
-    app.dependency_overrides.clear()
-
-
-@pytest.fixture
-def client(app):
-    return TestClient(app)
-
-
-# Allow dynamic uid creation for auth dependency overrides
-@pytest.fixture
-def override_auth(app):
-    def _override(uid: str):
-        async def override():
-            return {"uid": uid}
-        app.dependency_overrides[auth_current_user] = override
-    return _override
-
-
-# Set the env to "testing"
-@pytest.fixture(autouse=True)
-def set_env(monkeypatch):
-    monkeypatch.setenv("ENVIRONMENT", "testing")
 
 
 SESSIONS_BASE_URL = "/api/reading-sessions"
