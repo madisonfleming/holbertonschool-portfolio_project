@@ -69,23 +69,23 @@ def register_error_handlers(app):
 
     @app.exception_handler(UserNotFoundError)
     async def user_not_found_handler(request: Request, exc: UserNotFoundError):
-        return format_error("USER_NOT_FOUND", exc, 404)
+        return format_error("USER_NOT_FOUND", exc, 401)
 
     @app.exception_handler(ChildNotFoundError)
     async def child_not_found_handler(request: Request, exc: ChildNotFoundError):
-        return format_error( "CHILD_NOT_FOUND", exc, 404)
+        return format_error("CHILD_NOT_FOUND", exc, 404)
 
     @app.exception_handler(ReadingSessionNotFoundError)
     async def reading_session_not_found_handler(request: Request, exc: ReadingSessionNotFoundError):
-        return format_error( "READING_SESSION_NOT_FOUND", exc, 404)
+        return format_error("READING_SESSION_NOT_FOUND", exc, 404)
 
     @app.exception_handler(MilestoneNotFoundError)
     async def milestone_not_found_handler(request: Request, exc: MilestoneNotFoundError):
-        return format_error( "MILESTONE_NOT_FOUND", exc, 404)
+        return format_error("MILESTONE_NOT_FOUND", exc, 404)
 
     @app.exception_handler(RelationshipNotFoundError)
     async def relationship_not_found_handler(request: Request, exc: RelationshipNotFoundError):
-        return format_error("RELATIONSHIP_NOT_FOUND", exc, 404)
+        return format_error("RELATIONSHIP_NOT_FOUND", exc, 403)
 
     @app.exception_handler(InvalidUserNameError)
     async def invalid_name_handler(request: Request, exc: InvalidUserNameError):
