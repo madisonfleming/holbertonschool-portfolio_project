@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 from app.domain.base import Base
+from dataclasses import asdict
 
 """
 internal domain representation of a completed milestone, kept separate
@@ -27,3 +28,6 @@ class MilestoneCompletion(Base): # gives id, created_at, updated_at
 
     def __post_init__(self):
         super().__init__()      # this initialises Base class
+    
+    def to_dict(self):
+        return asdict(self)

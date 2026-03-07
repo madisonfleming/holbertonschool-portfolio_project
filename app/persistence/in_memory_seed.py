@@ -5,7 +5,10 @@ This file defines the seeded data for in-memory persistence for the following en
 - relationship
 
 This dataset supports Swagger testing
+
+Book data added as objects as book repo is not designed for dicts.
 """
+from app.domain.books import Book
 # <--- USER DATA --->
 
 class Userdata():
@@ -170,3 +173,41 @@ class Relationshipdata():
 
     def __init__(self):
         self.relationships = self.RELATIONSHIPS
+
+# <--- BOOKS --->
+class Bookdata():
+    book1 = Book(
+        id="d5df0557-4d06-46c8-b4f3-105511e3000a",
+        external_id="/works/OL2568879W",
+        source="openlibrary",
+        title="Where the Wild Things Are",
+        author="Maurice Sendak",
+        cover_url="https://covers.openlibrary.org/b/id/50842-M.jpg",
+    )
+
+    book2 = Book(
+        id="d5df0557-4d06-46c8-b4f3-105511e3000b",
+        external_id="/works/OL52987W",
+        source="openlibrary",
+        title="The Very Hungry Caterpillar",
+        author="Eric Carle",
+        cover_url="https://covers.openlibrary.org/b/id/7835968-M.jpg",
+    )
+
+    book3 = Book(
+        id="d5df0557-4d06-46c8-b4f3-105511e3000c",
+        external_id="/works/OL483391W",
+        source="openlibrary",
+        title="Charlotte's Web",
+        author="E. B. White",
+        cover_url="https://covers.openlibrary.org/b/id/8461797-M.jpg",
+    )
+
+    BOOKS = {
+        book1.id: book1,
+        book2.id: book2,
+        book3.id: book3,
+    }
+
+    def __init__(self):
+        self.books = self.BOOKS

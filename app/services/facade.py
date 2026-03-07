@@ -645,9 +645,9 @@ class MLBFacade:
                 milestone,
                 completed_at=datetime.utcnow()
             )
-            return milestone_record.to_dict()
-            # return milestone_record
-
+            # return milestone_record.to_dict()
+            # return MilestoneCompletion(child_id, milestone_record.milestone_id, milestone_record.description, milestone_record.completed_at)
+            return MilestoneCompletion(child_id, milestone_record["milestone_id"], milestone_record["description"], milestone_record["completed_at"])
 
     def create_milestone_record(
         self,
@@ -685,7 +685,7 @@ class MLBFacade:
         )
         self.milestone_completion_repository.save(milestone_record)
 
-        return {
+        record = {
             **milestone_record.to_dict(),
             "name": name,
             "description": description,
@@ -693,3 +693,4 @@ class MLBFacade:
             "subject": milestone.get("subject"),
             "type": milestone["type"],
         }
+        return record
