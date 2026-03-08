@@ -19,6 +19,7 @@ class MilestoneResponse(BaseModel):
 
 class MilestoneCompletionResponse(BaseModel):
     # Used for responses to post weekly milestones and get milestones
+    # Q: do we need/want to return type?
     id: str
     child_id: str
     milestone_id: str

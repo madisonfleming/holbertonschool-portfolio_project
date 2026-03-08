@@ -9,7 +9,7 @@ from app.api.dependencies import get_facade
 from app.api.auth_dependencies import auth_current_user
 from app.services.exceptions import RelationshipNotFoundError, PermissionDeniedError, ReadingSessionNotFoundError, DuplicateUserError
 from app.domain.exceptions import UserNotFoundError
-from app.api.schemas.milestones import MilestoneResponse
+from app.api.schemas.milestones import MilestoneCompletionResponse
 
 class FakeFacade:
     """ 
@@ -169,33 +169,35 @@ class FakeFacade:
         else:
             raise UserNotFoundError()
     
-    def get_milestones_by_metric_key(self, child_id, metric_key, firebase_uid):
+    def get_milestones_by_type(self, child_id, type, firebase_uid):
         if firebase_uid == "123":
-            return [self.milestone_data(id="milestone-121", metric_key="weekly_goals")]
+            return [self.milestone_data(id="milestone-121", type="weekly_goals")]
+        
     def get_milestones(self, child_id, firebase_uid):
         if firebase_uid == "123":
             data = [
-                self.milestone_data(id="milestone-123", metric_key="weekly_goal"),
-                self.milestone_data(id="milestone-124", metric_key="books_read"),
+                self.milestone_data(id="milestone-123", type="weekly_goal"),
+                self.milestone_data(id="milestone-124", type="books_read"),
             ]
             return data
             
         if firebase_uid == "777":
             return []
+        
     def get_milestone(self, child_id, milestone_id, firebase_uid):
         if firebase_uid == "123":
-            data = self.milestone_data(id="milestone-123", metric_key="books_read")
-            return MilestoneResponse(**data)
+            data = self.milestone_data(id="milestone-123", type="books_read")
+            return MilestoneCompletionResponse(**data)
         
-    def milestone_data(self, id: str, metric_key: str):
+    def milestone_data(self, id: str, type: str):
         return {
-                "created_at": "2026-02-05",
                 "id": id,
-                "name": "25 books read",
-                "description": "Amy achieved 25 books",
-                "metric_key": metric_key,
-                "threshold": 25,
                 "child_id": "child-123",
+                "milestone_id": id,
+                "description": "Amy read 5 books about elephants",
+                "completed_at": "2025-11-27",
+                "reward_url": f'/{id}',
+                "created_at": "2026-02-05",
         }
             
 

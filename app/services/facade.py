@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timezone, timedelta
 
 from app.domain.user import User
 from app.domain.child import Child
@@ -591,6 +591,8 @@ class MLBFacade:
                 return []
 
         milestones = self.milestone_completion_repository.get_all_milestones_by_child(child_id)
+        print("milestones: ", milestones)
+        print(type(milestones))
         return milestones
     
     def get_milestone(self, child_id: str, milestone_id: str, firebase_uid: str) -> MilestoneCompletionResponse:
@@ -634,7 +636,7 @@ class MLBFacade:
 
         # validate child-user relationship
         if user_id:
-            child_id = milestone_request.child_id  # Check syntax
+            child_id = milestone_request.child_id
             has_rel = self.relationship_repository.has_relationship(user_id, child_id)
             if not has_rel:
                 raise RelationshipNotFoundError(user_id, child_id)
@@ -642,19 +644,15 @@ class MLBFacade:
         # validate child exists
         child = self.child_repository.get(child_id)
 
-        # find milestone by subject included on request
-        # if child and milestone_request["subject"]:
         if child:
             # To do - Ensure that subject is one of the valid options
             milestone = self.milestone_repository.get_by_subject(milestone_request.subject)
             milestone_record = self.create_milestone_record(
                 milestone_request.child_id,
                 milestone,
-                completed_at=datetime.utcnow()
+                completed_at=datetime.now(timezone.utc)
             )
-            # return milestone_record.to_dict()
-            # return MilestoneCompletion(child_id, milestone_record.milestone_id, milestone_record.description, milestone_record.completed_at)
-            return MilestoneCompletion(child_id, milestone_record["milestone_id"], milestone_record["description"], milestone_record["completed_at"])
+            return milestone_record
 
     def create_milestone_record(
         self,

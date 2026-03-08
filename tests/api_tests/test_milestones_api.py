@@ -31,16 +31,16 @@ def test_get_all_milestones(client, override_auth):
     assert response.json()[0]["child_id"] == "child-123"
     assert response.json()[1]["id"] == "milestone-124"
     assert response.json()[1]["child_id"] == "child-123"
-    assert response.json()[0]["metric_key"] != response.json()[1]["metric_key"]
 
 # Happy Path: test 200 get all milestones by metric key
-def test_get_all_milestones_by_metric_key(client, override_auth):
+def test_get_all_milestones_by_type(client, override_auth):
     override_auth("123")
 
-    response = client.get(f'{BASE_URL}', params={"metric_key": "weekly_goal"})
+    response = client.get(f'{BASE_URL}', params={"type": "weekly_goal"})
     assert response.status_code == 200
     assert response.json()[0]["id"] == "milestone-121"
     assert response.json()[0]["child_id"] == "child-123"
+    # NB: can't assert on milestone type because type isn't returned in the schema
 
 # Negative path: test user<>child relationship not found returns empty list
 def test_get_all_milestones_without_userchild_relationship(client, override_auth):
@@ -67,24 +67,17 @@ def test_get_one_milestone(client, override_auth):
     assert response.json()["id"] == "milestone-123"
     assert response.json()["child_id"] == "child-123"
 
-# # Happy Path: test 200 get all milestones by metric key
-# def test_get_all_milestones_by_metric_key(client, override_auth):
-#     override_auth("123")
 
-#     response = client.get(f'{BASE_URL}', params={"metric_key": "weekly_goal"})
-#     assert response.status_code == 200
-#     assert response.json()[0]["id"] == "milestone-122"
-#     assert response.json()[0]["child_id"] == "child-123"
+# Negative path: test user<>child relationship not found
+def test_get_one_milestone_without_userchild_relationship(client, override_auth):
+    override_auth("777")
 
-# # Negative path: test user<>child relationship not found
-# def test_get_all_milestones_without_userchild_relationship(client, override_auth):
-#     override_auth("777")
+    response = client.get(f'{BASE_URL}')
+    assert response.status_code == 200
+    assert response.json() == []
 
-#     response = client.get(f'{BASE_URL}')
-#     assert response.status_code == 403
+# Negative path: test unauthorised access
+def test_get_one_milestone_with_unauthorised_user(client):
 
-# # Negative path: test unauthorised access
-# def test_get_all_milestones_with_unauthorised_user(client):
-
-#     response = client.get(f'{BASE_URL}')
-#     assert response.status_code == 401
+    response = client.get(f'{BASE_URL}')
+    assert response.status_code == 401

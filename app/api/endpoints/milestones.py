@@ -13,14 +13,14 @@ router = APIRouter() # NOTE: auth applied at individual endpoint level for now.
 @router.get("/children/{child_id}/milestones", response_model=List[MilestoneCompletionResponse], status_code=200)
 def get_all_milestones(
     child_id: str,
-    metric_key: str | None = None,
+    type: str | None = None,
     facade: MLBFacade = Depends(get_facade),
     decoded_token: dict = Depends(auth_current_user)
     ):
     firebase_uid = decoded_token["uid"]
 
-    if metric_key:
-        return facade.get_milestones_by_metric_key(child_id, metric_key, firebase_uid)
+    if type:
+        return facade.get_milestones_by_type(child_id, type, firebase_uid)
 
     return facade.get_milestones(child_id, firebase_uid)
 
