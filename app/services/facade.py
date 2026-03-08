@@ -4,7 +4,7 @@ from datetime import date, datetime, timezone, timedelta
 
 from app.domain.user import User
 from app.domain.child import Child
-from app.domain.milestone import MilestoneType
+from app.domain.milestone_type import MilestoneType
 from app.domain.milestone_completion import MilestoneCompletion
 
 from app.persistence.user_repository import UserRepository
