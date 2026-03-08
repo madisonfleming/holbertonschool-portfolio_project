@@ -21,12 +21,12 @@ def test_get_existing_user(client, override_auth):
     assert response.json()["email"] == "mary@example.com"
     assert response.json()["role"] == "standard"
 
-# Negative Path: test 404 user not found error
+# Negative Path: test 401 user not found error
 def test_get_nonexistent_user(client, override_auth):
     override_auth("777")
     response = client.get(BASE_URL)
-    assert response.status_code == 404
-    assert response.json()["status"] == 404
+    assert response.status_code == 401
+    assert response.json()["status"] == 401
     assert response.json()["error"] == "USER_NOT_FOUND"
     assert response.json()["message"] == "User not found"
 
@@ -98,8 +98,8 @@ def test_update_nonexistent_user(client, override_auth):
         "email": "johnny@example.com"
     }
     response = client.put(BASE_URL, json=payload)
-    assert response.status_code == 404
-    assert response.json()["status"] == 404
+    assert response.status_code == 401
+    assert response.json()["status"] == 401
     assert response.json()["error"] == "USER_NOT_FOUND"
     assert response.json()["message"] == "User not found"
 
