@@ -22,7 +22,6 @@ class TestMilestone(unittest.TestCase):
         milestone = MilestoneType(**self.milestone_data)
         expected_keys = ["id", "created_at", "updated_at", "_name", "_subject", "_type", "_threshold"]
         milestone_keys = list(milestone.__dict__.keys())
-        print(milestone_keys)
         self.assertEqual(milestone_keys, expected_keys)
 
     @patch("app.domain.base.uuid.uuid4")
