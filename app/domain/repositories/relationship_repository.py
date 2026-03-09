@@ -40,7 +40,7 @@ class RelationshipRepositoryBase(ABC):
         self,
         user_id: str,
         child_id: str,
-        roles: List[str],
+        roles: list[str],
     ) -> bool:
         ...
 

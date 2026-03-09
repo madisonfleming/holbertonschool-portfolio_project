@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-from app.persistence.repository import Repository
 from dataclasses import asdict
 from app.domain.repositories.milestone_completion_repository import MilestoneCompletionRepositoryBase
 
