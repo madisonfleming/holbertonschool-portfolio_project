@@ -1,13 +1,19 @@
 .weekly-goal-card {
-  width: 50rem;
-  background: #aee3f9;
-  border-radius: 20px;
-  padding: 40px;
-  height: 100%;
-  display: block;
-  flex-direction: column;
-  min-width: 500px;
-  font-family: "Arial", sans-serif;
+  width: 100%;
+  max-width: 800px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(155, 89, 182, 0.25), 0 4px 16px rgba(0,0,0,0.08);
+
+}
+
+/* ── HERO ── */
+.hero {
+  background: #c8e6f5;
+  position: relative;
+  padding: 32px 28px 0 28px;
+  min-height: 280px;
+  overflow: hidden;
 }
 .text-section {
   position: relative;

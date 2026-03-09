@@ -2,10 +2,12 @@ import "./AddReadingSession.css";
 import { useChild } from "../../contexts/ChildContext";
 import { useBooks } from "../../contexts/BooksContext";
 import { useState, useEffect } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 
 const AddReadingSession = (props) => {
   const { childList } = useChild();
   const { searchBooks } = useBooks();
+
   /*
   const books = [
     {
@@ -22,31 +24,76 @@ const AddReadingSession = (props) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [date, setDate] = useState("");
   const [selectedChild, setSelectedChild] = useState(null);
-
   const [filteredBooks, setFilteredBooks] = useState([]);
+  const { currentUser } = useAuth();
 
-  {
-    /* with this trigger we reset to today date when closing the card */
+  //ENDPOINT TO CREATE A READING SESSION
+  async function createReadingSession(readingSessionData) {
+    if (!currentUser) return;
+
+    const token = await currentUser.getIdToken();
+    const response = await fetch("http://127.0.0.1:8000/api/reading-sessions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(readingSessionData),
+    });
+    if (!response.ok) {
+      console.error("Error creating reading session");
+      return;
+    }
+    const newReadingSession = await response.json();
+    // we received fron BE
+    console.log(
+      "Answer from BE of creating new reading session:",
+      newReadingSession,
+    );
+
+    return newReadingSession;
   }
-  useEffect(() => {
-    if (props.trigger) {
-      const today = new Date().toISOString().split("T")[0];
-      setDate(today);
-    }
-  }, [props.trigger]);
 
-  useEffect(() => {
-    if (props.trigger) {
-      setSelectedBook(null);
-      setSearchTerm("");
-    }
-  }, [props.trigger]);
+
+  //we need a handle in order to create the obj with the states
+  // we need to POST in order to the BE to received name, date_of_birth, avatar_url
+  const handleCreateReadingSession = () => {
+    createReadingSession({
+      child_id: selectedChild,
+      external_id: selectedBook.external_id,
+      source: selectedBook.source,
+      title: selectedBook.title,
+      author: selectedBook.author,
+      cover_url: selectedBook.img,
+      logged_at: date,
+    });
+    setSearchTerm("");
+    setSelectedBook(null);
+    setShowDropdown(false);
+    //* with this trigger we reset to today date when closing the card */
+    const today = new Date().toISOString().split("T")[0];
+    setDate(today);
+    setSelectedChild(null);
+    props.setTrigger(false); // close popup
+  };
+
+  //handle to reset the data once we close the card
+  const handleCloseResetData = () => {
+    setSearchTerm("");
+    setSelectedBook(null);
+    setShowDropdown(false);
+    //* with this trigger we reset to today date when closing the card */
+    const today = new Date().toISOString().split("T")[0];
+    setDate(today);
+    setSelectedChild(null);
+    props.setTrigger(false); // close popup
+  };
 
   return props.trigger ? (
     <div className="popup-overlay">
       <div className="AddReadingSessionCard">
         {/*Close btn */}
-        <button className="btn-close" onClick={() => props.setTrigger(false)}>
+        <button className="btn-close" onClick={handleCloseResetData}>
           ✕
         </button>
         <h1 className="tittle-popup-card">Log a reading session</h1>
@@ -153,7 +200,9 @@ const AddReadingSession = (props) => {
         </div>
         {props.children}
         <div className="button-section">
-          <button className="btn-submit">Submit Reading Session</button>
+          <button className="btn-submit" onClick={handleCreateReadingSession}>
+            Submit Reading Session
+          </button>
         </div>
       </div>
     </div>
