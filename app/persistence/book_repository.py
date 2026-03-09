@@ -34,7 +34,11 @@ class BookRepository(BookRepositoryBase):
 
 
     # retrieve a book by external ID from ext API
-    def get_by_external_id(self, external_id: str, source: str) -> Book | None:
+    def get_by_external_id(
+        self,
+        external_id: str,
+        source: str
+    ) -> Book | None:
         for book in self._storage.values():
             if book.external_id == external_id and book.source == source:
                 return book

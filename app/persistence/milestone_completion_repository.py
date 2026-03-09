@@ -78,14 +78,22 @@ class MilestoneCompletionRepository(MilestoneCompletionRepositoryBase):
             if c["child_id"] == child_id
         ]
 
-    def get_all_by_child_and_key(self, child_id, milestone_key) -> list[dict]:
+    def get_all_by_child_and_key(
+        self,
+        child_id,
+        milestone_key
+    ) -> list[dict]:
         return [
             m for m in self._storage.values()
             if m["child_id"] == child_id
             and self.milestone_repository.get(m["milestone_id"]).type == milestone_key
         ]
 
-    def get_most_recent_reading_milestone(self, child_id: str, type: str) -> dict | None:
+    def get_most_recent_reading_milestone(
+        self,
+        child_id: str,
+        type: str
+    ) -> dict | None:
         """ Used by create_reading_session to find a child's most recent milestone"""
         return max(
             (

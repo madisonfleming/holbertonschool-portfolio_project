@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import List, Optional
 from app.domain.milestone_type import MilestoneType
 
 
@@ -7,19 +6,19 @@ class MilestoneTypeRepositoryBase(ABC):
     # abstract interface for accessing predefined milestone types
 
     @abstractmethod
-    def get(self, milestone_type_id: str) -> MilestoneType]:
+    def get(self, milestone_type_id: str) -> MilestoneType:
         ...
 
     @abstractmethod
-    def get_all_by_type(self, milestone_type: str) -> List[MilestoneType]:
+    def get_all_by_type(self, milestone_type: str) -> list[MilestoneType]:
         ...
 
     @abstractmethod
-    def get_by_threshold(self, threshold: int) -> Optional[MilestoneType]:
+    def get_by_threshold(self, threshold: int) -> MilestoneType | None:
         ...
 
     @abstractmethod
-    def get_by_subject(self, subject: str) -> Optional[MilestoneType]:
+    def get_by_subject(self, subject: str) -> MilestoneType | None:
         ...
 
     @abstractmethod
@@ -27,5 +26,5 @@ class MilestoneTypeRepositoryBase(ABC):
         self,
         milestone_type: str,
         threshold: int
-    ) -> Optional[MilestoneType]:
+    ) -> MilestoneType | None:
         ...

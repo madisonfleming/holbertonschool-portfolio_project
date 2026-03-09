@@ -19,7 +19,11 @@ class BookRepositoryBase(ABC):
         ...
 
     @abstractmethod
-    def get_by_external_id(self, external_id: str, source: str) -> Book | None:
+    def get_by_external_id(
+        self,
+        external_id: str,
+        source: str
+    ) -> Book | None:
         ...
 
     @abstractmethod
