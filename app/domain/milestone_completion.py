@@ -1,13 +1,14 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 from app.domain.base import Base
+from dataclasses import asdict
 
 """
 internal domain representation of a completed milestone, kept separate
 from API schemas so the repository works with simple data objects
 as opposed the pydantic models
 
-to elaborate slightly, the book dataclass will only be used by the
+to elaborate slightly, the milestone_completion dataclass will only be used by the
 repo and the facade, not the API layer, so we don't need to define
 behaviour as we would with the domain models. We do need the
 internal domain representation, however
@@ -27,3 +28,6 @@ class MilestoneCompletion(Base): # gives id, created_at, updated_at
 
     def __post_init__(self):
         super().__init__()      # this initialises Base class
+    
+    def to_dict(self):
+        return asdict(self)

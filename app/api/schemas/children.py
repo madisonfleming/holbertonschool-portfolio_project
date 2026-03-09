@@ -5,20 +5,25 @@ class CreateChild(BaseModel):
     name: str
     date_of_birth: date
     avatar_url: str | None = None
+    relationship_type: str | None = None
 
 class ChildResponse(BaseModel):
     id: str
     name: str
     age: int
     avatar_url: str | None = None
+    relationship_type: str
+    role: str
 
     @classmethod
-    def from_domain(cls, child):    # cls is ChildResponse
+    def from_domain(cls, child, relationship_type, role):    # cls is ChildResponse
         return cls(
             id=child.id,
             name=child.name,
             age=child.age,
-            avatar_url=child.avatar_url
+            avatar_url=child.avatar_url,
+            relationship_type=relationship_type,
+            role=role
         )
 
 

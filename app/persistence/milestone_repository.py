@@ -72,7 +72,7 @@ class MilestoneTypeRepository():
     
     def get_by_subject(self, subject: str):
         """ Possibly useful for weekly goals? """
-        print(self._storage.values())
+        # print(self._storage.values())
         return next((m for m in self._storage.values()
                     if m["subject"] == subject),
                     None)

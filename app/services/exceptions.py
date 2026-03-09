@@ -31,3 +31,7 @@ class ReadingSessionNotFoundError(Exception):
     def __init__(self, session_id: str):
         message = f"Reading session with id: '{session_id}' not found"
         super().__init__(message)
+
+class InvalidRelationshipTypeError(Exception):
+    def __init__(self, message="Relationship Type is invalid"):
+        super().__init__(message)

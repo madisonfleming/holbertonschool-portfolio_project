@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timezone, timedelta
 
 from app.domain.user import User
 from app.domain.child import Child
-from app.domain.milestone import MilestoneType
+from app.domain.milestone_type import MilestoneType
 from app.domain.milestone_completion import MilestoneCompletion
 
 from app.persistence.user_repository import UserRepository
@@ -41,7 +41,8 @@ from app.services.exceptions import(
     BookNotFoundError,
     RelationshipNotFoundError,
     PermissionDeniedError,
-    ReadingSessionNotFoundError
+    ReadingSessionNotFoundError,
+    InvalidRelationshipTypeError
 )
 
 
@@ -88,10 +89,29 @@ class MLBFacade:
         self,
         request: CreateChild,
         firebase_uid: str
-    ):
-        if not request.name.strip():    # validate request
+    ) -> ChildResponse:
+
+        # validate user exists
+        user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        if user is None:
+            raise UserNotFoundError()
+        user_id = user.id
+
+        # validate request includes child's name
+        if not request.name.strip():    
             raise InvalidChildNameError()
         
+        # if relationship type entered - perform validation
+        if request.relationship_type:
+            relationship_type = request.relationship_type.strip()
+            if relationship_type == "": # deny empty relationship types
+                raise InvalidRelationshipTypeError("Relationship must not be empty")
+            char_len = 20
+            if len(relationship_type) > char_len: # deny relationship types of more than 20 chars long
+                raise InvalidRelationshipTypeError(f"Relationship must be {char_len} characters or less")    
+        else: # set default relationship if not entered
+            relationship_type = "Parent"
+
         # create domain model
         child = Child(
             name=request.name,
@@ -102,29 +122,19 @@ class MLBFacade:
         # save domain model to db
         self.child_repository.save(child)
 
-        #placeholder logic to update the kid's avatar
-        # self.child_repository.update_avatar(child.id, placeholder)
-
-        
-        # access user's ID via firebase ID
-        user = self.user_repository.get_by_firebase_uid(firebase_uid)
-        if user is None:
-            raise UserNotFoundError()
-        user_id = user.id
-
         # example creation of relationship join
-        # ----->assumes existence of relationship_repo w/ add_member method
         self.relationship_repository.add_member(
             user_id=user_id,
             child_id=child.id,
-            role="primary" # assuming parent default given they are creating child
+            role="primary", # assuming parent default given they are creating child
+            relationship_type=relationship_type
         )
+        return (ChildResponse.from_domain(child, relationship_type, "primary"))   # convert domain model to response schema
 
-        # return ChildResponse.from_domain(self.child_repository.get(id))
-
-        return ChildResponse.from_domain(child)   # convert domain model to response schema
-
-    def get_children(self, firebase_uid: str):
+    def get_children(
+        self,
+        firebase_uid: str
+    ) -> list[ChildResponse]:
         
         # access user's ID via firebase ID
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
@@ -138,20 +148,36 @@ class MLBFacade:
             return []
         
         # pull out child IDs from those relationships
-        # child_ids = [match.child_id for match in relationships] # relationships is list of dicts (not objs) so .child_id doesn't exist yet
         child_ids = [match["child_id"] for match in relationships] # NOTE: child_ids gets list of child ids
         
         # fetch/retrieve linked children
         linked_children = self.child_repository.get_by_ids(child_ids) # NOTE: gets list of Child objects
         
+        # retrieve relationship types between user & child/ren to return
+        # dict of key=child_id, value=relationship_type
+        relationship_types = {}
+        for relationship in relationships:
+            child_id = relationship["child_id"]
+            rel_type = relationship.get("relationship_type", "Parent") # TODO: get has fallback value for compatibility with old seed data - need to update in seed data 
+            relationship_types[child_id] = rel_type
+
+        # retrieve roles of user to child/ren to return
+        # dict of key=child_id, value=role
+        roles = {}
+        for relationship in relationships:
+            child_id = relationship["child_id"]
+            role = relationship.get("role")
+            roles[child_id] = role
+
         # doesn't throw error if children = 0, should allow empty Dashy
-        return [ChildResponse.from_domain(child) for child in linked_children]
+        return [ChildResponse.from_domain(child, relationship_types[child.id], roles[child.id]) for child in linked_children]
 
     def get_child(
         self,
-        child_id,
-        firebase_uid
-    ):
+        child_id: str,
+        firebase_uid: str
+    ) -> ChildResponse:
+
         # access user's ID via firebase ID
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         if user is None:
@@ -163,7 +189,6 @@ class MLBFacade:
         relationships = self.relationship_repository.get_children_per_user(user_id) # NOTE: relationships gets user id + all owned child ids (list of dicts)
         
         # verify child_id has relationship with user_id
-        # matched_child_ids = {match.child_id for match in relationships}
         matched_child_ids = {match["child_id"] for match in relationships} # NOTE: matched_child_ids gets a set of child_ids
         if child_id not in matched_child_ids:
             raise RelationshipNotFoundError(user_id, child_id)
@@ -173,13 +198,17 @@ class MLBFacade:
         if child is None:
             raise ChildNotFoundError()
 
-        return ChildResponse.from_domain(child)
+        # retrieve relationship type and role between user & child to return
+        relationship = self.relationship_repository.get_relationship(user_id, child_id)
+        relationship_type = relationship.get("relationship_type", "Parent") # TODO: get has fallback value for compatibility with old seed data - need to update in seed data        
+        role = relationship.get("role")
+        return ChildResponse.from_domain(child, relationship_type, role)
 
     def update_child(self,
         child_id: str,
         request: UpdateChild,
         firebase_uid: str
-    ):
+    ) -> ChildResponse:
         
         # access user's ID via firebase ID
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
@@ -191,10 +220,14 @@ class MLBFacade:
         relationships = self.relationship_repository.get_children_per_user(user_id) # NOTE: relationships gets user id + all owned child ids (list of dicts)
 
         # verify child_id has relationship with user_id
-        # matched_child_ids = {match.child_id for match in relationships}
         matched_child_ids = {match["child_id"] for match in relationships} # NOTE: matched_child_ids gets a set of child_ids
         if child_id not in matched_child_ids:
-            raise RelationshipNotFoundError()
+            raise RelationshipNotFoundError(user_id, child_id)
+
+        # verify user has a primary role with the child, else deny user
+        is_primary = self.relationship_repository.has_role(user_id, child_id, "primary")
+        if not is_primary:
+            raise PermissionDeniedError()
 
         # fetch child data or error if N/A
         child = self.child_repository.get(child_id)
@@ -210,11 +243,15 @@ class MLBFacade:
 
         if request.avatar_url is not None:
             child.avatar_url = request.avatar_url
-
+        
         # save updated child domain model to db
         self.child_repository.save(child)
 
-        return ChildResponse.from_domain(child)
+        # retrieve relationship type and role between user & child to return
+        relationship = self.relationship_repository.get_relationship(user_id, child_id)
+        relationship_type = relationship.get("relationship_type", "Parent") # TODO: get has fallback value for compatibility with old seed data - need to update in seed data 
+        role = relationship.get("role")
+        return ChildResponse.from_domain(child, relationship_type, role)
 
     # <--- USER --->
     # # DEV ONLY METHOD - DOESN'T SAVE TO REPO CORRECTLY (NO FB ID)
@@ -236,8 +273,9 @@ class MLBFacade:
 
     def get_user(
         self,
-        firebase_uid
-    ):
+        firebase_uid: str
+    ) -> UserResponse:
+
         # access user's ID via firebase ID
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         if user is None:
@@ -247,8 +285,9 @@ class MLBFacade:
     def update_user(
         self,
         request: UpdateUser,
-        firebase_uid
-    ):
+        firebase_uid: str
+    ) -> UserResponse:
+
         # access user's ID via firebase ID - error if None
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         if user is None:
@@ -535,16 +574,25 @@ class MLBFacade:
 
 # <--- MILESTONES --->
 
-    def get_milestones(self, child_id: str, firebase_uid: str) -> list[MilestoneCompletionResponse]:
+    def get_milestones(self,
+                       child_id: str,
+                       firebase_uid: str
+                       ) -> list[MilestoneCompletionResponse]:
+        # access user's ID via firebase ID
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
+        if user is None:
+            raise PermissionDeniedError()
         user_id = user.id
         # validate child-user relationship
         if user_id:
             has_rel = self.relationship_repository.has_relationship(user_id, child_id)
             if not has_rel:
-                raise RelationshipNotFoundError(user_id, child_id)
+            # Open qu: return an empty list for unauthorised access requests?
+                return []
 
         milestones = self.milestone_completion_repository.get_all_milestones_by_child(child_id)
+        print("milestones: ", milestones)
+        print(type(milestones))
         return milestones
     
     def get_milestone(self, child_id: str, milestone_id: str, firebase_uid: str) -> MilestoneCompletionResponse:
@@ -588,7 +636,7 @@ class MLBFacade:
 
         # validate child-user relationship
         if user_id:
-            child_id = milestone_request.child_id  # Check syntax
+            child_id = milestone_request.child_id
             has_rel = self.relationship_repository.has_relationship(user_id, child_id)
             if not has_rel:
                 raise RelationshipNotFoundError(user_id, child_id)
@@ -596,19 +644,15 @@ class MLBFacade:
         # validate child exists
         child = self.child_repository.get(child_id)
 
-        # find milestone by subject included on request
-        # if child and milestone_request["subject"]:
         if child:
             # To do - Ensure that subject is one of the valid options
             milestone = self.milestone_repository.get_by_subject(milestone_request.subject)
             milestone_record = self.create_milestone_record(
                 milestone_request.child_id,
                 milestone,
-                completed_at=datetime.utcnow()
+                completed_at=datetime.now(timezone.utc)
             )
-            return milestone_record.to_dict()
-            # return milestone_record
-
+            return milestone_record
 
     def create_milestone_record(
         self,
@@ -646,7 +690,7 @@ class MLBFacade:
         )
         self.milestone_completion_repository.save(milestone_record)
 
-        return {
+        record = {
             **milestone_record.to_dict(),
             "name": name,
             "description": description,
@@ -654,3 +698,4 @@ class MLBFacade:
             "subject": milestone.get("subject"),
             "type": milestone["type"],
         }
+        return record

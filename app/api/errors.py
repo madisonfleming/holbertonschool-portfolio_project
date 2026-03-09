@@ -27,7 +27,8 @@ from app.services.exceptions import (
     InvalidSearchQueryError,
     PermissionDeniedError,
     BookNotFoundError,
-    ReadingSessionNotFoundError
+    ReadingSessionNotFoundError,
+    InvalidRelationshipTypeError
 )
 
 
@@ -68,23 +69,23 @@ def register_error_handlers(app):
 
     @app.exception_handler(UserNotFoundError)
     async def user_not_found_handler(request: Request, exc: UserNotFoundError):
-        return format_error("USER_NOT_FOUND", exc, 404)
+        return format_error("USER_NOT_FOUND", exc, 401)
 
     @app.exception_handler(ChildNotFoundError)
     async def child_not_found_handler(request: Request, exc: ChildNotFoundError):
-        return format_error( "CHILD_NOT_FOUND", exc, 404)
+        return format_error("CHILD_NOT_FOUND", exc, 404)
 
     @app.exception_handler(ReadingSessionNotFoundError)
     async def reading_session_not_found_handler(request: Request, exc: ReadingSessionNotFoundError):
-        return format_error( "READING_SESSION_NOT_FOUND", exc, 404)
+        return format_error("READING_SESSION_NOT_FOUND", exc, 404)
 
     @app.exception_handler(MilestoneNotFoundError)
     async def milestone_not_found_handler(request: Request, exc: MilestoneNotFoundError):
-        return format_error( "MILESTONE_NOT_FOUND", exc, 404)
+        return format_error("MILESTONE_NOT_FOUND", exc, 404)
 
     @app.exception_handler(RelationshipNotFoundError)
     async def relationship_not_found_handler(request: Request, exc: RelationshipNotFoundError):
-        return format_error("RELATIONSHIP_NOT_FOUND", exc, 404)
+        return format_error("RELATIONSHIP_NOT_FOUND", exc, 403)
 
     @app.exception_handler(InvalidUserNameError)
     async def invalid_name_handler(request: Request, exc: InvalidUserNameError):
@@ -133,3 +134,8 @@ def register_error_handlers(app):
     @app.exception_handler(PermissionDeniedError)
     async def permission_denied_handler(request: Request, exc: PermissionDeniedError):
         return format_error("PERMISSION_DENIED", exc, 403)
+
+    @app.exception_handler(InvalidRelationshipTypeError)
+    async def invalid_relationship_type_handler(request: Request, exc: InvalidRelationshipTypeError):
+        return format_error("INVALID_RELATIONSHIP_TYPE", exc, 400)
+
