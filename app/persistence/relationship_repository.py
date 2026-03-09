@@ -55,7 +55,7 @@ class RelationshipRepository(RelationshipRepositoryBase):
             "updated_at": now,
             "relationship_type": relationship_type 
             "invited_by": None,
-            "invite_status": "accepted" # default for primary user
+            "invite_status": "accepted", # default for primary user
             "created_at": now,
             "updated_at": now,
         }
