@@ -353,7 +353,7 @@ class MLBFacade:
         if not book:
             raise BookNotFoundError(book_id) 
         
-        return book
+        return BookResponse.from_domain(book)
         
 
 # <--- READING SESSIONS --->
@@ -573,7 +573,8 @@ class MLBFacade:
                 counts.setdefault(current, 0)
                 current += timedelta(days=1)    # timedelta detects duration (increments by 1 day)
 
-        return counts
+        # keys (dates) to strings for JSON response
+        return {date.isoformat(): count for date, count in counts.items()}
 
 # <--- MILESTONES --->
 
