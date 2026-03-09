@@ -27,7 +27,12 @@ class RelationshipRepositoryBase(ABC):
         ...
 
     @abstractmethod
-    def has_role(self, user_id: str, child_id: str, role: str) -> bool:
+    def has_role(
+        self,
+        user_id: str,
+        child_id: str,
+        role: str
+    ) -> bool:
         ...
 
     @abstractmethod
@@ -44,5 +49,9 @@ class RelationshipRepositoryBase(ABC):
         ...
 
     @abstractmethod
-    def has_relationship(self, user_id: str, child_id: str) -> bool:
+    def has_relationship(
+        self,
+        user_id: str,
+        child_id: str
+    ) -> bool:
         ...
