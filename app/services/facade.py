@@ -122,7 +122,10 @@ class MLBFacade:
         # save domain model to db
         self.child_repository.save(child)
 
-        # example creation of relationship join
+        #placeholder logic to update the kid's avatar
+        # self.child_repository.update_avatar(child.id, placeholder)
+
+        # create relationship join
         self.relationship_repository.add_member(
             user_id=user_id,
             child_id=child.id,
