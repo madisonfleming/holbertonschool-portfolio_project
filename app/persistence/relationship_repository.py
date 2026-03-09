@@ -1,5 +1,6 @@
 from app.domain.repositories.relationship_repository import RelationshipRepositoryBase
 
+from datetime import datetime
 import uuid
 from app.persistence.in_memory_seed import Relationshipdata
 
@@ -77,7 +78,7 @@ class RelationshipRepository(RelationshipRepositoryBase):
     
     def get_children_per_user(self, user_id: str) -> list[dict]:
         # returns a filtered list of relationship dicts by user_id
-        return self._find_relationships_by_user
+        return self._find_relationships_by_user(user_id)
 
     # check for ANY role association with child
     # applicable for the likes of 'add reading session' where all role types apply
