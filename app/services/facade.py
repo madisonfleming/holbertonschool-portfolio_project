@@ -126,7 +126,7 @@ class MLBFacade:
         # self.child_repository.update_avatar(child.id, placeholder)
 
         # create relationship join
-        self.relationship_repository.add_member(
+        self.relationship_repository.create_relationship(
             user_id=user_id,
             child_id=child.id,
             role="primary", # assuming parent default given they are creating child
