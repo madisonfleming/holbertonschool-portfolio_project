@@ -8,109 +8,12 @@ Validates that each method on the endpoint:
   - returns a response that matches the expected Pydantic response 
     schema
 
-Note that the facade layer is mocked - does not test business logic
-or data persistence
+Note that the facade layer is mocked via class FakeFacade:
+ - does not test business logic or data persistence
 
+FakeFacade methods and data are defined in conftest.py
 """
 
-from fastapi.testclient import TestClient
-from app.factory import create_app
-from app.config import UnitTestingConfig
-from app.api.dependencies import get_facade
-from app.api.auth_dependencies import auth_current_user
-from app.services.exceptions import RelationshipNotFoundError
-import pytest
-
-
-class FakeFacade:
-    """ 
-    Add facade mocks here 
-
-    - Use dot notation in the return data to match pydantic models
-    """
-    def create_child(self, child_data, firebase_uid="123"):
-        return {
-            "id": "test-child-id",
-            "name": child_data.name,
-            "date_of_birth": child_data.date_of_birth,
-            "age": 2,
-            "avatar_url": child_data.avatar_url,
-            "relationship_type": child_data.relationship_type or "Parent",
-            "role": "primary"
-        }
-    def get_children(self, firebase_uid):
-        if firebase_uid == "123":
-            return [
-                {
-                    "id": "test-child-id-2",
-                    "name": "Susie",
-                    "age": 2,
-                    "avatar_url": None,
-                    "relationship_type": "Parent",
-                    "role": "primary"
-                },
-                {
-                    "id": "test-child-id-3",
-                    "name": "Billy",
-                    "age": 1,
-                    "avatar_url": None,
-                    "relationship_type": "Parent",
-                    "role": "primary"
-                }]
-        if firebase_uid == "777":
-            return []
-
-    def get_child(self, child_id, firebase_uid):
-        if firebase_uid == "123" and child_id == "test-child-id-2":
-            return {
-                "id": "test-child-id-2",
-                "name": "Susie",
-                "age": 2,
-                "avatar_url": None,
-                "relationship_type": "Parent",
-                "role": "primary"
-                }
-        if firebase_uid == "777":
-            raise RelationshipNotFoundError("777", "test-child-id-2") # this should catch before ChildNotFoundError() in real facade
-
-    def update_child(self, child_id, child_data, firebase_uid):
-        if firebase_uid == "123" and child_id == "test-child-id-2":
-            return {
-                "id": "test-child-id-2",
-                "name": "Suzanne",
-                "age": 2,
-                "avatar_url": "alien_avatar.com",
-                "relationship_type": "Parent",
-                "role": "primary"
-            }
-        if firebase_uid == "777":
-            raise RelationshipNotFoundError("777", "test-child-id-2")
-
-# app with Facade dependency override (auth overrides are done per test)
-@pytest.fixture
-def app():
-    app = create_app(UnitTestingConfig())
-    app.dependency_overrides[get_facade] = lambda: FakeFacade()
-    yield app
-    app.dependency_overrides.clear()
-
-@pytest.fixture
-def client(app):
-    return TestClient(app)
-
-#Allow dynamic uid creation for auth dependency overrides
-@pytest.fixture
-def override_auth(app):
-    def _override(uid: str):
-        async def override():
-            return {"uid" : uid}
-        app.dependency_overrides[auth_current_user] = override
-    return _override
-
-# Set the env to "testing"
-@pytest.fixture(autouse=True)
-def set_env(monkeypatch):
-    monkeypatch.setenv("ENVIRONMENT", "testing")
 
 BASE_URL = "/api/children"
 
@@ -262,8 +165,8 @@ def test_get_child(client, override_auth):
 def test_get_child_without_relo(client, override_auth):
     override_auth("777")
     response = client.get(f'{BASE_URL}/test-child-id-2')
-    assert response.status_code == 404
-    assert response.json()["status"] == 404
+    assert response.status_code == 403
+    assert response.json()["status"] == 403
     assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
     assert response.json()["message"] == "Relationship between user: '777' and child: 'test-child-id-2' not found"
 
@@ -314,8 +217,8 @@ def test_update_child_without_relo(client, override_auth):
     "avatar_url": "alien_avatar.com"
     }
     response = client.put(f'{BASE_URL}/test-child-id-2', json=payload)
-    assert response.status_code == 404
-    assert response.json()["status"] == 404
+    assert response.status_code == 403
+    assert response.json()["status"] == 403
     assert response.json()["error"] == "RELATIONSHIP_NOT_FOUND"
     assert response.json()["message"] == "Relationship between user: '777' and child: 'test-child-id-2' not found"
 

@@ -44,6 +44,18 @@ class MilestoneType(Base): # gives id, created_at, updated_at
         self._type = value
 
     @property
+    def subject(self):
+        return self._subject
+
+    @subject.setter
+    def subject(self, value: str):
+        if value is None or value == "":
+            raise InvalidMetricKeyError()
+        if not isinstance(value, str):
+            raise TypeError("Threshold must be a str")
+        self._subject = value
+
+    @property
     def threshold(self):
         return self._threshold
 

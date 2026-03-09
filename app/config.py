@@ -26,6 +26,7 @@ class ProductionConfig(BaseConfig):
 class UnitTestingConfig(BaseConfig):
     DEBUG: bool = True
     FIREBASE_CONFIG: str = ""
+    ENVIRONMENT: str = "testing"
     # DATABASE = 'sqlite:///:memory:'
     # SECRET_KEY: str = "test-secret-key"
 
