@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+
+from app.domain.repositories.milestone_repository import MilestoneTypeRepositoryBase
+
 """
 This table holds a pre-defined list of milestone types
 
@@ -43,7 +46,7 @@ MILESTONE_TYPES = {
 # for m in MILESTONE_TYPES.values():
 #     print(m)
 
-class MilestoneTypeRepository():
+class MilestoneRepository(MilestoneTypeRepositoryBase):
     def __init__(self):
         self._storage = MILESTONE_TYPES
 

@@ -2,6 +2,11 @@
 
 from app.persistence.repository import Repository
 from dataclasses import asdict
+from app.domain.repositories.milestone_completion_repository import MilestoneCompletionRepositoryBase
+
+"""
+Note: update and delete not implemented
+"""
 
 MILESTONE_COMPLETIONS = {
     "1": {
@@ -52,46 +57,35 @@ MILESTONE_COMPLETIONS = {
 # for r in MILESTONE_COMPLETIONS.values():
 #     print(r)
 
-class MilestoneCompletionRepository(Repository):
+class MilestoneCompletionRepository(MilestoneCompletionRepositoryBase):
     def __init__(self):
         self._storage = MILESTONE_COMPLETIONS
 
-    def save(self, milestone):
+    def save(self, milestone) -> str:
         self._storage[milestone.id] = asdict(milestone)
         return milestone.id
 
-    def get(self, milestone_id):
+    def get(self, milestone_id) -> dict | None:
         return self._storage.get(milestone_id)
 
-    def get_all_milestones_by_child(self, child_id):
+    def get_all_milestones_by_child(self, child_id) -> list[dict]:
         for k, v in MILESTONE_COMPLETIONS.items():
             print(k, v)
 
+    def get_all_milestones_by_child(self, child_id) -> list[dict]:
         return [
             c for c in self._storage.values()
             if c["child_id"] == child_id
         ]
 
-    def get_all(self):
-        return []
-
-    def get_by_attribute(self, attr, value):
-        return None
-
-    def update(self, id, data):
-        pass
-
-    def delete(self, id):
-        pass
-
-    def get_all_by_child_and_key(self, child_id, milestone_key):
+    def get_all_by_child_and_key(self, child_id, milestone_key) -> list[dict]:
         return [
             m for m in self._storage.values()
             if m["child_id"] == child_id
             and self.milestone_repository.get(m["milestone_id"]).type == milestone_key
         ]
 
-    def get_most_recent_reading_milestone(self, child_id: str, type: str):
+    def get_most_recent_reading_milestone(self, child_id: str, type: str) -> dict | None:
         """ Used by create_reading_session to find a child's most recent milestone"""
         return max(
             (
