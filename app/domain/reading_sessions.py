@@ -23,6 +23,6 @@ class ReadingSession:
     external_id: str
     book_id: str
     title: str
+    author: str
     cover_url: str
     logged_at: datetime
-

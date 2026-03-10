@@ -20,6 +20,7 @@ class ReadingSessionRepository(ReadingSessionRepositoryBase):
         external_id: str,
         book_id: str,
         title: str,
+        author: str,
         cover_url: str,
         logged_at: datetime,
     ) -> ReadingSession:
@@ -29,6 +30,7 @@ class ReadingSessionRepository(ReadingSessionRepositoryBase):
             external_id=external_id,
             book_id=book_id,
             title=title,
+            author=author,
             cover_url=cover_url,
             logged_at=logged_at,
         )

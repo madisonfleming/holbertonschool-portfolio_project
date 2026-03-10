@@ -33,5 +33,8 @@ class ReadingSessionResponse(BaseModel):
 
 
 class UpdateReadingSession(BaseModel):
-    book_id: str | None = None
+    external_id: str | None = None
+    title: str | None = None
+    author: str | None = None
+    cover_url: str | None = None
     logged_at: datetime | None = None

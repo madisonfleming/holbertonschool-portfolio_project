@@ -391,6 +391,7 @@ class MLBFacade:
             book_id=book.id,
             external_id=request.external_id,
             title=book.title,
+            author=book.author,
             cover_url=book.cover_url,
             logged_at=request.logged_at,
         )
@@ -478,9 +479,23 @@ class MLBFacade:
         if not has_acc:
             raise PermissionDeniedError()
 
-        # update
-        if updated.book_id is not None:
-            session.book_id = updated.book_id
+        # if book is being changed, record new details to DB
+        if updated.external_id is not None:
+            book = self.book_repository.get_or_save(
+            external_id=updated.external_id,
+            source="openlibrary",
+            title=updated.title,
+            author=updated.author,
+            cover_url=updated.cover_url,
+            )
+
+            # apply get_or_save results to the session update
+            session.book_id = book.id
+            session.external_id = book.external_id
+            session.title = book.title
+            session.author = book.author
+            session.cover_url = book.cover_url
+
         if updated.logged_at is not None:
             session.logged_at = updated.logged_at
 
