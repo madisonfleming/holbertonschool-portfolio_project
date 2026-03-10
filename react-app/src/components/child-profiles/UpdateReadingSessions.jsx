@@ -73,7 +73,7 @@ const UpdateReadingSessions = ({ readingSessions, trigger, setTrigger }) => {
           >✕
           </button>
           {/* update reading sessions */}
-        <h1 className="tittle-popup-card">Update Reading Sessions</h1>
+        <h1 className="tittle-popup-card">Update Reading Session</h1>
          <div className="reading-session-layout">
             {/* --- BOOK SELECTOR --- */}
            <div className="left-section">
