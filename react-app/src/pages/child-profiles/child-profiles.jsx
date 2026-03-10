@@ -60,7 +60,8 @@ const ChildProfiles = () => {
   const [selectedBook, setSelectedBook] = useState("");
   const { BooksList } = useBooks();
   const [editingReadingSession, setEditingReadingSession] = useState(null);
-  const { readingSessions } = useBooks();
+  const { readingSessions, setReadingSession } = useBooks();
+
   const [buttonUpdateReadingSessionPopup, setButtonUpdateReadingSessionPopup] = useState(false);
 
 
@@ -88,24 +89,23 @@ const ChildProfiles = () => {
           <div className="reading-activity-h1"> Your Reading Activity </div>
           <div className="book-scroll-container">
             <div className="book-grid">
-              {books.map((book) => (
-                <div className="book-item" key={book.id}>
-                  <img src={book.img} alt={book.title} />
-                  <p>{book.title}</p>
+              {readingSessions.map((session) => (
+                <div className="book-item" key={session.id}>
+                  <img src={session.img} alt={session.title} />
+                  <p>{session.title}</p>
+                  {/* update reading session button */}
+                  <button className="update-reading-sessions-btn"
+                    onClick={() => {
+                      setEditingReadingSession(session);
+                      setButtonUpdateReadingSessionPopup(true);
+                    }}
+                  >Edit Reading Session
+                  </button>
                 </div>
               ))}
-
             </div>
-            {/* updateChild buttom for testing*/}
-            <button className="update-reading-sessions-btn"
-              onClick={() => {
-                setEditingReadingSession(readingSessions);
-                setButtonUpdateReadingSessionPopup(true);
-              }}
-            >Edit Reading Sessions
-            </button>
-            {/* Im saying if popup is true then render update */}
-            {buttonUpdateReadingSessionPopup && (
+            {/* if popup is true then render update */}
+            {setButtonUpdateReadingSessionPopup && (
               <UpdateReadingSessions
                 trigger={buttonUpdateReadingSessionPopup}
                 setTrigger={setButtonUpdateReadingSessionPopup}
@@ -113,6 +113,8 @@ const ChildProfiles = () => {
                 readingSessions={editingReadingSession}
               ></UpdateReadingSessions>
             )}
+
+
           </div>
         </div>
       </div>
@@ -120,4 +122,4 @@ const ChildProfiles = () => {
   )
 }
 
-export default ChildProfiles
+export default ChildProfiles;
