@@ -17,7 +17,8 @@ const Dashboard = () => {
     useState(false);
 
   const current_num_of_books = 100; // from backend
-  const target = 1000; // from be
+  const target = 3;
+  //const target = 3; // from be
 
   return (
     <div>
@@ -42,7 +43,6 @@ const Dashboard = () => {
         </div>
         <div className="weekly-container">
           <WeeklyGoal
-            current_num_of_books={current_num_of_books}
             target={target}
             theme={theme}
           />
