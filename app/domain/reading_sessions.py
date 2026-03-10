@@ -20,5 +20,9 @@ domain model. For MVP this will serve its purpose though
 class ReadingSession:
     id: str
     child_id: str
+    external_id: str
     book_id: str
+    title: str
+    author: str
+    cover_url: str
     logged_at: datetime

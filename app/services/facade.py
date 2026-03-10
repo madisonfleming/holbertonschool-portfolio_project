@@ -122,8 +122,11 @@ class MLBFacade:
         # save domain model to db
         self.child_repository.save(child)
 
-        # example creation of relationship join
-        self.relationship_repository.add_member(
+        #placeholder logic to update the kid's avatar
+        # self.child_repository.update_avatar(child.id, placeholder)
+
+        # create relationship join
+        self.relationship_repository.create_relationship(
             user_id=user_id,
             child_id=child.id,
             role="primary", # assuming parent default given they are creating child
@@ -199,7 +202,7 @@ class MLBFacade:
             raise ChildNotFoundError()
 
         # retrieve relationship type and role between user & child to return
-        relationship = self.relationship_repository.get_relationship(user_id, child_id)
+        relationship = self.relationship_repository.get_relationship_type(user_id, child_id)
         relationship_type = relationship.get("relationship_type", "Parent") # TODO: get has fallback value for compatibility with old seed data - need to update in seed data        
         role = relationship.get("role")
         return ChildResponse.from_domain(child, relationship_type, role)
@@ -248,7 +251,7 @@ class MLBFacade:
         self.child_repository.save(child)
 
         # retrieve relationship type and role between user & child to return
-        relationship = self.relationship_repository.get_relationship(user_id, child_id)
+        relationship = self.relationship_repository.get_relationship_type(user_id, child_id)
         relationship_type = relationship.get("relationship_type", "Parent") # TODO: get has fallback value for compatibility with old seed data - need to update in seed data 
         role = relationship.get("role")
         return ChildResponse.from_domain(child, relationship_type, role)
@@ -350,7 +353,7 @@ class MLBFacade:
         if not book:
             raise BookNotFoundError(book_id) 
         
-        return book
+        return BookResponse.from_domain(book)
         
 
 # <--- READING SESSIONS --->
@@ -379,14 +382,18 @@ class MLBFacade:
             source="openlibrary",
             title=request.title,
             author=request.author,
-            cover_url=request.cover_url
+            cover_url=request.cover_url,
         )
 
         # create reading session
         session = self.reading_session_repository.save(
             child_id=child_id,
             book_id=book.id,
-            logged_at=request.logged_at
+            external_id=request.external_id,
+            title=book.title,
+            author=book.author,
+            cover_url=book.cover_url,
+            logged_at=request.logged_at,
         )
 
         # check if a "books_read" milestone has been achieved
@@ -472,9 +479,23 @@ class MLBFacade:
         if not has_acc:
             raise PermissionDeniedError()
 
-        # update
-        if updated.book_id is not None:
-            session.book_id = updated.book_id
+        # if book is being changed, record new details to DB
+        if updated.external_id is not None:
+            book = self.book_repository.get_or_save(
+            external_id=updated.external_id,
+            source="openlibrary",
+            title=updated.title,
+            author=updated.author,
+            cover_url=updated.cover_url,
+            )
+
+            # apply get_or_save results to the session update
+            session.book_id = book.id
+            session.external_id = book.external_id
+            session.title = book.title
+            session.author = book.author
+            session.cover_url = book.cover_url
+
         if updated.logged_at is not None:
             session.logged_at = updated.logged_at
 
@@ -570,7 +591,8 @@ class MLBFacade:
                 counts.setdefault(current, 0)
                 current += timedelta(days=1)    # timedelta detects duration (increments by 1 day)
 
-        return counts
+        # keys (dates) to strings for JSON response
+        return {date.isoformat(): count for date, count in counts.items()}
 
 # <--- MILESTONES --->
 

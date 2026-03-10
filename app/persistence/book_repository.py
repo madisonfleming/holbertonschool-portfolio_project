@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 
+from app.domain.repositories.book_repository import BookRepositoryBase
 from app.domain.books import Book
 from app.persistence.in_memory_seed import Bookdata
 
 from uuid import uuid4
 
-class BookRepository:
+class BookRepository(BookRepositoryBase):
     def __init__(self):
         self._storage = Bookdata().books
 
@@ -16,7 +17,7 @@ class BookRepository:
         query: str,
         subjects: list[str] | None = None,
         limit: int | None = None
-    ):
+    ) -> Book | None:
         results = []
 
         # match titles
@@ -28,12 +29,16 @@ class BookRepository:
 
 
     # retrieve a book by its internal ID
-    def get(self, book_id: str):
+    def get(self, book_id: str) -> Book | None:
         return self._storage.get(book_id)
 
 
     # retrieve a book by external ID from ext API
-    def get_by_external_id(self, external_id: str, source: str):
+    def get_by_external_id(
+        self,
+        external_id: str,
+        source: str
+    ) -> Book | None:
         for book in self._storage.values():
             if book.external_id == external_id and book.source == source:
                 return book
@@ -48,7 +53,7 @@ class BookRepository:
         title: str,
         author: str,
         cover_url: str
-    ):
+    ) -> Book:
         # check if book exists in db
         existing = self.get_by_external_id(external_id, source)
         if existing:
