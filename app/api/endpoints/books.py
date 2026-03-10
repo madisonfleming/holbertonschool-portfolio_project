@@ -18,9 +18,9 @@ def search_books(
     books = facade.search_books(q, subjects, limit)
     responses = []
     for book in books:
-        res = BookSearchResponse(
+        res = BookSearchResponse( #no from domain - built manually
             # book_id=book.id,
-            book_id=book.book_id, # TODO: works but not correct obj id is "id" not book "id"
+            book_id=book.book_id, # TODO: works but not correct obj id is "id" not "book_id"
             external_id=book.external_id,
             source=book.source,
             title=book.title,
