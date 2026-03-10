@@ -18,7 +18,7 @@ const Milestones = ({ current_num_of_books, target, selectedChild, certificateDa
       </div>
       <p className="header-text">
         <p className="name">
-          {selectedChild.name}
+          {selectedChild?.name}
           </p>
           <p className="milestone-text">is doing great!</p>
         {Math.round(percentage)}% of {selectedChild?.name}'s target achieved! That's {current_num_of_books} of {target} books!

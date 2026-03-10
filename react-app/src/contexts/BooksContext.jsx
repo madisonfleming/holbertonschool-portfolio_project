@@ -13,9 +13,10 @@ export function BooksProvider({ children }) {
   const { currentUser } = useAuth();
   const { selectedChild } = useChild();
 
-  const [readingSession, setReadingSession] = useState([]);
+  const [readingSessions, setReadingSessions] = useState([]);
 
   //ENDPOIN TO LOAD ALL THE BOOKS (not implemented yet is for show reading history)
+  /*
   async function loadBooks(q) {
     try {
       const token = await currentUser.getIdToken();
@@ -39,7 +40,8 @@ export function BooksProvider({ children }) {
       console.error("Error fetch book", error);
       return BooksList;
     }
-  }
+  } 
+    */
 
 
   //ENDPOINT TO SEARCH FOR BOOK BY QUERY the str required frm the BE
@@ -83,15 +85,14 @@ export function BooksProvider({ children }) {
 
   // To display as reading activity on figma we need the cover URL. data is not working
   // To display EDIT reading sessions we also need BOOK TITLE in payload
-    async function readingSessions(id) {
-      console.log("child_id data:", id)
-      
+  async function loadData() {
+    console.log("selectedChild holds:", selectedChild)
     try {
       const token = await currentUser.getIdToken();
       //const child = useState(selectedChild);
       /* reading-session endpoint  */
       const response = await fetch(
-        `http://127.0.0.1:8000/api/children/${id}/reading-sessions`,
+        `http://127.0.0.1:8000/api/children/${selectedChild}/reading-sessions`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -101,27 +102,31 @@ export function BooksProvider({ children }) {
 
       const data = await response.json();
       /* we need to add an if in case the data is error  */
-      console.log("READING SESSION DATA from BACKEND:", data);
-      return data.map((readingSession) => ({
-        id: readingSession.session_id,
-        childId: readingSession.child_id,
-        bookId: readingSession.book_id
+      console.log("READING SESSION DATA from Backend:", data);
+      const formatted = data.map((session) => ({
+        //mapping each session to display
+        id: session.session_id,
+        childId: session.child_id,
+        bookId: session.book_id,
+        title: session.book_title,
+        img: session.cover_url,
       }));
+      setReadingSessions(formatted);
 
     } catch (error) {
       console.error("Error getting reading sessions", error);
       return [];
     }
-    
+
   }
 
   //UPDATE READING SESSIONS
-      async function updateReadingSessions(session_id, updatedData) {
-        console.log("id data:", session_id)
-        console.log("PUT payload:", updatedData);
+  async function updateReadingSessions(session_id, updatedData) {
+    console.log("session_id data:", session_id)
+    console.log("PUT payload:", updatedData);
     try {
       const token = await currentUser.getIdToken();
-  
+
       /* update-reading-session endpoint  */
       const response = await fetch(
         `http://127.0.0.1:8000/api/reading-sessions/${session_id}`,
@@ -139,18 +144,32 @@ export function BooksProvider({ children }) {
       /* we need to add an if in case the data is error  */
       console.log("Answer from BE of Updating Reading Session:", data);
 
-      setReadingSession(data)
+      // update a single reading session inside the object array
+      setReadingSessions((prev) =>
+        prev.map((session) =>
+          session.session_id === session_id ? { ...session, ...data } : session
+        )
+      );
 
     } catch (error) {
       console.error("Error updating reading sessions", error);
       return [];
     }
-    
+
   }
+  useEffect(() => {
+    if (currentUser) loadData();
+  }, [currentUser]);
 
 
   return (
-    <BooksContext.Provider value={{ searchBooks, loadBooks, BooksList, readingSessions, updateReadingSessions }}>
+    <BooksContext.Provider value={{
+      searchBooks,
+      readingSessions,
+      setReadingSessions,
+      BooksList,
+      updateReadingSessions
+    }}>
       {children}
     </BooksContext.Provider>
   );
