@@ -25,15 +25,15 @@ def get_all_milestones(
     # return facade.get_milestones(child_id, firebase_uid)
 
     if type:
-        milestones = facade.get_milestones_by_type(child_id, type, firebase_uid)
+        results = facade.get_milestones_by_type(child_id, type, firebase_uid)
     else:
-        milestones = facade.get_milestones(child_id, firebase_uid)
+        results = facade.get_milestones(child_id, firebase_uid)
 
-    responses = []
-    for m in milestones:
-        res = MilestoneCompletionResponse.from_domain(m)
-        responses.append(res)
-    return responses
+    milestones = []
+    for res in results:
+        m = MilestoneCompletionResponse.from_domain(res)
+        milestones.append(m)
+    return milestones
 
 
 # Requirement: Get ONE milestone
@@ -45,8 +45,10 @@ def get_one_milestone(
     decoded_token: dict = Depends(auth_current_user)
     ):
     firebase_uid = decoded_token["uid"]
-    return facade.get_milestone(child_id, milestone_id, firebase_uid)
+    milestone = facade.get_milestone(child_id, milestone_id, firebase_uid)
+    return MilestoneCompletionResponse.from_domain(milestone)
 
+# Requirement: Complete a weekly milestone
 @router.post("/children/{child_id}/milestones", response_model=MilestoneCompletionResponse, status_code=201)
 def complete_weekly_milestone(
     data: CreateMilestone,
@@ -54,4 +56,5 @@ def complete_weekly_milestone(
     decoded_token: dict = Depends(auth_current_user)
     ):
     firebase_uid = decoded_token["uid"]
-    return facade.create_weekly_milestone(data, firebase_uid)
+    milestone = facade.create_weekly_milestone(data, firebase_uid)
+    return MilestoneCompletionResponse.from_domain(milestone)
