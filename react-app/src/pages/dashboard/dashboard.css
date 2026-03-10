@@ -4,8 +4,8 @@
   margin-bottom: 10px;
 } */
 
-.reading-session-container,
-.create-child-container {
+/*FOR THE FLOATING BOOK*/
+.reading-session-container {
   position: sticky;
   top: 0px;
   right: 10px;
@@ -30,6 +30,7 @@
   margin-right: 20px;
 }
 
+/*TITTLE OF THE PAGE */
 .dashboard-title {
   font-size: 50px;
   font-weight: bold;
@@ -51,6 +52,7 @@
   padding: 20px;
 }
 
+/*To show the child cards*/
 .children-container {
   grid-row: 1 / span 2;
   /* ocupa ambas filas */
@@ -58,18 +60,6 @@
   border-radius: 20px;
   padding: 20px;
   overflow-y: auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  /* centra horizontal */
-  align-items: center;
-}
-
-.weekly-container,
-.milestones-container {
-  background: white;
-  border-radius: 20px;
-  padding: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
@@ -96,4 +86,18 @@
   border-radius: 30px;
   font-size: 1rem;
   cursor: pointer;
+}
+
+/*Weekly goal container*/
+.weekly-container, {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  /* centra horizontal */
+  align-items: center;
+
+  
 }
