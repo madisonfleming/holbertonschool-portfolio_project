@@ -7,6 +7,9 @@ from app.services.exceptions import InvalidRelationshipTypeError, RelationshipNo
 class FakeUser():
     def __init__(self, id: str):
         self.id = id
+        self.name = "Anna"
+        self.email = "anna@example.com"
+        self.role = "primary" 
 
 class FakeUserRepository():
     def get_by_firebase_uid(self, firebase_uid):
@@ -22,6 +25,17 @@ class FakeUserRepository():
             raise UserNotFoundError
         
         return None
+
+    def save(self, user):
+        self.user = user
+
+    def get_by_email(self, email):
+        if email == "anna@example.com":
+            return FakeUser("user-123")
+        if email == "betty@example.com":
+            return FakeUser("user-456")
+        return None
+
 
 class FakeChild():
     def __init__(self, id, name, date_of_birth, avatar_url):
