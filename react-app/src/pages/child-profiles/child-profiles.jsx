@@ -99,7 +99,7 @@ const ChildProfiles = () => {
                       setEditingReadingSession(session);
                       setButtonUpdateReadingSessionPopup(true);
                     }}
-                  >Edit Reading Session
+                  >Edit
                   </button>
                 </div>
               ))}
