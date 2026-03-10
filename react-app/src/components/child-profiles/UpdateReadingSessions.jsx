@@ -18,7 +18,6 @@ const UpdateReadingSessions = ({ readingSessions, trigger, setTrigger }) => {
       const [selectedChild, setSelectedChild] = useState(null);
       const [filteredBooks, setFilteredBooks] = useState([]);
 
-      if (!readingSessions) return null;
 
     useEffect(() => {
         if (readingSessions) {
@@ -46,11 +45,11 @@ const UpdateReadingSessions = ({ readingSessions, trigger, setTrigger }) => {
         if (date && date !== readingSessions.logged_at) {
             updatedData.logged_at = date;
         }
-        if (selectedBook && selectedBook !== readingSessions.book_title) {
+        if (selectedBook && selectedBook?.title !== readingSessions.book_title) {
             updatedData.book_title = selectedBook
         }
         console.log("sending update data for test: ", updatedData);
-        updateReadingSessions(readingSessions.session_id, updatedData);
+        updateReadingSessions(readingSessions.id, updatedData);
 
         setTrigger(false); // close popup
     };
@@ -61,6 +60,8 @@ const UpdateReadingSessions = ({ readingSessions, trigger, setTrigger }) => {
     setSelectedBook("");
     setTrigger(false); // close popup
   }
+      if (!readingSessions) return null
+
 
     return trigger ? (
         <div className="popup-overlay">
