@@ -3,16 +3,9 @@ from app.domain.repositories.relationship_repository import RelationshipReposito
 from datetime import datetime
 import uuid
 from app.persistence.in_memory_seed import Relationshipdata
-<<<<<<< HEAD
-# Uncomment to inspect hardcoded data
-# print(RELATIONSHIPS)
->>>>>>> 35b3626 (refactor seed data changes into current changes)
 
 # RelationshipRepository doesn't inherit from Repository because
 #   relationship wasn't modeled as a first-class domain
-=======
-
->>>>>>> e5ccc10 (Rebase seed data changes into current)
 
 class RelationshipRepository(RelationshipRepositoryBase):
     def __init__(self):
