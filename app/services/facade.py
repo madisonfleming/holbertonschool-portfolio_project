@@ -202,7 +202,7 @@ class MLBFacade:
             raise ChildNotFoundError()
 
         # retrieve relationship type and role between user & child to return
-        relationship = self.relationship_repository.get_relationship(user_id, child_id)
+        relationship = self.relationship_repository.get_relationship_type(user_id, child_id)
         relationship_type = relationship.get("relationship_type", "Parent") # TODO: get has fallback value for compatibility with old seed data - need to update in seed data        
         role = relationship.get("role")
         return ChildResponse.from_domain(child, relationship_type, role)
@@ -251,7 +251,7 @@ class MLBFacade:
         self.child_repository.save(child)
 
         # retrieve relationship type and role between user & child to return
-        relationship = self.relationship_repository.get_relationship(user_id, child_id)
+        relationship = self.relationship_repository.get_relationship_type(user_id, child_id)
         relationship_type = relationship.get("relationship_type", "Parent") # TODO: get has fallback value for compatibility with old seed data - need to update in seed data 
         role = relationship.get("role")
         return ChildResponse.from_domain(child, relationship_type, role)
@@ -382,14 +382,17 @@ class MLBFacade:
             source="openlibrary",
             title=request.title,
             author=request.author,
-            cover_url=request.cover_url
+            cover_url=request.cover_url,
         )
 
         # create reading session
         session = self.reading_session_repository.save(
             child_id=child_id,
             book_id=book.id,
-            logged_at=request.logged_at
+            external_id=request.external_id,
+            title=book.title,
+            cover_url=book.cover_url,
+            logged_at=request.logged_at,
         )
 
         # check if a "books_read" milestone has been achieved

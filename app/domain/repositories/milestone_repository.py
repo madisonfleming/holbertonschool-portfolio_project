@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from app.domain.milestone import MilestoneType
+from app.domain.milestone_type import MilestoneType
 
 
 class MilestoneTypeRepositoryBase(ABC):

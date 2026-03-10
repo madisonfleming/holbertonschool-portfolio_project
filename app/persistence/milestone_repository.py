@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from app.domain.repositories.milestone_repository import MilestoneTypeRepositoryBase
-from app.domain.milestone import MilestoneType
+from app.domain.milestone_type import MilestoneType
 
 """
 This table holds a pre-defined list of milestone types

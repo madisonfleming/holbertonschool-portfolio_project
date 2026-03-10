@@ -17,14 +17,20 @@ class ReadingSessionRepository(ReadingSessionRepositoryBase):
     def save(
         self,
         child_id: str,
+        external_id: str,
         book_id: str,
-        logged_at: datetime
+        title: str,
+        cover_url: str,
+        logged_at: datetime,
     ) -> ReadingSession:
         session = ReadingSession(
             id=str(uuid4()),
             child_id=child_id,
+            external_id=external_id,
             book_id=book_id,
-            logged_at=logged_at
+            title=title,
+            cover_url=cover_url,
+            logged_at=logged_at,
         )
         self._storage[session.id] = session
         return session

@@ -35,7 +35,8 @@ class RelationshipRepository(RelationshipRepositoryBase):
         self,
         user_id: str,
         child_id: str,
-        role: str
+        role: str,
+        relationship_type:str,
     ) -> str:
         # primary/secondary relationships are modelled here as we aren't
         # modelling relationship in the domains
@@ -48,12 +49,7 @@ class RelationshipRepository(RelationshipRepositoryBase):
             "user_id": user_id,
             "child_id": child_id,
             "role": role,
-            "relationship_type": relationship_type 
-            "invited_by": None,
-            "invite_status": "accepted", # default for primary user
-            "created_at": now,
-            "updated_at": now,
-            "relationship_type": relationship_type 
+            "relationship_type": relationship_type,
             "invited_by": None,
             "invite_status": "accepted", # default for primary user
             "created_at": now,
