@@ -19,10 +19,22 @@ def get_all_milestones(
     ):
     firebase_uid = decoded_token["uid"]
 
-    if type:
-        return facade.get_milestones_by_type(child_id, type, firebase_uid)
+    # if type:
+    #     return facade.get_milestones_by_type(child_id, type, firebase_uid)
 
-    return facade.get_milestones(child_id, firebase_uid)
+    # return facade.get_milestones(child_id, firebase_uid)
+
+    if type:
+        milestones = facade.get_milestones_by_type(child_id, type, firebase_uid)
+    else:
+        milestones = facade.get_milestones(child_id, firebase_uid)
+
+    responses = []
+    for m in milestones:
+        res = MilestoneCompletionResponse.from_domain(m)
+        responses.append(res)
+    return responses
+
 
 # Requirement: Get ONE milestone
 @router.get("/children/{child_id}/milestones/{milestone_id}", response_model=MilestoneCompletionResponse, status_code=200)
