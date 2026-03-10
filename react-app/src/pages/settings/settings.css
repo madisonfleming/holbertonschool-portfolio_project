@@ -4,13 +4,14 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #fce4ec;
+  background: white;
   padding: 20px;
   flex-direction: column;
 }
 
 .settings-card {
-  background: white;
+  
+  background: #fce4ec;
   padding: 40px;
   border-radius: 16px;
   width: 100%;
@@ -20,26 +21,26 @@
 
 /*adding settings-user-card to align with child card*/
 .settings-user-card {
-  background: white;
+  background: #fce4ec;
   border-radius: 16px;
   width: 100%;
   max-width: 580px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  /*box-shadow: 0 8px 20px rgba(0,0,0,0.08); */
   gap: 16px; 
   display: flex;
   flex-direction: column;
   padding: 16px 18px; /*create space between components avatar padding info padding*/
-
+  padding-bottom: 50px;
 }
 
 
 .settings-child-card {
-  background: white;
+  background: #fce4ec;
   padding: 40px;
   border-radius: 16px;
   width: 100%;
   max-width: 580px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  /*box-shadow: 0 8px 20px rgba(0,0,0,0.08); */
   gap: 16px; 
 }
 
