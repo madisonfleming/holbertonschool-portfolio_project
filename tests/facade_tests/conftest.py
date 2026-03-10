@@ -120,10 +120,66 @@ class FakeReadingSessionRepository():
     pass
 
 class FakeMilestoneRepository():
-    pass
+    def get_by_subject(self, subject):
+        if subject == "elephants":
+            return {
+                "id": "3",
+                "name": "Read 5 Elephant Books",
+                "subject": "elephants",
+                "type": "weekly_goal",
+                "threshold": 5,
+            }
+        return None
 
 class FakeMilestoneCompletionRepository():
-    pass
+    def __init__(self):
+        self._storage = {
+            "1": {
+                "id": "1",
+                "child_id": "child-123",
+                "milestone_id": "1",
+                "description": "Susie read 25 books out of 1000!",
+                "completed_at": "2025-11-27",
+                "reward_url": None
+            }
+        }
+
+    def get_all_milestones_by_child(self, child_id):
+        if child_id == "child-123":
+            return [{
+                "id": "1",
+                "child_id": "child-123",
+                "milestone_id": "1",
+                "description": "Susie read 25 books out of 1000!",
+                "completed_at": "2025-11-27",
+                "created_at": "2025-12-02",
+                "updated_at": "2025-12-02",
+                "reward_generated_at": None,
+                "reward_url": None,
+            }]
+        return []
+    
+    def save(self, milestone):
+        self.milestone = milestone
+
+    def get(self, milestone_id):
+        if milestone_id == "1":
+            return {
+                "id": "1",
+                "child_id": "child-123",
+                "milestone_id": "1",
+                "description": "Susie read 25 books out of 1000!",
+                "completed_at": "2025-11-27",
+                "created_at": "2025-12-02",
+                "updated_at": "2025-12-02",
+            }
+
+    def get_all_by_child_and_key(self, child_id, milestone_key):
+        if child_id == "child-123" and milestone_key == "books_read":
+            return [self._storage["1"]]
+        return []
+
+
 
 class FakeRelationshipRepository():
     def __init__(self):
@@ -181,6 +237,15 @@ class FakeRelationshipRepository():
         for relationship in self.get_children_per_user(user_id):
             if relationship["user_id"] == user_id and relationship["child_id"] == child_id:
                 return relationship["role"] == role
+        return False
+    def has_relationship(
+        self,
+        user_id: str,
+        child_id: str,
+    ):
+        for relationship in self.get_children_per_user(user_id):
+            if relationship["user_id"] == user_id and relationship["child_id"] == child_id:
+                return True
         return False
 
 class FakeBookRepository():
