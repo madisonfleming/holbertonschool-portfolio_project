@@ -19,12 +19,18 @@ from app.api.dependencies import get_facade
 
 @pytest.fixture
 def create_test_facade():
+    milestone_repository = MilestoneTypeRepository() # create instance of type repo
+    # create an instance of completion repo + pass in the type instance - Allows completion repo to use methods from type repo
+    milestone_completion_repository = MilestoneCompletionRepository(milestone_repository)
+
     return MLBFacade(
         user_repository=UserRepository(),
         child_repository=ChildRepository(),
         reading_session_repository=ReadingSessionRepository(),
-        milestone_repository=MilestoneTypeRepository(),
-        milestone_completion_repository=MilestoneCompletionRepository(),
+        milestone_repository=milestone_repository,
+        milestone_completion_repository=milestone_completion_repository,
+        # milestone_repository=MilestoneTypeRepository(),
+        # milestone_completion_repository=MilestoneCompletionRepository(),
         relationship_repository=RelationshipRepository(),
         book_repository=BookRepository(),
         open_library_api=OpenLibraryClient()
