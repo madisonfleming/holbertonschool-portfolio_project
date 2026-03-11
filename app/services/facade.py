@@ -5,6 +5,7 @@ from datetime import date, datetime, timezone, timedelta
 from app.domain.user import User
 from app.domain.child import Child
 from app.domain.books import Book
+from app.domain.reading_sessions import ReadingSession
 from app.domain.milestone_type import MilestoneType
 from app.domain.milestone_completion import MilestoneCompletion
 
@@ -621,8 +622,6 @@ class MLBFacade:
                 return []
 
         milestones = self.milestone_completion_repository.get_all_milestones_by_child(child_id)
-        print("milestones: ", milestones)
-        print(type(milestones))
         return milestones
     
     def get_milestone(
@@ -724,13 +723,10 @@ class MLBFacade:
 
         # create a Milestone domain object
         milestone_record = MilestoneCompletion(
-            id=None,
             child_id=child_id,
             milestone_id=milestone.id,
             description=description,
             completed_at=completed_at,
-            created_at=None,
-            updated_at=None,
         )
         
         saved = self.milestone_completion_repository.save(milestone_record)

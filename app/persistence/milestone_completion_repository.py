@@ -63,16 +63,13 @@ class MilestoneCompletionRepository(MilestoneCompletionRepositoryBase):
 
     def save(self, milestone) -> str:
         self._storage[milestone.id] = asdict(milestone)
-        return milestone.id
+        return milestone
 
     def get(self, milestone_id) -> MilestoneCompletion | None:
         data = self._storage.get(milestone_id)
         return MilestoneCompletion.from_dict(data) if data else None
 
     def get_all_milestones_by_child(self, child_id) -> list[MilestoneCompletion]:
-        for k, v in MILESTONE_COMPLETIONS.items():
-            print(k, v)
-
         return [
             MilestoneCompletion.from_dict(c)
             for c in self._storage.values()
