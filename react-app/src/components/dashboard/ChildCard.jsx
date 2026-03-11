@@ -18,10 +18,12 @@ const ChildCard = () => {
       <div key={child.id}>
      
       <div className="child-card" onClick={() => setExpandedChild(isOpen ? null : child.id)} aria-expanded={isOpen}>
+            <div className="row-layout">
               <img src={child.avatar} alt={child.name} className="child-avatar" /> 
             <div className="text">
               <Link className="child-name" to="/child-profiles" onClick={(e) => e.stopPropagation()}>{child.name}</Link>
               <div className="child-age">{child.age}</div>
+              </div>
             </div>
       <div className={`expanded-content ${isOpen ? 'open' : ""}`}>
         <GetWorm />
