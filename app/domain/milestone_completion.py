@@ -31,3 +31,23 @@ class MilestoneCompletion(Base): # gives id, created_at, updated_at
     
     def to_dict(self):
         return asdict(self)
+    
+    @classmethod
+    def from_dict(cls, data: dict) -> "MilestoneCompletion":
+        obj= cls(
+            child_id=data["child_id"],
+            milestone_id=data["milestone_id"],
+            description=data["description"],
+            completed_at=data["completed_at"],
+            reward_generated_at=(
+                datetime.fromisoformat(data["reward_generated_at"])
+                if data["reward_generated_at"] else None
+            ),
+            reward_url=data["reward_url"],
+        )
+
+        obj.id = data["id"]
+        obj.created_at = data["created_at"]
+        obj.updated_at = data["updated_at"]
+
+        return obj

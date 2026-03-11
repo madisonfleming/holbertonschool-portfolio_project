@@ -26,3 +26,35 @@ class ReadingSession:
     author: str
     cover_url: str
     logged_at: datetime
+    created_at: datetime
+    updated_at: datetime
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "child_id": self.child_id,
+            "external_id": self.external_id,
+            "book_id": self.book_id,
+            "title": self.title,
+            "author": self.author,
+            "cover_url": self.cover_url,
+            "logged_at": self.logged_at.isoformat(),
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat(),
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            id=data["id"],
+            child_id=data["child_id"],
+            external_id=data["external_id"],
+            book_id=data["book_id"],
+            title=data["title"],
+            author=data["author"],
+            cover_url=data["cover_url"],
+            logged_at=datetime.fromisoformat(data["logged_at"]),
+            created_at=datetime.fromisoformat(data["created_at"]),
+            updated_at=datetime.fromisoformat(data["updated_at"]),
+        )
+

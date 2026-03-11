@@ -9,6 +9,7 @@ This dataset supports Swagger testing
 Book data added as objects as book repo is not designed for dicts.
 """
 from app.domain.books import Book
+from datetime import datetime
 
 # <--- USER DATA --->
 
@@ -177,6 +178,7 @@ class Relationshipdata():
 
 # <--- BOOKS --->
 class Bookdata():
+    now = datetime.now()
     book1 = Book(
         id="d5df0557-4d06-46c8-b4f3-105511e3000a",
         external_id="/works/OL2568879W",
@@ -184,6 +186,8 @@ class Bookdata():
         title="Where the Wild Things Are",
         author="Maurice Sendak",
         cover_url="https://covers.openlibrary.org/b/id/50842-M.jpg",
+        created_at=now,
+        updated_at=now,
     )
 
     book2 = Book(
@@ -193,6 +197,8 @@ class Bookdata():
         title="The Very Hungry Caterpillar",
         author="Eric Carle",
         cover_url="https://covers.openlibrary.org/b/id/7835968-M.jpg",
+        created_at=now,
+        updated_at=now,
     )
 
     book3 = Book(
@@ -202,6 +208,8 @@ class Bookdata():
         title="Charlotte's Web",
         author="E. B. White",
         cover_url="https://covers.openlibrary.org/b/id/8461797-M.jpg",
+        created_at=now,
+        updated_at=now,
     )
 
     BOOKS = {

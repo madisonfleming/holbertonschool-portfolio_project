@@ -7,13 +7,16 @@ class UserRepository(UserRepositoryBase):
     def __init__(self):
         self._storage = Userdata().users
 
-    def save(self, user) -> None:
+    def save(self, user: User) -> None:
         self._storage[user.firebase_uid] = user.to_dict() # save by key=firebase_uid in a dict
 
-    def get(self, obj_id) -> User | None:
-        return self._storage.get(obj_id)
+    def get(self, user_id:str) -> User | None:
+        data = self._storage.get(user_id)
+        if not data:
+            return None
+        return User.from_dict(data)
     
-    def get_by_firebase_uid(self, firebase_uid) -> User | None:
+    def get_by_firebase_uid(self, firebase_uid:str) -> User | None:
         data = self._storage.get(firebase_uid)
         if data is None:
             return None

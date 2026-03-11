@@ -6,18 +6,18 @@ from app.api.schemas.reading_sessions import CreateReadingSession, ReadingSessio
 from typing import List
 from datetime import date
 
-# TODO: if fb uid/user_id not needed to pass to facade - can protect all endpoints at the router level with: router = APIRouter(dependencies=[Depends(auth_current_user)])
-router = APIRouter() # note: auth applied at individual endpoint level for now. 
+router = APIRouter()
 
 # Requirement: Create a Reading Session
-@router.post("/reading-sessions", response_model=ReadingSessionResponse, status_code=201) # note: errors handled at facade/model levels using new error schema
+@router.post("/reading-sessions", response_model=ReadingSessionResponse, status_code=201)
 def create_reading_session(
     reading_session_data: CreateReadingSession,
     facade: MLBFacade = Depends(get_facade),
-    decoded_token: dict = Depends(auth_current_user) # note: this is the firebase uid for now (may change to user_id later via auth_current_user)
+    decoded_token: dict = Depends(auth_current_user)
     ):
     firebase_uid = decoded_token["uid"]
-    return facade.create_reading_session(reading_session_data, firebase_uid) #TODO: check method name and params match facade
+    session = facade.create_reading_session(reading_session_data, firebase_uid)
+    return ReadingSessionResponse.from_domain(session)
 
 # Requirement: Retrieve reading sessions attached to a child
 @router.get("/children/{child_id}/reading-sessions", response_model=List[ReadingSessionResponse], status_code=200)
@@ -31,13 +31,18 @@ def get_reading_sessions(
     ):
     firebase_uid = decoded_token["uid"]
    
-    #TODO: facade may not need firebase uid if looking up sessions attached to child via child_id only. Check method name and params match facade
-    return facade.get_reading_sessions(
+    filtered_sessions = facade.get_reading_sessions(
         child_id=child_id,
         firebase_uid=firebase_uid,
         limit=limit,
         from_date=from_date,
         to_date=to_date)
+
+    responses = []
+    for session in filtered_sessions:
+        r = ReadingSessionResponse.from_domain(session)
+        responses.append(r)
+    return responses
 
 # Requirement: Update a reading session
 @router.put("/reading-sessions/{session_id}", response_model=ReadingSessionResponse, status_code=200)
@@ -48,8 +53,8 @@ def update_session(
     decoded_token: dict = Depends(auth_current_user)
     ):
     firebase_uid = decoded_token["uid"]
-    #TODO: facade may not need firebase uid if looking up session via session_id only. Check method name and params match facade
-    return facade.update_session(session_id, updated_session_data, firebase_uid)
+    session = facade.update_session(session_id, updated_session_data, firebase_uid)
+    return ReadingSessionResponse.from_domain(session)
 
 # Requirement: Retrieve reading session counts
 @router.get("/children/{child_id}/reading-sessions/count", response_model=int, status_code=200)
@@ -67,7 +72,7 @@ def count_reading_sessions(
         firebase_uid=firebase_uid,
         from_date=from_date,
         to_date=to_date
-    )
+    ) # NOTE: no dom obj to schema response obj required (facade return is count, an int)
 
 # additional count function to facilitate heatmap
 # returns dict [{date}, {# of reading sessions}]
@@ -89,4 +94,4 @@ def heatmap_reading_sessions(
         firebase_uid=firebase_uid,
         from_date=from_date,
         to_date=to_date
-    )
+    ) #NOTE: no dom obj to schema response obj required (facade return is dict of key=date, val=num sessions logged on date)
