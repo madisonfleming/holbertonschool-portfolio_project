@@ -16,8 +16,7 @@ const Dashboard = () => {
   const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] =
     useState(false);
 
-  const current_num_of_books = 100; // from backend
-  const target = 1000; // from be
+  const target = 5; //hardcoded to send to BE once is finished
 
   return (
     <div>
@@ -42,7 +41,6 @@ const Dashboard = () => {
         </div>
         <div className="weekly-container">
           <WeeklyGoal
-            current_num_of_books={current_num_of_books}
             target={target}
             theme={theme}
           />
