@@ -16,9 +16,7 @@ const Dashboard = () => {
   const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] =
     useState(false);
 
-  const current_num_of_books = 100; // from backend
-  const target = 3;
-  //const target = 3; // from be
+  const target = 5; //hardcoded to send to BE once is finished
 
   return (
     <div>

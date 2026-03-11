@@ -1,6 +1,6 @@
 export const themes = [
   "Elephant",
-  "dinosaur",
+  /*"dinosaur",
   "rocket",
-  "seahorse",
+  "seahorse",*/
 ];

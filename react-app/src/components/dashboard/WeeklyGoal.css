@@ -3,13 +3,11 @@
   max-width: 800px;
   border-radius: 28px;
   overflow: hidden;
-  box-shadow: 0 24px 60px rgba(155, 89, 182, 0.25), 0 4px 16px rgba(0,0,0,0.08);
-  
 }
 
 /* the main part  */
 .main-part {
-  background: linear-gradient(160deg, #ede0f7 0%, #d9bff0 100%);
+  background: #c8e6f5;
   position: relative;
   padding: 32px 28px 0 28px;
   min-height: 380px;
@@ -57,8 +55,8 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 300px;   
-  height: 300px; 
+  width: 340px;   
+  height: 340px; 
 }
 
 .image-wrap img {
@@ -78,7 +76,7 @@
   background: rgba(255,255,255,0.7);
   backdrop-filter: blur(8px);
   padding: 14px 28px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: #2d6080;
   border-top: 1.5px solid rgba(255,255,255,0.9);
@@ -92,7 +90,7 @@
 
 .info-desc {
   font-size: 14px;
-  color: #888;
+  color: #7a7a7a;
   font-weight: 600;
   line-height: 1.5;
   margin-bottom: 20px;
@@ -100,11 +98,97 @@
 
 .info-desc strong { color: #9b59b6; }
 
+/* FOR THE CHILDS*/
+/*For the child bottoms, this is the container*/
+.readers-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+/*this wraps each child*/
+.child-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  position: relative; /* this so the ::after can be inside */
+}
+
+/*Round btn*/
+.child-btn {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #f0e8f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid transparent;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Avatar inside round btn */
+.child-avatar-img-rs {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /*with contain the avatar looks nice in a circle with cover there is zoom and look weird*/
+}
+
+.child-name-inside-card {
+  font-family: "Baloo 2", cursive;
+  font-size: 12px;
+  font-weight: 700;
+  color: #bbb;
+  transition: color 0.2s ease;
+}
+
+.child-wrapper:hover .child-btn {
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 8px 20px rgba(155, 89, 182, 0.2);
+}
+
+/* When is selected */
+.child-wrapper.selected .child-btn {
+  border-color: #9b59b6;
+  box-shadow:
+    0 0 0 4px rgba(155, 89, 182, 0.15),
+    0 6px 16px rgba(155, 89, 182, 0.25);
+  transform: scale(1.05);
+}
+
+.child-wrapper.selected .child-name-inside-card {
+  color: #9b59b6;
+  font-weight: 800;
+}
+
+.child-wrapper.selected::after {
+  content: "✓";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 18px;
+  height: 18px;
+  background: #9b59b6; /*for the inner circle*/
+  color: white;
+  border-radius: 50%; /*to be a circle*/
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 18px;
+  text-align: center;
+}
+
 /* FOR THE BOOKS */
 .tracker-label {
   font-size: 12px;
   font-weight: 700;
-  color: #bbb;
+  color: #7a7a7a;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   margin-bottom: 14px;
