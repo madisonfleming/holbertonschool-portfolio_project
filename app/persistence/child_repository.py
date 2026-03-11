@@ -8,8 +8,9 @@ class ChildRepository(ChildRepositoryBase):
     def __init__(self):
         self._storage = Childdata().children
 
-    def save(self, child: Child) -> None:
+    def save(self, child: Child) -> Child:
         self._storage[child.id] = child.to_dict()
+        return child
 
     def get(self, child_id: str) -> Child | None:
         data = self._storage.get(child_id)
