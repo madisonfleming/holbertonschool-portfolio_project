@@ -1,5 +1,5 @@
 from app.domain.base import Base
-from datetime import date
+from datetime import date, datetime
 from app.domain.exceptions import (
     InvalidChildNameError,
     InvalidDateOfBirthError
@@ -7,12 +7,16 @@ from app.domain.exceptions import (
 
 
 class Child(Base): # gives id, created_at, updated_at
-    def __init__(self,
-                 name: str,
-                 date_of_birth: date,
-                 avatar_url: str | None = None
+    def __init__(
+        self,
+        name: str,
+        date_of_birth: date,
+        avatar_url: str | None = None,
+        id: str | None = None,
+        created_at: datetime | None = None,
+        updated_at: datetime | None = None,
     ):
-        super().__init__()
+        super().__init__(id=id, created_at=created_at, updated_at=updated_at)
         self.name = name
         self.date_of_birth = date_of_birth
         self.avatar_url = avatar_url
@@ -71,10 +75,11 @@ class Child(Base): # gives id, created_at, updated_at
     # converts hardcoded data from dict to domain model object
     @classmethod
     def from_dict(cls, data: dict) -> "Child":
-        child = cls(
+        return cls(
+            id=data["id"],
             name=data["name"],
             date_of_birth=date.fromisoformat(data["date_of_birth"]),
             avatar_url=data["avatar_url"],
-            )
-        child.id=data["id"]
-        return child
+            created_at=datetime.fromisoformat(data["created_at"]),
+            updated_at=datetime.fromisoformat(data["updated_at"])
+        )

@@ -1,19 +1,20 @@
 from abc import ABC, abstractmethod
+from app.domain.milestone_completion import MilestoneCompletion
 
 
 class MilestoneCompletionRepositoryBase(ABC):
     # abstract interface for milestone completion persistence
 
     @abstractmethod
-    def save(self, milestone: dict) -> str:
+    def save(self, milestone: MilestoneCompletion) -> str:
         ...
 
     @abstractmethod
-    def get(self, milestone_id: str) -> dict | None:
+    def get(self, milestone_id: str) -> MilestoneCompletion | None:
         ...
 
     @abstractmethod
-    def get_all_milestones_by_child(self, child_id: str) -> list[dict]:
+    def get_all_milestones_by_child(self, child_id: str) -> list[MilestoneCompletion]:
         ...
 
     @abstractmethod
@@ -21,7 +22,7 @@ class MilestoneCompletionRepositoryBase(ABC):
         self,
         child_id: str,
         milestone_key: str
-    ) -> list[dict]:
+    ) -> list[MilestoneCompletion]:
         ...
 
     @abstractmethod
@@ -29,5 +30,5 @@ class MilestoneCompletionRepositoryBase(ABC):
         self,
         child_id: str,
         milestone_key: str
-    ) -> dict | None:
+    ) -> MilestoneCompletion | None:
         ...

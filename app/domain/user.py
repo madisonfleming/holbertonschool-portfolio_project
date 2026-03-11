@@ -4,6 +4,7 @@ Defines the user attributes and methods. Inherits:
 - created_at = timestamp
 - updated_at = timestamp
 """
+from datetime import datetime
 
 from app.domain.base import Base
 from app.domain.exceptions import (
@@ -13,13 +14,17 @@ from app.domain.exceptions import (
 
 
 class User(Base):
-    def __init__(self,
-                 name: str,
-                 email: str,
-                 role: str = "standard",
-                 firebase_uid: str | None = None
-                 ):
-        super().__init__()
+    def __init__(
+        self,
+        name: str,
+        email: str,
+        role: str = "standard",
+        firebase_uid: str | None = None,
+        id: str | None = None,
+        created_at: datetime | None = None,
+        updated_at: datetime | None = None,
+    ):
+        super().__init__(id=id, created_at=created_at, updated_at=updated_at)
         self.name = name
         self.email = email
         self.role = role
@@ -78,11 +83,12 @@ class User(Base):
     # converts hardcoded data from dict to domain model object
     @classmethod
     def from_dict(cls, data: dict) -> "User":
-        user = cls(
+        return cls(
+            id=data["id"],
             name=data["name"],
             email=data["email"],
             role=data["role"],
-            firebase_uid=data.get("firebase_uid")
+            firebase_uid=data.get("firebase_uid"),
+            created_at=datetime.fromisoformat(data["created_at"]),
+            updated_at=datetime.fromisoformat(data["updated_at"]),
             )
-        user.id=data["id"]
-        return user

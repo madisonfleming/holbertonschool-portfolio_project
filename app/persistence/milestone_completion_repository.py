@@ -2,6 +2,7 @@
 
 from dataclasses import asdict
 from app.domain.repositories.milestone_completion_repository import MilestoneCompletionRepositoryBase
+from app.domain.milestone_completion import MilestoneCompletion
 
 """
 Note: update and delete not implemented
@@ -64,16 +65,17 @@ class MilestoneCompletionRepository(MilestoneCompletionRepositoryBase):
         self._storage[milestone.id] = asdict(milestone)
         return milestone.id
 
-    def get(self, milestone_id) -> dict | None:
-        return self._storage.get(milestone_id)
+    def get(self, milestone_id) -> MilestoneCompletion | None:
+        data = self._storage.get(milestone_id)
+        return MilestoneCompletion.from_dict(data) if data else None
 
-    def get_all_milestones_by_child(self, child_id) -> list[dict]:
+    def get_all_milestones_by_child(self, child_id) -> list[MilestoneCompletion]:
         for k, v in MILESTONE_COMPLETIONS.items():
             print(k, v)
 
-    def get_all_milestones_by_child(self, child_id) -> list[dict]:
         return [
-            c for c in self._storage.values()
+            MilestoneCompletion.from_dict(c)
+            for c in self._storage.values()
             if c["child_id"] == child_id
         ]
 
@@ -81,9 +83,10 @@ class MilestoneCompletionRepository(MilestoneCompletionRepositoryBase):
         self,
         child_id,
         milestone_key
-    ) -> list[dict]:
+    ) -> list[MilestoneCompletion]:
         return [
-            m for m in self._storage.values()
+            MilestoneCompletion.from_dict(m)
+            for m in self._storage.values()
             if m["child_id"] == child_id
             and self.milestone_repository.get(m["milestone_id"]).type == milestone_key
         ]
@@ -92,14 +95,18 @@ class MilestoneCompletionRepository(MilestoneCompletionRepositoryBase):
         self,
         child_id: str,
         type: str
-    ) -> dict | None:
+    ) -> MilestoneCompletion | None:
         """ Used by create_reading_session to find a child's most recent milestone"""
-        return max(
+        most_recent = max(
             (
                 m for m in self._storage.values()
                 if m["child_id"] == child_id
-                and self.milestone_repository.get(m["milestone_id"]).type == milestone_key
+                and self.milestone_repository.get(m["milestone_id"]).type == type
             ),
-            key=lambda m: m["created_at"],
+            key=lambda m: datetime.fromisoformat(m["created_at"]),
             default=None
         )
+
+        if most_recent:
+            return MilestoneCompletion.from_dict(most_recent)
+        return None

@@ -97,11 +97,13 @@ class RelationshipRepository(RelationshipRepositoryBase):
     ) -> dict | None:
         for relationship in self._storage.values():
             if relationship["user_id"] == user_id and relationship["child_id"] == child_id:
-                return relationship
+                return relationship.copy()
         return None
 
     def _find_relationships_by_user(self, user_id: str) -> list[dict]:
-        return [
-            rel for rel in self._storage.values()
-            if rel["user_id"] == user_id
-        ]
+        results = []
+
+        for relationship in self._storage.values():
+            if relationship["user_id"] == user_id:
+                results.append(relationship.copy())
+        return results

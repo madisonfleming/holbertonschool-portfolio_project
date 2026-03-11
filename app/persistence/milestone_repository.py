@@ -51,10 +51,7 @@ class MilestoneTypeRepository(MilestoneTypeRepositoryBase):
     def __init__(self):
         self._storage = MILESTONE_TYPES
 
-    def get(self, id: str) -> MilestoneType:
-        data = self._storage.get(id)
-        if not data:
-            return None
+    def _to_domain(self, data: dict) -> MilestoneType:
         return MilestoneType(
             id=data["id"],
             name=data["name"],
@@ -63,30 +60,40 @@ class MilestoneTypeRepository(MilestoneTypeRepositoryBase):
             threshold=data["threshold"],
         )
 
+    def get(self, id: str) -> MilestoneType | None:
+        data = self._storage.get(id)
+        if not data:
+            return None
+        return self._to_domain(data)
     
     def get_all_by_type(self, milestone_type: str) -> list[MilestoneType]:
-        return list(m for m in self._storage.values()
-                    if m["type"] == milestone_type)
+        results = []
+        
+        for m in self._storage.values():
+            if m["type"] == milestone_type:
+                results.append(self._to_domain(m))
     
     def get_by_threshold(self, threshold: int) -> MilestoneType | None:
         """ Expects that threshold values are unique in the Milestone table """
-        return next((m for m in self._storage.values()
-                    if m["threshold"] == threshold),
-                    None)
+        for m in self._storage.values():
+            if m["threshold"] == threshold:
+                return self._to_domain(m)
+        return None
     
-    def get_by_subject(self, subject: str) -> MilestoneType | None:
+    def get_by_subject(self, subject: str | None) -> MilestoneType | None:
         """ Possibly useful for weekly goals? """
         # print(self._storage.values())
-        return next((m for m in self._storage.values()
-                    if m["subject"] == subject),
-                    None)
+        for m in self._storage.values():
+            if m["subject"] == subject:
+                return self._to_domain(m)
+        return None
     
     def get_by_type_and_threshold(
         self,
         milestone_type: str,
         threshold: int,
     ) -> MilestoneType | None:
-        return next((m for m in self._storage.values()
-                     if m["type"] == milestone_type
-                     and m["threshold"] == threshold),
-                None)
+        for m in self._storage.values():
+            if m["type"] == milestone_type and m["threshold"] == threshold:
+                return self._to_domain(m)
+        return None
