@@ -23,8 +23,15 @@
   margin-bottom: 20px;
   padding: 10px;
   outline: none;
-  border: none !important;
+
   transition: box-shadow 0.3s ease;
+  border: 2px solid #d2bae8;
+}
+
+.child-card:hover {
+  border-color: #9b59b6;
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.12);
+  transform: translateY(-1px);
 }
 
 .expanded {
