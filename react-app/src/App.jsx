@@ -9,6 +9,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { BrowserRouter, useRoutes } from "react-router-dom";
 import { ChildProvider } from "./contexts/ChildContext";
 import { BooksProvider } from "./contexts/BooksContext";
+import { MilestonesProvider } from "./contexts/MilestonesContext";
 import Settings from "./pages/settings/settings";
 
 function AppRoutes() {
@@ -30,8 +31,10 @@ function App() {
       <AuthProvider>
         <ChildProvider>
           <BooksProvider>
+            <MilestonesProvider>
             <Header />
             <AppRoutes />
+            </MilestonesProvider>
           </BooksProvider>
         </ChildProvider>
       </AuthProvider>

@@ -1,14 +1,29 @@
 import "./WeeklyGoal.css";
+import { useChild } from "../../contexts/ChildContext";
+import { useMilestones } from "../../contexts/MilestonesContext";
 import { useState, useEffect } from "react";
 
 const WeeklyGoal = ({ theme, target }) => {
 
+  const { completeWeeklyMilestone } = useMilestones();
+
+  const { childList } = useChild();
+  //selected child for weekly reward
+  const [selectedChild, setSelectedChild] = useState(null);
   /* In order to mark many books we need an array */
   const [selectedBooks, setSelectedBooks] = useState(Array(target).fill(false));
+  /*To detect that all of them are checked on an arrow function books is each value true or false, if all are true return true  */
+  let allCompleted = selectedBooks.every(books => books === true);
+  //transform from True to the required string to the BE
+  if (allCompleted){
+    allCompleted = "elephants";
+  }
+
   /*to populate the books */
   const goalBooks = [];
-  let cont = 0;
-  while (cont < target) {
+
+  let cont = 1;
+  while (cont <= target) {
     goalBooks.push(
       <img 
         key={cont}
@@ -27,15 +42,18 @@ const WeeklyGoal = ({ theme, target }) => {
       return updated;
     });
   };
-
-  /*To detect that all of them are checked on an arrow function books is each value true or false, if all are true return true  */
-  const allCompleted = selectedBooks.every(books => books === true);
-
-  /* handle reset each time we export reward */
-  const handleResetData = () => {
+  /* handle reset each time we export reward, we need two arguments child_id and the {} as weeklyMilestonsData*/
+  const handleCompleteWeeklyMilestone = () => {
+     completeWeeklyMilestone(
+      selectedChild, 
+      {
+      child_id: selectedChild,
+      subject: allCompleted,
+    });
+   
     setSelectedBooks(Array(target).fill(false));
+    setSelectedChild(null);
   };
-
 
 
   return (
@@ -59,6 +77,23 @@ const WeeklyGoal = ({ theme, target }) => {
           Read <strong>{target} books</strong> about <strong>{theme}</strong> this week to earn
           the reward!
         </p>
+        {/* BOKKS PART */}
+        <div className="tracker-label">Bookworm</div>
+        <div className="books-row">
+          {childList.map((child) => (
+                <div
+                  key={child.id}
+                  className={`child-wrapper ${selectedChild === child.id ? "selected" : ""}`}
+                  onClick={() => setSelectedChild(child.id)}
+                >
+                  <button className="child-btn">
+                    <img src={child.avatar} className="child-avatar-img-rs" />
+                  </button>
+                  <div className="child-name-inside-card">{child.name}</div>
+                </div>
+              ))}
+        </div>
+        {/* BOKKS PART */}
         <div className="tracker-label">Books completed</div>
         <div className="books-row">
           {goalBooks.map((book, index) => (
@@ -70,12 +105,12 @@ const WeeklyGoal = ({ theme, target }) => {
               {book} {/*this is the call to our img in push, render the img here */}
             </div>
           ))}
-
         </div>
+        {/* SUBMIT BUTTON */}
           <button 
             className={`btn-reward ${allCompleted ? "active" : "disabled"}`}
             disabled={!allCompleted}
-            onClick={handleResetData}
+            onClick={handleCompleteWeeklyMilestone}
             >
             {allCompleted ? "Claim Reward! Click to export" : "Complete all books to unlock reward"}
 
