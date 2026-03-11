@@ -607,7 +607,8 @@ class MLBFacade:
 
     def get_milestones(self,
                        child_id: str,
-                       firebase_uid: str
+                       firebase_uid: str,
+                       limit: int | None = None
                        ) -> list[MilestoneCompletion]:
         # access user's ID via firebase ID
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
@@ -622,7 +623,8 @@ class MLBFacade:
                 return []
 
         milestones = self.milestone_completion_repository.get_all_milestones_by_child(child_id)
-        return milestones
+        milestones.sort(key=lambda milestone: milestone.completed_at, reverse=True) # sort results from most recent entry
+        return milestones[:limit] if limit else milestones
     
     def get_milestone(
         self,
@@ -653,7 +655,8 @@ class MLBFacade:
         self,
         child_id,
         type,
-        firebase_uid
+        firebase_uid,
+        limit: int | None = None
     ) -> list[MilestoneCompletion]:
         user = self.user_repository.get_by_firebase_uid(firebase_uid)
         user_id = user.id
@@ -667,8 +670,9 @@ class MLBFacade:
         if not type:
             raise ValueError("Missing milestone type")
 
-        milestone = self.milestone_completion_repository.get_all_by_child_and_key(child_id, type)
-        return milestone
+        milestones = self.milestone_completion_repository.get_all_by_child_and_key(child_id, type)
+        milestones.sort(key=lambda milestone: milestone.completed_at, reverse=True) # sort results from most recent entry
+        return milestones[:limit] if limit else milestones
 
     def create_weekly_milestone(
         self,
