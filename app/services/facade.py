@@ -623,6 +623,10 @@ class MLBFacade:
                 return []
 
         milestones = self.milestone_completion_repository.get_all_milestones_by_child(child_id)
+
+        for milestone in milestones: # look up and attach the type to each milestone obj to return to FE
+            milestone.type = self.milestone_repository.get(milestone.milestone_id).type
+
         milestones.sort(key=lambda milestone: milestone.completed_at, reverse=True) # sort results from most recent entry
         return milestones[:limit] if limit else milestones
     
@@ -649,6 +653,8 @@ class MLBFacade:
         if milestone is None:
             raise MilestoneNotFoundError
 
+        milestone.type = self.milestone_repository.get(milestone.milestone_id).type # look up and attach the type to milestone obj to return to FE
+
         return milestone
 
     def get_milestones_by_type(
@@ -671,6 +677,10 @@ class MLBFacade:
             raise ValueError("Missing milestone type")
 
         milestones = self.milestone_completion_repository.get_all_by_child_and_key(child_id, type)
+
+        for milestone in milestones: # look up and attach the type to each milestone obj to return to FE
+            milestone.type = self.milestone_repository.get(milestone.milestone_id).type
+
         milestones.sort(key=lambda milestone: milestone.completed_at, reverse=True) # sort results from most recent entry
         return milestones[:limit] if limit else milestones
 
@@ -734,4 +744,5 @@ class MLBFacade:
         )
         
         saved = self.milestone_completion_repository.save(milestone_record)
+        saved.type = self.milestone_repository.get(saved.milestone_id).type # look up and attach the type to saved milestone obj to return to FE
         return saved

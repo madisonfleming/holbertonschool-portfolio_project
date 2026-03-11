@@ -33,6 +33,7 @@ class MilestoneCompletionResponse(BaseModel):
     id: str
     child_id: str
     milestone_id: str
+    type: str
     description: str
     completed_at: datetime
     reward_url: str | None
@@ -43,6 +44,7 @@ class MilestoneCompletionResponse(BaseModel):
             id=milestone.id,
             child_id=milestone.child_id,
             milestone_id=milestone.milestone_id,
+            type=milestone.type,
             description=milestone.description,
             completed_at=milestone.completed_at,
             reward_url=milestone.reward_url,
