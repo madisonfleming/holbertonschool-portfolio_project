@@ -57,12 +57,20 @@ export function BooksProvider({ children }) {
       );
 
       const data = await resp.json();
+      /*in case we get an error and not an array  */
+      if (!Array.isArray(data)) {
+        console.error("Expected an array but got:", data);
+        return [];
+      }
       /* we need to add an if in case the data is error so map is not going to work but works good is just best */
       console.log("DATA FROM BACKEND BOOKS:", data);
       return data.map((book) => ({
         id: book.book_id,
         title: book.title,
         img: book.cover_url,
+        external_id: book.external_id,
+        source: book.source,
+        author: book.author,
       }));
     } catch (error) {
       console.error("Error searching books", error);
