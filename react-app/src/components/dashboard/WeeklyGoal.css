@@ -199,6 +199,7 @@
   justify-content: center;
   gap: 12px;
   margin-bottom: 22px;
+  cursor: pointer;
   flex-wrap: wrap;
 }
 
