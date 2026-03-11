@@ -17,7 +17,7 @@ export function MilestonesProvider({ children }) {
     
   //endpoint to post once the complete books weekly challenge is clicked
   async function completeWeeklyMilestone(child_id, weeklyMilestoneData) {
-    console.log("Paylload sent to BE for test", weeklyMilestoneData);
+    console.log("Payload sent to BE for test completeWeeklyMilestones", weeklyMilestoneData);
 
     if (!currentUser) return;
 
@@ -35,7 +35,6 @@ export function MilestonesProvider({ children }) {
       return;
     }
     const newCompleteWeeklyMilestone = await response.json();
-    // we received (check thi part)
     console.log("Answer from BE of posting complete weekly rewards:", newCompleteWeeklyMilestone);
   }
 
