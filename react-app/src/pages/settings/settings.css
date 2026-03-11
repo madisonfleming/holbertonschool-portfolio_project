@@ -3,7 +3,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  /* update height to 100% for better display*/
+  height: 100%;
   background: linear-gradient(135deg, #cc7df0 0%, #b885d8 50%, #b79dd8 100%);
   padding: 20px;
   flex-direction: column;
