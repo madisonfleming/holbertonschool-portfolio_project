@@ -19,6 +19,7 @@ BASE_URL = "/api/children"
 
 # <--- CREATE CHILD TESTS --->
 # Happy Path: test 201 child created successfully (user specifies relationship)
+# Qu: is the new tuple at risk of divergence between the domain model and the direct role/relationship return?
 def test_create_child_profile_with_relationship(client, override_auth):
     override_auth("123")
     payload = {
@@ -29,7 +30,6 @@ def test_create_child_profile_with_relationship(client, override_auth):
     }
 
     response = client.post(BASE_URL, json=payload)
-
     assert response.status_code == 201
     assert response.json()["name"] == "Betty"
     assert response.json()["age"] == 2
