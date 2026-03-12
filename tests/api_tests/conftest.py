@@ -12,6 +12,7 @@ from app.domain.exceptions import UserNotFoundError
 from app.api.schemas.milestones import MilestoneCompletionResponse
 from app.api.schemas.children import ChildResponse
 from app.api.schemas.users import UserResponse
+from app.domain.reading_sessions import ReadingSession
 from datetime import datetime, timezone
 
 class FakeFacade:
@@ -91,7 +92,7 @@ class FakeFacade:
         )
     
     def create_reading_session(self, reading_session_data, firebase_uid):
-        return self.reading_session_data(
+        return self.create_reading_session_data(
             session_id="test-session-id",
             child_id=reading_session_data.child_id,
         )
@@ -99,8 +100,8 @@ class FakeFacade:
     def get_reading_sessions(self, child_id, firebase_uid, limit=None, from_date=None, to_date=None):
         if firebase_uid == "123" and child_id == "test-child-id-2":
             return [
-                self.reading_session_data(child_id=child_id),
-                self.reading_session_data(session_id="test-session-id-2", child_id=child_id, book_id="test-book-id-2"),
+                self.create_reading_session_data(child_id=child_id),
+                self.create_reading_session_data(session_id="test-session-id-2", child_id=child_id, book_id="test-book-id-2"),
             ]
         
         if firebase_uid == "777":
@@ -108,27 +109,18 @@ class FakeFacade:
         if firebase_uid == "123" and child_id == "test-child-id-empty":
             return []
     
-    # Helper method
-    def reading_session_data(
-            self,
-            session_id: str = "test-session-id-1",
-            child_id: str = "test-child-id-1",
-            book_id: str = "test-book-id-1"
-            ):
-        return {
-            "session_id": session_id ,
-            "child_id": child_id,
-            "book_id": book_id,
-            "logged_at": "2025-01-15T09:00:00",
-        }
+    
     def update_session(self, session_id, updated_session_data, firebase_uid):
         if firebase_uid == "123" and session_id == "test-session-id-1":
-            return {
-                "session_id": "test-session-id-1",
-                "child_id": "test-child-id-2",
-                "book_id": updated_session_data.book_id or "test-book-id-1",
-                "logged_at": updated_session_data.logged_at or "2025-02-26T10:00:00",
-            }
+            # create object
+            session = self.create_reading_session_data()
+            # update attributes
+            session.external_id = updated_session_data.external_id
+            session.title = updated_session_data.title
+            session.author = updated_session_data.author
+
+            return session
+
         if firebase_uid == "777":
             raise PermissionDeniedError()  # "Insufficient permissions to complete this action"
         if session_id == "nonexistent-session-id":
@@ -142,6 +134,39 @@ class FakeFacade:
         if firebase_uid == "777":
             raise PermissionDeniedError()  # "Insufficient permissions to complete this action"
 
+    # Helper method
+    def create_reading_session_data(
+            self,
+            session_id: str = "test-session-id-1",
+            child_id: str = "test-child-id-1",
+            book_id: str = "test-book-id-1",
+            ):
+        timestamp = datetime.now(timezone.utc)
+
+        reading_session = ReadingSession(
+            id=session_id,
+            child_id=child_id,
+            external_id="external-id-1",
+            book_id=book_id,
+            title="My Little Pony",
+            author="The 80s",
+            cover_url="/cover",
+            logged_at=timestamp,
+            created_at=timestamp,
+            updated_at=timestamp,         
+        )
+
+        # reading_session = ReadingSessionResponse(
+        #     session_id=session_id,
+        #     child_id=child_id,
+        #     book_id=book_id,
+        #     title="My Little Pony",
+        #     cover_url="/cover",
+        #     logged_at=timestamp
+        # )
+
+        return reading_session
+    
     def get_user(self, firebase_uid):
         if firebase_uid == "123":
             return self.create_user_data()
