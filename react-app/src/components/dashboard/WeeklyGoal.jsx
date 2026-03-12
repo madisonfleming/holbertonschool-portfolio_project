@@ -79,7 +79,7 @@ const WeeklyGoal = ({ theme, target }) => {
         </p>
         {/* BOKKS PART */}
         <div className="tracker-label">Bookworm</div>
-        <div className="books-row">
+        <div className="readers-row">
           {childList.map((child) => (
                 <div
                   key={child.id}

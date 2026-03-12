@@ -97,7 +97,5 @@
   display: flex;
   justify-content: center;
   /* centra horizontal */
-  align-items: center;
-
-  
+  align-items: center;  
 }

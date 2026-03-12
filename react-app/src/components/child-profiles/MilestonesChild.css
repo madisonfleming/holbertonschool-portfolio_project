@@ -15,33 +15,10 @@
   position: absolute;
   right: 20px;
   bottom: -350px; */
-
-}
-
-.left-side {
-  padding: 40px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-}
-
-.right-side {
-  padding: 40px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  
 }
 
 .star {
   padding: 10px;
-}
-
-h2 {
-  text-align: center;
-  font-size: 42px;
-  font-weight: bold;
-  color: #000;
-  margin: 0 0 20px 0;
-  line-height: 1.1;
 }
 
 .milestone-text {

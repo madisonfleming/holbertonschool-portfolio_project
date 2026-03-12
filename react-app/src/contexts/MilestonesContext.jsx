@@ -12,10 +12,10 @@ export function useMilestones() {
 
 export function MilestonesProvider({ children }) {
   //need it to access to child.id
-  const { childList } = useChild();
+ // const { childList } = useChild();
   const { currentUser } = useAuth();
     
-  //endpoint to post once the complete books weekly challenge is clicked
+  //ENDPOINT TO post once the complete books weekly challenge is clicked
   async function completeWeeklyMilestone(child_id, weeklyMilestoneData) {
     console.log("Payload sent to BE for test completeWeeklyMilestones", weeklyMilestoneData);
 
@@ -38,10 +38,34 @@ export function MilestonesProvider({ children }) {
     console.log("Answer from BE of posting complete weekly rewards:", newCompleteWeeklyMilestone);
   }
 
+  //ENPOINT TO Get ALL milestones attached to a child to get one http://127.0.0.1:8000/api/children/${child_id}/milestones?limit=1
+  async function allMilestonesPerChild(child_id) {
+   
+    if (!currentUser) return;
+
+    const token = await currentUser.getIdToken();
+    const response = await fetch(`http://127.0.0.1:8000/api/children/${child_id}/milestones`, 
+      {
+        headers:
+          {
+            Authorization: `Bearer ${token}`,
+          },
+      });
+      if (!response.ok) {
+      console.error("Error getting all milestones");
+      return;
+      }
+      const milestonesDataChild = await response.json();
+      console.log("Answer from BE of all the milestone data from child", milestonesDataChild);
+      
+    return milestonesDataChild;
+  }
+
+
     return (
         
         <MilestonesContext.Provider 
-        value={{ completeWeeklyMilestone,}}>
+        value={{ completeWeeklyMilestone, allMilestonesPerChild}}>
           {children}
         </MilestonesContext.Provider>
     )
