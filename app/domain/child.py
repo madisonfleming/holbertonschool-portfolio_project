@@ -74,11 +74,23 @@ class Child(Base): # gives id, created_at, updated_at
     # converts hardcoded data from dict to domain model object
     @classmethod
     def from_dict(cls, data: dict) -> "Child":
+        dob = data["date_of_birth"]
+        if isinstance(dob, str):
+            dob = date.fromisoformat(dob)
+
+        created = data["created_at"]
+        if isinstance(created, str):
+            created = datetime.fromisoformat(created)
+
+        updated = data["updated_at"]
+        if isinstance(updated, str):
+            updated = datetime.fromisoformat(updated)
+
         return cls(
             id=data["id"],
             name=data["name"],
-            date_of_birth=date.fromisoformat(data["date_of_birth"]),
+            date_of_birth=dob,
             avatar_url=data["avatar_url"],
-            created_at=datetime.fromisoformat(data["created_at"]),
-            updated_at=datetime.fromisoformat(data["updated_at"])
+            created_at=created,
+            updated_at=updated,
         )
