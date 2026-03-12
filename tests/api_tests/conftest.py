@@ -10,6 +10,7 @@ from app.api.auth_dependencies import auth_current_user
 from app.services.exceptions import RelationshipNotFoundError, PermissionDeniedError, ReadingSessionNotFoundError, DuplicateUserError
 from app.domain.exceptions import UserNotFoundError
 from app.api.schemas.milestones import MilestoneCompletionResponse
+from datetime import datetime, timezone
 
 class FakeFacade:
     """ 
@@ -169,11 +170,11 @@ class FakeFacade:
         else:
             raise UserNotFoundError()
     
-    def get_milestones_by_type(self, child_id, type, firebase_uid):
+    def get_milestones_by_type(self, child_id, type, firebase_uid, limit):
         if firebase_uid == "123":
             return [self.milestone_data(id="milestone-121", type="weekly_goals")]
         
-    def get_milestones(self, child_id, firebase_uid):
+    def get_milestones(self, child_id, firebase_uid, limit):
         if firebase_uid == "123":
             data = [
                 self.milestone_data(id="milestone-123", type="weekly_goal"),
@@ -186,19 +187,20 @@ class FakeFacade:
         
     def get_milestone(self, child_id, milestone_id, firebase_uid):
         if firebase_uid == "123":
-            data = self.milestone_data(id="milestone-123", type="books_read")
-            return MilestoneCompletionResponse(**data)
+            return self.milestone_data(id="milestone-123", type="books_read")
         
     def milestone_data(self, id: str, type: str):
-        return {
-                "id": id,
-                "child_id": "child-123",
-                "milestone_id": id,
-                "description": "Amy read 5 books about elephants",
-                "completed_at": "2025-11-27",
-                "reward_url": f'/{id}',
-                "created_at": "2026-02-05",
-        }
+        # Constructs a milestone object
+        timestamp = datetime.now(timezone.utc)
+        return MilestoneCompletionResponse(
+            id=id,
+            child_id="child-123",
+            milestone_id=id,
+            type=type,
+            description="Amy read 5 books about elephants",
+            completed_at=timestamp,
+            reward_url=f'/{id}'
+        )                      
             
 
 # app with Facade dependency override (auth overrides are done per test)
