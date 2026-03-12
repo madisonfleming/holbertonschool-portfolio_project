@@ -36,6 +36,14 @@ class Book:
 
     @classmethod
     def from_dict(cls, data):
+        created = data["created_at"]
+        if isinstance(created, str):
+            created = datetime.fromisoformat(created)
+
+        updated = data["updated_at"]
+        if isinstance(updated, str):
+            updated = datetime.fromisoformat(updated)
+
         return cls(
             id=data["id"],
             external_id=data["external_id"],
@@ -43,6 +51,6 @@ class Book:
             title=data["title"],
             author=data["author"],
             cover_url=data["cover_url"],
-            created_at=datetime.fromisoformat(data["created_at"]),
-            updated_at=datetime.fromisoformat(data["updated_at"]),
+            created_at=created,
+            updated_at=updated,
         )
