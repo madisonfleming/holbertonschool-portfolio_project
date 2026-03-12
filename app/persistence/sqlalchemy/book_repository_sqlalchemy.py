@@ -1,29 +1,19 @@
 #!/usr/bin/python3
 
+from sqlalchemy import insert, select
+from sqlalchemy.engine import Engine
+
 from app.domain.repositories.book_repository import BookRepositoryBase
 from app.domain.books import Book
-from app.persistence.in_memory_seed import Bookdata
+from app.persistence.sqlalchemy.db import engine
+from app.persistence.sqlalchemy.tables import books
 
 from datetime import datetime
 from uuid import uuid4
 
-class BookRepository(BookRepositoryBase):
-    def __init__(self):     # this is here to accommodate seed data
-        self._storage = {}
-        now = datetime.now()
-
-        for book in Bookdata().books.values():
-            self._storage[book.id] = {
-                "id": book.id,
-                "external_id": book.external_id,
-                "source": book.source,
-                "title": book.title,
-                "author": book.author,
-                "cover_url": book.cover_url,
-                "created_at": now.isoformat(),
-                "updated_at": now.isoformat(),
-            }
-
+class BookRepositorySQLAlchemy(BookRepositoryBase):
+    def __init__(self, engine: Engine = engine):
+        self.engine = engine
 
     # returns results for the local DB
     def search(
@@ -32,21 +22,27 @@ class BookRepository(BookRepositoryBase):
         subjects: list[str] | None = None,
         limit: int | None = None
     ) -> list[Book] | None:
-        results = []
 
-        for book in self._storage.values():
-            title = book["title"]
-            if query.lower() in book["title"].lower():     # convert to lowercase for flex matching
-                results.append(Book.from_dict(book))
+        with self.engine.connect() as conn:
+            stmt = select(books).where(books.c.title.ilike(f"%{query}%")) # ilike is case-insensitive
+            rows = conn.execute(stmt).fetchall()
+
+        results = []
+        for row in rows:
+            book = Book.from_dict(row._mapping)
+            results.append(book)
 
         return results[:limit] if limit else results
 
-    # retrieve a book by its internal ID
     def get(self, book_id: str) -> Book | None:
-        data = self._storage.get(book_id)
-        if not data:
+        with self.engine.connect() as conn:
+            stmt = select(books).where(books.c.id == book_id)
+            row = conn.execute(stmt).fetchone()
+
+        if row is None:
             return None
-        return Book.from_dict(data)
+
+        return Book.from_dict(row._mapping)
 
     # retrieve a book by external ID from ext API
     def get_by_external_id(
@@ -54,10 +50,17 @@ class BookRepository(BookRepositoryBase):
         external_id: str,
         source: str
     ) -> Book | None:
-        for book in self._storage.values():
-            if book["external_id"] == external_id and book["source"] == source:
-                return Book.from_dict(book)
-        return None
+        with self.engine.connect() as conn:
+            stmt = select(books).where(
+                books.c.external_id == external_id,
+                books.c.source == source
+            )
+            row = conn.execute(stmt).fetchone()
+
+        if row is None:
+            return None
+
+        return Book.from_dict(row._mapping)
 
     # save book details to the DB if not existing
     def get_or_save(
@@ -88,5 +91,8 @@ class BookRepository(BookRepositoryBase):
         )
 
         # save to db w/ book_id as key and new_book details applied
-        self._storage[new_book.id] = new_book.to_dict()
+        with self.engine.begin() as conn:
+            insert_stmt = insert(books).values(new_book.to_dict())
+            conn.execute(insert_stmt)
+
         return new_book

@@ -1,28 +1,50 @@
 #!/usr/bin/python3
 
+from sqlalchemy import insert, select
+from sqlalchemy.engine import Engine
+
 from app.domain.repositories.child_repository import ChildRepositoryBase
 from app.domain.child import Child
-from app.persistence.in_memory_seed import Childdata
+from app.persistence.sqlalchemy.tables import children
 
-class ChildRepository(ChildRepositoryBase):
-    def __init__(self):
-        self._storage = Childdata().children
+
+class ChildRepositorySQLAlchemy(ChildRepositoryBase):
+    def __init__(self, engine: Engine):
+        self.engine = engine
 
     def save(self, child: Child) -> Child:
-        self._storage[child.id] = child.to_dict()
+        data = child.to_dict()
+
+        """ open new db connection and run function. if:
+        - no errors-> commit
+        - error-> rollback
+        then close connection """
+        with self.engine.begin() as conn:
+            stmt = insert(children).values(data) # SQL statement object
+            conn.execute(stmt) # SQL run w/ above statement object
         return child
 
     def get(self, child_id: str) -> Child | None:
-        data = self._storage.get(child_id)
-        return Child.from_dict(data)
+        with self.engine.connect() as conn:
+            stmt = select(children).where(children.c.id == child_id)
+            row = conn.execute(stmt).fetchone()
 
-    def get_by_ids(self, child_ids) -> list[Child]:
-        # child_ids: a list of child ids
-        # returns: a list of child objects
+        if row is None:
+            return None
+
+        return Child.from_dict(dict(row._mapping))
+
+    def get_by_ids(self, child_ids: list[str]) -> list[Child]:
+        if not child_ids:
+            return []
+
+        with self.engine.connect() as conn:
+            stmt = select(children).where(children.c.id.in_(child_ids))
+            rows = conn.execute(stmt).fetchall()
+
         result = []
-        for child_id in child_ids:
-            child = self.get(child_id)
-            if child:
-                result.append(child)
+        for row in rows:
+            child = Child.from_dict(row._mapping)
+            result.append(child)
+        
         return result
-

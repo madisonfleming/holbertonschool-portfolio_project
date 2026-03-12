@@ -1,30 +1,48 @@
-#!/usr/bin/python3
-from app.domain.repositories.user_repository import UserRepositoryBase
-from app.domain.user import User
-from app.persistence.in_memory_seed import Userdata
+from sqlalchemy import insert, select
+from sqlalchemy.engine import Engine
 
-class UserRepository(UserRepositoryBase):
-    def __init__(self):
-        self._storage = Userdata().users
+from app.domain.user import User
+from app.domain.repositories.user_repository import UserRepositoryBase
+from app.persistence.sqlalchemy.tables import users  # your SQLAlchemy User table
+
+
+class UserRepositorySQLAlchemy(UserRepositoryBase):
+    def __init__(self, engine: Engine):
+        self.engine = engine
 
     def save(self, user: User) -> None:
-        self._storage[user.firebase_uid] = user.to_dict() # save by key=firebase_uid in a dict
+        with self.engine.begin() as conn:
+            stmt = insert(users).values(user.to_dict())
+            conn.execute(stmt)
 
-    def get(self, user_id:str) -> User | None:
-        data = self._storage.get(user_id)
-        if not data:
+    def get(self, user_id: str) -> User | None:
+        stmt = select(users).where(users.c.id == user_id)
+        with self.engine.begin() as conn:
+            row = conn.execute(stmt).mappings().fetchone()
+
+        if row is None:
             return None
-        return User.from_dict(data)
-    
-    def get_by_firebase_uid(self, firebase_uid:str) -> User | None:
-        data = self._storage.get(firebase_uid)
-        if data is None:
+
+        return User.from_dict(row)
+
+    def get_by_firebase_uid(self, firebase_uid: str) -> User | None:
+        stmt = select(users).where(users.c.firebase_uid == firebase_uid)
+        with self.engine.begin() as conn:
+            row = conn.execute(stmt).mappings().fetchone()
+
+        if row is None:
             return None
-        return User.from_dict(data) # converts from dict to User object
-    
+
+        return User.from_dict(row)
+
     # returns a user obj by email address (if found)
+    # filtering is completed in SQL
     def get_by_email(self, email: str) -> User | None:
-        for data in self._storage.values():
-            if data["email"].lower() == email.lower():
-                return User.from_dict(data)
-        return None
+        stmt = select(users).where(users.c.email.ilike(email))
+        with self.engine.begin() as conn:
+            row = conn.execute(stmt).mappings().fetchone()
+
+        if row is None:
+            return None
+
+        return User.from_dict(row)
