@@ -115,7 +115,7 @@ class FakeRelationshipRepository():
     def __init__(self):
         self.called_with = None
     
-    def add_member(self, user_id, child_id, role, relationship_type):
+    def create_relationship(self, user_id, child_id, role, relationship_type):
         self.called_with = {
             "user_id": user_id,
             "child_id": child_id,
@@ -152,7 +152,7 @@ class FakeRelationshipRepository():
                 "role": "primary"
             }]
         return []
-    def get_relationship(self, user_id, child_id):
+    def get_relationship_type(self, user_id, child_id):
         for rel in self.get_children_per_user(user_id):
             if rel["user_id"] == user_id and rel["child_id"] == child_id:
                 return rel
