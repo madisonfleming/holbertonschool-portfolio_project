@@ -10,6 +10,7 @@ from app.api.auth_dependencies import auth_current_user
 from app.services.exceptions import RelationshipNotFoundError, PermissionDeniedError, ReadingSessionNotFoundError, DuplicateUserError
 from app.domain.exceptions import UserNotFoundError
 from app.api.schemas.milestones import MilestoneCompletionResponse
+from app.api.schemas.children import ChildResponse
 from datetime import datetime, timezone
 
 class FakeFacade:
@@ -18,82 +19,76 @@ class FakeFacade:
 
     - Use dot notation in the return data to match pydantic models
     """
+
+
     def create_child(self, child_data, firebase_uid="123"):
-        return {
-            "id": "test-child-id",
-            "name": child_data.name,
-            "date_of_birth": child_data.date_of_birth,
-            "age": 2,
-            "avatar_url": child_data.avatar_url,
-            "relationship_type": child_data.relationship_type or "Parent",
-            "role": "primary"
-        }
+        relationship_type = child_data.relationship_type or "Parent"
+        child = self.create_child_data(
+            name="Betty",
+            relationship_type=relationship_type,
+            role="primary"
+        )
+        return child, relationship_type, "primary"
+        # return child, relationship_type, "primary"
+    
     def get_children(self, firebase_uid):
         if firebase_uid == "123":
-            return [
-                {
-                    "id": "test-child-id-2",
-                    "name": "Susie",
-                    "age": 2,
-                    "avatar_url": None,
-                    "relationship_type": "Parent",
-                    "role": "primary"
-                },
-                {
-                    "id": "test-child-id-3",
-                    "name": "Billy",
-                    "age": 1,
-                    "avatar_url": None,
-                    "relationship_type": "Parent",
-                    "role": "primary"
-                }]
+            child1 = (self.create_child_data(
+                    id="test-child-id-2",
+                    name="Susie",
+                    age=2,
+                    avatar_url=None,
+                    relationship_type="Parent",
+                    role="primary"
+                ), "Parent", "primary")
+            child2 = (self.create_child_data(
+                    id="test-child-id-3",
+                    name="Billy",
+                    age=1,
+                    avatar_url=None,
+                    relationship_type="Parent",
+                    role="primary"
+                ), "Parent", "primary")
+
+            return [child1, child2]
         if firebase_uid == "777":
             return []
 
     def get_child(self, child_id, firebase_uid):
         if firebase_uid == "123" and child_id == "test-child-id-2":
-            return {
-                "id": "test-child-id-2",
-                "name": "Susie",
-                "age": 2,
-                "avatar_url": None,
-                "relationship_type": "Parent",
-                "role": "primary"
-                }
+            child = (self.create_child_data(id="test-child-id-2"))
+            return (child, "Parent", "primary")
         if firebase_uid == "777":
             raise RelationshipNotFoundError("777", "test-child-id-2") # this should catch before ChildNotFoundError() in real facade
 
     def update_child(self, child_id, child_data, firebase_uid):
         if firebase_uid == "123" and child_id == "test-child-id-2":
-            return self.child_data()
-            # return {
-            #     "id": "test-child-id-2",
-            #     "name": "Suzanne",
-            #     "age": 2,
-            #     "avatar_url": "alien_avatar.com",
-            #     "relationship_type": "Parent",
-            #     "role": "primary"
-            # }
+            child = self.create_child_data(id=child_id, name=child_data.name, avatar_url=child_data.avatar_url)
+            return (child, "Parent", "primary")
+
         if firebase_uid == "777":
             raise RelationshipNotFoundError("777", "test-child-id-2")
     
     # Helper method
-    def child_data(
+    def create_child_data(
             self,
-            name: str = "Suzanne",
+            id: str = "test-child-id",
+            name: str = "Susie",
             age: int = 2,
-            avatar_url: str = "alien_avatar.com",
+            avatar_url: str | None = None,
             relationship_type: str = "Parent",
             role: str = "primary",
             ):
-        return {
-            "id": "test-child-id-2",
-            "name": name,
-            "age": age,
-            "avatar_url": avatar_url,
-            "relationship_type": relationship_type,
-            "role": role,    
-        }
+        print("relationship type: ", relationship_type)
+        return ChildResponse(
+            id=id,
+            name=name,
+            age=age,
+            avatar_url=avatar_url,
+            relationship_type=relationship_type or "Parent",
+            role=role
+        )
+    
     def create_reading_session(self, reading_session_data, firebase_uid):
         return self.reading_session_data(
             session_id="test-session-id",
