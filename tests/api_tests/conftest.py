@@ -11,6 +11,7 @@ from app.services.exceptions import RelationshipNotFoundError, PermissionDeniedE
 from app.domain.exceptions import UserNotFoundError
 from app.api.schemas.milestones import MilestoneCompletionResponse
 from app.api.schemas.children import ChildResponse
+from app.api.schemas.users import UserResponse
 from datetime import datetime, timezone
 
 class FakeFacade:
@@ -143,27 +144,29 @@ class FakeFacade:
 
     def get_user(self, firebase_uid):
         if firebase_uid == "123":
-            return {
-                "id": "a686c824-25e6-4704-87a6-651938429111",
-                "name": "Mary",
-                "email": "mary@example.com",
-                "role": "standard",
-                }
+            return self.create_user_data()
         else:
             raise UserNotFoundError()
 
     def update_user(self, request, firebase_uid):
         if firebase_uid == "123" and request.email != "john@example.com":
-            return {
-                "id": "a686c824-25e6-4704-87a6-651938429111",
-                "name": request.name or "Mary",
-                "email": request.email or "mary@example.com",
-                "role": "standard"
-                }
+            name = request.name or "Mary"
+            email = request.email or "mary@example.com"
+            user = self.create_user_data(name, email)
+            return user
+        
         if firebase_uid == "123" and request.email == "john@example.com":
             raise DuplicateUserError()
         else:
             raise UserNotFoundError()
+    # Helper method
+    def create_user_data(self, name: str | None = None, email: str | None = None):
+        return UserResponse(
+            id="a686c824-25e6-4704-87a6-651938429111",
+            name=name or "Mary",
+            email=email or "mary@example.com",
+            role="standard"
+        )
     
     def get_milestones_by_type(self, child_id, type, firebase_uid, limit):
         if firebase_uid == "123":
