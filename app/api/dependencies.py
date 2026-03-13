@@ -11,9 +11,9 @@ from app.persistence.sqlalchemy.book_repository_sqlalchemy import BookRepository
 
 from app.external.open_library_api import OpenLibraryClient
 
-milestone_repository = MilestoneTypeRepository() # create instance of type repo
-# create an instance of completion repo + pass in the type instance - Allows completion repo to use methods from type repo
-milestone_completion_repository = MilestoneCompletionRepository(milestone_repository) 
+# milestone_repository = MilestoneTypeRepository() # create instance of type repo
+# # create an instance of completion repo + pass in the type instance - Allows completion repo to use methods from type repo
+# milestone_completion_repository = MilestoneCompletionRepository(milestone_repository) 
 
 # creates an instance of each repo and passes them to the facade
 # which in turn is fed (below) to the router reg's to ensure they all use the same facade instance
