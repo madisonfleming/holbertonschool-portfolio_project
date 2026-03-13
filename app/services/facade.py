@@ -253,7 +253,7 @@ class MLBFacade:
             child.avatar_url = request.avatar_url
         
         # save updated child domain model to db
-        self.child_repository.save(child)
+        self.child_repository.update(child)
 
         # retrieve relationship type and role between user & child to return
         relationship = self.relationship_repository.get_relationship_type(user_id, child_id)
@@ -312,7 +312,7 @@ class MLBFacade:
             user.email = request.email
 
         # save updated user domain model to repo
-        self.user_repository.save(user)
+        self.user_repository.update(user)
         return user
 
 # <--- BOOKS --->
@@ -397,7 +397,6 @@ class MLBFacade:
             book_id=book.id,
             external_id=request.external_id,
             title=book.title,
-            author=book.author,
             cover_url=book.cover_url,
             logged_at=request.logged_at,
             created_at=None,

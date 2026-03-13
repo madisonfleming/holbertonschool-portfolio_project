@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 
-from sqlalchemy import insert, select
+from sqlalchemy import insert, select, update
 from sqlalchemy.engine import Engine
 
 from app.domain.repositories.child_repository import ChildRepositoryBase
 from app.domain.child import Child
 from app.persistence.sqlalchemy.tables import children
+
+from datetime import datetime
 
 
 class ChildRepositorySQLAlchemy(ChildRepositoryBase):
@@ -48,3 +50,17 @@ class ChildRepositorySQLAlchemy(ChildRepositoryBase):
             result.append(child)
         
         return result
+
+    def update(self, child: Child) -> Child:
+        data = child.to_dict()
+        data["updated_at"] = datetime.now()
+
+        with self.engine.begin() as conn:
+            stmt = (
+                update(children)
+                .where(children.c.id == child.id)
+                .values(data)
+            )
+            conn.execute(stmt)
+
+        return child
