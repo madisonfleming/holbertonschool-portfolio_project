@@ -8,7 +8,7 @@ VALUES
 (UUID(), "/works/OL69612W", "openlibrary", "The Secret Garden", "Frances Hodgson Burnett", "https://covers.openlibrary.org/b/id/12622062-M.jpg", NOW(), NOW()),
 (UUID(), "/works/OL52987W", "openlibrary", "The Very Hungry Caterpillar", "Eric Carle", "https://covers.openlibrary.org/b/id/7835968-M.jpg", NOW(), NOW()),
 (UUID(), "/works/OL1948587W", "openlibrary", "The magic Faraway Tree", "Enid Blyton", "https://covers.openlibrary.org/b/id/14605635-M.jpg", NOW(), NOW()),
-(UUID(), "/works/OL21812667W", "openlibrary", "Frozen (Disney Frozen)", "Victoria Saxon, Grace Lee, Andrea Cagol", NOW(), NOW()),
+(UUID(), "/works/OL21812667W", "openlibrary", "Frozen (Disney Frozen)", "Victoria Saxon, Grace Lee, Andrea Cagol", null, NOW(), NOW()),
 (UUID(), "/works/OL19870W", "openlibrary", "The Jungle Book", "Rudyard Kipling", "https://covers.openlibrary.org/b/id/3344204-M.jpg", NOW(), NOW()),
 (UUID(), "/works/OL655908W", "openlibrary", "The Night Before Christmas", "Clement Clarke Moore", "https://covers.openlibrary.org/b/id/8236410-M.jpg", NOW(), NOW()),
 (UUID(), "/works/OL1973461W", "openlibrary", "Uncle Elephant", "Arnold Lobel", "https://covers.openlibrary.org/b/id/4357988-M.jpg", NOW(), NOW()),
