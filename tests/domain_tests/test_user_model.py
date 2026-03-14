@@ -40,8 +40,8 @@ class TestUser(unittest.TestCase):
 
         standard_user = User(**self.standard_data)
         expected_data = {
-            "created_at": fixed_timestamp.isoformat(),
-            "updated_at": fixed_timestamp.isoformat(),
+            "created_at": fixed_timestamp,
+            "updated_at": fixed_timestamp,
             "id": "123e4567-e89b-12d3-a456-426614174000",
             "name": self.standard_data["name"],
             "email": self.standard_data["email"],
@@ -61,8 +61,8 @@ class TestUser(unittest.TestCase):
 
         admin_user = User(**self.admin_data)
         expected_data = {
-            "created_at": fixed_timestamp.isoformat(),
-            "updated_at": fixed_timestamp.isoformat(),
+            "created_at": fixed_timestamp,
+            "updated_at": fixed_timestamp,
             "id": "123e4567-e89b-12d3-a456-426614174000",
             "name": self.admin_data["name"],
             "email": self.admin_data["email"],
@@ -83,8 +83,8 @@ class TestUser(unittest.TestCase):
         self.standard_data["role"] = "standard"
         standard_user = User(**self.standard_data)
         expected_data = {
-            "created_at": fixed_timestamp.isoformat(),
-            "updated_at": fixed_timestamp.isoformat(),
+            "created_at": fixed_timestamp,
+            "updated_at": fixed_timestamp,
             "id": "123e4567-e89b-12d3-a456-426614174000",
             "name": self.standard_data["name"],
             "email": self.standard_data["email"],
