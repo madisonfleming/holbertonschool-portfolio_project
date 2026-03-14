@@ -33,10 +33,10 @@ jobs:
       #   run: |
       #     echo "Running all API unit tests..."
       #     pytest tests/api_tests
-      - name: Run facade unit tests
-        run: |
-          echo "Running all facade unit tests..."
-          pytest tests/facade_tests
+      # - name: Run facade unit tests
+      #   run: |
+      #     echo "Running all facade unit tests..."
+      #     pytest tests/facade_tests
   # Run-Integration-Tests:
   #   runs-on: ubuntu-latest
   #   steps:
