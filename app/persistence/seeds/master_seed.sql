@@ -10,3 +10,5 @@ SOURCE ./seed_milestone_type.sql;
 SOURCE ./seed_milestone_completion.sql;
 SOURCE ./seed_reading_sessions.sql;
 SOURCE ./seed_relationships.sql;
+
+SELECT 'Master seed process completed, congrats :)' AS status;
