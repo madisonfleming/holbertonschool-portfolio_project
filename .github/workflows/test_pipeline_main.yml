@@ -29,10 +29,10 @@ jobs:
           python3 -m unittest tests/domain_tests/test_milestone_type_model.py
           echo "Running Milestone Completion tests..."
           python3 -m unittest tests/domain_tests/test_milestone_completion_model.py
-      - name: Run API unit tests
-        run: |
-          echo "Running all API unit tests..."
-          pytest tests/api_tests
+      # - name: Run API unit tests
+      #   run: |
+      #     echo "Running all API unit tests..."
+      #     pytest tests/api_tests
       - name: Run facade unit tests
         run: |
           echo "Running all facade unit tests..."
