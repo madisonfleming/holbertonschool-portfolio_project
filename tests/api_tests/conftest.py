@@ -149,7 +149,6 @@ class FakeFacade:
             external_id="external-id-1",
             book_id=book_id,
             title="My Little Pony",
-            author="The 80s",
             cover_url="/cover",
             logged_at=timestamp,
             created_at=timestamp,
