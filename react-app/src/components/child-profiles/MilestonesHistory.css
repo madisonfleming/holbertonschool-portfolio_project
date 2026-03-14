@@ -1,33 +1,232 @@
 .milestoneHistory-card {
   background: white;
   border-radius: 20px;
-  padding: 20px;
+  padding: 36px 32px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   /* centra horizontal */
-  align-items: center; 
-  /*
-
+  align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.star {
-  padding: 10px;
-}
-
-h2 {
+/* Header */
+.card-title {
+  font-family: "Baloo 2", cursive;
+  font-size: 24px;
+  font-weight: 800;
+  color: #2d2d2d;
   text-align: center;
-  font-size: 42px;
-  font-weight: bold;
-  color: #000;
-  margin: 0 0 20px 0;
-  line-height: 1.1;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.milestone-badges {
+.card-subtitle {
+  text-align: center;
+  color: #bbb;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+/* Filter tabs */
+.filter-row {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+  margin-bottom: 24px;
+  background: #faf5ff;
+  border-radius: 14px;
+  padding: 5px;
+}
+
+.filter-tab {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  font-family: "Baloo 2", cursive;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  background: transparent;
+  color: #bbb;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.filter-tab.active {
+  background: white;
+  color: #9b59b6;
+  box-shadow: 0 2px 8px rgba(155, 89, 182, 0.15);
+}
+
+/* Timeline */
+.timeline-wrap {
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #e0c8f5 transparent;
+}
+
+.timeline-wrap::-webkit-scrollbar {
+  width: 4px;
+}
+
+.timeline-wrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.timeline-wrap::-webkit-scrollbar-thumb {
+  background: #e0c8f5;
+  border-radius: 4px;
+}
+
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Vertical line that connects the bubbles */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 23px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background: linear-gradient(180deg, #e0c8f5, #f0e8f7);
+  border-radius: 2px;
+}
+
+.milestone-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 0 0 20px 0;
+  animation: fadeIn 0.4s ease both;
+}
+
+.milestone-item:last-child {
+  padding-bottom: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Icon bubble */
+.milestone-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 20px;
-  font-weight: 500;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  border: 3px solid white;
+}
+
+.milestone-icon.books {
+  background: linear-gradient(135deg, #9b59b6, #cc7df0);
+  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+}
+
+.milestone-icon.weekly {
+  background: linear-gradient(135deg, #f39c12, #f1c40f);
+  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+}
+
+.milestone-icon img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+/* Content bubble */
+.milestone-content {
+  flex: 1;
+  background: #faf5ff;
+  border: 2px solid #ede0f7;
+  border-radius: 16px;
+  padding: 12px 16px;
+  transition: all 0.2s ease;
+}
+
+.milestone-content:hover {
+  border-color: #c8a0e8;
+  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.1);
+  transform: translateX(2px);
+}
+
+.milestone-type {
+  font-family: "Baloo 2", cursive;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 3px;
+}
+
+.milestone-type.books {
+  color: #9b59b6;
+}
+.milestone-type.weekly {
+  color: #e67e22;
+}
+
+.milestone-text {
+  font-family: "Baloo 2", cursive;
+  font-size: 14px;
+  font-weight: 700;
+  color: #2d2d2d;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.milestone-text strong {
+  color: #9b59b6;
+}
+
+.milestone-date {
+  font-size: 11px;
+  color: #ccc;
+  font-weight: 600;
+}
+
+/* Empty state */
+.empty-state {
   text-align: center;
-  padding: 20px;
+  padding: 32px 0;
+  display: none;
+}
+
+.empty-state.visible {
+  display: block;
+}
+
+.empty-text {
+  font-family: "Baloo 2", cursive;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ccc;
 }
