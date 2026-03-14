@@ -1,4 +1,4 @@
-INSERT INTO Relationship (id, user_id, child_id, role, invited_by, acceptance_status, created_at, updated_at)
+INSERT INTO Relationship (id, user_id, child_id, role, relationship_type, invited_by, acceptance_status, created_at, updated_at)
 VALUES
 ("c686c824-25e6-4704-87a6-651938429211", "a686c824-25e6-4704-87a6-651938429111", "e686c824-25e6-4704-87a6-651938429111", "primary", "Mum", null, null, NOW(), NOW()),
 ("c686c824-25e6-4704-87a6-651938429212", "a686c824-25e6-4704-87a6-651938429111", "e686c824-25e6-4704-87a6-651938429222", "primary", "Mum", null, null, NOW(), NOW()),

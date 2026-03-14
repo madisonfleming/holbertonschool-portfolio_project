@@ -58,9 +58,8 @@ MILESTONE_COMPLETIONS = {
 #     print(r)
 
 class MilestoneCompletionRepository(MilestoneCompletionRepositoryBase):
-    def __init__(self, milestone_repository): # for milestone_repository's get method below
+    def __init__(self):
         self._storage = MILESTONE_COMPLETIONS
-        self.milestone_repository = milestone_repository # for milestone_repository's get method below
 
     def save(self, milestone) -> str:
         self._storage[milestone.id] = asdict(milestone)

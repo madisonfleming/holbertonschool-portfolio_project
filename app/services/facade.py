@@ -9,13 +9,13 @@ from app.domain.reading_sessions import ReadingSession
 from app.domain.milestone_type import MilestoneType
 from app.domain.milestone_completion import MilestoneCompletion
 
-from app.persistence.user_repository import UserRepository
-from app.persistence.child_repository import ChildRepository
-from app.persistence.reading_session_repository import ReadingSessionRepository
-from app.persistence.milestone_repository import MilestoneTypeRepository
-from app.persistence.milestone_completion_repository import MilestoneCompletionRepository
-from app.persistence.relationship_repository import RelationshipRepository #----->UPDATE this when join method completed
-from app.persistence.book_repository import BookRepository
+from app.persistence.sqlalchemy.user_repository_sqlalchemy import UserRepositorySQLAlchemy
+from app.persistence.sqlalchemy.child_repository_sqlalchemy import ChildRepositorySQLAlchemy
+from app.persistence.sqlalchemy.reading_session_repository_sqlalchemy import ReadingSessionRepositorySQLAlchemy
+from app.persistence.sqlalchemy.milestone_type_repository_sqlalchemy import MilestoneTypeRepositorySQLAlchemy
+from app.persistence.sqlalchemy.milestone_completion_repository_sqlalchemy import MilestoneCompletionRepositorySQLAlchemy
+from app.persistence.sqlalchemy.relationship_repository_sqlalchemy import RelationshipRepositorySQLAlchemy
+from app.persistence.sqlalchemy.book_repository_sqlalchemy import BookRepositorySQLAlchemy
 
 from app.external.open_library_api import OpenLibraryClient
 
@@ -51,13 +51,13 @@ from app.services.exceptions import(
 class MLBFacade:
     def __init__(
         self,
-        user_repository: UserRepository,
-        child_repository: ChildRepository,
-        reading_session_repository: ReadingSessionRepository,
-        milestone_repository: MilestoneTypeRepository,
-        milestone_completion_repository: MilestoneCompletionRepository,
-        relationship_repository: RelationshipRepository, #----->UPDATE this when join method completed
-        book_repository: BookRepository,
+        user_repository: UserRepositorySQLAlchemy,
+        child_repository: ChildRepositorySQLAlchemy,
+        reading_session_repository: ReadingSessionRepositorySQLAlchemy,
+        milestone_repository: MilestoneTypeRepositorySQLAlchemy,
+        milestone_completion_repository: MilestoneCompletionRepositorySQLAlchemy,
+        relationship_repository: RelationshipRepositorySQLAlchemy,
+        book_repository: BookRepositorySQLAlchemy,
         open_library_api: OpenLibraryClient
     ):
         self.user_repository = user_repository
@@ -253,7 +253,7 @@ class MLBFacade:
             child.avatar_url = request.avatar_url
         
         # save updated child domain model to db
-        self.child_repository.save(child)
+        self.child_repository.update(child)
 
         # retrieve relationship type and role between user & child to return
         relationship = self.relationship_repository.get_relationship_type(user_id, child_id)
@@ -312,7 +312,7 @@ class MLBFacade:
             user.email = request.email
 
         # save updated user domain model to repo
-        self.user_repository.save(user)
+        self.user_repository.update(user)
         return user
 
 # <--- BOOKS --->
@@ -397,7 +397,6 @@ class MLBFacade:
             book_id=book.id,
             external_id=request.external_id,
             title=book.title,
-            author=book.author,
             cover_url=book.cover_url,
             logged_at=request.logged_at,
             created_at=None,

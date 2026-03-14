@@ -1,6 +1,9 @@
 fastapi[standard]
 uvicorn
 firebase-admin
+mysqlclient
 pydantic
 pytest
 pydantic-settings
+pymysql
+sqlalchemy

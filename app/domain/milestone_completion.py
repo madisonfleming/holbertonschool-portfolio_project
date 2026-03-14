@@ -34,20 +34,33 @@ class MilestoneCompletion(Base): # gives id, created_at, updated_at
     
     @classmethod
     def from_dict(cls, data: dict) -> "MilestoneCompletion":
+        completed = data["completed_at"]
+        if isinstance(completed, str):
+            completed = datetime.fromisoformat(completed)
+
+        created = data["created_at"]
+        if isinstance(created, str):
+            created = datetime.fromisoformat(created)
+
+        updated = data["updated_at"]
+        if isinstance(updated, str):
+            updated = datetime.fromisoformat(updated)
+
+        generated = data["reward_generated_at"]
+        if isinstance(generated, str):
+            generated = datetime.fromisoformat(generated)
+        
         obj= cls(
             child_id=data["child_id"],
             milestone_id=data["milestone_id"],
             description=data["description"],
-            completed_at=data["completed_at"],
-            reward_generated_at=(
-                datetime.fromisoformat(data["reward_generated_at"])
-                if data["reward_generated_at"] else None
-            ),
+            completed_at=completed,
+            reward_generated_at=generated if generated else None,
             reward_url=data["reward_url"],
         )
 
         obj.id = data["id"]
-        obj.created_at = data["created_at"]
-        obj.updated_at = data["updated_at"]
+        obj.created_at = created
+        obj.updated_at = updated
 
         return obj

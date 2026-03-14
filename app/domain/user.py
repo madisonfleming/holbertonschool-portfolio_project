@@ -83,12 +83,20 @@ class User(Base):
     # converts hardcoded data from dict to domain model object
     @classmethod
     def from_dict(cls, data: dict) -> "User":
+        created = data["created_at"]
+        if isinstance(created, str):
+            created = datetime.fromisoformat(created)
+
+        updated = data["updated_at"]
+        if isinstance(updated, str):
+            updated = datetime.fromisoformat(updated)
+
         return cls(
             id=data["id"],
             name=data["name"],
             email=data["email"],
             role=data["role"],
             firebase_uid=data.get("firebase_uid"),
-            created_at=datetime.fromisoformat(data["created_at"]),
-            updated_at=datetime.fromisoformat(data["updated_at"]),
+            created_at=created,
+            updated_at=updated,
             )

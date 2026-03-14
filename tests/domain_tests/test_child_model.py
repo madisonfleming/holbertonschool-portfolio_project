@@ -28,15 +28,15 @@ class TestChild(unittest.TestCase):
         mock_timestamp.now.return_value = fixed_timestamp
         child = Child(**self.happy_child)
         expected_data = {
-            "created_at": fixed_timestamp.isoformat(),
-            "updated_at": fixed_timestamp.isoformat(),
-            "id" : "123e4567-e89b-12d3-a456-426614174000",
+            "id": mock_uuid.return_value,
+            "created_at": fixed_timestamp,
+            "updated_at": fixed_timestamp,
             "name" : "Adam",
-            "age" : child.age, # note: valid age is tested separately
             "date_of_birth" : "2023-12-05",
             "avatar_url" : None
         }
         self.assertDictEqual(child.to_dict(), expected_data) # validate instance becomes dict per to_dict by asserting both dicts are same
+        
 
     @patch('app.domain.base.uuid.uuid4')
     def test_empty_name(self, mock_uuid):
