@@ -33,18 +33,16 @@
   font-family: "Arial", sans-serif;
 }
 
-
 /*MILESTONES CONTAINER*/
 .milestones-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   /* left more big más grande */
-  grid-template-rows: 1fr 1fr;
   /* right divided in two  */
   gap: 20px;
-  height: 100vh;
   /* both columns has the same height */
   padding: 20px;
+  height: 70vh;
 }
 
 /*READING HISTORY*/

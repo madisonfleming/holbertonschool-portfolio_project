@@ -1,8 +1,4 @@
-import { useChild } from "../../contexts/ChildContext";
 import "./MilestonesHistory.css";
-import ExportButton from "./ExportButton";
-import CompletedMilestones from "./CompletedMilestones";
-import { ClipPath } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
 import { useMilestones } from "../../contexts/MilestonesContext";
 
@@ -13,19 +9,21 @@ const MilestonesHistory = ({ selectedChild }) => {
   3.Render the state. 
   4 Send id of selectedChild */
   const { allMilestonesPerChild } = useMilestones();
-  const { weeklyGoalMilestonesPerChild } = useMilestones();
-  const { booksReadMilestonesPerChild } = useMilestones();
+  // const { weeklyGoalMilestonesPerChild } = useMilestones();
+  // const { booksReadMilestonesPerChild } = useMilestones();
   const [milestonesPerChild, setMilestonesPerChild] = useState([]);
-  const [getWeeklyGoalMilestonesPerChild, setWeeklyGoalMilestonesPerChild] =
-    useState([]);
-  const [getBooksReadMilestonesPerChild, setBooksReadMilestonesPerChild] =
-    useState([]);
+  //const [getWeeklyGoalMilestonesPerChild, setWeeklyGoalMilestonesPerChild] =  useState([]);
+  //const [getBooksReadMilestonesPerChild, setBooksReadMilestonesPerChild] = useState([]);
 
   const icons = {
-    books: '<img src="/open-book.png" />',
-    weekly: '<img src="/open-book.png" />',
+    books_read: "/open-book.png",
+    weekly_goal: "/open-book.png",
   };
-  const labels = { books: "Books Milestone", weekly: " Weekly Goal" };
+  const labels = { books_read: "Books", weekly_goal: " Weekly" };
+
+  const [filter, setFilter] = useState("books_read");
+
+  const filtered = milestonesPerChild.filter((data) => data.type === filter);
 
   useEffect(() => {
     if (!selectedChild?.id) return;
@@ -39,6 +37,7 @@ const MilestonesHistory = ({ selectedChild }) => {
         dataAllMilestones,
       );
       setMilestonesPerChild(dataAllMilestones);
+      /*
       //just weekly goal
       const dataWeeklyGoalMilestones = await weeklyGoalMilestonesPerChild(
         selectedChild.id,
@@ -57,6 +56,7 @@ const MilestonesHistory = ({ selectedChild }) => {
         dataBooksReadMilestones,
       );
       setBooksReadMilestonesPerChild(dataBooksReadMilestones);
+      */
     }
 
     fetchDataFromMilestonesPerChild();
@@ -65,25 +65,64 @@ const MilestonesHistory = ({ selectedChild }) => {
   return (
     <div className="milestoneHistory-card">
       <h1 className="card-title"> Milestones </h1>
-      <p className="card-subtitle"> {selectedChild.name}'s achievements</p>
-      {/* Filter tabs*/}
+      <p className="card-subtitle"> {selectedChild.name} achievements</p>
+      {/* Filter tabs */}
       <div className="filter-row">
         <button
-          className="filter-tab active"
-          onclick="filterMilestones('books', this)"
+          className={`filter-tab ${filter === "books_read" ? "active" : ""}`}
+          onClick={() => setFilter("books_read")}
         >
           Books Read
         </button>
-        <button class="filter-tab" onclick="filterMilestones('weekly', this)">
+        <button
+          className={`filter-tab ${filter === "weekly_goal" ? "active" : ""}`}
+          onClick={() => setFilter("weekly_goal")}
+        >
           Weekly Goal
         </button>
       </div>
 
-      {/*Timeline*/}
-      <div class="timeline-wrap">
-        <div class="timeline" id="timeline"></div>
-        <div class="empty-state" id="emptyState">
-          <div class="empty-text">No milestones yet!</div>
+      {/* Timeline with box description */}
+      <div className="timeline-wrap">
+        {/* This style: animationDelay is for every item appear 0.05 seconds after */}
+        <div className={`timeline ${filtered.length === 0 ? "empty" : ""}`}>
+          {filtered.length === 0 ? (
+            <>
+              <div className="empty-text">No milestones yet! </div>
+              <div className="empty-text-strong">
+                Start your journey by adding a reading session or complete a
+                weekly goal!{" "}
+              </div>
+            </>
+          ) : (
+            filtered.map((dataFromBEMilestones, index) => (
+              <div
+                key={index}
+                className="milestone-item"
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
+                <div className={`milestone-icon ${dataFromBEMilestones.type}`}>
+                  <img
+                    src={icons[dataFromBEMilestones.type]}
+                    alt={dataFromBEMilestones.type}
+                  />
+                </div>
+                <div className="milestone-content">
+                  <div
+                    className={`milestone-type ${dataFromBEMilestones.type}`}
+                  >
+                    {labels[dataFromBEMilestones.type]}
+                  </div>
+                  <div className="milestone-text">
+                    {dataFromBEMilestones.description}
+                  </div>
+                  <div className="milestone-date">
+                    {dataFromBEMilestones.completed_at}
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
       {/* 
