@@ -33,8 +33,8 @@ class TestMilestone(unittest.TestCase):
         
         milestone = MilestoneType(**self.milestone_data)
         expected_data = {
-            "created_at": fixed_timestamp.isoformat(),
-            "updated_at": fixed_timestamp.isoformat(),
+            "created_at": fixed_timestamp,
+            "updated_at": fixed_timestamp,
             "id": mock_uuid.return_value,
             "name": self.milestone_data["name"],
             "subject": self.milestone_data["subject"],

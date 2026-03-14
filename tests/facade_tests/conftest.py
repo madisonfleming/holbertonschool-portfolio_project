@@ -41,27 +41,9 @@ class FakeChildRepository():
 
     def get(self, child_id):
         if child_id == "child-123":
-            # return {
-                # "created_at": "2026-02-18 04:39:42.220228",
-                # "updated_at": "2026-02-18 04:39:42.220228",
-                # "id": "child-123",
-                # "name": "Susie",
-                # "date_of_birth": "2023-12-05",
-                # "age": 2,
-                # "avatar_url": "/avatars/mlb-avatar-robot.png"
-            # }
             child = FakeChild("child-123", "Susie", "2023-12-05", "/avatars/mlb-avatar-robot.png")
             return child
         if child_id == "child-456":
-            # return {
-            #     "created_at": "2026-02-18 04:39:42.220228",
-            #     "updated_at": "2026-02-18 04:39:42.220228",
-            #     "id": "child-456",
-            #     "name": "Bobby",
-            #     "date_of_birth": "2024-11-23",
-            #     "age": 1,
-            #     "avatar_url": "/avatars/mlb-avatar-apple.png"
-            # }
             child = FakeChild("child-123", "Bobby", "2024-11-23", "/avatars/mlb-avatar-apple.png")
             return child
         if child_id == "child-777":
@@ -75,32 +57,14 @@ class FakeChildRepository():
                 result.append(child)
         return result
 
-
-# To do:
-
-    # def get_all(self):
-    #     # Not needed on child_repository
-    #     # - will be implemented on relationship_repository
-    #     pass
-
-    # def get_by_attribute(self, attr, value):
-    #     return None
-
-    # def update(self, id, data):
-    #     pass
-
-    # def delete(self, id):
-    #     pass
-
-    # def get_by_ids(self, child_ids):
-        # child_ids: a list of child ids
-        # returns: a list of child objects
-        # result = []
-        # for child_id in child_ids:
-        #     child = self.get(child_id)
-        #     if child:
-        #         result.append(child)
-        # return result
+    def update(self, child):
+        child = FakeChild(
+            id="child-123",
+            name="Suzanne",
+            date_of_birth="2025-03-07",
+            avatar_url="/avatars/mlb-avatar-apple.png"
+            )
+        return child
 
 class FakeReadingSessionRepository():
     pass
