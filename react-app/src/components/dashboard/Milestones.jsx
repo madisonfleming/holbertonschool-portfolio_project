@@ -1,18 +1,29 @@
 
+import { useChild } from '../../contexts/ChildContext'
 import "./Milestones.css"
-const Milestones = ({ current_num_of_books, target }) => {
+const Milestones = ({ current_num_of_books, target, selectedChild, certificateData }) => {
   const percentage = Math.min((current_num_of_books / 1000) * 100, 100);
+ 
+
+
 
   return (
-    <div className="worm-card">
-      <h2>Milestone Progress</h2>
-      <div className="worm-container">
-        <div className="worm-fill" style={{ width: `${percentage}%` }}
-        ></div>
+    <div className="milestone-card">
+      <div>
+      <h2>Milestones</h2>
+      <button>
+        History
+      </button>
+      
       </div>
-      <p className="worm-text">
-        {Math.round(percentage)}% — {current_num_of_books} of {target} books.
+      <p className="header-text">
+        <p className="name">
+          {selectedChild?.name}
+          </p>
+          <p className="milestone-text">is doing great!</p>
+        {Math.round(percentage)}% of {selectedChild?.name}'s target achieved! That's {current_num_of_books} of {target} books!
       </p>
+
     </div>
   )
 

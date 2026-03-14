@@ -10,8 +10,8 @@ class TestMilestoneCompletion(unittest.TestCase):
             "child_id": "child-123",
             "milestone_id": "milestone-123",
             "description": "Elephants",
-            "completed_at": timestamp,
-            "reward_generated_at": timestamp,
+            "completed_at": timestamp.isoformat(),
+            "reward_generated_at": timestamp.isoformat(),
             "reward_url": "/milestone-123",
         }
 
@@ -28,7 +28,7 @@ class TestMilestoneCompletion(unittest.TestCase):
 
     @patch("app.domain.base.uuid.uuid4")
     @patch("app.domain.base.datetime")
-    def test_create_a_milestone_record_and_return_dict(self, mock_timestamp, mock_uuid):
+    def test_create_a_milestone_and_return_dict(self, mock_timestamp, mock_uuid):
         mock_uuid.return_value = "123e4567-e89b-12d3-a456-426614174000"
         fixed_timestamp = datetime(2026, 2, 21, 23, 59, 56, 518662, tzinfo=timezone.utc)
         mock_timestamp.now.return_value = fixed_timestamp
@@ -38,8 +38,8 @@ class TestMilestoneCompletion(unittest.TestCase):
             "child_id": self.milestone_data["child_id"],
             "milestone_id": self.milestone_data["milestone_id"],
             "description": self.milestone_data["description"],
-            "completed_at": fixed_timestamp,
-            "reward_generated_at": fixed_timestamp,
+            "completed_at": fixed_timestamp.isoformat(),
+            "reward_generated_at": fixed_timestamp.isoformat(),
             "reward_url": self.milestone_data["reward_url"],
             "id": mock_uuid.return_value,
             "created_at": fixed_timestamp,

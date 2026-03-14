@@ -1,58 +1,51 @@
-import { useEffect } from "react";
-import { useAuth } from '../../contexts/AuthContext'
+import { useEffect, useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import "./dashboard.css";
+import { useChild } from "../../contexts/ChildContext";
+import ChildCard from "../../components/dashboard/ChildCard";
 import WeeklyGoal from '../../components/dashboard/WeeklyGoal';
 import { getWeeklyTheme } from "../../utils/GetWeeklyTheme";
-import "./dashboard.css";
 import Milestones from '../../components/dashboard/Milestones';
+import AddReadingSession from "../../components/dashboard/AddReadingSession";
 
+
+// dashboard only loads popups cards show components NOT LOGIC ON BE thats context
 const Dashboard = () => {
+  //we use context to import useChild
+  const { childList } = useChild();
   const { currentUser } = useAuth();
   const theme = getWeeklyTheme();
+  const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] =
+    useState(false);
 
-  const current_num_of_books = 500;   // vendrá del backend
-  const target = 1000;    // vendrá del backend
-
-  //
-  async function loadData() {
-    if (!currentUser) return;
-
-    const token = await currentUser.getIdToken();
-    console.log("Token:", token);
-    //need to do fetch to an endpoint that use that function
-    const response = await fetch("http://127.0.0.1:8000/api/protected", {
-      //firebase do the login -> generate the JWT
-      //On HBNB was a POST because the login was manage by the back end but in here the login is manage by firebase so is GET the BE just return data
-      headers: {
-        //sending the token to the backend so fastapi receive it as a credential
-        "Authorization": `Bearer ${token}`
-      }
-    });
-    //geting the decoded token from the backend
-    const data = await response.json();
-    console.log("this is data:", data);
-  };
-  //to validate the existance of user useEffect detecs the change of currentUser from null to login
-  useEffect(() => {
-    loadData();
-  }, [currentUser]);
+  const target = 5; //hardcoded to send to BE once is finished
 
   return (
-
     <div>
-      <h1 className="dashboard-title">Let's get reading, wormies!</h1>
-      <div className="dashboard-container">
-        <WeeklyGoal
-          current_num_of_books={current_num_of_books}
-          target={target}
-          theme={theme}
-        />
-        <Milestones current_num_of_books={current_num_of_books} target={target}
-        />
+      <div className="reading-session-container">
+        <img src={`open-book.png`} className="open-book-img" />
+        <button onClick={() => setButtonAddReadingSessionPopup(true)} type="button" class="btn btn-primary btn-sm">Add Reading Session</button>
+  
       </div>
-
+      <h1 className="dashboard-title">Let's get reading, wormies!</h1>
+      <AddReadingSession
+        trigger={buttonAddReadingSessionPopup}
+        setTrigger={setButtonAddReadingSessionPopup}
+        children_RS={childList}
+      ></AddReadingSession>
+      <div className="dashboard-grid">
+        <div className="children-container">
+          <ChildCard childrenList={childList} />
+        </div>
+        <div className="weekly-container">
+          <WeeklyGoal
+            target={target}
+            theme={theme}
+          />
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
-
+export default Dashboard;

@@ -11,7 +11,7 @@ class BookRepositoryBase(ABC):
         query: str,
         subjects: list[str] | None = None,
         limit: int | None = None
-    ) -> list[Book] | None:
+    ) -> Book | None:
         ...
 
     @abstractmethod

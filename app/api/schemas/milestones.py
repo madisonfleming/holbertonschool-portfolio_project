@@ -16,16 +16,6 @@ class MilestoneResponse(BaseModel):
     type: str
     threshold: int
 
-    @classmethod
-    def from_domain(cls, milestone):     # cls is MilestoneResponse
-        return cls(
-            created_at=milestone.created_at,
-            id=milestone.id,
-            name=milestone.name,
-            description=milestone.description,
-            type=milestone.type,
-            threshold=milestone.threshold,
-        )
 
 class MilestoneCompletionResponse(BaseModel):
     # Used for responses to post weekly milestones and get milestones
@@ -33,19 +23,6 @@ class MilestoneCompletionResponse(BaseModel):
     id: str
     child_id: str
     milestone_id: str
-    type: str
     description: str
     completed_at: datetime
     reward_url: str | None
-
-    @classmethod
-    def from_domain(cls, milestone):     # cls is MilestoneCompletionResponse
-        return cls(
-            id=milestone.id,
-            child_id=milestone.child_id,
-            milestone_id=milestone.milestone_id,
-            type=milestone.type,
-            description=milestone.description,
-            completed_at=milestone.completed_at,
-            reward_url=milestone.reward_url,
-        )

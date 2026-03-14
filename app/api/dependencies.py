@@ -1,33 +1,23 @@
 from app.services.facade import MLBFacade
-from app.persistence.sqlalchemy.db import engine
-
-from app.persistence.sqlalchemy.user_repository_sqlalchemy import UserRepositorySQLAlchemy
-from app.persistence.sqlalchemy.child_repository_sqlalchemy import ChildRepositorySQLAlchemy
-from app.persistence.sqlalchemy.reading_session_repository_sqlalchemy import ReadingSessionRepositorySQLAlchemy
-from app.persistence.sqlalchemy.milestone_type_repository_sqlalchemy import MilestoneTypeRepositorySQLAlchemy
-from app.persistence.sqlalchemy.milestone_completion_repository_sqlalchemy import MilestoneCompletionRepositorySQLAlchemy
-from app.persistence.sqlalchemy.relationship_repository_sqlalchemy import RelationshipRepositorySQLAlchemy
-from app.persistence.sqlalchemy.book_repository_sqlalchemy import BookRepositorySQLAlchemy
-
+from app.persistence.user_repository import UserRepository
+from app.persistence.child_repository import ChildRepository
+from app.persistence.reading_session_repository import ReadingSessionRepository
+from app.persistence.milestone_repository import MilestoneTypeRepository
+from app.persistence.milestone_completion_repository import MilestoneCompletionRepository
+from app.persistence.relationship_repository import RelationshipRepository
+from app.persistence.book_repository import BookRepository
 from app.external.open_library_api import OpenLibraryClient
-
-milestone_repository = MilestoneTypeRepositorySQLAlchemy(engine) # create instance of type repo
-# # create an instance of completion repo + pass in the type instance - Allows completion repo to use methods from type repo
-milestone_completion_repository = MilestoneCompletionRepositorySQLAlchemy(
-    engine,
-    milestone_repository
-) 
 
 # creates an instance of each repo and passes them to the facade
 # which in turn is fed (below) to the router reg's to ensure they all use the same facade instance
 facade = MLBFacade(
-    user_repository=UserRepositorySQLAlchemy(engine),
-    child_repository=ChildRepositorySQLAlchemy(engine),
-    reading_session_repository=ReadingSessionRepositorySQLAlchemy(engine),
-    milestone_repository=milestone_repository,
-    milestone_completion_repository=milestone_completion_repository,
-    relationship_repository=RelationshipRepositorySQLAlchemy(engine),
-    book_repository=BookRepositorySQLAlchemy(engine),
+    user_repository=UserRepository(),
+    child_repository=ChildRepository(),
+    reading_session_repository=ReadingSessionRepository(),
+    milestone_repository=MilestoneTypeRepository(),
+    milestone_completion_repository=MilestoneCompletionRepository(),
+    relationship_repository=RelationshipRepository(),
+    book_repository=BookRepository(),
     open_library_api=OpenLibraryClient()
 )
 

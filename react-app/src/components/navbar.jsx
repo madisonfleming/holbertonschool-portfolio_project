@@ -7,7 +7,8 @@ import { useAuth } from '../contexts/AuthContext';
 function MyNavbar() {
   const { currentUser } = useAuth();
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <div>
+    <Navbar expand="lg">
       <Container>
         <Navbar.Toggle className="navbar-toggle" aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -19,10 +20,17 @@ function MyNavbar() {
             {currentUser && (
               <Nav.Link className="px-3" as={Link} to="/dashboard">Dashboard</Nav.Link>
             )}
+            {currentUser && (
+              <Nav.Link className="px-3" as={Link} to="/child-profiles">Child Profiles</Nav.Link>
+            )}
+             {currentUser && (
+              <Nav.Link className="px-3" as={Link} to="/settings">Settings</Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    </div>
   );
 }
 

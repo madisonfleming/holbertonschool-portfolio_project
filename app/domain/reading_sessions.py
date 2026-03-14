@@ -23,47 +23,6 @@ class ReadingSession:
     external_id: str
     book_id: str
     title: str
+    author: str
     cover_url: str
     logged_at: datetime
-    created_at: datetime
-    updated_at: datetime
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "child_id": self.child_id,
-            "external_id": self.external_id,
-            "book_id": self.book_id,
-            "title": self.title,
-            "cover_url": self.cover_url,
-            "logged_at": self.logged_at,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at,
-        }
-
-    @classmethod
-    def from_dict(cls, data):
-        logged = data["logged_at"]
-        if isinstance(logged, str):
-            logged = datetime.fromisoformat(logged)
-
-        created = data["created_at"]
-        if isinstance(created, str):
-            created = datetime.fromisoformat(created)
-
-        updated = data["updated_at"]
-        if isinstance(updated, str):
-            updated = datetime.fromisoformat(updated)
-
-        return cls(
-            id=data["id"],
-            child_id=data["child_id"],
-            external_id=data["external_id"],
-            book_id=data["book_id"],
-            title=data["title"],
-            cover_url=data["cover_url"],
-            logged_at=logged,
-            created_at=created,
-            updated_at=updated,
-        )
-

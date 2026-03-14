@@ -7,15 +7,13 @@ from app.domain.exceptions import (
 )
 
 class MilestoneType(Base): # gives id, created_at, updated_at
-    def __init__(
-        self,
-        name: str,
-        type: str,
-        threshold: int,
-        subject: str | None = None,
-        id: str | None = None,
+    def __init__(self,
+                name: str,
+                type: str,
+                threshold: int,
+                subject: str | None = None,
     ):
-        super().__init__(id=id)
+        super().__init__()
         self.name = name # ie "Read 100 Books"
         self.subject = subject # of weekly goal milestones
         self.type = type # books_read, sessions_logged, streak_days. not active but could be.
@@ -50,9 +48,11 @@ class MilestoneType(Base): # gives id, created_at, updated_at
         return self._subject
 
     @subject.setter
-    def subject(self, value: str | None):
-        if value is not None and not isinstance(value, str):
-            raise TypeError("Threshold must be a str or None")
+    def subject(self, value: str):
+        if value is None or value == "":
+            raise InvalidMetricKeyError()
+        if not isinstance(value, str):
+            raise TypeError("Threshold must be a str")
         self._subject = value
 
     @property

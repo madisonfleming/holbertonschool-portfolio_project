@@ -42,7 +42,7 @@ def test_get_all_milestones(client):
     response = client.get(BASE_URL)
 
     assert response.status_code == 200
-    assert response.json()[0]["id"] == "2"
+    assert response.json()[0]["id"] == "1"
 
 def test_get_one_milestone(client):
     milestone_id = "1"

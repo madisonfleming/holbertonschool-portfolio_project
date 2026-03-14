@@ -1,0 +1,156 @@
+
+.settings-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background: linear-gradient(135deg, #cc7df0 0%, #b885d8 50%, #b79dd8 100%);
+  padding: 20px;
+  flex-direction: column;
+}
+
+.settings-card {
+  
+  background: #fce4ec;
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 580px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/*adding settings-user-card to align with child card*/
+.settings-user-card {
+  background: #fce4ec;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 580px;
+  /*box-shadow: 0 8px 20px rgba(0,0,0,0.08); */
+  gap: 16px; 
+  display: flex;
+  flex-direction: column;
+  padding: 16px 18px; /*create space between components avatar padding info padding*/
+  padding-bottom: 50px;
+}
+
+
+.settings-child-card {
+  background: #fce4ec;
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 580px;
+  /*box-shadow: 0 8px 20px rgba(0,0,0,0.08); */
+  gap: 16px; 
+}
+
+/*adding settings-user-card to align with child card*/
+.settings-user-card {
+  background: #fce4ec;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 580px;
+  /*box-shadow: 0 8px 20px rgba(0,0,0,0.08); */
+  gap: 16px; 
+  display: flex;
+  flex-direction: column;
+  padding: 16px 18px; /*create space between components avatar padding info padding*/
+  padding-bottom: 50px;
+}
+
+
+.settings-child-card {
+  background: #fce4ec;
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 580px;
+  /*box-shadow: 0 8px 20px rgba(0,0,0,0.08); */
+  gap: 16px; 
+}
+
+.account-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.account-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  color: #ec407a;
+  padding-bottom: 30px;
+}
+
+.subtitle {
+  text-align: left; /* change text-align for subtitle*/
+  width: 100%;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+
+.username {
+  flex: 1; /*this says take all the space and push the next elements to the right*/
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 5px;
+
+}
+
+.edit-btn {
+
+  border: none;
+  color: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 10px;
+
+  margin-right: 5px;
+  background: linear-gradient(135deg, #9b59b6, #cc7df0);
+
+}
+
+.account-details {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  border-radius: 16px;
+  min-width: 0;
+
+} /* fix container so btn is on right*/
+
+
+
+ .divider {
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, #f0e8f7, transparent);
+    margin-bottom: 20px;
+  }
+
+
+.btn-submit-create {
+    padding: 15px 20px; /*make the button bigger*/
+    border-radius: 14px; /*round corners*/
+    background: linear-gradient(135deg, #9b59b6, #cc7df0);
+    color: white !important;
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+    width: 100%;
+    /*This is for the text inside*/
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    border: none; /*delete the border from button*/
+    font-size: 15px;
+    transition: all 0.2s ease;
+    letter-spacing: 0.3px;
+  }
+  .btn-submit-create:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(155, 89, 182, 0.5);
+  }

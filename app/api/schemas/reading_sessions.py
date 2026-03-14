@@ -8,7 +8,7 @@ class CreateReadingSession(BaseModel):
     source: str
     title: str
     author: str
-    cover_url: str | None = None
+    cover_url: str
     logged_at: datetime # this is date book read per wireframe - FE checking to see if they can default this to date = today
 
 # TODO: check attribute names against actual names returned from facade, update if required
@@ -17,7 +17,7 @@ class ReadingSessionResponse(BaseModel):
     child_id: str
     book_id: str
     title: str
-    cover_url: str | None = None
+    cover_url: str
     logged_at: datetime
 
     @classmethod

@@ -22,8 +22,7 @@ class RelationshipRepositoryBase(ABC):
         self,
         user_id: str,
         child_id: str,
-        role: str,
-        relationship_type: str
+        role: str
     ) -> str:
         ...
 

@@ -28,8 +28,7 @@ def get_user(
     decoded_token: dict = Depends(auth_current_user)
     ):
     firebase_uid = decoded_token["uid"]
-    user = facade.get_user(firebase_uid)
-    return UserResponse.from_domain(user)
+    return facade.get_user(firebase_uid)
 
 # Requirement: Update a User
 @router.put("/users/me", response_model=UserResponse, status_code=200)
@@ -39,5 +38,4 @@ def update_user(
     decoded_token: dict = Depends(auth_current_user)
     ):
     firebase_uid = decoded_token["uid"]
-    updated_user = facade.update_user(updated_data, firebase_uid)
-    return UserResponse.from_domain(updated_user)
+    return facade.update_user(updated_data, firebase_uid)

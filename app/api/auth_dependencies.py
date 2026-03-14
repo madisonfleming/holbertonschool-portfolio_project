@@ -18,8 +18,8 @@ def auth_current_user(credentials: HTTPAuthorizationCredentials = Depends(securi
     # Activated by default via "uvicorn app.main:app --reload"
     # Switch off the bypass by running "ENVIRONMENT=production uvicorn app.main:app --reload"
     if os.getenv("ENVIRONMENT") == None or os.getenv("ENVIRONMENT") == "development":
-        print("hello from test user CVelQleFzqXvvuLQGllEnP4FnhD2")
-        return {"uid": "CVelQleFzqXvvuLQGllEnP4FnhD2"}
+        print("hello from test user 123")
+        return {"uid": "123"}
 
     if credentials is None:
         raise HTTPException(

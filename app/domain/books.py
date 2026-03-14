@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from datetime import datetime
 
 """
 internal domain representation of a stored book, kept separate
@@ -19,38 +18,3 @@ class Book:
     title: str
     author: str | None
     cover_url: str | None
-    created_at: datetime
-    updated_at: datetime
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "external_id": self.external_id,
-            "source": self.source,
-            "title": self.title,
-            "author": self.author,
-            "cover_url": self.cover_url,
-            "created_at": self.created_at.isoformat(),
-            "updated_at": self.updated_at.isoformat(),
-        }
-
-    @classmethod
-    def from_dict(cls, data):
-        created = data["created_at"]
-        if isinstance(created, str):
-            created = datetime.fromisoformat(created)
-
-        updated = data["updated_at"]
-        if isinstance(updated, str):
-            updated = datetime.fromisoformat(updated)
-
-        return cls(
-            id=data["id"],
-            external_id=data["external_id"],
-            source=data["source"],
-            title=data["title"],
-            author=data["author"],
-            cover_url=data["cover_url"],
-            created_at=created,
-            updated_at=updated,
-        )

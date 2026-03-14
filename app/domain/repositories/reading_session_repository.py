@@ -9,7 +9,9 @@ class ReadingSessionRepositoryBase(ABC):
     @abstractmethod
     def save(
         self,
-        session: ReadingSession
+        child_id: str,
+        book_id: str,
+        logged_at: datetime
     ) -> ReadingSession:
         ...
 

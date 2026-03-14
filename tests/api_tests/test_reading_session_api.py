@@ -166,17 +166,15 @@ def test_get_reading_sessions_as_unauthorised_user(client):
 
 # Happy Path: test 200 success update book_id on a session
 def test_update_reading_session(client, override_auth):
-    # Qu: Is book_id correctly updated behind the scenes?
     override_auth("123")
     payload = {
-        "external_id": "updated-external-id",
-        "title": "Chronicles of Narnia",
-        "author": "CS Lewis"
+        "book_id": "updated-book-id",
+        "logged_at": "2025-03-01T08:30:00",
     }
     response = client.put(f"{SESSIONS_BASE_URL}/test-session-id-1", json=payload)
     assert response.status_code == 200
     assert response.json()["session_id"] == "test-session-id-1"
-    assert response.json()["title"] == "Chronicles of Narnia"
+    assert response.json()["book_id"] == "updated-book-id"
     assert response.json()["logged_at"] is not None
 
 
