@@ -9,10 +9,10 @@ const CreateChild = ({ trigger, setTrigger, createChild }) => {
   const [selectedAvatar, setSelectedAvatar] = useState(0);
 
   const avatars = [
-    "/avatars/mlb-avatar-apple.png",
-    "/avatars/mlb-avatar-bee.png",
-    "/avatars/mlb-avatar-robot.png",
-    "/avatars/mlb-avatar-sun.png",
+    "/avatars/mlb-avatar-apple",
+    "/avatars/mlb-avatar-bee",
+    "/avatars/mlb-avatar-robot",
+    "/avatars/mlb-avatar-sun",
   ];
 
   //we need a handle in order to create the obj with the states
