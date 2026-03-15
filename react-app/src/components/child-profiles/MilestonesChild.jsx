@@ -11,6 +11,7 @@ const MilestonesChild = ({
   completedMilestones,
 }) => {
   const percentage = Math.min((current_num_of_books / 1000) * 100, 100);
+  if (!selectedChild) return "No child selected";
 
   return (
     <div className="milestoneChild-card">
@@ -20,14 +21,14 @@ const MilestonesChild = ({
       <div className="progress-hero">
         <div className="progress-percent">{Math.round(percentage)}%</div>
         <div className="progress-desc">
-          of <strong>{selectedChild.name}</strong> target achieved!
+          of <strong>{selectedChild.name}</strong>
+          target achieved!
         </div>
       </div>
 
       <div className="body-text">
         <div className="percentage">{Math.round(percentage)}%</div>
-        of {selectedChild?.name}'s target achieved! That's{" "}
-        {current_num_of_books} of {target} books!
+        of target achieved! That's {current_num_of_books} of {target} books!
       </div>
       <div className="export-btn">
         <ExportButton
