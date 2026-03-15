@@ -1,6 +1,16 @@
 """
 This file defines a FakeFacade class and the fixtures shared by the API test files
 """
+# Ensure test settings are applied first
+
+import os
+from app.config import get_settings
+
+os.environ["ENVIRONMENT"] = "testing"
+# os.environ["DATABASE_URL"] = "sqlite+pysqlite:///./test.db"
+os.environ["DATABASE_URL"] = "sqlite+pysqlite:///:memory:"
+settings = get_settings()
+
 import pytest
 from fastapi.testclient import TestClient
 from app.factory import create_app
