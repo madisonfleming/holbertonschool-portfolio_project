@@ -32,31 +32,10 @@ const ChildProfiles = () => {
     { id: 4, name: "Completed Dinosaur Week" },
   ];
 
-
-  const books = [
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" }
-  ];
-
-
   const [selectedBook, setSelectedBook] = useState("");
   const { BooksList } = useBooks();
   const [editingReadingSession, setEditingReadingSession] = useState(null);
-  const { readingSessions, setReadingSession } = useBooks();
+  const { readingSessions, updateReadingSessions } = useBooks();
 
   const [buttonUpdateReadingSessionPopup, setButtonUpdateReadingSessionPopup] = useState(false);
 
@@ -95,7 +74,7 @@ const ChildProfiles = () => {
                   {/* update reading session button */}
                   <button className="update-reading-sessions-btn"
                     onClick={() => {
-                      setEditingReadingSession(session);
+                      setEditingReadingSession(session.id);
                       setButtonUpdateReadingSessionPopup(true);
                     }}
                   >Edit
@@ -108,8 +87,9 @@ const ChildProfiles = () => {
               <UpdateReadingSessions
                 trigger={buttonUpdateReadingSessionPopup}
                 setTrigger={setButtonUpdateReadingSessionPopup}
-                UpdateReadingSessions={UpdateReadingSessions}
-                readingSessions={editingReadingSession}
+                updateReadingSessions={updateReadingSessions}
+                readingSessions={readingSessions}
+                data={editingReadingSession}
               ></UpdateReadingSessions>
             )}
           </div>

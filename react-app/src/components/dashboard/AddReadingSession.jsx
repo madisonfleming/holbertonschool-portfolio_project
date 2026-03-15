@@ -6,7 +6,7 @@ import { useAuth } from "../../contexts/AuthContext";
 
 const AddReadingSession = (props) => {
   const { childList } = useChild();
-  const { searchBooks } = useBooks();
+  const { searchBooks, createReadingSession } = useBooks();
 
   /*
   const books = [
@@ -26,38 +26,8 @@ const AddReadingSession = (props) => {
   const [selectedChild, setSelectedChild] = useState(null);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const { currentUser } = useAuth();
-
-  //ENDPOINT TO CREATE A READING SESSION
-  async function createReadingSession(readingSessionData) {
-     console.log(
-      "sending new reading session:",
-      readingSessionData,
-    );
-    if (!currentUser) return;
-
-    const token = await currentUser.getIdToken();
-    const response = await fetch("http://127.0.0.1:8000/api/reading-sessions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(readingSessionData),
-    });
-    if (!response.ok) {
-      console.error("Error creating reading session");
-      return;
-    }
-    const newReadingSession = await response.json();
-    // we received fron BE
-    console.log(
-      "Answer from BE of creating new reading session:",
-      newReadingSession,
-    );
-
-    return newReadingSession;
-  }
-
+  // set the image in the state so it loads automatically
+  const [image, setImage] = useState("");
 
   //we need a handle in order to create the obj with the states
   // we need to POST in order to the BE to received name, date_of_birth, avatar_url
@@ -158,6 +128,7 @@ const AddReadingSession = (props) => {
                     onClick={() => {
                       setSelectedBook(book);
                       setSearchTerm(book.title); // shows the selected book on search..
+                      setImage(book.img); //save the image in state
                       setShowDropdown(false); //disappear the drop down
                     }}
                   >
