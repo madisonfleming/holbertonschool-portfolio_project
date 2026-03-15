@@ -18,7 +18,7 @@ from app.services.facade import MLBFacade
 from sqlalchemy import create_engine, insert
 from sqlalchemy.pool import StaticPool
 from app.persistence.sqlalchemy.tables import metadata
-from app.persistence.sqlalchemy.tables import users, children, relationships
+from app.persistence.sqlalchemy.tables import users, children, relationships, books
 from app.persistence.sqlalchemy.user_repository_sqlalchemy import UserRepositorySQLAlchemy
 from app.persistence.sqlalchemy.child_repository_sqlalchemy import ChildRepositorySQLAlchemy
 from app.persistence.sqlalchemy.reading_session_repository_sqlalchemy import ReadingSessionRepositorySQLAlchemy
@@ -96,6 +96,21 @@ def setup_database():
                     "relationship_type": "parent",
                     "invited_by": None,
                     "acceptance_status": "accepted",
+                    "created_at": datetime.now(),
+                    "updated_at": datetime.now()
+                }
+            ]
+        )
+        conn.execute(stmt)
+        stmt = insert(books).values(
+            [
+                {
+                    "id": "book123",
+                    "external_id": "/works/OAM123",
+                    "source": "openlibrary",
+                    "title": "Where the Wild Things Are",
+                    "author": "Maurice Sendak",
+                    "cover_url": "/cover-wtwta",
                     "created_at": datetime.now(),
                     "updated_at": datetime.now()
                 }
