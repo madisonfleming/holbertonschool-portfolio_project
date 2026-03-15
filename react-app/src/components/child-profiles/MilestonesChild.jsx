@@ -16,6 +16,14 @@ const MilestonesChild = ({
     <div className="milestoneChild-card">
       <h1 className="card-title"> Reading Progress </h1>
       <p className="card-subtitle"> {selectedChild.name} is doing great!</p>
+
+      <div className="progress-hero">
+        <div className="progress-percent">{Math.round(percentage)}%</div>
+        <div className="progress-desc">
+          of <strong>{selectedChild.name}</strong> target achieved!
+        </div>
+      </div>
+
       <div className="body-text">
         <div className="percentage">{Math.round(percentage)}%</div>
         of {selectedChild?.name}'s target achieved! That's{" "}
