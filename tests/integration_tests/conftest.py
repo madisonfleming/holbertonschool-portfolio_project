@@ -110,7 +110,7 @@ def setup_database():
                     "source": "openlibrary",
                     "title": "Where the Wild Things Are",
                     "author": "Maurice Sendak",
-                    "cover_url": "/cover-wtwta",
+                    "cover_url": "/cover",
                     "created_at": datetime.now(),
                     "updated_at": datetime.now()
                 }
