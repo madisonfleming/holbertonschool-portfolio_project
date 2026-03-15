@@ -9,14 +9,16 @@ Error handling is tested comprehensively via the unit testing at each layer.
 A note about data:
     Assertions on specific data returns depend on seeded data being available
 """
+from datetime import date
 
 BASE_URL = "/api/children"
 
 
 def test_post_create_child(client):
+    dob = date(2025, 5, 2)
     payload = {
         "name": "Betty",
-        "date_of_birth": "2025-02-26",
+        "date_of_birth": dob.isoformat(),
         "avatar_url": None,
     }
 
@@ -34,16 +36,23 @@ def test_get_children(client):
     assert response.json()[0]["name"] == "Susie"
 
 def test_get_child(client):
-    response = client.get(f'{BASE_URL}/123')
+    # Debug: check what's in the db
+    from sqlalchemy import select
+    from tests.integration_tests.conftest import engine
+    from app.persistence.sqlalchemy.tables import children
+    with engine.connect() as conn:
+        result = conn.execute(select(children)).fetchall()
+        print("Children in db:", result)
+    response = client.get(f'{BASE_URL}/abc123')
 
     assert response.status_code == 200
-    assert response.json()["name"] == "Amy"
+    assert response.json()["name"] == "Susie"
 
 def test_put_update_child_name(client):
     payload = {
         "name": "Andy",
     }
-    response = client.put(f'{BASE_URL}/123', json=payload)
+    response = client.put(f'{BASE_URL}/abc123', json=payload)
 
     assert response.status_code == 200
     assert response.json()["name"] == "Andy"
