@@ -16,33 +16,6 @@ export function BooksProvider({ children }) {
   const [readingSessions, setReadingSessions] = useState([]);
   // load the current state of reading sessions
   const [loading, setLoading] = useState(true);
-  //ENDPOIN TO LOAD ALL THE BOOKS (not implemented yet is for show reading history)
-  /*
-  async function loadBooks(q) {
-    try {
-      const token = await currentUser.getIdToken();
-      const response = await fetch(`http://127.0.0.1:8000/api/books/search?q=${q}/limit=30`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
-
-      const BooksData = await response.json();
-      console.log("this is book data:", BooksData)
-      const formatted = BooksData.map((book) => ({
-        id: book.book_id,
-        title: book.title,
-        img: book.cover_url,
-      }));
-
-      setBooksList(formatted);
-      console.log("Books list is:", setBooksList);
-    } catch (error) {
-      console.error("Error fetch book", error);
-      return BooksList;
-    }
-  } 
-    */
 
 
   //ENDPOINT TO SEARCH FOR BOOK BY QUERY the str required frm the BE
