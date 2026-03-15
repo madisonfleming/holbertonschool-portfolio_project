@@ -32,7 +32,7 @@ class TestChild(unittest.TestCase):
             "created_at": fixed_timestamp,
             "updated_at": fixed_timestamp,
             "name" : "Adam",
-            "date_of_birth" : "2023-12-05",
+            "date_of_birth" : date(2023, 12, 5),
             "avatar_url" : None
         }
         self.assertDictEqual(child.to_dict(), expected_data) # validate instance becomes dict per to_dict by asserting both dicts are same
