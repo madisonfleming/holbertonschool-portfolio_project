@@ -5,7 +5,7 @@ from app.api.dependencies import get_facade
 from app.api import auth_dependencies
 import firebase_admin
 from firebase_admin import credentials
-from .config import get_settings_class
+from .config import get_settings
 
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.errors import register_error_handlers
@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 def create_app(settings=None) -> FastAPI:
     if settings is None:
-        settings = get_settings_class()()
+        settings = get_settings()
     
     if type(settings).__name__ == "ProductionConfig":
         cred = credentials.Certificate(settings.FIREBASE_CONFIG)
@@ -48,9 +48,9 @@ def create_app(settings=None) -> FastAPI:
     app.include_router(books.router, prefix="/api", dependencies=[Depends(get_facade)])
     app.include_router(auth_dependencies.router, prefix="/api")
 
-    # root health check
-    @app.get("/")
-    def root():
-        return {"status": "OK"}
+    # # root health check
+    # @app.get("/")
+    # def root():
+    #     return {"status": "OK"}
     
     return app

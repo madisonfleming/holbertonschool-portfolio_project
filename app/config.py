@@ -8,30 +8,31 @@ class BaseConfig(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore"
     )
-
+    ENVIRONMENT: str = "development"
     APP_NAME: str = "MyLittleBookworm"
     DEBUG: bool = False
     FIREBASE_CONFIG: str = "app/config/serviceAccountKey.json"
-    # Enable the next two lines to guarantee that prod
-    # won't start without these values
-    # DATABASE_URL: str
-    # SECRET_KEY: str
+    DATABASE_URL: str
 
 class DevelopmentConfig(BaseConfig):
     DEBUG: bool = True
 
 class ProductionConfig(BaseConfig):
+    ENVIRONMENT: str = "production"
     DEBUG: bool = False
 
 class UnitTestingConfig(BaseConfig):
+    model_config = SettingsConfigDict(extra="ignore")
+    
+    ENVIRONMENT: str = "testing"
     DEBUG: bool = True
     FIREBASE_CONFIG: str = ""
-    ENVIRONMENT: str = "testing"
-    # DATABASE = 'sqlite:///:memory:'
-    # SECRET_KEY: str = "test-secret-key"
+    DATABASE_URL: str = "sqlite+pysqlite:///./test.db"
+
 
 def get_settings_class():
-    env = os.getenv("ENVIRONMENT", "development").lower()
+    base = BaseConfig()
+    env = base.ENVIRONMENT.lower()
 
     if env == "production":
         return ProductionConfig
@@ -40,3 +41,8 @@ def get_settings_class():
         return UnitTestingConfig
     
     return DevelopmentConfig
+
+@lru_cache
+def get_settings():
+    settings_class = get_settings_class()
+    return settings_class()
