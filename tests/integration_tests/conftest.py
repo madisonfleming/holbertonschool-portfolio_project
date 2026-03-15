@@ -18,7 +18,7 @@ from app.services.facade import MLBFacade
 from sqlalchemy import create_engine, insert
 from sqlalchemy.pool import StaticPool
 from app.persistence.sqlalchemy.tables import metadata
-from app.persistence.sqlalchemy.tables import users, children, relationships, books
+from app.persistence.sqlalchemy.tables import users, children, relationships, books, milestone_completions, milestone_types
 from app.persistence.sqlalchemy.user_repository_sqlalchemy import UserRepositorySQLAlchemy
 from app.persistence.sqlalchemy.child_repository_sqlalchemy import ChildRepositorySQLAlchemy
 from app.persistence.sqlalchemy.reading_session_repository_sqlalchemy import ReadingSessionRepositorySQLAlchemy
@@ -111,6 +111,45 @@ def setup_database():
                     "title": "Where the Wild Things Are",
                     "author": "Maurice Sendak",
                     "cover_url": "/cover-wtwta",
+                    "created_at": datetime.now(),
+                    "updated_at": datetime.now()
+                }
+            ]
+        )
+        conn.execute(stmt)
+        stmt = insert(milestone_types).values(
+            [
+                {
+                    "id": "ms123",
+                    "name": "Read 25 books",
+                    "subject": None,
+                    "type": "books_read",
+                    "threshold": 25,
+                    "created_at": datetime.now(),
+                    "updated_at": datetime.now()
+                },
+                {
+                    "id": "ms456",
+                    "name": "Read 25 books",
+                    "subject": "elephants",
+                    "type": "weekly_goal",
+                    "threshold": 5,
+                    "created_at": datetime.now(),
+                    "updated_at": datetime.now()
+                }
+            ]
+        )
+        conn.execute(stmt)
+        stmt = insert(milestone_completions).values(
+            [
+                {
+                    "id": "ms-completion-123",
+                    "child_id": "abc123",
+                    "milestone_id": "ms123",
+                    "description": "Susie read 25 books",
+                    "completed_at": datetime.now(),
+                    "reward_generated_at": datetime.now(),
+                    "reward_url": "/some-url",
                     "created_at": datetime.now(),
                     "updated_at": datetime.now()
                 }
