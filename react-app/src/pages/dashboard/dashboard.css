@@ -89,7 +89,7 @@
 }
 
 /*Weekly goal container*/
-.weekly-container, {
+.weekly-container {
   background: white;
   border-radius: 20px;
   padding: 20px;
@@ -98,6 +98,4 @@
   justify-content: center;
   /* centra horizontal */
   align-items: center;
-
-  
 }

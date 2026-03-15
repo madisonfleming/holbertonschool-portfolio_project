@@ -29,6 +29,10 @@ const AddReadingSession = (props) => {
 
   //ENDPOINT TO CREATE A READING SESSION
   async function createReadingSession(readingSessionData) {
+     console.log(
+      "sending new reading session:",
+      readingSessionData,
+    );
     if (!currentUser) return;
 
     const token = await currentUser.getIdToken();

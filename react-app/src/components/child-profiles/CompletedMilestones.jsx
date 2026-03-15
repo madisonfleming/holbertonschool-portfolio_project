@@ -3,8 +3,6 @@
 const CompletedMilestones = ({ completedMilestones }) => {
     const milestones = completedMilestones || [];
 
-
-
     return (
         <div className="milestone-list">
               {milestones.map((milestone) => (

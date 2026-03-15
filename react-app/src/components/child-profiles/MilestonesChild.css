@@ -1,0 +1,119 @@
+.milestoneChild-card {
+  background: white;
+  border-radius: 20px;
+  padding: 36px 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  /* centra horizontal */
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  gap: 20px;
+}
+
+/* Header */
+.card-title {
+  /*font-family: "Baloo 2", cursive;*/
+  font-size: 24px;
+  font-weight: 800;
+  color: #2d2d2d;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.card-subtitle {
+  text-align: center;
+  color: #bbb;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+/*Big % proress*/
+.progress-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+
+.progress-percent {
+  font-family: "Baloo 2", cursive;
+  font-size: 64px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #9b59b6, #cc7df0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.progress-desc {
+  font-size: 13px;
+  color: #aaa;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.progress-desc strong {
+  color: #9b59b6;
+}
+
+/* Stats row */
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.stat-box {
+  background: #faf5ff;
+  border: 2px solid #ede0f7;
+  border-radius: 16px;
+  padding: 12px 8px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.stat-box:hover {
+  border-color: #c8a0e8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.1);
+}
+
+.stat-value {
+  font-family: "Baloo 2", cursive;
+  font-size: 20px;
+  font-weight: 800;
+  color: #9b59b6;
+  display: block;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: #bbb;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Divider */
+.divider {
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #f0e8f7, transparent);
+  margin-bottom: 20px;
+}
+
+/*btn-export*/
+.export-btn {
+  padding: 10px;
+  margin-bottom: 10px;
+}
