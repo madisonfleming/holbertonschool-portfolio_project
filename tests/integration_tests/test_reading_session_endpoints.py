@@ -15,11 +15,11 @@ import pytest
 @pytest.fixture
 def reading_session_payload():
     return {
-        "child_id": "123",
-        "external_id": "book-ext-id",
-        "source": "source",
-        "title": "The Hungry Little Caterpillar",
-        "author": "Eric Carle",
+        "child_id": "abc123",
+        "external_id": "/works/OAM123",
+        "source": "openlibrary",
+        "title": "Where the Wild Things Are",
+        "author": "Maurice Sendak",
         "cover_url": "/cover",
         "logged_at": "2026-01-28",
     }
@@ -36,14 +36,14 @@ def test_post_create_reading_session(client, reading_session_payload):
 
     # Very light assertions, just sanity checks really
     assert response.status_code == 201
-    assert response.json()["child_id"] == "123"
+    assert response.json()["child_id"] == "abc123"
 
 def test_get_reading_sessions(client, created_reading_session):
     # Act - get
-    response = client.get("/api/children/123/reading-sessions")
+    response = client.get("/api/children/abc123/reading-sessions")
 
     assert response.status_code == 200
-    assert response.json()[0]["child_id"] == "123"
+    assert response.json()[0]["child_id"] == "abc123"
 
 
 def test_put_update_session(client, created_reading_session):
@@ -63,7 +63,7 @@ def test_put_update_session(client, created_reading_session):
 
 def test_get_count_reading_sessions(client, created_reading_session):
     # Act
-    response = client.get("/api/children/123/reading-sessions/count")
+    response = client.get("/api/children/abc123/reading-sessions/count")
 
     assert response.status_code == 200
     assert response.json() == 1

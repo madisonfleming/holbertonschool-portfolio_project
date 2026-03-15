@@ -19,7 +19,7 @@ def test_get_user(client):
 
     assert response.status_code == 200
 
-    assert response.json()["name"] == "Mary"
+    assert response.json()["name"] == "Alice"
 
 
 def test_put_update_user_name(client):
