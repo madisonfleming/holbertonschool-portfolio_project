@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: column;
 
-  width: 440px;
+  width: 100%;
 
   border-radius: 24px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -23,24 +23,30 @@
   margin-bottom: 20px;
   padding: 10px;
   outline: none;
-  border: none !important;
+
   transition: box-shadow 0.3s ease;
+  border: 2px solid #d2bae8; /* give purple border */
+}
+
+.child-card:hover {
+  border-color: #9b59b6; /* highlight border on hover */
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.12);
+  transform: translateY(-1px);
 }
 
 .expanded {
-  transition: 0.5s ease-in-out, box-shadow 0.3s ease;
-  
+  transition: 0.5s ease-in-out, box-shadow 0.3s ease; /* transition worm the same each change */
   border: none;
 }
 
 
 .expanded-content {
   overflow: hidden;
+  width: 100%;
   max-height: 0;
-  transition: max-height 0.5s ease, opacity 0.2s ease;
+  transition: 0.5s ease-in-out, box-shadow 0.3s ease;
   opacity: 0;
   margin-top: 20px;
-  padding-left: 10px;
 }
 
 .expanded-content.open {
@@ -49,15 +55,21 @@
 }
 
 .child-avatar {
-  height: 80px;
-  width: 80px;
+  height: 120px;
+  width: 120px;
+  padding: 8px 8px;
 }
-/*
+
+.row-layout {
+  display: flex;
+  flex-direction: row;
+}
+
 .text {
-  position: absolute;
-  top: 5px;
-  left: 100px;
-} */
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
 
 .child-name {
   font-weight: bold;
@@ -80,30 +92,4 @@
   font-size: 15px;
   color: black;
   font-family: 'Arial', sans-serif;
-}
-
-/* with child.list file
-.last-read-book {
-  font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
-  text-align: left;
-  font-size: 15px;
-  color: black;
-  font-family: 'Arial', sans-serif;
-}
-
-.expanded-content {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height 0.5s ease, opacity 0.2s ease;
-  opacity: 0;
-  margin-top: 20px;
-  padding-left: 10px;
-}
-
-.expanded-content.open {
-  max-height: 400px;
-  opacity: 1;
 }
