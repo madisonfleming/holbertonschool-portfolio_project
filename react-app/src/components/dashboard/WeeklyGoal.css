@@ -3,6 +3,9 @@
   max-width: 800px;
   border-radius: 28px;
   overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 20px;
 }
 
 /* the main part  */
@@ -22,22 +25,21 @@
 }
 
 .week-line {
-  font-family: 'Baloo 2', cursive;
+  font-family: "Baloo 2", cursive;
   font-size: 11px;
   font-weight: 800;
   color: #4a7a9b;
   letter-spacing: 3px;
   text-transform: uppercase;
-  background: rgba(255,255,255,0.5);
+  background: rgba(255, 255, 255, 0.5);
   padding: 4px 12px 4px 0;
   border-left: 3px solid #4a7a9b;
   padding-left: 10px;
   border-radius: 0 4px 4px 0;
 }
 
-
 .main-part-title {
-  font-family: 'Baloo 2', cursive;
+  font-family: "Baloo 2", cursive;
   font-size: 55px;
   font-weight: 800;
   color: #1a3a4a;
@@ -55,8 +57,8 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 340px;   
-  height: 340px; 
+  width: 340px;
+  height: 340px;
 }
 
 .image-wrap img {
@@ -65,7 +67,6 @@
   object-fit: contain;
 }
 
-
 /*For the text down the img*/
 .tagline {
   position: relative;
@@ -73,13 +74,13 @@
   margin-top: 200px;
   margin-left: -28px;
   margin-right: -28px;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(8px);
   padding: 14px 28px;
   font-size: 18px;
   font-weight: 700;
   color: #2d6080;
-  border-top: 1.5px solid rgba(255,255,255,0.9);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.9);
 }
 
 /* FOR THE INFO SECTION */
@@ -96,7 +97,9 @@
   margin-bottom: 20px;
 }
 
-.info-desc strong { color: #9b59b6; }
+.info-desc strong {
+  color: #9b59b6;
+}
 
 /* FOR THE CHILDS*/
 /*For the child bottoms, this is the container*/
@@ -203,7 +206,6 @@
   flex-wrap: wrap;
 }
 
-
 .book-circle {
   width: 58px;
   height: 58px;
@@ -226,13 +228,13 @@
 .book-circle:hover {
   border-color: #b885d8;
   transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(155,89,182,0.2);
+  box-shadow: 0 6px 16px rgba(155, 89, 182, 0.2);
 }
 
 .book-circle.selected {
   background: linear-gradient(135deg, #9b59b6, #cc7df0);
   border-color: white;
-  box-shadow: 0 6px 18px rgba(155,89,182,0.35);
+  box-shadow: 0 6px 18px rgba(155, 89, 182, 0.35);
   transform: scale(1.05);
 }
 
@@ -258,7 +260,7 @@
 
 /*Not using maybe later to pit the name of Book 1, 2 etc..*/
 .book-number {
-  font-family: 'Baloo 2', cursive;
+  font-family: "Baloo 2", cursive;
   font-size: 11px;
   font-weight: 700;
   color: #ccc;
@@ -268,7 +270,6 @@
 .book-circle.selected .book-number {
   color: #9b59b6;
 }
-
 
 /* EXPORT REWARD BUTTOM */
 .btn-reward {

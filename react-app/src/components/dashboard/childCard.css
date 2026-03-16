@@ -1,21 +1,16 @@
 .child-container {
-  background: white;
   display: flex;
   flex-direction: column;
-
   width: 100%;
   height: 100%;
-  border-radius: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
 }
 
 .child-card {
   background: white;
   display: flex;
   flex-direction: column;
-
   width: 100%;
-
   border-radius: 24px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
