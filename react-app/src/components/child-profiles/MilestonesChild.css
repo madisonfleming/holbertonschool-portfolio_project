@@ -112,6 +112,16 @@
 }
 
 /*btn-export*/
+
+.reward-section {
+  background: #faf5ff;
+  border: 2px solid #ede0f7;
+  border-radius: 16px;
+  text-align: center;
+  padding: 16px;
+  width: 100%;
+}
+
 .btn-row {
   display: flex;
   width: 100%;
@@ -120,6 +130,20 @@
   background: #faf5ff;
   border-radius: 14px;
   padding: 5px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+.reward-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #2d2d2d;
+}
+
+.reward-desc {
+  font-size: 11px;
+  color: #aaa;
+  font-weight: 600;
 }
 .btn-mc {
   flex: 1;

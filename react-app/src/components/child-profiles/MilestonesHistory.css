@@ -68,7 +68,7 @@
 
 /* Timeline */
 .timeline-wrap {
-  max-height: 320px;
+  max-height: 450px;
   overflow-y: auto;
   padding-right: 4px;
   scrollbar-width: thin;

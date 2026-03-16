@@ -51,13 +51,17 @@ const MilestonesChild = ({ selectedChild, certificateData }) => {
           <span className="stat-label">Done</span>
         </div>
       </div>
-      <div className="btn-row">
-        <button className="btn-mc"> Preview Reward</button>
-        <button className="btn-mc"> Download Reward</button>
-        {/*<ExportButton
+      <div className="reward-section">
+        <div className="reward-title">Your reward is ready!</div>
+        <div className="reward-desc">Download or preview your certificate</div>
+        <div className="btn-row">
+          <button className="btn-mc"> Preview Reward</button>
+          <button className="btn-mc"> Download Reward</button>
+          {/*<ExportButton
           certificateData={certificateData}
           selectedChild={selectedChild}
-        />*/}
+        /> */}
+        </div>
       </div>
     </div>
   );
