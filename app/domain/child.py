@@ -66,7 +66,7 @@ class Child(Base): # gives id, created_at, updated_at
         data.update({
             "id": self.child_id,
             "name": self.name,
-            "date_of_birth": self.date_of_birth.isoformat(),
+            "date_of_birth": self.date_of_birth,
             "avatar_url": self.avatar_url
         })
         return data
