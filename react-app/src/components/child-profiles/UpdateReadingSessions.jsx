@@ -14,7 +14,7 @@ const UpdateReadingSessions = ({ trigger, setTrigger, readingSessions, data, upd
   const [date, setDate] = useState(readingSessions?.logged_at || "");
   const [selectedBook, setSelectedBook] = useState(readingSessions?.book_id || "");
   //set image so it loads immediately
-  const [image, setImage] = useState(readingSessions?.cover_url || "");
+  const [image, setImage] = useState(readingSessions?.cover_url || './book.png');
   //have the child pre selected using the selectedChild's child state 
   const [selectedChildId, setSelectedChildId] = useState(selectedChild?.id || "");
 

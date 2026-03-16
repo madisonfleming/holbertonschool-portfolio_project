@@ -9,6 +9,7 @@ import ExportButton from "../../components/child-profiles/ExportButton";
 import { useChild } from "../../contexts/ChildContext"
 import { useBooks } from "../../contexts/BooksContext";
 import UpdateReadingSessions from "../../components/child-profiles/UpdateReadingSessions";
+import book from "../../../public/book.png"
 
 
 const ChildProfiles = () => {
@@ -69,7 +70,7 @@ const ChildProfiles = () => {
             <div className="book-grid">
               {readingSessions.map((session) => (
                 <div className="book-item" key={session.id}>
-                  <img src={session.img} alt={session.title} />
+                  <img src={session?.img || book} alt={session.title} />
                   <p>{session.title}</p>
                   {/* update reading session button */}
                   <button className="update-reading-sessions-btn"
