@@ -42,7 +42,8 @@
   gap: 20px;
   /* both columns has the same height */
   padding: 10px;
-  height: 75vh;
+  height: auto;
+  min-height: 75vh;
 }
 
 /*READING HISTORY*/
