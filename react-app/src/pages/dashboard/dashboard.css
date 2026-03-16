@@ -11,6 +11,7 @@
   right: 10px;
   height: 20px;
   border: 1px grey;
+  z-index: 9999;
 }
 .open-book-img {
   position: absolute;

@@ -84,7 +84,7 @@ const ChildProfiles = () => {
               ))}
             </div>
             {/* if popup is true then render update */}
-            {setButtonUpdateReadingSessionPopup && (
+            {buttonUpdateReadingSessionPopup && (
               <UpdateReadingSessions
                 trigger={buttonUpdateReadingSessionPopup}
                 setTrigger={setButtonUpdateReadingSessionPopup}

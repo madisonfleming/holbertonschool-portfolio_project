@@ -66,7 +66,7 @@ export function BooksProvider({ children }) {
       //const child = useState(selectedChild);
       /* reading-session endpoint  */
       const response = await fetch(
-        `http://127.0.0.1:8000/api/children/${selectedChild}/reading-sessions`,
+        `http://127.0.0.1:8000/api/children/${selectedChild.id}/reading-sessions`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -218,7 +218,7 @@ export function BooksProvider({ children }) {
       setReadingSessions,
       createReadingSession,
     }}>
-      {!loading && children}
+      {children}
     </BooksContext.Provider>
   );
 }
