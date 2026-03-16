@@ -43,7 +43,10 @@ export function ChildProvider({ children }) {
       }));
       setChildList(formatted);
       //set selectedchild to default first child value im unsure if this should be deleted
-      setSelectedChild(formatted[0] || null);
+      if (!selectedChild && formatted.length > 0) {
+        setSelectedChild(formatted[0]);
+      }
+
       //setLoading(false);
     } catch (error) {
       console.error("Error fetch child", error);

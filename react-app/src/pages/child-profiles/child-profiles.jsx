@@ -15,8 +15,6 @@ const ChildProfiles = () => {
   const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] =
     useState(false);
   const { selectedChild, childList } = useChild();
-  const current_num_of_books = 100;
-  const target = 1000;
 
   //data for export rewards certificate
   const certificateData = {
@@ -58,8 +56,6 @@ const ChildProfiles = () => {
       {/* The container is for both cards */}
       <div className="milestones-container">
         <MilestonesChild
-          current_num_of_books={current_num_of_books}
-          target={target}
           selectedChild={selectedChild}
           certificateData={certificateData}
         />

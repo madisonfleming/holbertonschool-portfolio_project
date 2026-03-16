@@ -15,7 +15,28 @@ export function BooksProvider({ children }) {
 
   const [readingSessions, setReadingSessions] = useState([]);
   // load the current state of reading sessions
-  const [loading, setLoading] = useState(true);
+  //const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (currentUser) loadData();
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (currentUser) getReadingSessionsCount();
+  }, [currentUser]);
+
+  //use effect for no child selected yet
+  useEffect(() => {
+    if (!selectedChild) return;
+
+    loadData(selectedChild);
+  }, [selectedChild]);
+
+  useEffect(() => {
+    if (!selectedChild) return;
+
+    getReadingSessionsCount(selectedChild);
+  }, [selectedChild]);
 
   //ENDPOINT TO SEARCH FOR BOOK BY QUERY the str required frm the BE
   async function searchBooks(q) {
@@ -91,6 +112,34 @@ export function BooksProvider({ children }) {
       //setLoading(false);
       return [];
     }
+  }
+
+  //GET READING SESSIONS COUNT
+  async function getReadingSessionsCount() {
+    let cont_data = 0;
+    try {
+      const token = await currentUser.getIdToken();
+      console.log("TOKEN:", token);
+      /* reading-session endpoint  */
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/children/${selectedChild.id}/reading-sessions/count`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      cont_data = await response.json();
+      /* we need to add an if in case the data is error  */
+      console.log("READING SESSION CONT DATA from Backend:", cont_data);
+
+      if (!cont_data) return 0;
+    } catch (error) {
+      console.error("Error getting the count reading sessions", error);
+      return;
+    }
+    return cont_data;
   }
 
   //UPDATE READING SESSIONS
@@ -184,22 +233,12 @@ export function BooksProvider({ children }) {
     ]);
   }
 
-  useEffect(() => {
-    if (currentUser) loadData();
-  }, [currentUser]);
-
-  //use effect for no child selected yet
-  useEffect(() => {
-    if (!selectedChild) return;
-
-    loadData(selectedChild);
-  }, [selectedChild]);
-
   return (
     <BooksContext.Provider
       value={{
         searchBooks,
         loadData,
+        getReadingSessionsCount,
         BooksList,
         setBooksList,
         updateReadingSessions,

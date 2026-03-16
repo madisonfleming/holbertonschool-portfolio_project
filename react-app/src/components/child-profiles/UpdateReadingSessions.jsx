@@ -1,22 +1,35 @@
 import { useState, useEffect } from "react";
-import "./UpdateReadingSession.css"
+import "./UpdateReadingSession.css";
 import { useBooks } from "../../contexts/BooksContext";
 import { useChild } from "../../contexts/ChildContext";
 
-const UpdateReadingSessions = ({ trigger, setTrigger, readingSessions, data, updateReadingSessions }) => {
+const UpdateReadingSessions = ({
+  trigger,
+  setTrigger,
+  readingSessions,
+  data,
+  updateReadingSessions,
+}) => {
   //data prop for reading session ID
   //add updateReadingSessions as a prop rather than call from context
 
   //using selectedChild from child context ie using the child in the current state
   const { childList, selectedChild } = useChild();
-  //this take the states that receive as a prop (readingSessions) 
+  if (!selectedChild) return null;
+  //this take the states that receive as a prop (readingSessions)
   const [sessionId, setSessionId] = useState(readingSessions?.id || "");
   const [date, setDate] = useState(readingSessions?.logged_at || "");
-  const [selectedBook, setSelectedBook] = useState(readingSessions?.book_id || "");
+  const [selectedBook, setSelectedBook] = useState(
+    readingSessions?.book_id || "",
+  );
   //set image so it loads immediately
-  const [image, setImage] = useState(readingSessions?.cover_url || './book.png');
-  //have the child pre selected using the selectedChild's child state 
-  const [selectedChildId, setSelectedChildId] = useState(selectedChild?.id || "");
+  const [image, setImage] = useState(
+    readingSessions?.cover_url || "./book.png",
+  );
+  //have the child pre selected using the selectedChild's child state
+  const [selectedChildId, setSelectedChildId] = useState(
+    selectedChild?.id || "",
+  );
 
   /* SEARCH BOOKS  */
   const { searchBooks } = useBooks();
@@ -25,17 +38,20 @@ const UpdateReadingSessions = ({ trigger, setTrigger, readingSessions, data, upd
   const [filteredBooks, setFilteredBooks] = useState([]);
 
   //sync state when reading session changes
-  useEffect(() => {
-    if (readingSessions) {
-      setSessionId(readingSessions.id || "");
-      setDate(readingSessions.logged_at || "");
-      setSelectedBook(readingSessions.book_id || "");
-      setImage(readingSessions.cover_url || "");
-      //update when selectedChild changes 
-      setSelectedChildId(selectedChild.id || "");
-    }
-  }, [readingSessions], [selectedChild]);
-
+  useEffect(
+    () => {
+      if (readingSessions) {
+        setSessionId(readingSessions.id || "");
+        setDate(readingSessions.logged_at || "");
+        setSelectedBook(readingSessions.book_id || "");
+        setImage(readingSessions.cover_url || "");
+        //update when selectedChild changes
+        setSelectedChildId(selectedChild.id || "");
+      }
+    },
+    [readingSessions],
+    [selectedChild],
+  );
 
   const handleUpdateReadingSession = () => {
     const updatedData = {};
@@ -53,7 +69,7 @@ const UpdateReadingSessions = ({ trigger, setTrigger, readingSessions, data, upd
     }
 
     console.log("sending update data for test: ", updatedData);
-    console.log("session_id holds:", data)
+    console.log("session_id holds:", data);
     //readingSessions are stored with session_id in backend so we need session_id here
     updateReadingSessions(data, updatedData);
 
@@ -67,18 +83,15 @@ const UpdateReadingSessions = ({ trigger, setTrigger, readingSessions, data, upd
     setDate("");
     setSelectedBook("");
     setTrigger(false); // close popup
-  }
-  if (!readingSessions) return null
-
+  };
+  if (!readingSessions) return null;
 
   return trigger ? (
     <div className="popup-overlay">
       <div className="UpdateReadingSessions">
         {/* Close btn */}
-        <button
-          className="btn-close"
-          onClick={handleCloseResetData}
-        >✕
+        <button className="btn-close" onClick={handleCloseResetData}>
+          ✕
         </button>
         {/* update reading sessions */}
         <h1 className="tittle-popup-card">Update Reading Session</h1>
@@ -140,7 +153,7 @@ const UpdateReadingSessions = ({ trigger, setTrigger, readingSessions, data, upd
                       setSelectedBook(book);
                       setSearchTerm(book.title); // shows the selected book on search..
                       //set image so its stays in the state
-                      setImage(book.img)
+                      setImage(book.img);
                       setShowDropdown(false); //disappear the drop down
                     }}
                   >
@@ -187,7 +200,9 @@ const UpdateReadingSessions = ({ trigger, setTrigger, readingSessions, data, upd
         </div>
 
         <div className="button-section">
-          <button className="btn-submit" onClick={handleUpdateReadingSession}>Update Reading Session</button>
+          <button className="btn-submit" onClick={handleUpdateReadingSession}>
+            Update Reading Session
+          </button>
         </div>
       </div>
     </div>
