@@ -14,34 +14,8 @@ export function BooksProvider({ children }) {
   const { selectedChild } = useChild();
 
   const [readingSessions, setReadingSessions] = useState([]);
-
-  //ENDPOIN TO LOAD ALL THE BOOKS (not implemented yet is for show reading history)
-  /*
-  async function loadBooks(q) {
-    try {
-      const token = await currentUser.getIdToken();
-      const response = await fetch(`http://127.0.0.1:8000/api/books/search?q=${q}/limit=30`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
-
-      const BooksData = await response.json();
-      console.log("this is book data:", BooksData)
-      const formatted = BooksData.map((book) => ({
-        id: book.book_id,
-        title: book.title,
-        img: book.cover_url,
-      }));
-
-      setBooksList(formatted);
-      console.log("Books list is:", setBooksList);
-    } catch (error) {
-      console.error("Error fetch book", error);
-      return BooksList;
-    }
-  } 
-    */
+  // load the current state of reading sessions
+  const [loading, setLoading] = useState(true);
 
 
   //ENDPOINT TO SEARCH FOR BOOK BY QUERY the str required frm the BE
@@ -103,6 +77,9 @@ export function BooksProvider({ children }) {
       const data = await response.json();
       /* we need to add an if in case the data is error  */
       console.log("READING SESSION DATA from Backend:", data);
+
+      if (!data) return;
+
       const formatted = data.map((session) => ({
         //mapping each session to display
         id: session.session_id,
@@ -112,9 +89,12 @@ export function BooksProvider({ children }) {
         img: session.cover_url,
       }));
       setReadingSessions(formatted);
+      //set loading false
+      setLoading(false);
 
     } catch (error) {
       console.error("Error getting reading sessions", error);
+      setLoading(false);
       return [];
     }
 
@@ -122,6 +102,7 @@ export function BooksProvider({ children }) {
 
   //UPDATE READING SESSIONS
   async function updateReadingSessions(session_id, updatedData) {
+    //show session_id in console
     console.log("session_id data:", session_id)
     console.log("PUT payload:", updatedData);
     try {
@@ -144,12 +125,31 @@ export function BooksProvider({ children }) {
       /* we need to add an if in case the data is error  */
       console.log("Answer from BE of Updating Reading Session:", data);
 
-      // update a single reading session inside the object array
-      setReadingSessions((prev) =>
-        prev.map((session) =>
-          session.session_id === session_id ? { ...session, ...data } : session
-        )
-      );
+      //using set function to map and to update UI immediately
+      setReadingSessions(prev => {
+        const updatedList = prev.map(item => {
+          if (item.id === session_id) {
+            //search for the session to update
+            // ... copy all the properties into a new object
+            return {
+              ...item,
+              ...data,
+              // if updated has a valid url use it, otherwise use old data
+              img: data.cover_url ?? item.img,
+            };
+          } else {
+            // item new data is not new, stay with old data
+            return item;
+          }
+        });
+        return updatedList;
+      });
+
+      //show fail error
+      if (!response.ok) {
+        console.error("Update fail", data)
+      }
+
 
     } catch (error) {
       console.error("Error updating reading sessions", error);
@@ -157,20 +157,68 @@ export function BooksProvider({ children }) {
     }
 
   }
+
+  //ENDPOINT TO CREATE A READING SESSION
+  async function createReadingSession(readingSessionData) {
+    if (!currentUser) return;
+
+    const token = await currentUser.getIdToken();
+    const response = await fetch("http://127.0.0.1:8000/api/reading-sessions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(readingSessionData),
+    });
+    if (!response.ok) {
+      console.error("Error creating reading session");
+      return;
+    }
+    const newReadingSession = await response.json();
+    // we received fron BE
+    console.log(
+      "Answer from BE of creating new reading session:",
+      newReadingSession,
+    )
+    //mapping new reading session. ...prev means copy object and new data to new object
+    setReadingSessions((prev) => [
+      ...prev,
+      {
+        id: newReadingSession.session_id,
+        childId: newReadingSession.child_id,
+        bookId: newReadingSession.book_id,
+        title: newReadingSession.title,
+        img: newReadingSession.cover_url,
+      },
+    ]);
+  }
+
+
   useEffect(() => {
     if (currentUser) loadData();
   }, [currentUser]);
+
+  //use effect for no child selected yet
+  useEffect(() => {
+    if (!selectedChild) return;
+
+    loadData(selectedChild);
+  }, [selectedChild]);
+
 
 
   return (
     <BooksContext.Provider value={{
       searchBooks,
+      BooksList,
+      setBooksList,
+      updateReadingSessions,
       readingSessions,
       setReadingSessions,
-      BooksList,
-      updateReadingSessions
+      createReadingSession,
     }}>
-      {children}
+      {!loading && children}
     </BooksContext.Provider>
   );
 }

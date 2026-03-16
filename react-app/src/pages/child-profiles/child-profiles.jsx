@@ -9,6 +9,7 @@ import ExportButton from "../../components/child-profiles/ExportButton";
 import { useChild } from "../../contexts/ChildContext"
 import { useBooks } from "../../contexts/BooksContext";
 import UpdateReadingSessions from "../../components/child-profiles/UpdateReadingSessions";
+import book from "../../../public/book.png"
 
 
 const ChildProfiles = () => {
@@ -32,31 +33,10 @@ const ChildProfiles = () => {
     { id: 4, name: "Completed Dinosaur Week" },
   ];
 
-
-  const books = [
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" },
-    { title: "The Very Hungry Caterpillar", img: "public/books/caterpillar.png" }
-  ];
-
-
   const [selectedBook, setSelectedBook] = useState("");
   const { BooksList } = useBooks();
   const [editingReadingSession, setEditingReadingSession] = useState(null);
-  const { readingSessions, setReadingSession } = useBooks();
+  const { readingSessions, updateReadingSessions } = useBooks();
 
   const [buttonUpdateReadingSessionPopup, setButtonUpdateReadingSessionPopup] = useState(false);
 
@@ -90,12 +70,12 @@ const ChildProfiles = () => {
             <div className="book-grid">
               {readingSessions.map((session) => (
                 <div className="book-item" key={session.id}>
-                  <img src={session.img} alt={session.title} />
+                  <img src={session?.img || book} alt={session.title} />
                   <p>{session.title}</p>
                   {/* update reading session button */}
                   <button className="update-reading-sessions-btn"
                     onClick={() => {
-                      setEditingReadingSession(session);
+                      setEditingReadingSession(session.id);
                       setButtonUpdateReadingSessionPopup(true);
                     }}
                   >Edit
@@ -108,8 +88,9 @@ const ChildProfiles = () => {
               <UpdateReadingSessions
                 trigger={buttonUpdateReadingSessionPopup}
                 setTrigger={setButtonUpdateReadingSessionPopup}
-                UpdateReadingSessions={UpdateReadingSessions}
-                readingSessions={editingReadingSession}
+                updateReadingSessions={updateReadingSessions}
+                readingSessions={readingSessions}
+                data={editingReadingSession}
               ></UpdateReadingSessions>
             )}
           </div>
