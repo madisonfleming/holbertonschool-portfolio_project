@@ -34,6 +34,12 @@
   text-transform: uppercase;
 }
 
+/*Worm*/
+.worm {
+  max-height: 400px;
+  opacity: 1;
+}
+
 /*Big % proress*/
 .progress-hero {
   display: flex;
@@ -71,7 +77,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
-  margin-bottom: 24px;
+  width: 100%;
 }
 
 .stat-box {
@@ -105,43 +111,39 @@
   letter-spacing: 0.5px;
 }
 
-/* Divider */
-.divider {
-  width: 100%;
-  height: 2px;
-  background-color: #e0e0e0;
-  margin: 20px 0;
-}
-
 /*btn-export*/
 .btn-row {
   display: flex;
   width: 100%;
-  flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+  margin-bottom: 24px;
+  background: #faf5ff;
+  border-radius: 14px;
+  padding: 5px;
 }
 .btn-mc {
-  width: 100%;
-  padding: 15px 20px; /*make the button bigger*/
-  border-radius: 14px; /*round corners*/
-  background: #f0f0f0;
-  color: #b0b0b0;
-  /*This is for the text inside*/
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none; /*delete the border from button*/
-  font-size: 15px;
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  /*font-family: "Baloo 2", cursive;*/
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  background: transparent;
+  color: #bbb;
   transition: all 0.2s ease;
-  letter-spacing: 0.3px;
-  font-weight: 500;
-  cursor: not-allowed;
+  text-align: center;
+}
+
+.btn-mc {
+  background: white;
+  color: #9b59b6;
+  box-shadow: 0 2px 8px rgba(155, 89, 182, 0.15);
 }
 
 .btn-mc:hover {
-  transform: translateY(-2px);
-  cursor: pointer;
+  background: #9b59b6;
   color: white;
-  background: linear-gradient(135deg, #9b59b6, #cc7df0);
-  box-shadow: 0 10px 28px rgba(155, 89, 182, 0.5);
+  box-shadow: 0 2px 8px rgba(155, 89, 182, 0.15);
 }

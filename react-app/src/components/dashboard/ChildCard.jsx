@@ -1,6 +1,6 @@
-import "./childCard.css"
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import "./childCard.css";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import GetWorm from "./GetWorm";
 import { useChild } from "../../contexts/ChildContext";
 
@@ -16,28 +16,42 @@ const ChildCard = () => {
 
         return (
           <div key={child.id}>
-
-            <div className="child-card" onClick={() => setExpandedChild(isOpen ? null : child.id)} aria-expanded={isOpen}>
+            <div
+              className="child-card"
+              onClick={() => setExpandedChild(isOpen ? null : child.id)}
+              aria-expanded={isOpen}
+            >
               <div className="row-layout">
-                <img src={child.avatar} alt={child.name} className="child-avatar" />
+                <img
+                  src={child.avatar}
+                  alt={child.name}
+                  className="child-avatar"
+                />
                 <div className="text">
-                  <Link className="child-name" to="/child-profiles" onClick={(e) => e.stopPropagation()}>{child.name}</Link>
+                  <Link
+                    className="child-name"
+                    to="/child-profiles"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {child.name}
+                  </Link>
                   <div className="child-age">{child.age}</div>
                 </div>
               </div>
-              <div className={`expanded-content ${isOpen ? 'open' : ""}`}>
-                <GetWorm />
+              <div className={`expanded-content ${isOpen ? "open" : ""}`}>
+                <GetWorm child={child.id} />
               </div>
             </div>
           </div>
         );
       })}
     </div>
-  )
-}
+  );
+};
 export default ChildCard;
 
-{/*<img className="avatar" src={selectedChild.avatar} alt="avatar" />
+{
+  /*<img className="avatar" src={selectedChild.avatar} alt="avatar" />
       <div className="text">
         <Link className="child-name" to="/child-profiles">{selectedChild.name}</Link>
         <h2 className="child-age">Age: {selectedChild.age}</h2>
@@ -49,6 +63,5 @@ export default ChildCard;
       
     </div>
     </div>
-      ) */}
-
-
+      ) */
+}

@@ -1,15 +1,26 @@
-import "./GetWorm.css"
-const GetWorm = () => {
+import "./GetWorm.css";
+import { useEffect, useState } from "react";
+import { useBooks } from "../../contexts/BooksContext";
+const GetWorm = ({ selectedChild }) => {
+  if (!selectedChild) return "No child selected";
 
-  const current_num_of_books = 900
-  const percentage = Math.min((current_num_of_books / 1000) * 100, 100);
+  const { getReadingSessionsCount } = useBooks();
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    async function loadCount() {
+      const count_from_endpoint = await getReadingSessionsCount();
+      setCount(count_from_endpoint);
+    }
+
+    loadCount();
+  }, [selectedChild]);
+
+  const percentage = Math.min((count / 1000) * 100, 100);
 
   return (
     <div className="GetWorm-card">
-      <svg
-        viewBox="0 0 2662 1404"
-        width="280"
-        height="140">
+      <svg viewBox="0 0 2662 1404" width="280" height="140">
         <mask id="worm-mask">
           {/* here fill=black means fill = none */}
           <rect x="0" y="0" width="2662" height="1404" fill="black" />
@@ -24,7 +35,13 @@ const GetWorm = () => {
         </mask>
         {/* this defines the linear gradient used in the fill */}
         <defs>
-          <linearGradient id="worm-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient
+            id="worm-gradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
+          >
             <stop offset="0%" stopColor="#e0a3ff" />
             <stop offset="50%" stopColor="#ae5dfa" />
             <stop offset="100%" stopColor="#861be4" />
@@ -45,8 +62,7 @@ const GetWorm = () => {
         />
       </svg>
     </div>
-  )
+  );
+};
 
-}
-
-export default GetWorm
+export default GetWorm;

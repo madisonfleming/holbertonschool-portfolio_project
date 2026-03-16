@@ -62,6 +62,16 @@ const MilestonesHistory = ({ selectedChild }) => {
     fetchDataFromMilestonesPerChild();
   }, [selectedChild]);
 
+  //small function for date
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  }
+
   return (
     <div className="milestoneHistory-card">
       <h1 className="card-title"> Milestones </h1>
@@ -117,7 +127,7 @@ const MilestonesHistory = ({ selectedChild }) => {
                     {dataFromBEMilestones.description}
                   </div>
                   <div className="milestone-date">
-                    {dataFromBEMilestones.completed_at}
+                    {formatDate(dataFromBEMilestones.completed_at)}
                   </div>
                 </div>
               </div>
