@@ -10,7 +10,7 @@ import ChildCard from "../../components/dashboard/ChildCard";
 // dashboard only loads popups cards show components NOT LOGIC ON BE thats context
 const Dashboard = () => {
   //we use context to import useChild
-  const { childList } = useChild();
+  const { childList, selectedChild } = useChild();
   const { currentUser } = useAuth();
   const theme = getWeeklyTheme();
   const [buttonAddReadingSessionPopup, setButtonAddReadingSessionPopup] =
@@ -37,13 +37,10 @@ const Dashboard = () => {
       ></AddReadingSession>
       <div className="dashboard-grid">
         <div className="children-container">
-          <ChildCard childrenList={childList} />
+          <ChildCard />
         </div>
         <div className="weekly-container">
-          <WeeklyGoal
-            target={target}
-            theme={theme}
-          />
+          <WeeklyGoal target={target} theme={theme} />
         </div>
         {/* 
         <div className="milestones-container">

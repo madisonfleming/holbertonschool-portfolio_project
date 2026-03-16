@@ -7,7 +7,7 @@ import { useChild } from "../../contexts/ChildContext";
 // now recieving data from usechild context
 const ChildCard = () => {
   const [expandedChild, setExpandedChild] = useState(null);
-  const { childList } = useChild();
+  const { childList, selectedChild, setSelectedChild } = useChild();
 
   return (
     <div className="child-container">
@@ -18,7 +18,10 @@ const ChildCard = () => {
           <div key={child.id}>
             <div
               className="child-card"
-              onClick={() => setExpandedChild(isOpen ? null : child.id)}
+              onClick={() => {
+                setExpandedChild(isOpen ? null : child.id);
+                setSelectedChild(child);
+              }}
               aria-expanded={isOpen}
             >
               <div className="row-layout">
@@ -31,15 +34,21 @@ const ChildCard = () => {
                   <Link
                     className="child-name"
                     to="/child-profiles"
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedChild(child);
+                    }}
                   >
                     {child.name}
                   </Link>
-                  <div className="child-age">{child.age}</div>
+                  <div className="child-age">Age: {child.age}</div>
+                  <p className="info-desc">
+                    <strong>Click here </strong>to see the progress!
+                  </p>
                 </div>
               </div>
               <div className={`expanded-content ${isOpen ? "open" : ""}`}>
-                <GetWorm child={child.id} />
+                <GetWorm selectedChild={selectedChild} />
               </div>
             </div>
           </div>
