@@ -17,7 +17,6 @@ export function BooksProvider({ children }) {
   // load the current state of reading sessions
   const [loading, setLoading] = useState(true);
 
-
   //ENDPOINT TO SEARCH FOR BOOK BY QUERY the str required frm the BE
   async function searchBooks(q) {
     try {
@@ -54,19 +53,15 @@ export function BooksProvider({ children }) {
     }
   }
 
-
   //GET READING SESSIONS
-
   // To display as reading activity on figma we need the cover URL. data is not working
   // To display EDIT reading sessions we also need BOOK TITLE in payload
   async function loadData() {
-    console.log("selectedChild holds:", selectedChild)
     try {
       const token = await currentUser.getIdToken();
-      //const child = useState(selectedChild);
       /* reading-session endpoint  */
       const response = await fetch(
-        `http://127.0.0.1:8000/api/children/${selectedChild}/reading-sessions`,
+        `http://127.0.0.1:8000/api/children/${selectedChild.id}/reading-sessions`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -90,20 +85,18 @@ export function BooksProvider({ children }) {
       }));
       setReadingSessions(formatted);
       //set loading false
-      setLoading(false);
-
+      //setLoading(false);
     } catch (error) {
       console.error("Error getting reading sessions", error);
-      setLoading(false);
+      //setLoading(false);
       return [];
     }
-
   }
 
   //UPDATE READING SESSIONS
   async function updateReadingSessions(session_id, updatedData) {
     //show session_id in console
-    console.log("session_id data:", session_id)
+    console.log("session_id data:", session_id);
     console.log("PUT payload:", updatedData);
     try {
       const token = await currentUser.getIdToken();
@@ -126,8 +119,8 @@ export function BooksProvider({ children }) {
       console.log("Answer from BE of Updating Reading Session:", data);
 
       //using set function to map and to update UI immediately
-      setReadingSessions(prev => {
-        const updatedList = prev.map(item => {
+      setReadingSessions((prev) => {
+        const updatedList = prev.map((item) => {
           if (item.id === session_id) {
             //search for the session to update
             // ... copy all the properties into a new object
@@ -147,15 +140,12 @@ export function BooksProvider({ children }) {
 
       //show fail error
       if (!response.ok) {
-        console.error("Update fail", data)
+        console.error("Update fail", data);
       }
-
-
     } catch (error) {
       console.error("Error updating reading sessions", error);
       return [];
     }
-
   }
 
   //ENDPOINT TO CREATE A READING SESSION
@@ -180,7 +170,7 @@ export function BooksProvider({ children }) {
     console.log(
       "Answer from BE of creating new reading session:",
       newReadingSession,
-    )
+    );
     //mapping new reading session. ...prev means copy object and new data to new object
     setReadingSessions((prev) => [
       ...prev,
@@ -194,7 +184,6 @@ export function BooksProvider({ children }) {
     ]);
   }
 
-
   useEffect(() => {
     if (currentUser) loadData();
   }, [currentUser]);
@@ -206,19 +195,20 @@ export function BooksProvider({ children }) {
     loadData(selectedChild);
   }, [selectedChild]);
 
-
-
   return (
-    <BooksContext.Provider value={{
-      searchBooks,
-      BooksList,
-      setBooksList,
-      updateReadingSessions,
-      readingSessions,
-      setReadingSessions,
-      createReadingSession,
-    }}>
-      {!loading && children}
+    <BooksContext.Provider
+      value={{
+        searchBooks,
+        loadData,
+        BooksList,
+        setBooksList,
+        updateReadingSessions,
+        readingSessions,
+        setReadingSessions,
+        createReadingSession,
+      }}
+    >
+      {children}
     </BooksContext.Provider>
   );
 }
