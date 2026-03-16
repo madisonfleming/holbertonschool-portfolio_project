@@ -1,11 +1,21 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { getAuth, signOut } from "firebase/auth"; // import functionality for logout from firebase SDK module
+
 
 function MyNavbar() {
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
+  const auth = getAuth();
+
+  const handleLogout = async () => { // facilitates logging out of firebase
+    await signOut(auth);
+    navigate("/home"); // redirects user to home page after logout
+  };
+
   return (
     <div>
       <Navbar expand="lg">
@@ -40,7 +50,7 @@ function MyNavbar() {
                 </Nav.Link>
               )}
               {currentUser && (
-                <Nav.Link className="px-3" as={Link} to="/login">
+                <Nav.Link className="px-3" onClick={handleLogout}>
                   Log Out
                 </Nav.Link>
               )}
