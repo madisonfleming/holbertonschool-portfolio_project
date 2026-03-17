@@ -1,0 +1,74 @@
+
+.child-card-settings {
+  display: flex;
+  align-items: center;
+  gap: 16px; /*space for the elements inside*/
+  background: #faf5ff;
+  border: 2px solid #d2bae8;
+  border-radius: 20px;
+  padding: 16px 18px; /*create space between components avatar padding info padding*/
+  transition: all 0.2s ease;
+  animation: fadeIn 0.4s ease both;
+  margin-bottom: 16px;
+}
+
+.child-card-settings:hover {
+    border-color: #9b59b6;
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.12);
+    transform: translateY(-1px);
+  }
+
+
+.child-avatar-settings {
+  height: 80px;
+  width: 80px;
+}
+
+.child-info {
+    flex: 1; /*this says take all the space and push the next elements to the right*/
+    min-width: 0;
+    display: flex;
+  flex-direction: column; 
+  }
+
+.child-name-settings {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 3px;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.child-name-settings:hover {
+  color: grey;
+}
+
+.child-age-settings {
+  font-weight: bold;
+  font-size: 15px;
+  color: black;
+}
+
+
+/* Update button */
+  .btn-update-settings {
+    flex-shrink: 0;
+    padding: 9px 16px;
+    border-radius: 12px;
+    border: none;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #f0e8f7;
+    color: #9b59b6;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    white-space: nowrap;
+  }
+
+  .btn-update-settings:hover {
+    background: linear-gradient(135deg, #9b59b6, #cc7df0);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(155, 89, 182, 0.35);
+  }

@@ -1,0 +1,120 @@
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.UpdateUser {
+  background: white;
+  border-radius: 15px;
+  /* Size */
+  width: 200%;
+  max-width: 640px;
+  /* Height */
+  height: auto;
+  padding: 40px 40px 30px 40px;
+  /* menos padding abajo */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  position: relative;
+  /* For the content to have a better distribution */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+/* .update-user-layout */
+
+.update-popup-card {
+  font-size: 35px;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 50px;
+}
+
+/*the about, pickup an avatar*/
+.subtitle-popup-card {
+  font-size: 16px;
+  font-weight: bold;
+  color: #9b59b6;
+  
+}
+
+
+/*Containers for name and DOB*/
+.select-field-update-child {
+  background: #fafafa;
+  color: #333;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: #333;
+  outline: none;
+  width: 96%;
+  border: 2.5px solid #f0f0f0;
+  transition: all 0.2s ease;
+  margin-bottom: 15px;
+}
+
+input[type="text"]:focus, input[type="date"]:focus {
+    border-color: #9b59b6;
+    background: #faf5ff;
+    box-shadow: 0 0 0 4px rgba(184, 133, 216, 0.15);
+    transform: translateY(-1px);
+  }
+
+
+/*Buttom submit*/
+.button-section {
+  /*To make it more bottom*/
+  display: flex;
+  margin-bottom: 5px;
+}
+
+  .btn-close {
+    position: absolute !important;
+    top: 16px !important;
+    right: 16px !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    background: #d2bae8 !important;
+    color: #9b59b6 !important;
+    font-size: 18px;
+    /*this one is to doesnt get in a weird shape if the container goes smaller*/
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+  .btn-close:hover {
+    background: #e0d0f0 !important;
+    color: #7d3c98 !important;
+    transform: rotate(90deg) scale(1.1) !important;
+  }
+
+  .btn-submit {
+    flex: 1; /*take all the space available*/
+    padding: 15px 15px; /*make the button bigger*/
+    border-radius: 14px; /*round corners*/
+    background: linear-gradient(135deg, #9b59b6, #cc7df0);
+    color: white !important;
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+    /*This is for the text inside*/
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    border: none; /*delete the border from button*/
+    font-size: 15px;
+    transition: all 0.2s ease;
+    letter-spacing: 0.3px;
+  }
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(155, 89, 182, 0.5);
+  }

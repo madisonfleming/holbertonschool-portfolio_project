@@ -1,0 +1,103 @@
+.child-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+}
+
+.child-card {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  margin-bottom: 20px;
+  padding: 10px;
+  outline: none;
+
+  transition: box-shadow 0.3s ease;
+  border: 2px solid #d2bae8; /* give purple border */
+}
+
+.child-card:hover {
+  border-color: #9b59b6; /* highlight border on hover */
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.12);
+  transform: translateY(-1px);
+}
+
+.expanded {
+  transition:
+    0.5s ease-in-out,
+    box-shadow 0.3s ease; /* transition worm the same each change */
+  border: none;
+}
+
+.expanded-content {
+  overflow: hidden;
+  width: 100%;
+  max-height: 0;
+  transition:
+    0.5s ease-in-out,
+    box-shadow 0.3s ease;
+  opacity: 0;
+  margin-top: 20px;
+}
+
+.expanded-content.open {
+  max-height: 400px;
+  opacity: 1;
+}
+
+.child-avatar {
+  height: 120px;
+  width: 120px;
+  padding: 8px 8px;
+}
+
+.row-layout {
+  display: flex;
+  flex-direction: row;
+}
+
+.text {
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+.child-name {
+  font-weight: bold;
+  font-size: 25px;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.child-name:hover {
+  color: grey;
+}
+
+.child-age {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  text-align: left;
+  font-size: 14px;
+  color: #7a7a7a;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.info-desc {
+  font-size: 14px;
+  color: #7a7a7a;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.info-desc strong {
+  color: #9b59b6;
+}

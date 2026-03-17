@@ -1,0 +1,323 @@
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.AddReadingSessionCard {
+  background: white;
+  border-radius: 15px;
+  /* Size */
+  width: 100%;
+  max-width: 680px;
+  /* Height */
+  height: auto;
+  padding: 40px 40px 30px 40px;
+  /* menos padding abajo */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  position: relative;
+  /* For the content to have a better distribution */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tittle-popup-card {
+  font-size: 40px;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  font-family: "bree-serif";
+}
+
+/*the bookworm, and selected book*/
+.subtittle-popup-card {
+  font-size: 16px;
+  font-weight: bold;
+  color: #9b59b6;
+  font-family: "bree-serif";
+}
+
+/*Layout for the card to put the img on the right*/
+.reading-session-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-bottom: 28px;
+}
+
+.left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/*For the image of the book*/
+.right-section {
+  /* changed width to 150px to centre */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.book-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #fafafa;
+  border: 2.5px dashed #e0d0f0;
+  border-radius: 20px;
+  padding: 30px 16px;
+  text-align: center;
+  min-height: 0;
+}
+
+.book-empty-text {
+  font-family: "Baloo 2", cursive;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ccc;
+}
+.book-empty-sub {
+  font-size: 11px;
+  color: #ddd;
+  font-weight: 600;
+}
+
+.book-selected {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  border: 2.5px solid #e0c8f5;
+  border-radius: 20px;
+  padding: 24px 16px;
+  min-height: 0;
+  flex: 1;
+  justify-content: center;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.book-selected.visible {
+  display: flex;
+  flex: 1;
+  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.book-empty.hidden {
+  display: none;
+}
+
+.book-preview-img {
+  border-radius: 20px;
+  width: 250px;
+  height: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/*For the box drop down*/
+.select-field {
+  background: #fafafa;
+  color: #333;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 15px;
+  color: #333;
+  outline: none;
+  width: 96%;
+  max-width: 96%;
+  border: 2.5px solid #f0f0f0;
+  transition: all 0.2s ease;
+}
+
+.dropdown-list {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-height: 150px;
+  overflow-y: auto;
+  margin-top: 5px;
+  width: 50%;
+}
+
+.dropdown-item {
+  padding: 20px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f2f2f2;
+}
+
+.no-results {
+  color: #888;
+  font-style: italic;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus {
+  border-color: #9b59b6;
+  background: #faf5ff;
+  box-shadow: 0 0 0 4px rgba(184, 133, 216, 0.15);
+  transform: translateY(-1px);
+}
+
+.divider {
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #f0e8f7, transparent);
+  margin: 18px 0;
+}
+
+/*For the child bottoms, this is the container*/
+.readers-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/*this wraps each child*/
+.child-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  position: relative; /* this so the ::after can be inside */
+}
+
+/*Round btn*/
+.child-btn {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #f0e8f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid transparent;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+
+/* Avatar inside round btn */
+.child-avatar-img-rs {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /*with contain the avatar looks nice in a circle with cover there is zoom and look weird*/
+}
+
+.child-name-inside-card {
+  font-family: "Baloo 2", cursive;
+  font-size: 12px;
+  font-weight: 700;
+  color: #bbb;
+  transition: color 0.2s ease;
+}
+
+.child-wrapper:hover .child-btn {
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 8px 20px rgba(155, 89, 182, 0.2);
+}
+
+/* When is selected */
+.child-wrapper.selected .child-btn {
+  border-color: #9b59b6;
+  box-shadow:
+    0 0 0 4px rgba(155, 89, 182, 0.15),
+    0 6px 16px rgba(155, 89, 182, 0.25);
+  transform: scale(1.05);
+}
+
+.child-wrapper.selected .child-name-inside-card {
+  color: #9b59b6;
+  font-weight: 800;
+}
+
+.child-wrapper.selected::after {
+  content: "✓";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 18px;
+  height: 18px;
+  background: #9b59b6; /*for the inner circle*/
+  color: white;
+  border-radius: 50%; /*to be a circle*/
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 18px;
+  text-align: center;
+}
+
+/* Bottom Buttons Section close and submit */
+/*.select-field,*/ /* mads commented out this line as select-field is the date input
+fixed calender to the right */
+.button-section {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.btn-close {
+  position: absolute !important;
+  top: 16px !important;
+  right: 16px !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  background: #d2bae8 !important;
+  color: #9b59b6 !important;
+  font-size: 18px;
+  /*this one is to doesnt get in a weird shape if the container goes smaller*/
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.btn-close:hover {
+  background: #e0d0f0 !important;
+  color: #7d3c98 !important;
+  transform: rotate(90deg) scale(1.1) !important;
+}
+
+.btn-submit {
+  flex: 1; /*take all the space available*/
+  padding: 15px 20px; /*make the button bigger*/
+  border-radius: 14px; /*round corners*/
+  background: linear-gradient(135deg, #9b59b6, #cc7df0);
+  color: white !important;
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+  /*This is for the text inside*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none; /*delete the border from button*/
+  font-size: 15px;
+  transition: all 0.2s ease;
+  letter-spacing: 0.3px;
+}
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(155, 89, 182, 0.5);
+}

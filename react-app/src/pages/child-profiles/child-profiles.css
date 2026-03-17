@@ -1,0 +1,137 @@
+/*READING SESSION */
+.reading-session-container {
+  position: sticky;
+  top: 0px;
+  right: 10px;
+  height: 20px;
+  border: 1px grey;
+}
+.open-book-img {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  z-index: 1000;
+  width: 80px;
+  margin-right: 20px;
+}
+.reading-text {
+  position: absolute;
+  top: 90px;
+  right: 20px;
+  z-index: 1000;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+/*TITLE*/
+.child-profile-title {
+  font-size: 50px;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  font-family: "Arial", sans-serif;
+  margin-bottom: 24px;
+}
+
+/*MILESTONES CONTAINER*/
+.milestones-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* left more big más grande */
+  /* right divided in two  */
+  gap: 20px;
+  /* both columns has the same height */
+  padding: 10px;
+  height: auto;
+  min-height: 75vh;
+}
+
+/*READING HISTORY*/
+.reading-activity {
+  /*grid-column: 1 / span 2; /*start from line 1 and use two columns so all width*/
+  width: 100%;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.1)),
+    url("/public/reading_history.svg") top center/cover no-repeat;
+  height: 1000px;
+  display: flex;
+  border-radius: 50px;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column; /* 🔥 texto arriba, grid abajo */
+}
+
+.reading-activity-h1 {
+  font-size: 50px;
+  padding: 70px;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  font-family: "Arial", sans-serif;
+}
+.book-scroll-container {
+  position: relative;
+  height: 600px; /* ajustá según tu diseño */
+  overflow-y: auto;
+  padding: 40px;
+  border-radius: 20px;
+  display: flex;
+  gap: 150px;
+}
+
+/* GRID FOR BOOK */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 230px); /* 4 libros por fila */
+  gap: 30px;
+  overflow-x: hidden;
+}
+
+/* EACH BOOK */
+.book-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.book-item img {
+  width: 150px;
+  height: 190px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.book-item p {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+/*scroll minimalist*/
+::-webkit-scrollbar {
+  width: 8px; /* scroll delgado */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* sin fondo */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff9fc4;
+  border-radius: 10px;
+}
+
+.update-reading-sessions-btn {
+  border: none;
+  background-color: white;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-align: center;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
+  padding: 3px 20px 3px;
+}
