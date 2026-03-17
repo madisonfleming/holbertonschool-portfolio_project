@@ -1,5 +1,7 @@
 .milestoneChild-card {
-  background: white;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.3)),
+    url("/public/mlb-milestone_progress.png") center/cover no-repeat;
   border-radius: 20px;
   padding: 36px 32px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);

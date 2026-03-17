@@ -115,26 +115,25 @@ const Settings = () => {
             updateUser={updateUser}
           ></UpdateUser>
         </div>
+        <h1 className="title">Your Children!</h1>
         <div className="settings-child-card">
-          <h1 className="title">Your Children!</h1>
           <ChildCardSettings childrenList={childList} />
-
-          <div className="divider"> </div>
-          {/* createChild buttom for testing*/}
-          <button
-            className="btn-submit-create"
-            onClick={() => setButtonCreateChildPopup(true)}
-          >
-            Create Child
-          </button>
-          {/* For pop up the create child card  need to be outside so the weekly goal text doesnt appear infront */}
-          {/*FE send to the BE a POST with this json */}
-          <CreateChild
-            trigger={buttonCreateChildPopup}
-            setTrigger={setButtonCreateChildPopup}
-            createChild={createChild}
-          ></CreateChild>
         </div>
+        <div className="divider"> </div>
+        {/* createChild buttom for testing*/}
+        <button
+          className="btn-submit-create"
+          onClick={() => setButtonCreateChildPopup(true)}
+        >
+          Create Child
+        </button>
+        {/* For pop up the create child card  need to be outside so the weekly goal text doesnt appear infront */}
+        {/*FE send to the BE a POST with this json */}
+        <CreateChild
+          trigger={buttonCreateChildPopup}
+          setTrigger={setButtonCreateChildPopup}
+          createChild={createChild}
+        ></CreateChild>
       </div>
     </div>
   );

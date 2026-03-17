@@ -5,7 +5,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  /* centra horizontal */
+  /* centra horizontal align-items: stretch; */
   align-items: center;
   position: relative;
   overflow: hidden;
@@ -148,17 +148,9 @@
   border: 3px solid white;
 }
 
-.milestone-icon.books_read {
-  background: linear-gradient(135deg, #9b59b6, #cc7df0);
-}
-
-.milestone-icon.weekly_goal {
-  background: linear-gradient(135deg, #f39c12, #f1c40f);
-}
-
 .milestone-icon img {
-  width: 26px;
-  height: 26px;
+  width: 46px;
+  height: 46px;
   object-fit: contain;
 }
 
