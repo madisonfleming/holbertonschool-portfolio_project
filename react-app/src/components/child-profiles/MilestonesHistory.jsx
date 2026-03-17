@@ -16,8 +16,8 @@ const MilestonesHistory = ({ selectedChild }) => {
   //const [getBooksReadMilestonesPerChild, setBooksReadMilestonesPerChild] = useState([]);
 
   const icons = {
-    books_read: "/open-book.png",
-    weekly_goal: "/open-book.png",
+    books_read: "/mlb-star.png",
+    weekly_goal: "/mlb-trophy.png",
   };
   const labels = { books_read: "Books", weekly_goal: " Weekly" };
 
