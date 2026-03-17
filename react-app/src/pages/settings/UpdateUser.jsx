@@ -1,5 +1,6 @@
 import "./UpdateUser.css";
 import React from "react";
+import toast from "react-hot-toast"; // for user facing alerts/error messages
 
 import { useState, useEffect } from "react";
 
@@ -19,7 +20,7 @@ const UpdateUser = ({ user, trigger, setTrigger, updateUser }) => {
   }, [user]);
 
   //we need a handle in order to create the obj with the states
-    const handleUpdateUser = () => {
+    const handleUpdateUser = async () => {
       const updatedData = {
         name: userName,
         email: email,
@@ -27,10 +28,13 @@ const UpdateUser = ({ user, trigger, setTrigger, updateUser }) => {
       };
 
       console.log("sending update data for test: ", updatedData);
-      updateUser(updatedData);
-
-      setTrigger(false); // close popup
-    };
+      try {
+        await updateUser(updatedData);
+        setTrigger(false); // close popup
+        toast.success("Your profile has been updated successfully."); //enable success message
+      } catch(error) {
+        toast.error(error.message); // enable user error message (depending on error status code)
+      }};
 
   //handle to reset the data once we close the card
   const handleCloseResetData = () => {
