@@ -167,6 +167,12 @@ export function BooksProvider({ children }) {
       /* we need to add an if in case the data is error  */
       console.log("Answer from BE of Updating Reading Session:", data);
 
+      if (!response.ok) {
+        if (response.status == 400) { // invalid input (eg user didnt enter all required fields)
+          console.error("Error: Unable to update reading session as data is malformed/invalid."); // dev err
+          throw new Error ("Oops, something went wrong. Please check your details and try again."); // user error
+      }}
+
       //using set function to map and to update UI immediately
       setReadingSessions((prev) => {
         const updatedList = prev.map((item) => {
@@ -193,7 +199,8 @@ export function BooksProvider({ children }) {
       }
     } catch (error) {
       console.error("Error updating reading sessions", error);
-      return [];
+      // return [];
+      throw error; // send the 400 error msg back to compoonent to raise with toast
     }
   }
 

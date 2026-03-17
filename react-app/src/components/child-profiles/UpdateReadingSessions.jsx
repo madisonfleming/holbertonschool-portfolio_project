@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./UpdateReadingSession.css";
 import { useBooks } from "../../contexts/BooksContext";
 import { useChild } from "../../contexts/ChildContext";
+import toast from "react-hot-toast"; // for user facing alerts/error messages
 
 const UpdateReadingSessions = ({
   trigger,
@@ -53,7 +54,7 @@ const UpdateReadingSessions = ({
     [selectedChild],
   );
 
-  const handleUpdateReadingSession = () => {
+  const handleUpdateReadingSession = async () => {
     const updatedData = {};
 
     if (date) {
@@ -71,12 +72,16 @@ const UpdateReadingSessions = ({
     console.log("sending update data for test: ", updatedData);
     console.log("session_id holds:", data);
     //readingSessions are stored with session_id in backend so we need session_id here
-    updateReadingSessions(data, updatedData);
+    try {
+      await updateReadingSessions(data, updatedData);
 
-    //print the state of reading sessions
-    console.log("readingSessions holds:", readingSessions);
-    setTrigger(false); // close popup
-  };
+      //print the state of reading sessions
+      console.log("readingSessions holds:", readingSessions);
+      setTrigger(false); // close popup
+      toast.success("Reading session updated successfully."); //custom success msg for user
+    } catch (error) {
+      toast.error(error.message); // custom error msg (error msg received from contexts depending on status code)
+    }};
 
   const handleCloseResetData = () => {
     setSessionId("");
