@@ -18,15 +18,13 @@ const Dashboard = () => {
 
   const target = 5; //hardcoded to send to BE once is finished
 
-
   //data for export rewards certificate
   const certificateData = {
     childName: "Billie",
     milestone: "200 Books",
-    date: "21.02.26"
+    date: "21.02.26",
   };
 
-  
   return (
     <div>
       <div className="reading-session-container">
@@ -51,11 +49,6 @@ const Dashboard = () => {
         <div className="weekly-container">
           <WeeklyGoal target={target} theme={theme} />
         </div>
-        {/* 
-        <div className="milestones-container">
-          <Milestones current_num_of_books={current_num_of_books} target={target} />
-        </div>
-        */}
       </div>
     </div>
   );

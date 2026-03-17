@@ -52,7 +52,7 @@
   /*grid-column: 1 / span 2; /*start from line 1 and use two columns so all width*/
   width: 100%;
   background:
-    linear-gradient(rgba(255, 255, 255, 0.1)),
+    linear-gradient(rgba(255, 255, 255, 0.3)),
     url("/public/reading_history.svg") top center/cover no-repeat;
   height: 1000px;
   display: flex;
