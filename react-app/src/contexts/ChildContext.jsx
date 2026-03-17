@@ -105,9 +105,16 @@ export function ChildProvider({ children }) {
     });
 
     if (!response.ok) {
-      console.error("Error updating child");
-      return;
-    }
+      if (response.status == 403) { // user is forbidden to update child (they are not the Primary user for the child)
+        console.error("Error: Unable to update child as user is not Primary."); // dev error
+        throw new Error ("You do not have permission to update this child.") // user error message
+      } else if (response.status == 400) { // bad request (malformed/invalid data)
+        console.error("Error: Unable to update child as data is malformed/invalid.");
+        throw new Error ("Invalid input. Please check and try again.")// user msg
+      } else {
+        console.error("Error updating child"); // general dev error
+        return;
+      }}
 
     const updatedChild = await response.json();
     console.log("Answer from BE of updating a child:", updatedChild);
