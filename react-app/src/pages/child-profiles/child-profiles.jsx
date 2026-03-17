@@ -9,7 +9,7 @@ import ExportButton from "../../components/child-profiles/ExportButton";
 import { useChild } from "../../contexts/ChildContext"
 import { useBooks } from "../../contexts/BooksContext";
 import UpdateReadingSessions from "../../components/child-profiles/UpdateReadingSessions";
-import book from "../../../public/book.png"
+import book from "../../../public/mlb-book_cover.png"
 
 
 const ChildProfiles = () => {
