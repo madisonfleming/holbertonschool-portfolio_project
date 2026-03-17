@@ -211,9 +211,13 @@ export function BooksProvider({ children }) {
       body: JSON.stringify(readingSessionData),
     });
     if (!response.ok) {
-      console.error("Error creating reading session");
-      return;
-    }
+      if (response.status == 400) { // invalid input (eg user didnt enter all required fields)
+        console.error("Error: unable to create reading session as data is malformed/invalid.")
+        throw new Error ("Oops, something went wrong. Please check your details and try again.") // user error msg
+      } else {
+        console.error("Error creating reading session"); // general dev error msg
+        return;
+    }}
     const newReadingSession = await response.json();
     // we received fron BE
     console.log(
