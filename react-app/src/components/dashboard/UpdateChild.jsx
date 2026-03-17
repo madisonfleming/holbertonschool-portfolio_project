@@ -1,5 +1,6 @@
 import "./UpdateChild.css";
 import React from "react";
+import toast from "react-hot-toast"; // for user facing alerts/error messages
 
 import { useState, useEffect } from "react";
 
@@ -26,7 +27,7 @@ const UpdateChild = ({ child, trigger, setTrigger, updateChild }) => {
 
   //we need a handle in order to create the obj with the states
   //we send name, date_of_birth and avatar_url but in react FE we call childName date and avatars
-  const handleUpdateChild = () => {
+  const handleUpdateChild = async () => {
     //if the user doesnt put a new avatar the last avatar is saved
     //name: childName,
     //date_of_birth: date,
@@ -44,10 +45,13 @@ const UpdateChild = ({ child, trigger, setTrigger, updateChild }) => {
       updatedData.avatar_url = avatars[selectedAvatar];
     }
     console.log("sending update data for test: ", updatedData);
-    updateChild(child.id, updatedData);
-
-    setTrigger(false); // close popup
-  };
+    try {
+      await updateChild(child.id, updatedData);
+      setTrigger(false); // close popup
+      toast.success("Child updated successfully."); // custom success message
+    } catch(error) {
+      toast.error(error.message); // custom error message (error msg received from contexts depending on status code)
+    }};
 
   //handle to reset the data once we close the card
   const handleCloseResetData = () => {
