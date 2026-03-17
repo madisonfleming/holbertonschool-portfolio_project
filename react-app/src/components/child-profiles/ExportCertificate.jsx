@@ -1,17 +1,13 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import { useChild } from '../../contexts/ChildContext';
-/* document-container: the root container for pdf document
-page: represents a apge within the document
-view: a container component that can be used to group and style other components
-text: component for display text content
-Image: use to display local and network jpeg or png images into pdf
-PDFDownloadLink: anchor tag to enable generating and downloading pdf documents
-*/
+
+//this style sheet use camelCase like React Native but the same css rules apply
 
 const styles = StyleSheet.create({
+  // pdf page
   page: {
-    flexDirection: 'row',
+    flexDirection: 'row', //center everything vertically
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
@@ -19,7 +15,7 @@ const styles = StyleSheet.create({
     padding: '15',
     border: '2 solid #D2CECE'
   },
-  section: {
+  section: {  //text section
     margin: 10,
     flexGrow: 1,
     position: 'relative',
@@ -52,7 +48,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 5,
   },
-  pageBackground: {
+  pageBackground: { //background image styling
     position: 'absolute',
     top: 5,
     left: 5,
@@ -67,9 +63,14 @@ const ExportCertificate = ({ data, selectedChild }) => {
 
   return (
     <Document>
+          {/* document-container: the root container for pdf document */}
+      {/* Page: represents a page within the document */}
       <Page size="A5" orientation="landscape" style={styles.page}>
+        {/* Image: use to display local and network jpeg or png images into pdf */}
         <Image src="/worm.png" style={styles.pageBackground} />
+         {/* View: a container component that can be used to group and style other components */}
         <View style={styles.section}>
+             {/* Text: component for displaying text content */}
           <Text style={styles.title}>Certificate of Achievement</Text>
          <Text style={styles.title2}>Proudly presented to</Text>
          <Text style={styles.name}>{selectedChild.name}</Text>

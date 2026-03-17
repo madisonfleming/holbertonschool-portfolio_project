@@ -18,6 +18,15 @@ const Dashboard = () => {
 
   const target = 5; //hardcoded to send to BE once is finished
 
+
+  //data for export rewards certificate
+  const certificateData = {
+    childName: "Billie",
+    milestone: "200 Books",
+    date: "21.02.26"
+  };
+
+  
   return (
     <div>
       <div className="reading-session-container">

@@ -125,6 +125,35 @@ export function MilestonesProvider({ children }) {
     return booksReadMilestonesDataChild;
   }
 
+
+    //ENPOINT TO Get Last WEEKLY GOAL from child to get one http://127.0.0.1:8000/api/children/${child_id}/milestones?limit=1
+    //returns an array
+  async function getSingleWeeklyGoal(child_id) {
+    if (!currentUser) return;
+
+    const token = await currentUser.getIdToken();
+    // ADD TYPE = WEEKLY_GOAL to only receive 
+    const response = await fetch(
+      `http://127.0.0.1:8000/api/children/${child_id}/milestones?limit=1&type=weekly_goal`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    if (!response.ok) {
+      console.error("Error getting single weekly");
+      return;
+    }
+    const singleWeeklyGoal = await response.json();
+    console.log(
+      "Answer from BE of single weekly goal",
+      singleWeeklyGoal,
+    );
+
+    return singleWeeklyGoal;
+  }
+
   return (
     <MilestonesContext.Provider
       value={{
@@ -132,6 +161,7 @@ export function MilestonesProvider({ children }) {
         allMilestonesPerChild,
         weeklyGoalMilestonesPerChild,
         booksReadMilestonesPerChild,
+        getSingleWeeklyGoal,
       }}
     >
       {children}
