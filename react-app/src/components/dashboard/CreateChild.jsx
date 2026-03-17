@@ -2,6 +2,7 @@ import "./CreateChild.css";
 import React from "react";
 import { useChild } from "../../contexts/ChildContext";
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast"; // for user facing alerts/error messages
 
 const CreateChild = ({ trigger, setTrigger, createChild }) => {
   const [childName, setChildName] = useState("");
@@ -17,15 +18,18 @@ const CreateChild = ({ trigger, setTrigger, createChild }) => {
 
   //we need a handle in order to create the obj with the states
   // we need to POST in order to the BE to received name, date_of_birth, avatar_url
-  const handleCreateChild = () => {
-    createChild({
+  const handleCreateChild = async () => {
+    try {
+      await createChild({
       name: childName,
       date_of_birth: date,
       avatar_url: avatars[selectedAvatar],
     });
-
     setTrigger(false); // close popup
-  };
+    toast.success("Child created successfully."); //custom success msg for user
+    } catch (error) {
+      toast.error(error.message); // custom error msg (error msg received from contexts depending on status code)
+  }};
 
   //handle to reset the data once we close the card
   const handleCloseResetData = () => {
