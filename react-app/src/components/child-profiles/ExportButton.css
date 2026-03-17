@@ -1,15 +1,29 @@
+
 .export-btn {
-  border: none;
-  /*
-  background-color: white;
-  border-radius: 25px;
-  padding: 20px;
-  margin-left: 5px;
-  font-size: 16px;
-  font-weight: 600;
-  transition: all 0.2s ease;
   flex: 1;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  /*font-family: "Baloo 2", cursive;*/
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  background: transparent;
+  color: #bbb;
+  transition: all 0.2s ease;
   text-align: center;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-  */
+
+  width: 100%;
+}
+
+.export-btn {
+  background: white;
+  color: #9b59b6;
+  box-shadow: 0 2px 8px rgba(155, 89, 182, 0.15);
+}
+
+.export-btn:hover {
+  background: #9b59b6;
+  color: white;
+  box-shadow: 0 2px 8px rgba(155, 89, 182, 0.15);
 }
