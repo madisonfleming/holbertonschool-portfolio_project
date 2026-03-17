@@ -1,41 +1,27 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { pdf } from '@react-pdf/renderer';
-import ExportCertificate from './WeeklyCertificate'; // PDF component
+import ExportCertificate from './ExportCertificate'; // PDF component
 import './ExportButton.css'
 import { useChild } from '../../contexts/ChildContext';
 import { useMilestones } from '../../contexts/MilestonesContext';
-import { previewPdf } from '../../utils/certificatePdf';
 
-export const ExportButton = ({ selectedChild }) => {
+export const ExportButton = ({ selectedChild, data }) => {
 
     const [isLoading, setIsLoading] = useState(false);
-    //get single reward from endpoint
-    const { getSingleWeeklyReward } = useMilestones();
-    const [certificateData, setCertificateData] = useState([]);
 
-    //get the reward data
-    useEffect(() => {
-        if (!selectedChild?.id) return;
-
-        async function fetchSingleReward() {
-            const singleReward = await getSingleWeeklyReward(selectedChild.id);
-            console.log("getSingleWeeklyReward returns:", singleReward)
-
-        setCertificateData(singleReward);
-    }
-    fetchSingleReward();
-}, [selectedChild]);
+    console.log("data received in export btn:", data)
+    console.log("selectedChild in export btn:", selectedChild)
 
     //Generate PDF from ExportCertificate
     // link the data to receive
     // link the child
-    const generatePdf = useCallback(async () => {
-        if (certificateData) {
+    const generating = useCallback(async () => {
+        if (data) {
             setIsLoading(true);
 
             try {
                 const pdfBlob = await pdf(
-                    <ExportCertificate data={certificateData} selectedChild={selectedChild} />
+                    <ExportCertificate data={data} selectedChild={selectedChild}/>
                 ).toBlob();
 
                 const pdfBlobUrl = URL.createObjectURL(pdfBlob);
@@ -46,11 +32,11 @@ export const ExportButton = ({ selectedChild }) => {
             }
         }
         return null;
-    }, [certificateData], [selectedChild]);
+    }, [data, selectedChild]);
 
     //DOWNLOAD CERTIFICATE
-    const downloadPdf = async () => {
-        const pdfBlobUrl = await generatePdf();
+    const downloading = async () => {
+        const pdfBlobUrl = await generating();
 
         if (pdfBlobUrl) {
             const downloadLink = document.createElement('a');
@@ -66,8 +52,9 @@ export const ExportButton = ({ selectedChild }) => {
     };
 
     //PREVIEW CERTIFICATE in new window
-    const previewPdf = async () => {
-        const pdfBlobUrl = await generatePdf();
+    //change to previewing for books read cert
+    const previewing = async () => {
+        const pdfBlobUrl = await generating();
 
         if (pdfBlobUrl) {
             window.open(pdfBlobUrl, '_blank');
@@ -77,8 +64,8 @@ export const ExportButton = ({ selectedChild }) => {
     //style when you call the func
     return (
             <div>
-                <button onClick={(previewPdf)}>Preview</button>
-                <button onClick={(downloadPdf)}>Download</button>
+                <button className="export-btn" onClick={(previewing)} data={data} selectedChild={selectedChild} >Preview Reward</button>
+                <button className="export-btn" onClick={(downloading)} data={data} selectedChild={selectedChild} >Download Reward</button>
         </div>
     );
 }
