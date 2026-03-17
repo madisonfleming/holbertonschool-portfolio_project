@@ -10,6 +10,7 @@ import { BrowserRouter, useRoutes } from "react-router-dom";
 import { ChildProvider } from "./contexts/ChildContext";
 import { BooksProvider } from "./contexts/BooksContext";
 import { MilestonesProvider } from "./contexts/MilestonesContext";
+import { Toaster } from "react-hot-toast"; // for user facing alerts/errors
 
 function AppRoutes() {
   const routesArray = [
@@ -33,6 +34,25 @@ function App() {
             <MilestonesProvider>
               <Header />
               <AppRoutes />
+              <Toaster // styles the user facing pop ups for success and errors
+                position="top-right"
+                containerStyle={{ top: 80 }}
+                toastOptions={{
+                  success: {
+                    style: {
+                      border: "2px solid green",
+                      // color: "#713200"
+                    }
+                  },
+                  error: {
+                    style: {
+                      border: "2px solid red",
+                      // color: "#68457b", // font colour
+                      // background: "#68457b" // background of noti
+                    }
+                  }
+                }}
+              />
             </MilestonesProvider>
           </BooksProvider>
         </ChildProvider>

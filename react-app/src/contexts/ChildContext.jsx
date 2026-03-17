@@ -102,9 +102,14 @@ export function ChildProvider({ children }) {
     });
 
     if (!response.ok) {
-      console.error("Error updating child");
-      return;
-    }
+      if (response.status == 403) { // user is forbidden to update child (they are not the Primary user for the child)
+        console.error("Unable to update child as user is not Primary"); // dev error
+        throw new Error ("You do not have permission to update this child.") // user error message
+      } else {
+        console.error("Error updating child"); // general dev error
+        return;
+      }
+      }
 
     const updatedChild = await response.json();
     console.log("Answer from BE of updating a child:", updatedChild);
