@@ -29,7 +29,7 @@ export default function Home() {
       </div>
       <div className="container3-bottom">
       <div className="container3-bottom-left">
-        <img src={"/mlb-worm_badge.svg"} className="worm-badge" /> {/* worm image on bottom left */}
+        <img src={"/worm-gradient.svg"} className="worm-gradient" /> {/* worm image on bottom left */}
       </div>
       <div className="container3-bottom-right">
         <p>Track your wormies progress<br /> toward the 1,000 book goal</p>
