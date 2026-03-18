@@ -75,7 +75,7 @@ const MilestonesHistory = ({ selectedChild }) => {
   return (
     <div className="milestoneHistory-card">
       <h1 className="card-title"> Milestones </h1>
-      <p className="card-subtitle"> {selectedChild?.name} achievements</p>
+      <p className="card-subtitle"> {selectedChild?.name}'s achievements</p>
       {/* Filter tabs */}
       <div className="filter-row">
         <button

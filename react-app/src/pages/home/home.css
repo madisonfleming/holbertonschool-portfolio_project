@@ -25,6 +25,7 @@
 
 .container3 {
   display: flex;
+  flex-direction: column; /* put container3-top above container3-bottom */
   border-radius: 50px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   /* background: linear-gradient(135deg, #cc7df0 0%, #b885d8 50%, #b79dd8 100%); */

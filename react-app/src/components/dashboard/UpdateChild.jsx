@@ -70,8 +70,8 @@ const UpdateChild = ({ child, trigger, setTrigger, updateChild }) => {
           ✕
         </button>
         {/* update child */}
-        <h1 className="tittle-popup-card">
-          Update {child?.name || "Child"} Profile
+        <h1 className="title">
+          Update {child?.name || "Child"}'s Profile
         </h1>
         <div className="update-child-layout">
           <div className="left-section">

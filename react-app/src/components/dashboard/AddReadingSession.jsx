@@ -82,7 +82,7 @@ const AddReadingSession = (props) => {
         <button className="btn-close" onClick={handleCloseResetData}>
           ✕
         </button>
-        <h1 className="tittle-popup-card">Log a reading session</h1>
+        <h1 className="title">Log a reading session</h1>
 
         <div className="reading-session-layout">
           {/* --- BOOK SELECTOR --- */}

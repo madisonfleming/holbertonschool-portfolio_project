@@ -1,0 +1,116 @@
+.suggested-books {
+    padding-top: 20px;
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.12);
+    width: 100%;
+    display: flex;
+    /* display column for title above books */
+    flex-direction: column;
+}
+/* book scroll container*/
+.row-books {
+    height: 280px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 1300px;
+    /* overflow for edges*/
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 40px;
+}
+
+.img {
+    /* single book img has padding + border for space */
+    height: 180px;
+    width: 140px;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.12);
+    border: 3px solid #d2bae8;
+    padding: 10px;
+    margin: 1px;
+}
+
+/*scroll bar same as settings */
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ff9fc4;
+    border-radius: 10px;
+}
+
+/* READING SESSION */
+.reading-session {
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.12);
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* gap between text and img */
+    gap: 300px;
+
+}
+.row-layout {
+    align-items: center;
+}
+
+.heading {
+    /* heading for text and img */ 
+    display: flex;
+    flex-direction: row;
+    padding-left: 60px;
+}
+
+.book-container {
+    /* book is fixed inside heading w margins */
+    margin-left: 10px;
+    margin-top: 19px;
+    height: 30px;
+    width: 50px;
+}
+
+.reading-popup {
+    margin: 50px;
+    width: 300px;
+    height: 250px;
+    box-shadow: 0 6px 20px rgba(109, 62, 127, 0.12);
+    transform: rotate(3deg)
+}
+
+/* WEEKLY REWARD */
+.weekly-reward {
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.12);
+    /*border-radius: 20px;*/
+    padding: 20px;
+    background-color: #d6ebfe;
+    width: 100%;
+}
+.row-images {
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    /* height needs to contain img */
+    height: 350px;
+    padding: 20px;
+}
+
+/* TITLES */
+.title {
+    font-family: "Baloo 2", cursive;
+    font-size: 45px;
+    font-weight: 800;
+    color: #4a7a9b;
+    line-height: 1.1;
+    position: relative;
+    z-index: 1;
+    padding-top: 20px;
+
+}

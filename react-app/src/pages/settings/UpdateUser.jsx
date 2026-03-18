@@ -55,7 +55,7 @@ const UpdateUser = ({ user, trigger, setTrigger, updateUser }) => {
           >✕
           </button>
           {/* update user */}
-        <h1 className="update-popup-card">Update {user?.name || "User"} Profile</h1>
+        <h1 className="title">Update {user?.name || "User"}'s Profile</h1>
          <div className="update-user-layout">
               <h4 className= "subtitle-popup-card">Update Personal Info</h4>
               {/* NAME */}
