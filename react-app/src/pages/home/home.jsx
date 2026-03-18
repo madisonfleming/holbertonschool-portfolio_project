@@ -8,6 +8,7 @@ export default function Home() {
     <div className="home-grid">
     <div className="container1"></div>
     <div className="container2"></div>
+    <Container2 />
     <div className="container3">
       <div className="container3-top">
         <div className="container3-top-left">
