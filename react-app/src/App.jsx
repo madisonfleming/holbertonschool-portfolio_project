@@ -10,6 +10,7 @@ import { BrowserRouter, useRoutes } from "react-router-dom";
 import { ChildProvider } from "./contexts/ChildContext";
 import { BooksProvider } from "./contexts/BooksContext";
 import { MilestonesProvider } from "./contexts/MilestonesContext";
+import Footer from "./components/footer";
 
 function AppRoutes() {
   const routesArray = [
@@ -32,6 +33,7 @@ function App() {
           <BooksProvider>
             <MilestonesProvider>
               <Header />
+              <Footer />
               <AppRoutes />
             </MilestonesProvider>
           </BooksProvider>

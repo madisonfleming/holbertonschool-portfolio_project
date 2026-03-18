@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useBooks } from "../../contexts/BooksContext";
 import { data } from "react-router-dom";
 import GetWorm from "../dashboard/GetWorm";
+import { useMilestones } from "../../contexts/MilestonesContext";
 
-const MilestonesChild = ({ selectedChild, certificateData }) => {
+const MilestonesChild = ({ selectedChild }) => {
   if (!selectedChild) return "No child selected";
   const { getReadingSessionsCount } = useBooks();
   const [count, setCount] = useState(0);
@@ -20,6 +21,21 @@ const MilestonesChild = ({ selectedChild, certificateData }) => {
   }, [selectedChild]);
   const percentage = Math.min((count / 1000) * 100, 100);
   const rest = 1000 - count;
+
+
+  //GET SINGLE MILESTONE DATA FROM getSingleMilestone endpoint
+  const { getSingleMilestone } = useMilestones();
+  const [data, setData] = useState()
+
+  useEffect(() => {
+    async function loadMilestone() {
+      const certificateData = await getSingleMilestone(selectedChild.id);
+      setData(certificateData);
+    }
+    loadMilestone();
+  }, [selectedChild]);
+
+  console.log("data being sent from milestoneChild", data)
 
   return (
     <div className="milestoneChild-card">
@@ -55,12 +71,8 @@ const MilestonesChild = ({ selectedChild, certificateData }) => {
         <div className="reward-title">Your reward is ready!</div>
         <div className="reward-desc">Download or preview your certificate</div>
         <div className="btn-row">
-          <button className="btn-mc"> Preview Reward</button>
-          <button className="btn-mc"> Download Reward</button>
-          {/*<ExportButton
-          certificateData={certificateData}
-          selectedChild={selectedChild}
-        /> */}
+          {/* EXPORT BTN */}
+          <ExportButton className="btn-mc" selectedChild={selectedChild} data={data} />
         </div>
       </div>
     </div>
