@@ -4,6 +4,7 @@ import { useMilestones } from "../../contexts/MilestonesContext";
 import { useState, useEffect } from "react";
 import ExportButton from "../child-profiles/ExportButton";
 import { previewPdf } from "../../utils/certificatePdf";
+import toast from "react-hot-toast"; // for user facing alerts/error messages
 
 const WeeklyGoal = ({ theme, target }) => {
 
@@ -46,15 +47,18 @@ const WeeklyGoal = ({ theme, target }) => {
   };
   /* handle reset each time we export reward, we need two arguments child_id and the {} as weeklyMilestonsData*/
   const handleCompleteWeeklyMilestone = async () => {
-    await completeWeeklyMilestone(
+    try {
+      await completeWeeklyMilestone(
       selectedChild,
       {
         child_id: selectedChild,
         subject: allCompleted,
       });
 
+      toast.success("Congrats on completing this week's goal!"); // enable user success msg before pdf loads
+
       //set a timeout -> if data is not loaded from API yet, wait. supposed to remove a bug
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise(resolve => setTimeout(resolve, 2200));
       //fetch the last weekly goal data
       const certificateData = await getSingleWeeklyGoal(selectedChild);
 
@@ -63,12 +67,14 @@ const WeeklyGoal = ({ theme, target }) => {
       //console.log("selectedChildData object holds:", selectedChildData)
       //print what we are sending to pdf
       console.log("weekly goal is sending certificate data:", certificateData)
-    //OPEN CERTIFICATE ON COMPLETION
-    await previewPdf(certificateData);
+      //OPEN CERTIFICATE ON COMPLETION
+      await previewPdf(certificateData);
 
-    setSelectedBooks(Array(target).fill(false));
-    setSelectedChild(null);
-  };
+      setSelectedBooks(Array(target).fill(false));
+      setSelectedChild(null);
+    } catch(error) {
+      toast.error(error.message); // enable user error msg (depending on status code)      
+    }};
 
 
   return (

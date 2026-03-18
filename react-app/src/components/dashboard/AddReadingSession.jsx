@@ -3,6 +3,8 @@ import { useChild } from "../../contexts/ChildContext";
 import { useBooks } from "../../contexts/BooksContext";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
+import toast from "react-hot-toast"; // for user facing alerts/error messages
+import book_img from "../../../public/mlb-book_cover.png";
 
 const AddReadingSession = (props) => {
   const { childList } = useChild();
@@ -31,15 +33,22 @@ const AddReadingSession = (props) => {
 
   //we need a handle in order to create the obj with the states
   // we need to POST in order to the BE to received name, date_of_birth, avatar_url
-  const handleCreateReadingSession = () => {
-    createReadingSession({
-      child_id: selectedChild,
-      external_id: selectedBook.external_id,
-      source: selectedBook.source,
-      title: selectedBook.title,
-      author: selectedBook.author,
-      cover_url: selectedBook.img,
-      logged_at: date,
+  const handleCreateReadingSession = async () => {
+
+    // guard for external_id error
+    if (!selectedBook) {
+      toast.error("Please select a book.");
+      return
+    }
+    try {
+      await createReadingSession({
+        child_id: selectedChild,
+        external_id: selectedBook.external_id,
+        source: selectedBook.source,
+        title: selectedBook.title,
+        author: selectedBook.author,
+        cover_url: selectedBook.img,
+        logged_at: date,
     });
     setSearchTerm("");
     setSelectedBook(null);
@@ -49,7 +58,10 @@ const AddReadingSession = (props) => {
     setDate(today);
     setSelectedChild(null);
     props.setTrigger(false); // close popup
-  };
+    toast.success("Reading session created successfully."); //custom success msg for user
+  } catch (error) {
+    toast.error(error.message); //custom error msg (error msg received from contexts depending on status code)
+  }};
 
   //handle to reset the data once we close the card
   const handleCloseResetData = () => {
@@ -165,7 +177,7 @@ const AddReadingSession = (props) => {
             <div className={`book-selected ${selectedBook ? "visible" : ""}`}>
               {selectedBook && (
                 <img
-                  src={selectedBook.img}
+                  src={selectedBook.img || book_img}
                   alt={selectedBook.title}
                   className="book-preview-img"
                 />

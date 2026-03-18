@@ -11,6 +11,7 @@ import { ChildProvider } from "./contexts/ChildContext";
 import { BooksProvider } from "./contexts/BooksContext";
 import { MilestonesProvider } from "./contexts/MilestonesContext";
 import Footer from "./components/footer";
+import { Toaster } from "react-hot-toast"; // external library for user facing alerts/errors
 
 function AppRoutes() {
   const routesArray = [
@@ -35,6 +36,24 @@ function App() {
               <Header />
               <Footer />
               <AppRoutes />
+              <Toaster // styles the user facing alerts for success and errors
+                position="top-right"
+                containerStyle={{ top: 80 }}
+                toastOptions={{
+                  success: { // global success message styling
+                    style: {
+                      border: "2px solid green", // border thickness & colour
+                      borderRadius: "50px", // border edges (rounding)
+                    }
+                  },
+                  error: { // global error message styling
+                    style: {
+                      border: "2px solid red", // border thickness & colour
+                      borderRadius: "50px", // border edges (rounding)
+                    }
+                  }
+                }}
+              />
             </MilestonesProvider>
           </BooksProvider>
         </ChildProvider>
