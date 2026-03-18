@@ -63,8 +63,15 @@ const Login = () => {
         </form>
 
         <button className="google-btn" onClick={onGoogleSignIn}>
-          Signin with Google
+          <img src="/login-icons/google-icon.svg" className="google-icon"/>
+          Sign in with Google
         </button>
+
+        <button className="facebook-btn">
+          <img src="/login-icons/facebook-icon.svg" className="facebook-icon"/>
+          Sign in with Facebook
+        </button>
+
       </div>
     </div>
   );
