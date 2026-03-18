@@ -8,26 +8,38 @@ export const Container2 = () => {
                 {/* Suggested Books Section */}
                 <p className='title'>Suggested Books</p>
                 {/* TO DO : Carosoul of book images */}
+                <div className='row-books'>
+                    <img className='img' src='/books/book1.jpg'></img>
+                    <img className='img' src='/books/book2.jpg'></img>
+                    <img className='img' src='/books/book3.jpg'></img>
+                    <img className='img' src='/books/book4.webp'></img>
+                    <img className='img' src='/books/book5.jpg'></img>
+                    <img className='img' src='/books/book6.jpg'></img>
+                    <img className='img' src='/books/book7.jpeg'></img>
+                    <img className='img' src='/books/book8.jpg'></img>
+                    <img className='img' src='/books/book9.jpg'></img>
+                    <img className='img' src='/books/book10.jpg'></img>
+                    <img className='img' src='/books/book11.jpeg'></img>
+                    <img className='img' src='/books/book12.jpg'></img>
+
+                </div>
             </div>
             {/* Divider */}
-            <div className="divider"></div>
 
             {/* Reading Session section */}
             <div className='reading-session'>
+            <div className='row-layout'>
+                <div className="heading">
                 <p className='title'>Log every reading session</p>
-                {/* TO DO : Add Book + avatars */}
-                <div>
-                    <img className='book-container' src='/open-book.png?url'></img>
+                <img className='book-container' src='/open-book.png?url'></img>
                 </div>
+                </div>
+                {/* TO DO : Add Book + avatars */}
                 <div className="row-avatars">
-                    <img src='/avatars/mlb-avatar-apple.svg'></img>
-                    <img src='/avatars/mlb-avatar-bee.svg'></img>
-                    <img src='/avatars/mlb-avatar-robot.svg'></img>
-                    <img src='/avatars/mlb-avatar-sun.svg'></img>
+                    <img src='/books/reading-popup.png' className="reading-popup"></img>
                 </div>
             </div>
             {/* Divider */}
-            <div className="divider"></div>
 
             {/* Weekly Reward section */}
             <div className="weekly-reward">
