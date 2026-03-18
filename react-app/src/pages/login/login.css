@@ -20,7 +20,7 @@
   text-align: center;
   font-size: 26px;
   font-weight: 700;
-  color: #ec407a;
+  color: #9F9FEE;
 }
 
 .subtitle {
@@ -78,6 +78,3 @@ input {
   cursor: pointer;
 }
 
-navbar-link {
-  margin-left: auto;
-}

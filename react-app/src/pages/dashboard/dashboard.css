@@ -11,7 +11,7 @@
   right: 10px;
   height: 20px;
   border: 1px grey;
-  z-index: 9999;
+  z-index: 999;
 }
 .open-book-img {
   position: absolute;
@@ -19,16 +19,20 @@
   right: 50px;
   width: 80px;
   margin-right: 20px;
-  z-index: 9999;
+  /* Change z-index to be above everything
+  but behind pop up */
+  z-index: 999;
 }
 .reading-text {
   position: absolute;
-  top: 90px;
+  top: 50px;
   right: 20px;
-  z-index: 1000;
+  z-index: 999;
   font-size: 15px;
   font-weight: bold;
   margin-right: 20px;
+  /* text style same as other pages */
+  font-family: "Baloo 2", cursive;
 }
 
 /*TITTLE OF THE PAGE */
