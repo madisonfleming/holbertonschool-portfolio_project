@@ -12,7 +12,7 @@
   padding: 40px;
   border-radius: 16px;
   width: 100%;
-  max-width: 380px;
+  max-width: 500px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 
@@ -24,10 +24,11 @@
 }
 
 .subtitle {
-  text-align: center; /* add text-align for subtitle*/
+  text-align: center; /* add text-align for subtitle */
   font-size: 20px;
   font-weight: 600;
   margin-top: 10px;
+  color: #ec407a;
 }
 
 .description {
@@ -115,7 +116,19 @@ input {
 
 .google-btn:hover,
 .facebook-btn:hover {
-  background: #d7e4ff;
+  background: #e5ffd5;
+}
+
+.login-logo {
+  display: block;
+  /* left */
+  /* margin: 0 0 16px; */
+  /* center */
+  margin: 0 auto 16px;
+  /* right */
+  /* margin: 0 0 16px auto; */
+  max-height: 180px;
+  max-width: 180px;
 }
 
 
