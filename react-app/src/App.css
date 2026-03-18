@@ -4,3 +4,11 @@
   width: 100%;
   height: 100%;
 }
+
+/* NAV BAR */
+.ms-auto {
+  cursor: pointer !important;
+  /* text style same as other pages */
+  font-family: "Baloo 2", cursive;
+  z-index: 10000;
+}

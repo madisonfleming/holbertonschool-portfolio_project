@@ -36,7 +36,7 @@ const Dashboard = () => {
         />
         <p className="reading-text">Add Reading Session</p>
       </div>
-      <h1 className="dashboard-title">Let's get reading, wormies!</h1>
+      <h1 className="title">Let's get reading, wormies!</h1>
       <AddReadingSession
         trigger={buttonAddReadingSessionPopup}
         setTrigger={setButtonAddReadingSessionPopup}
