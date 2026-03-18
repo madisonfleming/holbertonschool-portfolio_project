@@ -22,10 +22,9 @@ const MilestonesChild = ({ selectedChild }) => {
   const percentage = Math.min((count / 1000) * 100, 100);
   const rest = 1000 - count;
 
-
   //GET SINGLE MILESTONE DATA FROM getSingleMilestone endpoint
   const { getSingleMilestone } = useMilestones();
-  const [data, setData] = useState()
+  const [data, setData] = useState();
 
   useEffect(() => {
     async function loadMilestone() {
@@ -35,7 +34,7 @@ const MilestonesChild = ({ selectedChild }) => {
     loadMilestone();
   }, [selectedChild]);
 
-  console.log("data being sent from milestoneChild", data)
+  console.log("data being sent from milestoneChild", data);
 
   return (
     <div className="milestoneChild-card">
@@ -72,7 +71,7 @@ const MilestonesChild = ({ selectedChild }) => {
         <div className="reward-desc">Download your certificate</div>
         <div className="btn-row">
           {/* EXPORT BTN */}
-          <ExportButton className="btn-mc" selectedChild={selectedChild} data={data} />
+          <ExportButton selectedChild={selectedChild} data={data} />
         </div>
       </div>
     </div>

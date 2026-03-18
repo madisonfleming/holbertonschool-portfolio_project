@@ -122,6 +122,8 @@
   text-align: center;
   padding: 16px;
   width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-row {
@@ -147,12 +149,13 @@
   color: #aaa;
   font-weight: 600;
 }
+/*
 .btn-mc {
   flex: 1;
   padding: 8px 12px;
   border-radius: 10px;
   border: none;
-  /*font-family: "Baloo 2", cursive;*/
+  /*font-family: "Baloo 2", cursive;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
@@ -166,6 +169,7 @@
   background: white;
   color: #9b59b6;
   box-shadow: 0 2px 8px rgba(155, 89, 182, 0.15);
+  width: 100%;
 }
 
 .btn-mc:hover {
@@ -173,3 +177,4 @@
   color: white;
   box-shadow: 0 2px 8px rgba(155, 89, 182, 0.15);
 }
+*/
