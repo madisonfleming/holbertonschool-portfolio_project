@@ -68,13 +68,57 @@ input {
 }
 
 .google-btn {
-  display: block; /* keep button with parent container*/
+  /* display: block; keep button with parent container */
+  display: flex;
   margin: 0 auto; /* center horizontally */
   padding: 10px 20px; /* google buttons are usually smaller */ 
-  background: rgb(58, 23, 115);
+  background: rgb(255, 255, 255);
   border: 1px solid #ccc;
   border-radius: 10px;
   margin-top: 16px;
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
 }
 
+.google-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.facebook-btn {
+  /* display: block; keep button with parent container */
+  display: flex;
+  margin: 0 auto; /* center horizontally */
+  padding: 10px 20px; /* google buttons are usually smaller */ 
+  background: rgb(255, 255, 255);
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-top: 16px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.facebook-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.google-btn:hover,
+.facebook-btn:hover {
+  background: #d7e4ff;
+}
+
+
+navbar-link {
+  margin-left: auto;
+}
