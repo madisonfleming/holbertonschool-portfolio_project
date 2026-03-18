@@ -43,7 +43,7 @@ const ChildProfiles = () => {
         />
         <p className="reading-text">Add Reading Session</p>
       </div>
-      <h1 className="child-profile-title">Child Profiles</h1>
+      <h1 className="title">Child Profiles</h1>
       <AddReadingSession
         trigger={buttonAddReadingSessionPopup}
         setTrigger={setButtonAddReadingSessionPopup}
@@ -62,7 +62,7 @@ const ChildProfiles = () => {
         <MilestonesHistory selectedChild={selectedChild} />
       </div>
       <div className="reading-activity">
-        <div className="reading-activity-h1"> Your Reading Activity </div>
+        <div className="title"> Your Reading Activity </div>
         <div className="book-scroll-container">
           <div className="book-grid">
             {readingSessions.map((session) => (

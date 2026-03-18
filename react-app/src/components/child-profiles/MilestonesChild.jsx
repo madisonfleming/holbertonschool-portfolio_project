@@ -48,7 +48,7 @@ const MilestonesChild = ({ selectedChild }) => {
       <div className="progress-hero">
         <div className="progress-percent">{Math.round(percentage)}%</div>
         <div className="progress-desc">
-          of <strong> {selectedChild.name} </strong>
+          of <strong> {selectedChild.name}'s </strong>
           target achieved!
         </div>
       </div>
@@ -69,7 +69,7 @@ const MilestonesChild = ({ selectedChild }) => {
       </div>
       <div className="reward-section">
         <div className="reward-title">Your reward is ready!</div>
-        <div className="reward-desc">Download or preview your certificate</div>
+        <div className="reward-desc">Download your certificate</div>
         <div className="btn-row">
           {/* EXPORT BTN */}
           <ExportButton className="btn-mc" selectedChild={selectedChild} data={data} />
