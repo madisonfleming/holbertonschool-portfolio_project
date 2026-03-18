@@ -64,8 +64,7 @@ export const ExportButton = ({ selectedChild, data }) => {
     //style when you call the func
     return (
             <div>
-                <button className="export-btn" onClick={(previewing)} data={data} selectedChild={selectedChild} >Preview Reward</button>
-                <button className="export-btn" onClick={(downloading)} data={data} selectedChild={selectedChild} >Download Reward</button>
+                <button className="export-btn" onClick={(previewing)} data={data} selectedChild={selectedChild} >Download Reward</button>
         </div>
     );
 }
