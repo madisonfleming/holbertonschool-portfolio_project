@@ -12,6 +12,7 @@ export default function Home() {
       </div>
       <div className="container2"></div>
       <Container2 />
+    <Container2 />
     <div className="container3">
       <div className="container3-top">
         <div className="container3-top-left">
