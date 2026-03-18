@@ -3,6 +3,7 @@ import { useChild } from "../../contexts/ChildContext";
 import { useBooks } from "../../contexts/BooksContext";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
+import book_img from "../../../public/mlb-book_cover.png";
 
 const AddReadingSession = (props) => {
   const { childList } = useChild();
@@ -165,7 +166,7 @@ const AddReadingSession = (props) => {
             <div className={`book-selected ${selectedBook ? "visible" : ""}`}>
               {selectedBook && (
                 <img
-                  src={selectedBook.img}
+                  src={selectedBook.img || book_img}
                   alt={selectedBook.title}
                   className="book-preview-img"
                 />
