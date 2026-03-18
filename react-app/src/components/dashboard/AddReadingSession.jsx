@@ -95,56 +95,60 @@ const AddReadingSession = (props) => {
             </div>
             <div className="divider"></div>
             {/* --- SEARCH FOR BOOK AND DATE --- */}
-            <p className="subtittle-popup-card">Search Book & Date</p>
-            <input
-              type="text"
-              className="select-field"
-              placeholder="Search for your book..."
-              value={searchTerm}
-              onChange={async (e) => {
-                setSearchTerm(e.target.value);
-                {
-                  /* update what the user writes */
-                }
-                setShowDropdown(true);
-                {
-                  /* if user deletes the text doest call the be so empty [] */
-                }
-                if (e.target.value.trim() === "" || e.target.value.length < 2) {
-                  setFilteredBooks([]);
-                  return;
-                }
-                {
-                  /* here we call the BE -> e.target.value= cat to is search?q=cat, then saved the results so filteredBooks can have books  */
-                }
-                const results = await searchBooks(e.target.value);
-                setFilteredBooks(results);
-              }}
-            />
-            {showDropdown && searchTerm && (
-              <div className="dropdown-list">
-                {filteredBooks.map((book) => (
-                  <div
-                    className="dropdown-item"
-                    onClick={() => {
-                      setSelectedBook(book);
-                      setSearchTerm(book.title); // shows the selected book on search..
-                      setImage(book.img); //save the image in state
-                      setShowDropdown(false); //disappear the drop down
-                    }}
-                  >
-                    {book.title}
-                  </div>
-                ))}
+            <div className="search-wrapper">
+              <p className="subtittle-popup-card">Search Book & Date</p>
+              <input
+                type="text"
+                className="select-field"
+                placeholder="Search for your book..."
+                value={searchTerm}
+                onChange={async (e) => {
+                  setSearchTerm(e.target.value);
+                  {
+                    /* update what the user writes */
+                  }
+                  setShowDropdown(true);
+                  {
+                    /* if user deletes the text doest call the be so empty [] */
+                  }
+                  if (
+                    e.target.value.trim() === "" ||
+                    e.target.value.length < 2
+                  ) {
+                    setFilteredBooks([]);
+                    return;
+                  }
+                  {
+                    /* here we call the BE -> e.target.value= cat to is search?q=cat, then saved the results so filteredBooks can have books  */
+                  }
+                  const results = await searchBooks(e.target.value);
+                  setFilteredBooks(results);
+                }}
+              />
+              {showDropdown && searchTerm && (
+                <div className="dropdown-list">
+                  {filteredBooks.map((book) => (
+                    <div
+                      className="dropdown-item"
+                      onClick={() => {
+                        setSelectedBook(book);
+                        setSearchTerm(book.title); // shows the selected book on search..
+                        setImage(book.img); //save the image in state
+                        setShowDropdown(false); //disappear the drop down
+                      }}
+                    >
+                      {book.title}
+                    </div>
+                  ))}
 
-                {filteredBooks.length === 0 && (
-                  <div className="dropdown-item no-results">
-                    No matches found
-                  </div>
-                )}
-              </div>
-            )}
-
+                  {filteredBooks.length === 0 && (
+                    <div className="dropdown-item no-results">
+                      No matches found
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
             {/* --- DATE SELECTOR --- */}
             <input
               type="date"

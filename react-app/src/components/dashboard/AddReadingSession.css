@@ -26,6 +26,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  overflow: hidden;
 }
 
 .tittle-popup-card {
@@ -136,6 +137,11 @@
 }
 
 /*For the box drop down*/
+.search-wrapper {
+  position: relative;
+  width: 100%;
+}
+
 .select-field {
   background: #fafafa;
   color: #333;
@@ -144,8 +150,7 @@
   font-size: 15px;
   color: #333;
   outline: none;
-  width: 96%;
-  max-width: 96%;
+  width: 50%;
   border: 2.5px solid #f0f0f0;
   transition: all 0.2s ease;
 }
@@ -157,7 +162,8 @@
   max-height: 150px;
   overflow-y: auto;
   margin-top: 5px;
-  width: 50%;
+  width: 100%;
+  max-width: 100%;
 }
 
 .dropdown-item {
