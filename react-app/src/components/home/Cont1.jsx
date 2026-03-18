@@ -1,7 +1,9 @@
 import React from "react";
 import "./Cont1.css";
+import { useNavigate } from "react-router-dom";
 
 const Cont1 = () => {
+  const navigate = useNavigate();
   return (
     <div className="cont1-body">
       <div className="section">
@@ -13,14 +15,14 @@ const Cont1 = () => {
             <div className="eyebrow">Trusted by 1,000+ families</div>
           </div>
           <h2 className="section-title">
-            15 Minutes A Night Could Give Your Child A{" "}
-            <em>Lifetime Of Confidence</em>
+            15 minutes a night could give your child a{" "}
+            <em>lifetime of confidence</em>
           </h2>
           <p className="section-desc">
-            Kids who've read 1,000 books before kindergarten have dramatically
-            better outcomes.
-            <strong>My Little Bookworm</strong> makes tracking every book
-            effortless — so you can focus on what matters: reading together.
+            Children who share 1,000 books with a parent or carer before
+            kindergarten have dramatically better outcomes.
+            <strong> My Little Bookworm</strong> makes tracking every book
+            effortless, so you can focus on what matters: reading together.
           </p>
         </div>
 
@@ -31,7 +33,7 @@ const Cont1 = () => {
             </div>
             <div className="feature-title">Track 1,000 Books</div>
             <div className="feature-desc">
-              Every read counts — log books in seconds, never lose track
+              Every read counts! Log books in seconds, never lose track.
             </div>
           </div>
 
@@ -39,7 +41,7 @@ const Cont1 = () => {
             <div className="feature-icon-wrap c2">
               <img src="/themes/rocket.png" />
             </div>
-            <div className="feature-title">Built For Busy Parents</div>
+            <div className="feature-title">Built for all families</div>
             <div className="feature-desc">
               Log books in seconds, stay on top of your child's progress
             </div>
@@ -51,7 +53,8 @@ const Cont1 = () => {
             </div>
             <div className="feature-title">Rewards & Milestones</div>
             <div className="feature-desc">
-              Keep kids motivated with certificates and weekly goals
+              Keep children motivated with weekly goals and tangible
+              certificates
             </div>
           </div>
 
@@ -59,11 +62,17 @@ const Cont1 = () => {
             <div className="feature-icon-wrap c4">
               <img src="/mlb-star.png" />
             </div>
-            <div className="feature-title">Research-Backed</div>
+            <div className="feature-title">Early-literacy research</div>
             <div className="feature-desc">
-              1,000 books = better educational outcomes, proven by science
+              Supports better educational outcomes
             </div>
           </div>
+        </div>
+        <div className="button-text-section">
+          <button className="btn-login" onClick={() => navigate("/login")}>
+            Start reading today
+          </button>
+          <p class="text-down-btn">Completely free! Join today</p>
         </div>
       </div>
     </div>
