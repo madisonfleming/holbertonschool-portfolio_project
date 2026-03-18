@@ -1,3 +1,4 @@
+import Container2 from "../../components/home/Container2";
 import "./home.css";
 
 export default function Home() {
@@ -5,7 +6,9 @@ export default function Home() {
   return (
     <div className="home-grid">
     <div className="container1"></div>
-    <div className="container2"></div>
+    <div className="container2">
+      <Container2 />
+    </div>
     <div className="container3"></div>
     </div>
   );

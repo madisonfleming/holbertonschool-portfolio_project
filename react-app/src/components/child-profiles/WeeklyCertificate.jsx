@@ -135,7 +135,7 @@ const WeeklyCertificate = ({ data }) => {
           <Text style={styles.title2} hyphenationCallback={hyphenationCallback}>You're a star!</Text>
           {/* Divider */}
           <View style={styles.divider}></View>
-          <Text style={styles.description} hyphenationCallback={hyphenationCallback}>★{milestone?.description}★</Text>
+          <Text style={styles.description} hyphenationCallback={hyphenationCallback}>{milestone?.description}</Text>
           <Text style={styles.date}>Date: {formattedDate}</Text>
         </View>
       </Page>
