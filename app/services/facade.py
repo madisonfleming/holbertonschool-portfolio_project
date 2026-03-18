@@ -725,11 +725,10 @@ class MLBFacade:
             raise MilestoneNotFoundError
 
         if milestone.type == "books_read":
-            percentage = milestone.threshold / 1000
-            description = f'{child.name} has read {milestone.threshold} books! That\'s {percentage}% of the total goal!'
+            description = f'Milestone achieved: {child.name} has read {milestone.threshold} books!'
 
         elif milestone.type == "weekly_goal":
-            description = f'{child.name} read {milestone.threshold} books about {milestone.subject} this week!'
+            description = f'Weekly goal unlocked! {child.name} read {milestone.threshold} books about {milestone.subject} this week'
 
         else:
             description = ""
