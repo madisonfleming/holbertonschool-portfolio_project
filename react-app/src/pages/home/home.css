@@ -1,16 +1,18 @@
 .home-grid {
   display: grid;
-  gap: 20px;
   height: 100vh;
   margin-bottom: 100px;
+  row-gap: 0;
+  column-gap: 20px;
 }
 
 .container1 {
   display: flex;
-  border-radius: 50px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  width: 100%;
+  justify-content: center;
+  align-items: center;
   height: 100%;
+  width: 100%;
+  padding: 0;
 }
 
 .container2 {
