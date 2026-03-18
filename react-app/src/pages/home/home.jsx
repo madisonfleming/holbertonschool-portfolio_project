@@ -1,3 +1,4 @@
+import Container2 from "../../components/home/Container2";
 import "./home.css";
 import Cont1 from "../../components/home/Cont1";
 
@@ -8,7 +9,9 @@ export default function Home() {
       <div className="container1">
         <Cont1 />
       </div>
-      <div className="container2"></div>
+      <div className="container2">
+      <Container2 />
+    </div>
       <div className="container3"></div>
     </div>
   );

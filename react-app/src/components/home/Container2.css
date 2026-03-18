@@ -1,0 +1,51 @@
+.suggested-books {
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.12);
+    border-radius: 20px;
+}
+/* READING SESSION */
+.reading-session {
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.12);
+    border-radius: 20px;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+}
+.book-container {
+    height: 100px;
+    width: 150px;
+}
+.row-avatars {
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+    width: 100px;
+}
+
+/* WEEKLY REWARD */
+.weekly-reward {
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.12);
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #d6ebfe;
+    width: 100%;
+}
+.row-images {
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    /* height needs to contain img */
+    height: 350px;
+    padding: 20px;
+}
+/* TITLES */
+.title {
+  font-family: "Baloo 2", cursive;
+  font-size: 45px;
+  font-weight: 800;
+  color: #4a7a9b;
+  line-height: 1.1;
+  position: relative;
+  z-index: 1;
+}
