@@ -40,18 +40,16 @@ function App() {
                 position="top-right"
                 containerStyle={{ top: 80 }}
                 toastOptions={{
-                  success: { // success message styling
+                  success: { // global success message styling
                     style: {
-                      border: "2px solid green",
-                      // color: "#713200", // font colour
-                      // background: "#68457b" // background of alert
+                      border: "2px solid green", // border thickness & colour
+                      borderRadius: "50px", // border edges (rounding)
                     }
                   },
-                  error: { // error message styling
+                  error: { // global error message styling
                     style: {
-                      border: "2px solid red",
-                      // color: "#68457b", // font colour
-                      // background: "#68457b" // background of alert
+                      border: "2px solid red", // border thickness & colour
+                      borderRadius: "50px", // border edges (rounding)
                     }
                   }
                 }}
