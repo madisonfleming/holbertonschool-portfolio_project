@@ -7,9 +7,10 @@ const Footer = () => {
     return (
         <footer className="footer">
             <div className="footer-container">
-                <div className="img" ></div>
-                {/*<Link className="text">&copy; My Little Bookworm {new Date().getFullYear()}</Link>*/}
-            </div>
+                <p className="text">&copy; My Little Bookworm {new Date().getFullYear()}</p>
+                <Link className="footer-links">About Us</Link>
+                <Link className="footer-links">Contact Us</Link>
+                </div>
         </footer>
     );
 };
