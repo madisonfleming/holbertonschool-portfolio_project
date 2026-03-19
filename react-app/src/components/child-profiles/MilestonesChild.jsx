@@ -20,7 +20,7 @@ const MilestonesChild = ({ selectedChild }) => {
     loadCount();
   }, [selectedChild]);
   const percentage = Math.min((count / 1000) * 100, 100);
-  const rest = 1000 - count;
+  const rest = Math.max(1000 - count, 0);
 
   //GET SINGLE MILESTONE DATA FROM getSingleMilestone endpoint
   const { getSingleMilestone } = useMilestones();
