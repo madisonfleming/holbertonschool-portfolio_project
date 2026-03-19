@@ -20,7 +20,7 @@ const MilestonesChild = ({ selectedChild }) => {
     loadCount();
   }, [selectedChild]);
   const percentage = Math.min((count / 1000) * 100, 100);
-  const rest = 1000 - count;
+  const rest = Math.max(1000 - count, 0);
 
   //GET SINGLE MILESTONE DATA FROM getSingleMilestone endpoint
   const { getSingleMilestone } = useMilestones();
@@ -45,7 +45,7 @@ const MilestonesChild = ({ selectedChild }) => {
       </div>
 
       <div className="progress-hero">
-        <div className="progress-percent">{Math.round(percentage)}%</div>
+        <div className="progress-percent">{Math.floor(percentage)}%</div>
         <div className="progress-desc">
           of <strong> {selectedChild.name}'s </strong>
           target achieved!
@@ -62,7 +62,7 @@ const MilestonesChild = ({ selectedChild }) => {
           <span className="stat-label">To go</span>
         </div>
         <div className="stat-box">
-          <span className="stat-value">{Math.round(percentage)}%</span>
+          <span className="stat-value">{Math.floor(percentage)}%</span>
           <span className="stat-label">Done</span>
         </div>
       </div>
