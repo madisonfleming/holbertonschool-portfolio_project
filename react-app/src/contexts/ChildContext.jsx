@@ -68,10 +68,16 @@ export function ChildProvider({ children }) {
       },
       body: JSON.stringify(childData),
     });
+
     if (!response.ok) {
-      console.error("Error creating child");
-      return;
-    }
+      if (response.status == 400) { // invalid input (eg user didnt enter all required fields)
+        console.error("Error: Unable to create child as data is malformed/invalid."); // dev error
+        throw new Error ("Oops, something went wrong. Please check your details and try again.") // user error message
+      } else {
+        console.error("Error creating child"); // general dev error
+        return;
+      }}
+
     const newChild = await response.json();
     // we received id, name, age, avatar_url
     console.log("Answer from BE of creating new child:", newChild);
@@ -105,9 +111,16 @@ export function ChildProvider({ children }) {
     });
 
     if (!response.ok) {
-      console.error("Error updating child");
-      return;
-    }
+      if (response.status == 403) { // user is forbidden to update child (they are not the Primary user for the child)
+        console.error("Error: Unable to update child as user is not Primary."); // dev error
+        throw new Error ("You do not have permission to update this child.") // user error message
+      } else if (response.status == 400) { // bad request (malformed/invalid data)
+        console.error("Error: Unable to update child as data is malformed/invalid.");
+        throw new Error ("Oops, something went wrong. Please check your details and try again.")// user msg
+      } else {
+        console.error("Error updating child"); // general dev error
+        return;
+      }}
 
     const updatedChild = await response.json();
     console.log("Answer from BE of updating a child:", updatedChild);

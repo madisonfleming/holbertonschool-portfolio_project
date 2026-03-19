@@ -67,9 +67,13 @@ const Settings = () => {
     });
 
     if (!response.ok) {
-      console.error("Error updating user");
-      return;
-    }
+      if (response.status == 400) { // bad request (malformed/invalid data)
+        console.error("Error: Unable to update user as data is malformed/invalid"); // dev error
+        throw new Error ("Oops, something went wrong. Please check your details and try again."); // user error msg
+      } else {
+        console.error("Error updating user"); // general dev msg
+        return;
+    }}
 
     const updatedUser = await response.json();
     console.log("Answer from BE of updating a user:", updatedUser);
@@ -115,26 +119,25 @@ const Settings = () => {
             updateUser={updateUser}
           ></UpdateUser>
         </div>
+        <h1 className="title">Your Children!</h1>
         <div className="settings-child-card">
-          <h1 className="title">Your Children!</h1>
           <ChildCardSettings childrenList={childList} />
-
-          <div className="divider"> </div>
-          {/* createChild buttom for testing*/}
-          <button
-            className="btn-submit-create"
-            onClick={() => setButtonCreateChildPopup(true)}
-          >
-            Create Child
-          </button>
-          {/* For pop up the create child card  need to be outside so the weekly goal text doesnt appear infront */}
-          {/*FE send to the BE a POST with this json */}
-          <CreateChild
-            trigger={buttonCreateChildPopup}
-            setTrigger={setButtonCreateChildPopup}
-            createChild={createChild}
-          ></CreateChild>
         </div>
+        <div className="divider"> </div>
+        {/* createChild buttom for testing*/}
+        <button
+          className="btn-submit-create"
+          onClick={() => setButtonCreateChildPopup(true)}
+        >
+          Create Child
+        </button>
+        {/* For pop up the create child card  need to be outside so the weekly goal text doesnt appear infront */}
+        {/*FE send to the BE a POST with this json */}
+        <CreateChild
+          trigger={buttonCreateChildPopup}
+          setTrigger={setButtonCreateChildPopup}
+          createChild={createChild}
+        ></CreateChild>
       </div>
     </div>
   );

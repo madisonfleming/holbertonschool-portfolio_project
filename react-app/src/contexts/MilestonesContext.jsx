@@ -37,9 +37,13 @@ export function MilestonesProvider({ children }) {
       },
     );
     if (!response.ok) {
-      console.error("Error posting the complete weekly milestone");
-      return;
-    }
+      if (response.status == 400) { // bad request (malformed/invalid data)
+        console.error("Error: Unable to create weekly milestone as data is malformed/invalid"); // dev error
+        throw new Error ("Oops, something went wrong. Please check your weekly goal details and try again."); // user error msg
+      } else {
+        console.error("Error posting the complete weekly goal"); // general dev error
+        return;
+    }}
     const newCompleteWeeklyMilestone = await response.json();
     console.log(
       "Answer from BE of posting complete weekly rewards:",
@@ -154,6 +158,31 @@ export function MilestonesProvider({ children }) {
     return singleWeeklyGoal;
   }
 
+      //ENPOINT TO Get Last MILESTONE (BOOKS_READ) from child to get one http://127.0.0.1:8000/api/children/${child_id}/milestones?limit=1
+    //returns an array
+  async function getSingleMilestone(child_id) {
+    if (!currentUser) return;
+
+    const token = await currentUser.getIdToken();
+    // ADD TYPE = BOOKS_READ to only receive books milestone
+    const response = await fetch(
+      `http://127.0.0.1:8000/api/children/${child_id}/milestones?limit=1&type=books_read`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    if (!response.ok) {
+      console.error("Error getting single milestone");
+      return;
+    }
+    const singleMilestone = await response.json();
+    console.log("Answer from BE of single milestone", singleMilestone);
+
+    return singleMilestone;
+  }
+
   return (
     <MilestonesContext.Provider
       value={{
@@ -162,6 +191,7 @@ export function MilestonesProvider({ children }) {
         weeklyGoalMilestonesPerChild,
         booksReadMilestonesPerChild,
         getSingleWeeklyGoal,
+        getSingleMilestone,
       }}
     >
       {children}

@@ -8,7 +8,8 @@
     top: 65px;
     left: 20px;
     position: absolute;
-    z-index: 9999;
+    /* change z-index. to be behind ADD READING SSN POP UP*/
+    z-index: 998;
 
 }
 

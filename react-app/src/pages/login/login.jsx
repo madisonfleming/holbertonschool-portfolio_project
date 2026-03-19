@@ -6,6 +6,7 @@ import {
 } from "../../firebase/auth";
 import { useAuth } from "../../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   console.log("Login is rendering");
@@ -40,7 +41,11 @@ const Login = () => {
     <div className="login-container">
       <div className="login-card">
         {userLoggedIn && <Navigate to={"/dashboard"} replace={true} />}
-        <h1 className="title">My Little Bookworm</h1>
+        
+        <Link to="/home">
+        <img src="/mlb-FINAL_logo.png" className="login-logo" />
+        </Link>
+        
         <p className="subtitle">Welcome Back!</p>
         <p className="description">Log in to continue your reading journey</p>
 
@@ -63,8 +68,15 @@ const Login = () => {
         </form>
 
         <button className="google-btn" onClick={onGoogleSignIn}>
-          Signin with Google
+          <img src="/login-icons/google-icon.svg" className="google-icon"/>
+          Sign in with Google
         </button>
+
+        <button className="facebook-btn">
+          <img src="/login-icons/facebook-icon.svg" className="facebook-icon"/>
+          Sign in with Facebook
+        </button>
+
       </div>
     </div>
   );

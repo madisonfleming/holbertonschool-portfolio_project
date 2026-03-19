@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { getAuth, signOut } from "firebase/auth"; // import functionality for logout from firebase SDK module
-
+import './../App.css'
 
 function MyNavbar() {
   const { currentUser } = useAuth();

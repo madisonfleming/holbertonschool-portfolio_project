@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useBooks } from "../../contexts/BooksContext";
 import { data } from "react-router-dom";
 import GetWorm from "../dashboard/GetWorm";
+import { useMilestones } from "../../contexts/MilestonesContext";
 
-const MilestonesChild = ({ selectedChild, certificateData }) => {
+const MilestonesChild = ({ selectedChild }) => {
   if (!selectedChild) return "No child selected";
   const { getReadingSessionsCount } = useBooks();
   const [count, setCount] = useState(0);
@@ -21,6 +22,20 @@ const MilestonesChild = ({ selectedChild, certificateData }) => {
   const percentage = Math.min((count / 1000) * 100, 100);
   const rest = 1000 - count;
 
+  //GET SINGLE MILESTONE DATA FROM getSingleMilestone endpoint
+  const { getSingleMilestone } = useMilestones();
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    async function loadMilestone() {
+      const certificateData = await getSingleMilestone(selectedChild.id);
+      setData(certificateData);
+    }
+    loadMilestone();
+  }, [selectedChild]);
+
+  console.log("data being sent from milestoneChild", data);
+
   return (
     <div className="milestoneChild-card">
       <h1 className="card-title"> Reading Progress </h1>
@@ -32,7 +47,7 @@ const MilestonesChild = ({ selectedChild, certificateData }) => {
       <div className="progress-hero">
         <div className="progress-percent">{Math.round(percentage)}%</div>
         <div className="progress-desc">
-          of <strong> {selectedChild.name} </strong>
+          of <strong> {selectedChild.name}'s </strong>
           target achieved!
         </div>
       </div>
@@ -53,14 +68,10 @@ const MilestonesChild = ({ selectedChild, certificateData }) => {
       </div>
       <div className="reward-section">
         <div className="reward-title">Your reward is ready!</div>
-        <div className="reward-desc">Download or preview your certificate</div>
+        <div className="reward-desc">Download your certificate</div>
         <div className="btn-row">
-          <button className="btn-mc"> Preview Reward</button>
-          <button className="btn-mc"> Download Reward</button>
-          {/*<ExportButton
-          certificateData={certificateData}
-          selectedChild={selectedChild}
-        /> */}
+          {/* EXPORT BTN */}
+          <ExportButton selectedChild={selectedChild} data={data} />
         </div>
       </div>
     </div>
