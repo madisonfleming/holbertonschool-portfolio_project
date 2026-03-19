@@ -16,7 +16,7 @@ Font.register({
 });
 
 //prevent hyphen mid-word
-//const hyphenationCallback = (word) => [word];
+const hyphenationCallback = (word) => [word];
 
 //create colour theme:
 const PURPLE = '#914ebe';
@@ -98,12 +98,14 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   description: {
-    fontSize: 25,
+    fontSize: 24,
     fontWeight: 800,
     color: PURPLE,
     marginBottom: 5,
+    marginLeft: 115,
+    marginRight: 115,
   },
-    milestone: {
+  milestone: {
     fontSize: 15,
     color: PURPLE_MID,
     fontWeight: 600,
@@ -146,8 +148,8 @@ const ExportCertificate = ({ data, selectedChild }) => {
           <Text style={styles.name}>{selectedChild?.name}</Text>
           {/* Divider */}
           <View style={styles.divider}></View>
-          <Text style={styles.description}>{milestone?.description}!</Text>
-                    <Text style={styles.milestone}>Great reading wormie, we're so proud of you and all that you have read</Text>
+          <Text style={styles.description} hyphenationCallback={hyphenationCallback}>{milestone?.description}</Text>
+          <Text style={styles.milestone}>Great reading wormie, we're so proud of you and all that you have read</Text>
 
 
           <Text style={styles.date}>Date: {formattedDate}</Text>
