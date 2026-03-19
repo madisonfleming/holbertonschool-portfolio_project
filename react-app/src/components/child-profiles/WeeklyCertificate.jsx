@@ -90,12 +90,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   description: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 800,
     color: PURPLE,
-    marginBottom: 90,
-    marginLeft: 135,
-    marginRight: 135,
+    marginBottom: 70,
+    marginLeft: 175,
+    marginRight: 175,
   },
   date: {
     fontSize: 12,
