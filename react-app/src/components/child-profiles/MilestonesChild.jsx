@@ -45,7 +45,7 @@ const MilestonesChild = ({ selectedChild }) => {
       </div>
 
       <div className="progress-hero">
-        <div className="progress-percent">{Math.round(percentage)}%</div>
+        <div className="progress-percent">{Math.floor(percentage)}%</div>
         <div className="progress-desc">
           of <strong> {selectedChild.name}'s </strong>
           target achieved!
@@ -62,7 +62,7 @@ const MilestonesChild = ({ selectedChild }) => {
           <span className="stat-label">To go</span>
         </div>
         <div className="stat-box">
-          <span className="stat-value">{Math.round(percentage)}%</span>
+          <span className="stat-value">{Math.floor(percentage)}%</span>
           <span className="stat-label">Done</span>
         </div>
       </div>
