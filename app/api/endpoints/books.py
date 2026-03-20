@@ -20,7 +20,8 @@ def search_books(
     for book in books:
         res = BookSearchResponse( #no from domain - built manually
             # book_id=book.id,
-            book_id=book.book_id, # TODO: works but not correct obj id is "id" not "book_id"
+            # book_id=book.book_id,
+            book_id=getattr(book, "book_id", None) or getattr(book, "id", None), # handles getting either Book (id) or BookSearchResponse (book_id), mapping it to book_id
             external_id=book.external_id,
             source=book.source,
             title=book.title,
