@@ -3,11 +3,15 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import GetWorm from "./GetWorm";
 import { useChild } from "../../contexts/ChildContext";
+import { useBooks } from "../../contexts/BooksContext";
 
 // now recieving data from usechild context
 const ChildCard = () => {
+  const { getReadingSessionsCount } = useBooks();
   const [expandedChild, setExpandedChild] = useState(null);
   const { childList, selectedChild, setSelectedChild } = useChild();
+  //when we expand a chil we also get their counts
+  const [counts, setCounts] = useState({});
 
   return (
     <div className="child-container">
@@ -18,9 +22,17 @@ const ChildCard = () => {
           <div key={child.id}>
             <div
               className="child-card"
-              onClick={() => {
+              onClick={async () => {
                 setExpandedChild(isOpen ? null : child.id);
                 setSelectedChild(child);
+
+                //load count for kid
+                const count = await getReadingSessionsCount(child.id);
+
+                setCounts((prev) => ({
+                  ...prev,
+                  [child.id]: count,
+                }));
               }}
               aria-expanded={isOpen}
             >
@@ -48,7 +60,7 @@ const ChildCard = () => {
                 </div>
               </div>
               <div className={`expanded-content ${isOpen ? "open" : ""}`}>
-                <GetWorm selectedChild={selectedChild} />
+                <GetWorm count={counts[child.id] || 0} />
               </div>
             </div>
           </div>

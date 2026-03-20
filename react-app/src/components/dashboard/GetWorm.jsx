@@ -1,21 +1,7 @@
 import "./GetWorm.css";
 import { useEffect, useState } from "react";
 import { useBooks } from "../../contexts/BooksContext";
-const GetWorm = ({ selectedChild }) => {
-  if (!selectedChild) return "No child selected";
-
-  const { getReadingSessionsCount } = useBooks();
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    async function loadCount() {
-      const count_from_endpoint = await getReadingSessionsCount();
-      setCount(count_from_endpoint);
-    }
-
-    loadCount();
-  }, [selectedChild]);
-
+const GetWorm = ({ count }) => {
   const percentage = Math.min((count / 1000) * 100, 100);
 
   return (

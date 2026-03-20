@@ -5,20 +5,28 @@ import { useBooks } from "../../contexts/BooksContext";
 import { data } from "react-router-dom";
 import GetWorm from "../dashboard/GetWorm";
 import { useMilestones } from "../../contexts/MilestonesContext";
+import AddReadingSession from "../../components/dashboard/AddReadingSession";
 
-const MilestonesChild = ({ selectedChild }) => {
+const MilestonesChild = ({ selectedChild, data_reading_session }) => {
   if (!selectedChild) return "No child selected";
   const { getReadingSessionsCount } = useBooks();
   const [count, setCount] = useState(0);
+  const { addReadingSession } = useBooks();
 
   useEffect(() => {
-    async function loadCount() {
-      const count_from_endpoint = await getReadingSessionsCount();
-      setCount(count_from_endpoint);
-    }
-
     loadCount();
   }, [selectedChild]);
+
+  async function loadCount() {
+    const count_from_endpoint = await getReadingSessionsCount(selectedChild.id);
+    setCount(count_from_endpoint);
+  }
+
+  async function handleRefreshReadingSession(data_reading_session) {
+    await addReadingSession(data_reading_session);
+    await loadCount();
+  }
+
   const percentage = Math.min((count / 1000) * 100, 100);
   const rest = Math.max(1000 - count, 0);
 
@@ -38,10 +46,11 @@ const MilestonesChild = ({ selectedChild }) => {
 
   return (
     <div className="milestoneChild-card">
+      <AddReadingSession onAdded={handleRefreshReadingSession} />
       <h1 className="card-title"> Reading Progress </h1>
       <p className="card-subtitle"> {selectedChild.name} is doing great!</p>
       <div className="worm">
-        <GetWorm selectedChild={selectedChild} />
+        <GetWorm count={count} />
       </div>
 
       <div className="progress-hero">

@@ -122,7 +122,7 @@ export function BooksProvider({ children }) {
       console.log("TOKEN:", token);
       /* reading-session endpoint  */
       const response = await fetch(
-        `http://127.0.0.1:8000/api/children/${selectedChild.id}/reading-sessions/count`,
+        `http://127.0.0.1:8000/api/children/${childId}/reading-sessions/count`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -168,10 +168,16 @@ export function BooksProvider({ children }) {
       console.log("Answer from BE of Updating Reading Session:", data);
 
       if (!response.ok) {
-        if (response.status == 400) { // invalid input (eg user didnt enter all required fields)
-          console.error("Error: Unable to update reading session as data is malformed/invalid."); // dev err
-          throw new Error ("Oops, something went wrong. Please check your details and try again."); // user error
-      }}
+        if (response.status == 400) {
+          // invalid input (eg user didnt enter all required fields)
+          console.error(
+            "Error: Unable to update reading session as data is malformed/invalid.",
+          ); // dev err
+          throw new Error(
+            "Oops, something went wrong. Please check your details and try again.",
+          ); // user error
+        }
+      }
 
       //using set function to map and to update UI immediately
       setReadingSessions((prev) => {
@@ -218,13 +224,19 @@ export function BooksProvider({ children }) {
       body: JSON.stringify(readingSessionData),
     });
     if (!response.ok) {
-      if (response.status == 400) { // invalid input (eg user didnt enter all required fields)
-        console.error("Error: unable to create reading session as data is malformed/invalid.")
-        throw new Error ("Oops, something went wrong. Please check your details and try again.") // user error msg
+      if (response.status == 400) {
+        // invalid input (eg user didnt enter all required fields)
+        console.error(
+          "Error: unable to create reading session as data is malformed/invalid.",
+        );
+        throw new Error(
+          "Oops, something went wrong. Please check your details and try again.",
+        ); // user error msg
       } else {
         console.error("Error creating reading session"); // general dev error msg
         return;
-    }}
+      }
+    }
     const newReadingSession = await response.json();
     // we received fron BE
     console.log(
