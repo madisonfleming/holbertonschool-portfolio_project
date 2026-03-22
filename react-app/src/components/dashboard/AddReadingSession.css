@@ -56,6 +56,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  position: relative;
 }
 
 /*For the image of the book*/
@@ -151,13 +152,19 @@
 }
 
 .dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  min-width: 280px;
+  padding: 10px 0;
   background: white;
   border: 1px solid #ccc;
   border-radius: 8px;
   max-height: 150px;
   overflow-y: auto;
-  margin-top: 5px;
-  width: 50%;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .dropdown-item {

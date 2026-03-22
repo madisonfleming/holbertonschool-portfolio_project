@@ -60,6 +60,7 @@
   justify-content: flex-start;
   align-items: center;
   flex-direction: column; /* 🔥 texto arriba, grid abajo */
+  padding: 50px;
 }
 
 .reading-activity-h1 {
