@@ -7,6 +7,7 @@
   padding: 20px;
   flex-direction: column;
   overflow-y: auto;
+  margin-bottom: 30px;
 }
 .settings-container::-webkit-scrollbar {
   width: 8px;
@@ -25,6 +26,7 @@
   max-width: 580px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   height: 700px;
+  margin-bottom: 70px;
 }
 
 /*adding settings-user-card to align with child card*/
