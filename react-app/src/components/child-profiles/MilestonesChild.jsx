@@ -9,13 +9,13 @@ import AddReadingSession from "../../components/dashboard/AddReadingSession";
 
 const MilestonesChild = ({ selectedChild, data_reading_session }) => {
   if (!selectedChild) return "No child selected";
-  const { getReadingSessionsCount } = useBooks();
+  const { getReadingSessionsCount, refreshCounts } = useBooks();
   const [count, setCount] = useState(0);
   const { addReadingSession } = useBooks();
 
   useEffect(() => {
     loadCount();
-  }, [selectedChild]);
+  }, [selectedChild, refreshCounts]);
 
   async function loadCount() {
     const count_from_endpoint = await getReadingSessionsCount(selectedChild.id);

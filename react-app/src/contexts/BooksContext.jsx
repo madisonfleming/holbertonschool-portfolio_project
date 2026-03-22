@@ -16,13 +16,10 @@ export function BooksProvider({ children }) {
   const [readingSessions, setReadingSessions] = useState([]);
   // load the current state of reading sessions
   //const [loading, setLoading] = useState(true);
+  const [refreshCounts, setRefreshCounts] = useState(false);
 
   useEffect(() => {
     if (currentUser) loadData();
-  }, [currentUser]);
-
-  useEffect(() => {
-    if (currentUser) getReadingSessionsCount();
   }, [currentUser]);
 
   //use effect for no child selected yet
@@ -30,12 +27,6 @@ export function BooksProvider({ children }) {
     if (!selectedChild) return;
 
     loadData(selectedChild);
-  }, [selectedChild]);
-
-  useEffect(() => {
-    if (!selectedChild) return;
-
-    getReadingSessionsCount(selectedChild);
   }, [selectedChild]);
 
   //ENDPOINT TO SEARCH FOR BOOK BY QUERY the str required frm the BE
@@ -115,7 +106,7 @@ export function BooksProvider({ children }) {
   }
 
   //GET READING SESSIONS COUNT
-  async function getReadingSessionsCount() {
+  async function getReadingSessionsCount(childId) {
     let cont_data = 0;
     try {
       const token = await currentUser.getIdToken();
@@ -134,12 +125,11 @@ export function BooksProvider({ children }) {
       /* we need to add an if in case the data is error  */
       console.log("READING SESSION CONT DATA from Backend:", cont_data);
 
-      if (!cont_data) return 0;
+      return cont_data || 0;
     } catch (error) {
       console.error("Error getting the count reading sessions", error);
-      return;
+      return 0;
     }
-    return cont_data;
   }
 
   //UPDATE READING SESSIONS
@@ -254,6 +244,7 @@ export function BooksProvider({ children }) {
         img: newReadingSession.cover_url,
       },
     ]);
+    setRefreshCounts((prev) => !prev);
   }
 
   return (
@@ -268,6 +259,7 @@ export function BooksProvider({ children }) {
         readingSessions,
         setReadingSessions,
         createReadingSession,
+        refreshCounts,
       }}
     >
       {children}

@@ -11,6 +11,7 @@
   color: #bbb;
   transition: all 0.2s ease;
   text-align: center;
+  width: 100%;
 }
 
 .export-btn {
