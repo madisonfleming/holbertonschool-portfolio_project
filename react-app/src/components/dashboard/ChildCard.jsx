@@ -1,13 +1,34 @@
 import "./childCard.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import GetWorm from "./GetWorm";
 import { useChild } from "../../contexts/ChildContext";
+import { useBooks } from "../../contexts/BooksContext";
 
-// now recieving data from usechild context
 const ChildCard = () => {
+  const { childList, setSelectedChild } = useChild();
+  const { getReadingSessionsCount } = useBooks();
+
   const [expandedChild, setExpandedChild] = useState(null);
-  const { childList, selectedChild, setSelectedChild } = useChild();
+  const [counts, setCounts] = useState({});
+
+  //Load ALL counts once when childList is available
+  useEffect(() => {
+    async function loadAllCounts() {
+      const newCounts = {};
+
+      for (const child of childList) {
+        const count = await getReadingSessionsCount(child.id);
+        newCounts[child.id] = count;
+      }
+
+      setCounts(newCounts);
+    }
+
+    if (childList.length > 0) {
+      loadAllCounts();
+    }
+  }, [childList]);
 
   return (
     <div className="child-container">
@@ -30,6 +51,7 @@ const ChildCard = () => {
                   alt={child.name}
                   className="child-avatar"
                 />
+
                 <div className="text">
                   <Link
                     className="child-name"
@@ -41,15 +63,19 @@ const ChildCard = () => {
                   >
                     {child.name}
                   </Link>
+
                   <div className="child-age">Age: {child.age}</div>
                   <p className="info-desc">
                     <strong>Click here </strong>to see the progress!
                   </p>
                 </div>
               </div>
-              <div className={`expanded-content ${isOpen ? "open" : ""}`}>
-                <GetWorm selectedChild={selectedChild} />
-              </div>
+
+              {isOpen && (
+                <div className="expanded-content open">
+                  <GetWorm count={counts[child.id] || 0} />
+                </div>
+              )}
             </div>
           </div>
         );
@@ -57,20 +83,5 @@ const ChildCard = () => {
     </div>
   );
 };
-export default ChildCard;
 
-{
-  /*<img className="avatar" src={selectedChild.avatar} alt="avatar" />
-      <div className="text">
-        <Link className="child-name" to="/child-profiles">{selectedChild.name}</Link>
-        <h2 className="child-age">Age: {selectedChild.age}</h2>
-      </div>
-      </div>
-      <div className={`expanded-content ${isExpanded ? 'open' : ""}`}>
-      <GetWorm />
-      </div>
-      
-    </div>
-    </div>
-      ) */
-}
+export default ChildCard;

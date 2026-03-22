@@ -58,6 +58,7 @@ const ChildProfiles = () => {
         <MilestonesChild
           selectedChild={selectedChild}
           certificateData={certificateData}
+          readingSessions={readingSessions}
         />
         <MilestonesHistory selectedChild={selectedChild} />
       </div>

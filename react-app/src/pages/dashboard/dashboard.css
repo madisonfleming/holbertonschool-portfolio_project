@@ -1,9 +1,3 @@
-/*.open-book-img {
-  width: 7%;
-  align-items: flex-end;
-  margin-bottom: 10px;
-} */
-
 /*FOR THE FLOATING BOOK*/
 .reading-session-container {
   position: sticky;
@@ -52,7 +46,7 @@
   grid-template-rows: 1fr 1fr;
   /* right divided in two  */
   gap: 20px;
-  height: 100vh;
+  height: 130vh;
   /* both columns has the same height */
   padding: 20px;
 }
