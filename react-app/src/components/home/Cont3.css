@@ -1,13 +1,25 @@
 /* container top and bottom split */
 
-.container3-top { /* container top half */
+.container3-top {
+  /* container top half */
   flex: 1; /* take up exactly top 50% of container */
   display: flex;
   flex-direction: row; /* allow bottom left and bottom right to sit side by side */
   background-color: #ffffff; /* top half background colour */
+  font-family: "Baloo 2", cursive;
 }
 
-.container3-bottom { /* container bottom half */
+.section-desc {
+  font-size: 17px;
+
+  color: #666;
+  line-height: 1.7;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.container3-bottom {
+  /* container bottom half */
   flex: 1; /* take up exactly bottom 50% of container */
   display: flex;
   flex-direction: row; /* allow bottom left and bottom right to sit side by side */
@@ -16,40 +28,45 @@
 
 /* container bottom split (left and right) */
 
-.container3-bottom-left { /* style bottom left div */
+.container3-bottom-left {
+  /* style bottom left div */
   flex: 1; /* how much space to take up */
   display: flex;
   align-items: center; /* vertically move content in bottom left */
   justify-content: center; /* horizontally move content in bottom left */
 }
 
-.worm-badge { /* make the worm badge bigger */
+.worm-badge {
+  /* make the worm badge bigger */
   width: 200px;
   height: 200px;
 }
 
-.container3-bottom-right { /* style bottom right div */
+.container3-bottom-right {
+  /* style bottom right div */
   flex: 2; /* how much space to take up */
   display: flex;
-  align-items: center;  /* vertically move content */
+  align-items: center; /* vertically move content */
   justify-content: center; /* horizontally move content */
   font-size: 30px;
   font-weight: bold;
 }
 
 /* container top split (left and right) */
-.container3-top-left { /* style top left div */
+.container3-top-left {
+  /* style top left div */
   flex: 2;
   display: flex;
   flex-direction: column; /* top left content sit on top of each other */
-  align-items: center;  /* vertically move content */
+  align-items: center; /* vertically move content */
   justify-content: center; /* horizontally move content */
   font-size: 24px;
   font-weight: bold;
   text-align: center;
 }
 
-.container3-top-right { /* style top right div */
+.container3-top-right {
+  /* style top right div */
   flex: 1;
   display: flex;
   align-items: center;
