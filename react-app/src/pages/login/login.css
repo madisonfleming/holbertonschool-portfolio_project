@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #cae5fc;
   padding: 20px;
 }
@@ -13,14 +13,16 @@
   border-radius: 16px;
   width: 100%;
   max-width: 500px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 80px;
+  margin-top: 40px;
 }
 
 .title {
   text-align: center;
   font-size: 26px;
   font-weight: 700;
-  color: #9F9FEE;
+  color: #9f9fee;
 }
 
 .subtitle {
@@ -53,7 +55,7 @@ input {
   border: 1px solid #ddd;
   margin-bottom: 16px;
   background-color: white; /*changed to white */
-  color: black
+  color: black;
 }
 
 .primary-btn {
@@ -72,7 +74,7 @@ input {
   /* display: block; keep button with parent container */
   display: flex;
   margin: 0 auto; /* center horizontally */
-  padding: 10px 20px; /* google buttons are usually smaller */ 
+  padding: 10px 20px; /* google buttons are usually smaller */
   background: rgb(255, 255, 255);
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -95,7 +97,7 @@ input {
   /* display: block; keep button with parent container */
   display: flex;
   margin: 0 auto; /* center horizontally */
-  padding: 10px 20px; /* google buttons are usually smaller */ 
+  padding: 10px 20px; /* google buttons are usually smaller */
   background: rgb(255, 255, 255);
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -130,7 +132,6 @@ input {
   max-height: 180px;
   max-width: 180px;
 }
-
 
 navbar-link {
   margin-left: auto;
