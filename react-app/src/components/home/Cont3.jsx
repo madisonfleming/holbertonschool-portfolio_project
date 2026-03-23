@@ -1,7 +1,9 @@
 import React from "react";
 import "./Cont3.css";
+import { useNavigate } from "react-router-dom";
 
 const Cont3 = () => {
+  const navigate = useNavigate();
   return (
     <div className="Cont3">
       <div className="container3-top">
@@ -26,10 +28,16 @@ const Cont3 = () => {
           {/* worm image on bottom left */}
         </div>
         <div className="container3-bottom-right">
-          <p className="title">
-            Track your wormies progress
-            <br /> toward the 1,000 book goal
-          </p>
+          <div className="button-text-section">
+            <p className="title">
+              Track your wormies progress
+              <br /> toward the 1,000 book goal
+            </p>
+            <button className="btn-login" onClick={() => navigate("/login")}>
+              Start reading today
+            </button>
+            <p class="text-down-btn">Completely free! Join today</p>
+          </div>
         </div>
       </div>
     </div>

@@ -78,3 +78,40 @@
   max-width: 100%;
   max-height: 90%;
 }
+
+.button-text-section {
+  text-align: center;
+  justify-content: center;
+  z-index: 2;
+  margin-bottom: 100px;
+}
+
+.btn-login {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #9b59b6, #cc7df0);
+  color: white;
+  font-family: "Baloo 2", cursive;
+  font-size: 18px;
+  font-weight: 800;
+  padding: 18px 48px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(155, 89, 182, 0.4);
+  transition: all 0.25s ease;
+  text-decoration: none;
+  letter-spacing: 0.3px;
+}
+.btn-login:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(155, 89, 182, 0.5);
+}
+
+.text-down-btn {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #aaa;
+  font-weight: 600;
+}
