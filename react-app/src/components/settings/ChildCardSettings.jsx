@@ -12,7 +12,7 @@ const ChildCard = () => {
   const [editingChild, setEditingChild] = useState(null);
 
   const { selectedChild } = useChild();
-
+  const { currentUser } = useAuth();
 
   return (
     <div>
@@ -26,16 +26,18 @@ const ChildCard = () => {
                 <div className="child-age-settings">{child.age} years</div>
               </div>
               {/* updateChild buttom for testing */}
-                <button className="btn-update-settings"
-                  onClick={() => {
-                    setEditingChild(child);
-                    setButtonUpdateChildPopup(true);
-                  }}
-                >Update
-                </button>
+              <button className="btn-update-settings"
+                onClick={() => {
+                  setEditingChild(child);
+                  setButtonUpdateChildPopup(true);
+                }}
+              >Update
+              </button>
               {/* Invite User button ONLY VISIBLE FOR PRIMARY USER NOT POSSIBLE W STANDARD USER */}
-              <button className="btn-update-settings">Invite</button>
-                
+              {currentUser.uid === "CVelQleFzqXvvuLQGllEnP4FnhD2" && (
+                <button className="btn-update-settings">Invite</button>
+              )}
+
             </div>
           </div>
         );
