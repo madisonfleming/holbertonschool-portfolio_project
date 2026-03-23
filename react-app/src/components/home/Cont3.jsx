@@ -30,13 +30,13 @@ const Cont3 = () => {
         <div className="container3-bottom-right">
           <div className="button-text-section">
             <p className="title">
-              Track your wormies progress
-              <br /> toward the 1,000 book goal
+              Track your wormies progress toward the 1,000 book goal
             </p>
-            <button className="btn-login" onClick={() => navigate("/login")}>
-              Start reading today
+            <div className="divider"></div>
+            <button className="btn-login-3" onClick={() => navigate("/login")}>
+              Start your journey today!
             </button>
-            <p class="text-down-btn">Completely free! Join today</p>
+            <p class="text-down-btn">Completely free!</p>
           </div>
         </div>
       </div>
