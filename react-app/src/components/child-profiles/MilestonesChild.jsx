@@ -17,6 +17,11 @@ const MilestonesChild = ({ selectedChild, data_reading_session }) => {
     loadCount();
   }, [selectedChild, refreshCounts]);
 
+  useEffect(() => {
+    if (!selectedChild) return;
+    loadMilestone();
+  }, [selectedChild, refreshCounts]);
+
   async function loadCount() {
     const count_from_endpoint = await getReadingSessionsCount(selectedChild.id);
     setCount(count_from_endpoint);
@@ -25,6 +30,7 @@ const MilestonesChild = ({ selectedChild, data_reading_session }) => {
   async function handleRefreshReadingSession(data_reading_session) {
     await addReadingSession(data_reading_session);
     await loadCount();
+    await loadMilestone();
   }
 
   const percentage = Math.min((count / 1000) * 100, 100);
@@ -34,13 +40,10 @@ const MilestonesChild = ({ selectedChild, data_reading_session }) => {
   const { getSingleMilestone } = useMilestones();
   const [data, setData] = useState();
 
-  useEffect(() => {
-    async function loadMilestone() {
-      const certificateData = await getSingleMilestone(selectedChild.id);
-      setData(certificateData);
-    }
-    loadMilestone();
-  }, [selectedChild]);
+  async function loadMilestone() {
+    const certificateData = await getSingleMilestone(selectedChild.id);
+    setData(certificateData);
+  }
 
   console.log("data being sent from milestoneChild", data);
 

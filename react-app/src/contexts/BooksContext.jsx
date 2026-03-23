@@ -92,8 +92,9 @@ export function BooksProvider({ children }) {
         id: session.session_id,
         childId: session.child_id,
         bookId: session.book_id,
-        title: session.book_title,
+        title: session.title,
         img: session.cover_url,
+        time: session.logged_at,
       }));
       setReadingSessions(formatted);
       //set loading false
@@ -242,6 +243,7 @@ export function BooksProvider({ children }) {
         bookId: newReadingSession.book_id,
         title: newReadingSession.title,
         img: newReadingSession.cover_url,
+        time: newReadingSession.logged_at,
       },
     ]);
     setRefreshCounts((prev) => !prev);
