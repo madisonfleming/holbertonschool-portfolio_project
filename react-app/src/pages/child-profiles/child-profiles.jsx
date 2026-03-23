@@ -32,6 +32,11 @@ const ChildProfiles = () => {
   const [buttonUpdateReadingSessionPopup, setButtonUpdateReadingSessionPopup] =
     useState(false);
 
+  console.log("TIME OF READINGSessions", readingSessions);
+  const sortedSessions = [...readingSessions].sort(
+    (a, b) => new Date(b.time) - new Date(a.time),
+  );
+
   return (
     <div>
       <div className="reading-session-container">
@@ -66,7 +71,7 @@ const ChildProfiles = () => {
         <div className="title"> Your Reading Activity </div>
         <div className="book-scroll-container">
           <div className="book-grid">
-            {readingSessions.map((session) => (
+            {sortedSessions.map((session) => (
               <div className="book-item" key={session.id}>
                 <img src={session?.img || book} alt={session.title} />
                 <p>{session.title}</p>
