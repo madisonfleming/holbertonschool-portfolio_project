@@ -13,7 +13,7 @@
   flex-direction: row;
   gap: 10px;
   /*easy fix no more than 1520 otherwise the home became wider*/
-  width: 1520px;
+  width: 100vw;
   /* overflow for edges*/
   overflow-x: auto;
   overflow-y: hidden;
