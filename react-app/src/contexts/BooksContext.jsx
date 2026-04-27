@@ -35,7 +35,7 @@ export function BooksProvider({ children }) {
       const token = await currentUser.getIdToken();
       /* encodeURIComponent converts the quary (q) like cat into something the URL can take, I delete to test and work without it lol  */
       const resp = await fetch(
-        `http://127.0.0.1:8000/api/books/search?q=${q}`,
+        `${import.meta.env.VITE_BASE_URL}/api/books/search?q=${q}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -73,7 +73,7 @@ export function BooksProvider({ children }) {
       const token = await currentUser.getIdToken();
       /* reading-session endpoint  */
       const response = await fetch(
-        `http://127.0.0.1:8000/api/children/${selectedChild.id}/reading-sessions`,
+        `${import.meta.env.VITE_BASE_URL}/api/children/${selectedChild.id}/reading-sessions`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -114,7 +114,7 @@ export function BooksProvider({ children }) {
       console.log("TOKEN:", token);
       /* reading-session endpoint  */
       const response = await fetch(
-        `http://127.0.0.1:8000/api/children/${childId}/reading-sessions/count`,
+        `${import.meta.env.VITE_BASE_URL}/api/children/${childId}/reading-sessions/count`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -143,7 +143,7 @@ export function BooksProvider({ children }) {
 
       /* update-reading-session endpoint  */
       const response = await fetch(
-        `http://127.0.0.1:8000/api/reading-sessions/${session_id}`,
+        `${import.meta.env.VITE_BASE_URL}/api/reading-sessions/${session_id}`,
         {
           method: "PUT",
           headers: {
@@ -206,7 +206,7 @@ export function BooksProvider({ children }) {
     if (!currentUser) return;
 
     const token = await currentUser.getIdToken();
-    const response = await fetch("http://127.0.0.1:8000/api/reading-sessions", {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/reading-sessions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

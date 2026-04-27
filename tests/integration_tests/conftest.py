@@ -4,7 +4,6 @@ import os
 from app.config import get_settings
 
 os.environ["ENVIRONMENT"] = "testing"
-# os.environ["DATABASE_URL"] = "sqlite+pysqlite:///./test.db"
 os.environ["DATABASE_URL"] = "sqlite+pysqlite:///:memory:"
 settings = get_settings()
 

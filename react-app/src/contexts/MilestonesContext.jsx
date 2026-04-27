@@ -26,7 +26,7 @@ export function MilestonesProvider({ children }) {
 
     const token = await currentUser.getIdToken();
     const response = await fetch(
-      `http://127.0.0.1:8000/api/children/${child_id}/milestones`,
+      `${import.meta.env.VITE_BASE_URL}/api/children/${child_id}/milestones`,
       {
         method: "POST",
         headers: {
@@ -57,7 +57,7 @@ export function MilestonesProvider({ children }) {
 
     const token = await currentUser.getIdToken();
     const response = await fetch(
-      `http://127.0.0.1:8000/api/children/${child_id}/milestones`,
+      `${import.meta.env.VITE_BASE_URL}/api/children/${child_id}/milestones`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -83,7 +83,7 @@ export function MilestonesProvider({ children }) {
 
     const token = await currentUser.getIdToken();
     const response = await fetch(
-      `http://127.0.0.1:8000/api/children/${child_id}/milestones?type=weekly_goal`,
+      `${import.meta.env.VITE_BASE_URL}/api/children/${child_id}/milestones?type=weekly_goal`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -109,7 +109,7 @@ export function MilestonesProvider({ children }) {
 
     const token = await currentUser.getIdToken();
     const response = await fetch(
-      `http://127.0.0.1:8000/api/children/${child_id}/milestones?type=books_read`,
+      `${import.meta.env.VITE_BASE_URL}/api/children/${child_id}/milestones?type=books_read`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -138,7 +138,7 @@ export function MilestonesProvider({ children }) {
     const token = await currentUser.getIdToken();
     // ADD TYPE = WEEKLY_GOAL to only receive 
     const response = await fetch(
-      `http://127.0.0.1:8000/api/children/${child_id}/milestones?limit=1&type=weekly_goal`,
+      `${import.meta.env.VITE_BASE_URL}/api/children/${child_id}/milestones?limit=1&type=weekly_goal`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -166,7 +166,7 @@ export function MilestonesProvider({ children }) {
     const token = await currentUser.getIdToken();
     // ADD TYPE = BOOKS_READ to only receive books milestone
     const response = await fetch(
-      `http://127.0.0.1:8000/api/children/${child_id}/milestones?limit=1&type=books_read`,
+      `${import.meta.env.VITE_BASE_URL}/api/children/${child_id}/milestones?limit=1&type=books_read`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

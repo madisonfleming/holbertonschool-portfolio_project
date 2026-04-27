@@ -61,7 +61,7 @@ export function AuthProvider({ children }) {
       const token = await user.getIdToken();
       console.log("TOKEN VALIDATE USER:", await user.getIdToken());
       //need to do fetch to an endpoint that use that function
-      const response = await fetch("http://127.0.0.1:8000/api/users/me", {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/users/me`, {
         //firebase do the login -> generate the JWT
         //On HBNB was a POST because the login was manage by the back end but in here the login is manage by firebase so is GET the BE just return data
         headers: {
