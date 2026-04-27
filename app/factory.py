@@ -32,14 +32,19 @@ def create_app(settings=None) -> FastAPI:
     register_error_handlers(app)
 
     #Solving CORS
+     # update values in ec2
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:5173"],
+        allow_origins=["http://localhost:5173",
+                       "http://localhost"
+                    # Note: add your frontend URLs here when deployed, e.g.:
+                    #    "http://<ip>",
+                    #    "http://<domainname>"
+                       ],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
     )
-
     # router registrations
     app.include_router(users.router, prefix="/api", dependencies=[Depends(get_facade)])
     app.include_router(children.router, prefix="/api", dependencies=[Depends(get_facade)])
@@ -54,3 +59,6 @@ def create_app(settings=None) -> FastAPI:
     #     return {"status": "OK"}
     
     return app
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8000)
