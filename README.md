@@ -75,3 +75,8 @@ Sign in with any of the seeded users
 
 - login details are available in the project documentation
 - Patrick is configured to use log in via Google, everyone else uses username/password
+
+Inspect the current state of the database in VSCode using the `MySQL` database client extension
+
+- Note that you'll have to re-apply the extension's config when you move across to the new setup because
+the connection string has changed
