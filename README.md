@@ -23,118 +23,54 @@ The app is a portfolio project by C27 students at Holberton School Australia.
 - Maddy F
 - Kat B
 
+### Tech Stack
 
-### Requirements
+Front end: React & Vite
+Backend: Python & FastAPI & SQLAlchemy
+Database: MySQL
 
-To get started, set up your virtual environment and install the project dependencies:
-```
-cd holbertonschool-portfolio_project
-python3 -m venv venv
-source venv/bin/activate   # Mac/Linux/WSL
-venv\Scripts\activate      # Windows
+### Getting Started
 
-pip install -r requirements.txt
-```
+    Note to project members: The old setup process relied on manually running the start commands for each service inside a single docker container, and the new setup separates out the front-end, back-end and database into separate containers and uses a single command to start all services. If you're converting your local env from the old setup process to the new one, you'll need to re-clone the repo and copy the required files across to the newly cloned repo before using docker compose. Once it's running, you can delete the old container and free up space on your hard drive.
 
-**Upon running `pip install`, WSL users may encounter the following error, even from
-within a virtual environment:**
-`error: externally-managed-environment`
-This happens because Python 3.12+ on Ubuntu/WSL enforces PEP 668 protections.
-To bypass this *safely from inside your venv*, install dependencies using:
-```
-pip install --break-system-packages -r requirements.txt
-```
+1. Fork & clone the repo
+2. Create a `.env` file in the project root, using the variables in `.env-example` as a template
 
-### ⚡ Start the FastAPI Server ⚡
+- Copy MLB's Vite Firebase & DB config values across from our project documentation, or BYO Firebase values
 
-```
-uvicorn app.main:app --reload
-```
+3. Create a file in `app/config/serviceAccountKey.json`
 
-## Testing the API with cURL
+- Copy Firebase auth config across from our project documentation, or BYO Firebase account details
 
-The endpoints can be tested with curl:
+4. Install docker tools if you don't already have them
+5. Start the app locally with `docker compose`
 
-### Users
+```bash
+# run from project root
 
-**Create a user**
-```
-curl -i -X POST 'http://127.0.0.1:8000/users' \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Mary",
-    "email": "mary@example.com",
-    "firebase_uid": "7UKtP5I8lBbDoO8wVv6WB8Ge03Q2"
-  }'
-```
-Expected:
-
-```
-{
-  "id":"ed99ba2d-66b4-4c35-b76f-ea40a96fb6be",
-  "name": "Mary",
-  "email": "mary@example.com",
-  "role": "standard"
-}
+docker compose up -d
 ```
 
-### Children
+Docker will start 3 containers:
 
-**Create a child**
-```
-curl -i -X POST 'http://127.0.0.1:8000/children' \
-  -H "Content-Type: application/json" \
-  -d '{"parent_id": "<user_id>", "name": "Sophie", "age": 5}'
-```
-<br>
-<br>
+- frontend (hosting a Vite Server)
+- backend (hosting a FastAPI Server)
+- mysql (hosting a MySQL v8 db)
 
-## 🚀 Frontend (React + Vite) 🚀
+6. One the db container is running, seed the database using the seed scripts
 
-The frontend is located in the `react-app` directory and uses **Vite** for fast development builds. 
-
-### Before running the app confirm Node and npm are installed:
-```
-node -v
-npm -v
-```
-## If are missings then:
-```
-cd <your_worspace>
-curl -sL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh
-bash nodesource_setup.sh
-apt install nodejs -y
-node -v   # should show version 20.x
-npm -v    # should show version 10.x 
+```bash
+docker exec -it holbertonschool-portfolio_project-backend-1 bash -c "source scripts/setup_script.sh"
 ```
 
-### Install dependencies:
+### Access the app
 
-npm install command automatically reads the package.json, package-lock.json file and installs all the listed dependencies in the node_modules folder. 
-```
-cd react-app
-npm install
-```
+When the containers are ready, the application and the backend API docs can be accessed via:
 
-### Add requirement configuration files:
+- localhost:5173
+- localhost:8000/docs
 
-Add Firebase Admin JSON (Backend)
-```
-cd app/config
-touch serviceAccountKey.json # Copy and paste json file thats is in Notion inside backend folder
-```
+Sign in with any of the seeded users
 
-Add Firebase API Keys (Frontend)
-```
-cd react-app
-touch .env # Copy and paste keys from Notion inside backend folder
-```
-
-### Start the dev server
-```
-npm run dev             # for WSL
-npm run dev -- --host   # containers, LAN, mobile testing
-```
-
-Vite will start the app and display a local development URL, usually:
-`http://localhost:5173/`
+- login details are available in the project documentation
+- Patrick is configured to use log in via Google, everyone else uses username/password
