@@ -24,7 +24,7 @@ export function ChildProvider({ children }) {
 
       const token = await currentUser.getIdToken();
       //to fetch the children
-      const childrenRes = await fetch("http://127.0.0.1:8000/api/children", {
+      const childrenRes = await fetch(`${import.meta.env.VITE_BASE_URL}/api/children`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -60,7 +60,7 @@ export function ChildProvider({ children }) {
 
     const token = await currentUser.getIdToken();
 
-    const response = await fetch("http://127.0.0.1:8000/api/children", {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/children`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -101,7 +101,7 @@ export function ChildProvider({ children }) {
 
     const token = await currentUser.getIdToken();
 
-    const response = await fetch(`http://127.0.0.1:8000/api/children/${id}`, {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/children/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

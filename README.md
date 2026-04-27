@@ -37,6 +37,7 @@ Database: MySQL
 2. Create a `.env` file in the project root, using the variables in `.env-example` as a template
 
 - Copy MLB's Vite Firebase & DB config values across from our project documentation, or BYO Firebase values
+- Note: please ensure you've included the new FE variable "VITE_BASE_URL" in your `.env`!
 
 3. Create a file in `app/config/serviceAccountKey.json`
 

@@ -27,7 +27,7 @@ const Settings = () => {
     try {
       const token = await currentUser.getIdToken();
       // fetching /users endpoints
-      const response = await fetch("http://127.0.0.1:8000/api/users/me", {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/users/me`, {
         headers: {
           //sending the token to the backend so fastapi receive it as a credential
           Authorization: `Bearer ${token}`,
@@ -57,7 +57,7 @@ const Settings = () => {
 
     const token = await currentUser.getIdToken();
 
-    const response = await fetch("http://127.0.0.1:8000/api/users/me", {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/users/me`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
