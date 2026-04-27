@@ -1,6 +1,11 @@
+""" This file defines the FastAPI app config for test, dev and prod modes at run time.
+
+Note that any variables set in holbertonschool-portfolio_project/.env will override these values.
+
+You can check your current environment values with holbertonschool-portfolio_project/testconfig.py
+"""
 from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
-import os
 
 class BaseConfig(BaseSettings):
     model_config = SettingsConfigDict(
@@ -27,7 +32,7 @@ class UnitTestingConfig(BaseConfig):
     ENVIRONMENT: str = "testing"
     DEBUG: bool = True
     FIREBASE_CONFIG: str = ""
-    DATABASE_URL: str = "sqlite+pysqlite:///./test.db"
+    DATABASE_URL: str = "sqlite+pysqlite:///:memory:"
 
 
 def get_settings_class():
