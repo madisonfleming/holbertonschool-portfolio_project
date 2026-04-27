@@ -725,7 +725,7 @@ class MLBFacade:
             raise MilestoneNotFoundError
 
         if milestone.type == "books_read":
-            description = f'Milestone achieved: {child.name} has read {milestone.threshold} books!'
+            description = f'Milestone achieved: {child.name} read {milestone.threshold} books!'
 
         elif milestone.type == "weekly_goal":
             description = f'Weekly goal unlocked! {child.name} read {milestone.threshold} books about {milestone.subject} this week'
